@@ -5,7 +5,13 @@
     ],
     "jsRules": {},
     "rules": {
-        "trailing-comma": [false]
+        "quotemark": [ true, "single"], 
+        "trailing-comma": [true, "always"],
+        "indent": [ true, "spaces", 2 ],
+        "semicolon": [true, "never"],
+        "no-console": {
+            "severity": "warning"
+        }
     },
     "rulesDirectory": []
 }

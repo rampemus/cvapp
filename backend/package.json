@@ -7,7 +7,7 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node .",
+    "start": "MONGO_PASSWORD=KJ8gHcizyrFqJ8Yf node .",
     "watch": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,11 +28,16 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.11",
+    "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.2",
+    "@types/mongoose": "^5.5.31",
+    "@types/mongoose-unique-validator": "^1.0.3",
     "@types/node": "^12.12.7",
     "nodemon": "^1.19.4",
     "tslint": "^5.20.1",

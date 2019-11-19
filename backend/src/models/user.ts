@@ -5,7 +5,7 @@ export interface IUser extends Document {
   name: string,
   passwordHash: string,
   username: string,
-  id?: string
+  id: string
 }
 
 const userSchema: Schema = new Schema({
@@ -15,8 +15,9 @@ const userSchema: Schema = new Schema({
 })
 
 userSchema.set('toJSON', {
-  transform: (returnedObject) => {
+  transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
+    delete returnedObject.admin
     delete returnedObject._id
     delete returnedObject.__v
     delete returnedObject.passwordHash

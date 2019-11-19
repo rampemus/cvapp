@@ -1,11 +1,39 @@
-import { Router } from 'express'
+import bcrypt from 'bcrypt'
+import { Request, Response, Router } from 'express'
 import User from '../models/user'
 
 const usersRouter = Router()
 
-usersRouter.get('/', async (request, response) => {
+usersRouter.get('/', async (request: Request, response: Response) => {
     const users = await User.find({})
     response.json(users)
+})
+
+interface INewUserBody {
+    name: string,
+    username: string,
+    password: string,
+}
+
+usersRouter.post('/', async (request: Request, response: Response) => {
+    // TODO: Implement admin check here
+
+    const body: INewUserBody = await request.body
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+    const user = await new User({
+        name: body.name,
+        passwordHash,
+        username: body.username,
+    })
+
+    const savedUser = await user.save()
+        .catch((error) => {
+            response.status(400).json({ error: error.message }).end()
+        })
+
+    response.status(201).json(savedUser).end()
 })
 
 export default usersRouter

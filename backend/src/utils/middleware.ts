@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken'
 import { IUserToken } from '../controllers/login'
 import { JWT_SALT, ROOT_USERNAME } from './config'
 
-
 interface IRequestWithToken extends Request {
     token: string,
 }
@@ -54,7 +53,7 @@ const RequestLogger = (request: IRequestWithIdentity, response: Response, next: 
 
 // TODO: private and public routes
 // make a file having routes
-// divide routers into two 
+// divide routers into two
 // TODO: create admin route
 // TODO: create user routes
 

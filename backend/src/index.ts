@@ -31,7 +31,6 @@ app.use(RequestLogger)
 
 app.use('/api/users', usersRouter)
 
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

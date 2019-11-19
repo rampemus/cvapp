@@ -1,14 +1,15 @@
 import { Request, Response } from 'express'
-interface IAnyRequest {
-    method: string,
-    path: string,
-    body: any
-}
+import jwt from 'jsonwebtoken'
+import { IUserToken } from '../controllers/login'
+import { JWT_SALT, ROOT_USERNAME } from './config'
 
-// TODO: ***use express interfaces instead of own ones
 
 interface IRequestWithToken extends Request {
     token: string,
+}
+
+interface IRequestWithIdentity extends IRequestWithToken {
+    userGroup: string,
 }
 
 const getTokenFrom = ( request: IRequestWithToken ) => {
@@ -20,17 +21,34 @@ const getTokenFrom = ( request: IRequestWithToken ) => {
     return null
 }
 
-const requestLogger = ( request: IAnyRequest, response: Response, next: any ) => {
+const TokenExtractor = ( request: IRequestWithToken, response: Response, next: any) => {
+    request.token = getTokenFrom(request)
+    next()
+}
+
+const AuthenticateUser = (request: IRequestWithIdentity, response: Response, next: any) => {
+    const token = request.token
+
+    // TODO: need some help to fix this jwt typescript weirdo thingy
+    const decodedToken: any = jwt.verify(token, JWT_SALT)
+
+    if (!token || !decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid'}).end()
+    }
+
+    request.userGroup = decodedToken.username === ROOT_USERNAME ? 'admin' : 'user'
+
+    next()
+}
+
+const RequestLogger = (request: IRequestWithIdentity, response: Response, next: any ) => {
     console.log('Method:', request.method)
     console.log('Path:  ', request.path)
     // console.log('Header: ', request.headers)
     console.log('Body:  ', request.body)
+    console.log('Token: ', request.token)
+    console.log('User: ', request.userGroup)
     console.log('---')
-    next()
-}
-
-const tokenExtractor = ( request: IRequestWithToken, response: any, next: any) => {
-    request.token = getTokenFrom(request)
     next()
 }
 
@@ -40,7 +58,8 @@ const tokenExtractor = ( request: IRequestWithToken, response: any, next: any) =
 // TODO: create admin route
 // TODO: create user routes
 
-exports = {
-    requestLogger,
-    tokenExtractor
+export {
+    AuthenticateUser,
+    RequestLogger,
+    TokenExtractor
 }

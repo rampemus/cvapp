@@ -1,10 +1,11 @@
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import express from 'express'
+import express, { Request, Response} from 'express'
 import mongoose from 'mongoose'
 import loginRouter from './controllers/login'
 import usersRouter from './controllers/users'
 import { MONGODB_URI, PORT } from './utils/config'
+import { AuthenticateUser, RequestLogger, TokenExtractor } from './utils/middleware'
 
 const app = express()
 app.use(cors())
@@ -18,12 +19,16 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
     process.exit(1)
   })
 
-app.get('/', (request, respond) => {
-    respond.send('<h1>Hello world</h1>')
+app.get('/', ( request: Request, respone: Response) => {
+  respone.status(200).send('<h1>Hello world</h1><p>frontend is not yet here</p>')
 })
 
 app.use('/api/login', loginRouter)
-// TODO: check tokens middleware
+
+app.use(TokenExtractor)
+app.use(AuthenticateUser)
+app.use(RequestLogger)
+
 app.use('/api/users', usersRouter)
 
 

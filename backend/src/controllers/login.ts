@@ -13,6 +13,11 @@ interface ILoginRequest extends Request {
     }
 }
 
+export interface IUserToken extends Object {
+    id: string,
+    username: string
+}
+
 loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
 
     const body = request.body

@@ -7,8 +7,10 @@ interface IRequestWithToken extends Request {
     token: string,
 }
 
-interface IRequestWithIdentity extends IRequestWithToken {
+export interface IRequestWithIdentity extends IRequestWithToken {
     userGroup: string,
+    username: string,
+    userid: string
 }
 
 const getTokenFrom = ( request: IRequestWithToken ) => {
@@ -36,6 +38,8 @@ const AuthenticateUser = (request: IRequestWithIdentity, response: Response, nex
     }
 
     request.userGroup = decodedToken.username === ROOT_USERNAME ? 'admin' : 'user'
+    request.username = decodedToken.username
+    request.userid = decodedToken.id
 
     next()
 }

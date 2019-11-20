@@ -6,6 +6,7 @@ import loginRouter from './controllers/login'
 import usersRouter from './controllers/users'
 import { MONGODB_URI, PORT } from './utils/config'
 import { AuthenticateUser, RequestLogger, TokenExtractor } from './utils/middleware'
+// import { createRootUser, userExists } from './utils/userHelper'
 
 const app = express()
 app.use(cors())
@@ -13,11 +14,12 @@ app.use(bodyParser.json())
 
 mongoose.set('useCreateIndex', true)
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .catch( ( error: mongoose.Error ) => {
-    console.log('Internet down or connection refused from mongodb')
-    console.log(error.name)
-    process.exit(1)
-  })
+
+// userExists(ROOT_USERNAME).then( (response) => {
+//   if ( !response ) {
+//     createRootUser()
+//   }
+// })
 
 app.get('/', ( request: Request, respone: Response) => {
   respone.status(200).send('<h1>Hello world</h1><p>frontend is not yet here</p>')

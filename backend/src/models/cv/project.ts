@@ -1,25 +1,31 @@
 import { Document, model, Schema } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
-import { IUser } from './user'
+import { IUser } from '../user'
 
-export interface IProfile extends Document {
+export interface IProject extends Document {
+    description: string,
+    githubUrl: string,
     name: string,
-    id: string,
-    content: string[],
     owner: IUser,
+    showcaseUrl: string,
+    thumbnailUrl: string,
+    id: string,
 }
 
-const profileSchema: Schema = new Schema({
-    content: [String],
+const projectSchema: Schema = new Schema({
+    description: { type: String, minlength: 3, required: true},
+    githubUrl: String,
     name: { type: String, minlength: 3, required: true, unique: true },
     owner: {
         ref: 'User',
         required: true,
         type: Schema.Types.ObjectId,
     },
+    showcaseUrl: String,
+    thumbnailUrl: String,
 })
 
-profileSchema.set('toJSON', {
+projectSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
@@ -28,8 +34,8 @@ profileSchema.set('toJSON', {
     }
 })
 
-profileSchema.plugin(uniqueValidator)
+projectSchema.plugin(uniqueValidator)
 
-const Profile = model<IProfile>('Profile', profileSchema)
+const Project = model<IProject>('Project', projectSchema)
 
-export default Profile
+export default Project

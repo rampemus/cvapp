@@ -32,7 +32,7 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
         })
     }
 
-    const userForToken = {
+    const userForToken: IUserToken = {
         id: user.id,
         username: user.username,
     }

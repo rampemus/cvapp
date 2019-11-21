@@ -5,10 +5,14 @@ export interface IUser extends Document {
   name: string,
   passwordHash: string,
   username: string,
-  id: string
+  id: string,
+  created: Date,
+  expires: Date,
 }
 
 const userSchema: Schema = new Schema({
+  created: { type: Date, derault: Date.now},
+  expires: Date,
   name: String,
   passwordHash: { type: String, required: true },
   username: { type: String, minlength: 3, required: true, unique: true },

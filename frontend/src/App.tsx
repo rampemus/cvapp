@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import Background from './HexaBackground'
+import Background from './background/HexaBackground'
 import Menu from './components/Menu'
 import Login from './components/Login'
 import Footer from './components/Footer'
@@ -20,7 +20,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App" id="App">
-      <Background/>
+      <Background height={800}/>
       <Menu />
       {/* <ReactHeight onHeightReady={(height:number) => console.log(height)}> */}
         <Login />

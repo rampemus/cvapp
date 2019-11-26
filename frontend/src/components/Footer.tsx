@@ -5,7 +5,7 @@ const Footer: React.FC = (props) => {
 
 
     return(
-        <div className='Footer'>Footer.tsx</div>
+        <div className='Footer'>You are not logged in</div>
     )
 }
 

@@ -1,11 +1,49 @@
 .Login {
-  text-align: center;
-  /* background-color: #bdc6dc; */
   min-height: calc(90vh);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: rgb(0, 0, 0);
+}
+
+.loginBox {
+  text-align: right;
+  background-color: rgb(222, 223, 224);
+  border-color: #bdc6dc;
+  border-style: solid;
+  padding: 20px;
+  border-radius: 15px
+}
+
+input {
+  font-size: 16px;
+  padding: 4px;
+  margin: 10px;
+  margin-bottom: 0px;
+  border:solid 3px #ccc;
+  border-radius: 10px;
+}
+
+input:focus {
+  border:solid 3px #ffffff;;
+}
+
+button {
+  text-align: center;
+  font-size: 15px;
+  font-weight:500;
+  padding: 6px;
+  min-width: 100px;
+  border:solid 3px #ccc;
+  border-radius: 10px;
+  margin: 10px
+}
+
+button:focus {
+  border:solid 3px #ffffff
+}
+
+button:active {
+  background-color: #ccc;
+  color: #000;
 }

@@ -4,7 +4,6 @@ import Background from './background/HexaBackground'
 import Menu from './components/Menu'
 import Login from './components/Login'
 import Footer from './components/Footer'
-// import { ReactHeight } from 'react-height'
 
 const App: React.FC = () => {
 
@@ -14,17 +13,16 @@ const App: React.FC = () => {
     const app = document.getElementById('App')
     if ( app ) {
       console.log(app.clientHeight)
+      setHeight(app.clientHeight)
     }
     
-  },[Login])
+  },[])
 
   return (
     <div className="App" id="App">
-      <Background height={800}/>
+      <Background height={height}/>
       <Menu />
-      {/* <ReactHeight onHeightReady={(height:number) => console.log(height)}> */}
         <Login />
-      {/* </ReactHeight> */}
       <Footer />
     </div>
   )

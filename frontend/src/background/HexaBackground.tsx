@@ -88,6 +88,8 @@ const Background: React.FC<Props> = (props: Props) => {
     return <div>
         {drawHexaGrid(
             [
+                [3, 2, 3, 2, 3, 3, 3, 2, 3],
+                  [3, 2, 4, 2, 2, 2, 2, 4],
                 [3, 2, 3, 2, 3, 4, 3, 2, 3],
                   [4, 2, 4, 2, 3, 4, 2, 4],
                 [3, 2, 2, 2, 2, 1, 1, 2, 4],

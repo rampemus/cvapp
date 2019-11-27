@@ -8,7 +8,7 @@
 
 .loginBox {
   text-align: right;
-  background-color: rgb(222, 223, 224);
+  background-color: rgb(235, 235, 235);
   border-color: #bdc6dc;
   border-style: solid;
   padding: 20px;
@@ -36,7 +36,8 @@ button {
   min-width: 100px;
   border:solid 3px #ccc;
   border-radius: 10px;
-  margin: 10px
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
 }
 
 button:focus {

@@ -2,6 +2,7 @@
   /* background-color: #ffffff; */
 }
 
-.App-link {
-  color: #09d3ac;
+.content {
+  z-index: 1;
+  margin-top: 25px;
 }

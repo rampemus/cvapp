@@ -4,4 +4,41 @@
   top: 0;
   width: 100%;
   text-align: left;
+  background-color: rgb(51, 57, 66);
+  color: rgb(255, 255, 255);
+  display: grid;
+  grid-template-columns: [logo] 50px [menu-items] auto 50px [settings];
+  align-items: center;
+}
+
+.cv-app-logo {
+  grid-area: logo;
+  margin: 3px;
+  padding: 7px;
+}
+
+.menu-items {
+  grid-area: menu-items;
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.menu-item {
+  padding: 10px;
+  margin: 1px;
+  font-weight: 600;
+}
+
+.settings {
+  grid-area: settings;
+  justify-self: right;
+  margin: 3px;
+  padding: 7px;
+  display: flex;
+  flex-flow: column;
+}
+
+.setting-item {
+  text-align: end;
 }

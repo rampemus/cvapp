@@ -14,8 +14,8 @@ const Login: React.FC = (props) => {
     return(
         <div className='Login'>
             <form onSubmit={handleLogin} className='loginBox'>
-                <div>username: <input {...username}></input></div>
-                <div>password: <input {...password}></input></div>
+                <div>Username: <input id='username' name='username' {...username}></input></div>
+                <div>Password: <input id='password' name='password' {...password}></input></div>
                 <button>Login</button>
             </form>
         </div>

@@ -10,19 +10,21 @@ const App: React.FC = () => {
   const [ height, setHeight ] = useState(800)
 
   useEffect(()=>{
-    const app = document.getElementById('App')
-    if ( app ) {
-      console.log(app.clientHeight)
-      setHeight(app.clientHeight)
+    const content = document.getElementById('content')
+    if ( content ) {
+      console.log(content.clientHeight)
+      setHeight(content.clientHeight)
     }
     
   },[])
 
-  return (
+  return ( 
     <div className="App" id="App">
-      <Background height={height}/>
       <Menu />
+      <Background height={height}/>
+      <div className='content'>
         <Login />
+      </div>
       <Footer />
     </div>
   )

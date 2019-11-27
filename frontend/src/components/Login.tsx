@@ -7,16 +7,17 @@ const Login: React.FC = (props) => {
     const username = useField( FieldType.TEXT )
     const password = useField( FieldType.PASSWORD )
 
-    const handleLogin = () => {
+    const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         console.log('Sending login...')
     }
 
     return(
         <div className='Login'>
             <form onSubmit={handleLogin} className='loginBox'>
-                <div>Username: <input id='username' name='username' {...username}></input></div>
-                <div>Password: <input id='password' name='password' {...password}></input></div>
-                <button>Login</button>
+                <div>Username: <input id='username' name='username' value='' {...username}></input></div>
+                <div>Password: <input id='password' name='password' value='' {...password}></input></div>
+                <button type='submit'>Login</button>
             </form>
         </div>
     )

@@ -26,7 +26,7 @@ const Background: React.FC<Props> = (props: Props) => {
     const spacing = 7
     const cos30 = 1.5/Math.sqrt(3)
 
-    const hexagon = (x: number, y: number, hexaSize: number, color: Color) => {
+    const hexagon = (x: number, y: number, hexaSize: number, color: Color, index: string) => {
         if ( color === Color.EMPTY ) {
             return ''
         }
@@ -38,14 +38,14 @@ const Background: React.FC<Props> = (props: Props) => {
         const point5 = `${x + hexaSize * .5}, ${y + hexaSize * cos30 } `
         const point6 = `${x - hexaSize * .5}, ${y + hexaSize * cos30 } `
         const points = point1.concat(point2,point3,point4,point5,point6)
-        return <polygon points={points} style={{ stroke: strokeColor, strokeWidth: 3, fill: color }}/>
+        return <polygon key={index} points={points} style={{ stroke: strokeColor, strokeWidth: 3, fill: color }}/>
     }
 
-    const hexaRow = (x: number, y: number, hexaSize: number, spacing: number, colors: Color[]) => {
+    const hexaRow = (x: number, y: number, hexaSize: number, spacing: number, colors: Color[], rowIndex:number) => {
         const dx = hexaSize * 3 + spacing * 2 * cos30
-        return <g>
+        return <g key={`hexaRow${rowIndex}`}>
             {colors.map((color,index)=>{
-                return hexagon(x + dx * index, y, hexaSize, color)
+                return hexagon(x + dx * index, y, hexaSize, color, `r${rowIndex}h${index}`)
             })}
         </g>
     }
@@ -74,10 +74,10 @@ const Background: React.FC<Props> = (props: Props) => {
             <svg height='100%' width='100%' viewBox='0 0 1200 1200' preserveAspectRatio="xMidYMin slice">
                 {numberGrid.map( (numbers:number[], index) => {
                         if ( index%2 === 0 ) {
-                            return hexaRow( 0, 0 + dy * index/2, hexaSize, spacing, transformToColorArray(numbers))
+                            return hexaRow( 0, 0 + dy * index/2, hexaSize, spacing, transformToColorArray(numbers), index)
                         } else {
                             return hexaRow(0 + hexaSize * 1.5 + spacing * cos30, 0 + hexaSize * cos30 + spacing * .5 + dy * (index - 1) / 2,
-                                hexaSize, spacing, transformToColorArray(numbers))
+                                hexaSize, spacing, transformToColorArray(numbers), index)
                         }
                     })}
                 <text x='4' y='50%'>{height}</text>

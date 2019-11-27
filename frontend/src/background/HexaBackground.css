@@ -5,7 +5,7 @@ svg {
     width: 100vw; 
     display:block;
     position:absolute;
-    top:40px;
+    top:60px;
     left:0;
     z-index: -1;
 } 

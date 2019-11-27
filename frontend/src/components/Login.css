@@ -25,7 +25,7 @@ input {
 }
 
 input:focus {
-  border:solid 3px #ffffff;;
+  border:solid 3px #ffffff;
 }
 
 button {

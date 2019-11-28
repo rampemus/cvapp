@@ -17,7 +17,6 @@ enum Color {
     STROKE_HIGHLIGHT = 'rgb(184, 191, 204)', 
 }
 
-// TODO: fix warnings: every hexagon should have a index
 const Background: React.FC<Props> = (props: Props) => {
 
     const { height } = props

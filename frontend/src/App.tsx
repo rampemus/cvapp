@@ -4,6 +4,7 @@ import Background from './background/HexaBackground'
 import Menu from './components/Menu'
 import Login from './components/Login'
 import Footer from './components/Footer'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const App: React.FC = () => {
 
@@ -12,20 +13,23 @@ const App: React.FC = () => {
   useEffect(()=>{
     const content = document.getElementById('content')
     if ( content ) {
-      console.log(content.clientHeight)
       setHeight(content.clientHeight)
     }
-    
   },[])
 
   return ( 
     <div className="App" id="App">
+      <Router>
       <Menu />
       <Background height={height}/>
       <div className='content'>
-        <Login />
+        {()=>{
+
+        }}
+          <Route exact path='/'><Login/></Route>
       </div>
       <Footer />
+      </Router>
     </div>
   )
 }

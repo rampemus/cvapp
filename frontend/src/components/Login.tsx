@@ -1,6 +1,7 @@
 import React from 'react'
 import './Login.css'
 import useField, { FieldType } from '../hooks/useField'
+import loginService from '../services/loginService'
 
 const Login: React.FC = (props) => {
 
@@ -10,6 +11,14 @@ const Login: React.FC = (props) => {
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log('Sending login...')
+
+        loginService.login(username.value, password.value)
+            .then(response => {
+                window.localStorage.setItem(
+                    'loggedUser', JSON.stringify(response)
+                )
+                console.log('User logged in', response)
+            })
     }
 
     return(

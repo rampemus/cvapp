@@ -11,6 +11,20 @@
   align-items: center;
 }
 
+a:link {
+  color: white;
+  text-decoration: none;
+  transform: scaleY(1.1);
+}
+
+a:visited {
+  color: white;
+}
+
+a:link:hover {
+  text-decoration: underline;
+}
+
 .cv-app-logo {
   grid-area: logo;
   margin: 3px;

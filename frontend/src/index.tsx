@@ -1,12 +1,12 @@
 import React from 'react'
-import { createStore, combineReducers, compose } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import notificationReducer, { NotificationState, Type } from './reducers/notificationReducer'
+import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
 
 const store = createStore(

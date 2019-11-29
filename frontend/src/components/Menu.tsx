@@ -1,6 +1,6 @@
 import React from 'react'
 import './Menu.css'
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import { Link} from 'react-router-dom'
 
 const Menu: React.FC = (props) => {
 

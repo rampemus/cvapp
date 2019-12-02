@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Users from './components/Users'
 import About from './components/About'
 import MyCV from './components/MyCV'
+import NotificationArea from './components/NotificationArea'
 
 const App: React.FC = () => {
 
@@ -24,7 +25,8 @@ const App: React.FC = () => {
   return ( 
     <div className="App" id="App">
       <Router>
-      <Menu />
+      <Menu/>
+      <NotificationArea messages={[]}/>
       <Background height={height}/>
         {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}
           <div className='content'>
@@ -34,7 +36,7 @@ const App: React.FC = () => {
             <Route exact path='/about'><About/></Route>
           </div>
         {/* </ReactHeight> */}
-      <Footer />
+      <Footer/>
       </Router>
     </div>
   )

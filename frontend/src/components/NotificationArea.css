@@ -1,0 +1,29 @@
+.notificationContainer {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  margin-left: -200px;
+  width: 400px;
+}
+
+.notification {
+    align-self: right;
+    margin: 5px 4px 0px 0px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.error {
+    background-color: rgba(255, 161, 161, 0.637);
+    background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));
+}
+
+.warning {
+    background-color: rgba(255, 253, 161, 0.637);
+    background: linear-gradient(rgba(255, 253, 161, 0.637), rgba(255, 240, 152, 0.95));
+}
+
+.success {
+    background-color: rgba(177, 255, 161, 0.637);
+    background: linear-gradient(rgba(169, 255, 161, 0.637), rgba(190, 255, 171, 0.95));
+}

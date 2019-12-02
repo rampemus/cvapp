@@ -9,14 +9,28 @@ import * as serviceWorker from './serviceWorker'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
 
+export const rootReducer = combineReducers({
+    notification: notificationReducer,
+    user: userReducer
+})
+
+export type AppState = ReturnType<typeof rootReducer>
+
 const store = createStore(
-    combineReducers({
-        notification: notificationReducer,
-        user: userReducer
-    }), composeWithDevTools()
+    rootReducer, composeWithDevTools()
 )
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const renderApp = () => {
+    ReactDOM.render(
+        <Provider store={store}>
+            <App />
+        </Provider>,
+        document.getElementById('root')
+    )
+}
+
+renderApp()
+store.subscribe(renderApp)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

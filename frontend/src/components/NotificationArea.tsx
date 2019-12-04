@@ -6,7 +6,7 @@ import { AppState } from '../index'
 
 interface OwnProps {}
 export interface StateProps {visible?: boolean, messages?: Message[]}
-export interface DispatchProps {}
+export interface DispatchProps { deleteNotification: Function }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
@@ -16,7 +16,7 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 }
 
 const mapDispatchToProps:DispatchProps = {
-    
+    deleteNotification
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -31,7 +31,7 @@ const NotificationArea: React.FC<Props> = (props) => {
             <div className='notificationContainer'>
                 {messages.map( message => {
                     return(<div key={message.id} className={`notification ${message.type}`}>
-                        {message.text}
+                        {message.text} <button onClick={()=>props.deleteNotification(message.id)}>X</button>
                     </div>)
                 })}
             </div>
@@ -42,4 +42,4 @@ const NotificationArea: React.FC<Props> = (props) => {
     )
 }
 
-export default connect(mapStateToProps, null)(NotificationArea)
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationArea)

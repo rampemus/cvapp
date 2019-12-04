@@ -28,7 +28,7 @@ input:focus {
   border:solid 3px #ffffff;
 }
 
-button {
+.login-button {
   text-align: center;
   font-size: 15px;
   font-weight:500;
@@ -40,11 +40,11 @@ button {
   background-color: rgb(255, 255, 255);
 }
 
-button:focus {
+.login-button:focus {
   border:solid 3px #ffffff
 }
 
-button:active {
+.login-button:active {
   background-color: #ccc;
   color: #000;
 }

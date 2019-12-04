@@ -1,6 +1,4 @@
-import { Reducer } from 'redux'
-
-interface UserState {
+export interface UserState {
     token: string,
     username: string,
     name: string,
@@ -12,9 +10,9 @@ interface SetUserAction {
 }
 
 const loggedUserJSON = window.localStorage.getItem('loggedBlogsUser')
-const user:UserState = loggedUserJSON ? JSON.parse(loggedUserJSON) : {}
+const user:UserState = loggedUserJSON ? JSON.parse(loggedUserJSON) : { token: '', username: '', name:'' }
 
-const userReducer: Reducer<UserState, SetUserAction> = (state = user, action) => {
+const userReducer = (state: UserState | undefined = user, action: SetUserAction) => {
     switch (action.type) {
         case 'SET_USER': {
             return action.data

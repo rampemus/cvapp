@@ -2,8 +2,23 @@ import React from 'react'
 import './Login.css'
 import useField, { FieldType } from '../hooks/useField'
 import loginService, { loginError } from '../services/loginService'
+import { setUser } from '../reducers/userReducer'
+import { showNotification, Type } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const Login: React.FC = (props) => {
+interface OwnProps {}
+interface StateProps {}
+interface DispatchProps { showNotification: Function, setUser: Function }
+
+// const mapStateToProps = {}
+const mapDispatchToProps: DispatchProps = {
+    showNotification,
+    setUser
+}
+
+type Props = OwnProps & StateProps & DispatchProps
+
+const Login: React.FC<Props> = (props) => {
 
     const username = useField( FieldType.TEXT )
     const password = useField( FieldType.PASSWORD )
@@ -17,7 +32,9 @@ const Login: React.FC = (props) => {
                 window.localStorage.setItem(
                     'loggedUser', JSON.stringify(response)
                 )
-                console.log('User logged in', response)
+                props.setUser(response)
+                props.showNotification('Login successful', Type.SUCCESS)
+                console.log('showNotification used', response)
             }).catch((error:loginError) => {
                 if (error.response.data.error ) {
                     console.log('Error:', error.response.data.error)
@@ -37,5 +54,4 @@ const Login: React.FC = (props) => {
         </div>
     )
 }
-
-export default Login
+export default connect(null, mapDispatchToProps)(Login)

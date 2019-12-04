@@ -67,6 +67,7 @@ export const showNotification = (message:string, type:Type) => {
         type: 'SHOW_NOTIFICATION',
         data: [{ text: message, id:id, type: type }]
     }
+    console.log('about to send action:', action)
     return action
 }
 

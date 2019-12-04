@@ -1,43 +1,44 @@
 import React from 'react'
 import './NotificationArea.css'
 import { connect } from 'react-redux'
-import { Message } from '../reducers/notificationReducer'
+import { Message, deleteNotification } from '../reducers/notificationReducer'
 import { AppState } from '../index'
 
-interface OwnProps {
-
-}
-
-export interface StateProps {
-    messages?: Message[]
-}
-
-export interface DispatchProps {
-
-}
+interface OwnProps {}
+export interface StateProps {visible?: boolean, messages?: Message[]}
+export interface DispatchProps {}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
+        visible: state.notification.visible,
         messages: state.notification.messages
     }
 }
 
 const mapDispatchToProps:DispatchProps = {
-
+    
 }
 
 type Props = OwnProps & StateProps & DispatchProps
 
 const NotificationArea: React.FC<Props> = (props) => {
-    const messages = props.messages
+    const { visible, messages } = props
 
-    console.log('messages:', messages)
-    return (
-        <div className='notificationContainer'>
-            <div className='notification success'>
-                Here is an important notification:
+    console.log(visible, messages)
+
+    if ( messages ) {
+        return (
+            <div className='notificationContainer'>
+                {messages.map( message => {
+                    return(<div key={message.id} className={`notification ${message.type}`}>
+                        {message.text}
+                    </div>)
+                })}
             </div>
-        </div>
+        )
+    }
+    return (
+        <div className='notificationContainer'></div>
     )
 }
 

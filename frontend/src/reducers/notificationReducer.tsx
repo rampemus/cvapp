@@ -1,7 +1,7 @@
 export enum Type {
-    ERROR,
-    SUCCESS,
-    WARNING
+    ERROR = 'error',
+    SUCCESS = 'success',
+    WARNING = 'warning'
 }
 
 export interface Message {
@@ -38,7 +38,7 @@ const initState: NotificationState = {
     }]
 } 
 
-const notificationReducer = (state = initState, action: NotificationAction) => {
+const notificationReducer = (state: NotificationState = initState, action: NotificationAction) => {
     switch (action.type) {
         case 'SHOW_NOTIFICATION': {
             const newMessages = state.messages.concat(action.data)
@@ -49,13 +49,9 @@ const notificationReducer = (state = initState, action: NotificationAction) => {
             return newState
         }
         case 'DELETE_NOTIFICATION': {
-            const newMessages = state.messages.map(message => {
-                if (message.id !== action.id) {
-                    return message
-                }
-            })
+            const newMessages:Message[] = state.messages.filter(message => message.id !== action.id)
             const newState = {
-                visible: ( newMessages.length > 0 ),
+                visible: (newMessages.length > 0),
                 messages: newMessages
             }
             return newState

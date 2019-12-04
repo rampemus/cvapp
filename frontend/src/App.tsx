@@ -26,7 +26,7 @@ const App: React.FC = () => {
     <div className="App" id="App">
       <Router>
       <Menu/>
-      <NotificationArea messages={[]}/>
+      <NotificationArea/>
       <Background height={height}/>
         {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}
           <div className='content'>

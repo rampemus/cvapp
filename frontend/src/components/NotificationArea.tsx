@@ -4,11 +4,15 @@ import { connect } from 'react-redux'
 import { Message } from '../reducers/notificationReducer'
 import { AppState } from '../index'
 
-export interface StateProps {
-    messages: Message[]
+interface OwnProps {
+
 }
 
-interface OwnProps {
+export interface StateProps {
+    messages?: Message[]
+}
+
+export interface DispatchProps {
 
 }
 
@@ -18,14 +22,13 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
     }
 }
 
-const connector = connect(
-    mapStateToProps,
-    null
-)
+const mapDispatchToProps:DispatchProps = {
 
-type Props = OwnProps & StateProps
+}
 
-const NotificationArea = (props: Props) => {
+type Props = OwnProps & StateProps & DispatchProps
+
+const NotificationArea: React.FC<Props> = (props) => {
     const messages = props.messages
 
     console.log('messages:', messages)
@@ -38,4 +41,4 @@ const NotificationArea = (props: Props) => {
     )
 }
 
-export default connector(NotificationArea)
+export default connect(mapStateToProps, null)(NotificationArea)

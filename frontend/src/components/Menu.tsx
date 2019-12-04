@@ -1,8 +1,34 @@
 import React from 'react'
 import './Menu.css'
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { UserState, logoutUser } from '../reducers/userReducer'
+import { AppState } from '..'
+import { connect } from 'react-redux'
 
-const Menu: React.FC = (props) => {
+interface OwnProps { }
+export interface StateProps { user: UserState }
+export interface DispatchProps { logoutUser: Function }
+
+const mapStateToProps = (state: AppState, props: OwnProps) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps:DispatchProps = {
+    logoutUser
+}
+
+type Props = OwnProps & StateProps & DispatchProps
+
+const Menu: React.FC<Props> = (props) => {
+    const showLogout = props.user && props.user.token.length > 2
+    const renderLogout = () => {
+        if (showLogout) {
+            return (<button onClick={() => props.logoutUser()}><div className='setting-item logout-button'>logout</div></button>)
+        }
+        return ''
+    }
 
     return(
         <div className='Menu'>
@@ -25,10 +51,10 @@ const Menu: React.FC = (props) => {
             </div>
             <div className='settings'>
                 <div className='setting-item'>language</div>
-                <div className='setting-item'>logout</div>
+                {renderLogout()}
             </div>
         </div>
     )
 }
 
-export default Menu
+export default connect(mapStateToProps,mapDispatchToProps)(Menu)

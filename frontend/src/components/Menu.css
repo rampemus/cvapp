@@ -25,6 +25,11 @@ a:link:hover {
   text-decoration: underline;
 }
 
+/* TODO: style logout button*/
+.logout-button {
+  color: red;
+}
+
 .cv-app-logo {
   grid-area: logo;
   margin: 3px;

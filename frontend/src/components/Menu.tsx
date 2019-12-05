@@ -27,7 +27,7 @@ const Menu: React.FC<Props> = (props) => {
         if (showLogout) {
             return (<button onClick={() => props.logoutUser()}><div className='setting-item logout-button'>logout</div></button>)
         }
-        return ''
+        return (<button disabled className='setting-item logout-button'>logout</button>)
     }
 
     return(

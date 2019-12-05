@@ -46,8 +46,8 @@ usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Respo
     }
 
     try {
-        //TODO: find user references and delete them
-        //Delete blog from data
+        // TODO: find user references and delete them
+        // Delete blog from data
         await User.deleteOne({ _id: request.params.id })
 
         response.status(204).end()

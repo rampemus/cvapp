@@ -31,7 +31,8 @@ const NotificationArea: React.FC<Props> = (props) => {
             <div className='notificationContainer'>
                 {messages.map( message => {
                     return(<div key={message.id} className={`notification ${message.type}`}>
-                        {message.text} <button onClick={()=>props.deleteNotification(message.id)}>X</button>
+                        <div className='notification-text'>{message.text}</div>
+                        <button className='notification-close-button' onClick={()=>props.deleteNotification(message.id)}>X</button>
                     </div>)
                 })}
             </div>

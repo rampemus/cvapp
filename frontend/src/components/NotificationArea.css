@@ -11,6 +11,13 @@
     margin: 5px 4px 0px 0px;
     padding: 10px;
     border-radius: 10px;
+    display: grid;
+    grid-template-columns: auto 20px
+}
+
+.notification-close-button {
+    grid-column-start: -2;
+    grid-column-end: span -1;
 }
 
 .error {
@@ -27,5 +34,4 @@
     background-color: rgba(177, 255, 161, 0.637);
     background: linear-gradient(rgba(169, 255, 161, 0.637), rgba(190, 255, 171, 0.95));
 }
-
 /* TODO: style notification-close button */

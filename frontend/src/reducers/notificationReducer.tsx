@@ -61,14 +61,26 @@ const notificationReducer = (state: NotificationState = initState, action: Notif
 }
 
 
-export const showNotification = (message:string, type:Type) => {
-    const id = guidGenerator()
-    const action:NotificationAction = {
-        type: 'SHOW_NOTIFICATION',
-        data: [{ text: message, id:id, type: type }]
+export const showNotification = (message:string, type:Type, lifeTime?:number ) => {
+    return async (dispatch:any) => {
+        const id = guidGenerator()
+        const action: NotificationAction = {
+            type: 'SHOW_NOTIFICATION',
+            data: [{ text: message, id: id, type: type }]
+        }
+        dispatch(action)
+        if ( lifeTime ) {
+            setTimeout(() => {
+                const deleteAfterTimeoutAction: NotificationAction = {
+                    type: 'DELETE_NOTIFICATION',
+                    id: id,
+                    data: []
+                }
+                dispatch(deleteAfterTimeoutAction)
+            }, 5 * 1000)
+        }
     }
-    console.log('about to send action:', action)
-    return action
+    
 }
 
 export const deleteNotification = (id: string) => {

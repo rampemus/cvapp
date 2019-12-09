@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ReactDOM from 'react-dom'
@@ -8,6 +8,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
+import thunk from 'redux-thunk'
 
 export const rootReducer = combineReducers({
     notification: notificationReducer,
@@ -17,7 +18,9 @@ export const rootReducer = combineReducers({
 export type AppState = ReturnType<typeof rootReducer>
 
 const store = createStore(
-    rootReducer, composeWithDevTools()
+    rootReducer, composeWithDevTools(
+        applyMiddleware(thunk)
+    )
 )
 
 const renderApp = () => {

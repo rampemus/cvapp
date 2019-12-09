@@ -33,7 +33,7 @@ const Login: React.FC<Props> = (props) => {
                     'loggedUser', JSON.stringify(response)
                 )
                 props.setUser(response)
-                props.showNotification('Login successful', Type.SUCCESS)
+                props.showNotification('Login successful', Type.SUCCESS, 4)
                 console.log('showNotification used', response)
             }).catch((error:loginError) => {
                 if (error.response.data.error ) {

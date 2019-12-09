@@ -2,6 +2,7 @@ import React from 'react'
 import './NotificationArea.css'
 import { connect } from 'react-redux'
 import { Message, deleteNotification } from '../reducers/notificationReducer'
+import NotificationMessage from './NotificationMessage'
 import { AppState } from '../index'
 
 interface OwnProps {}
@@ -30,10 +31,7 @@ const NotificationArea: React.FC<Props> = (props) => {
         return (
             <div className='notificationContainer'>
                 {messages.map( message => {
-                    return(<div key={message.id} className={`notification ${message.type}`}>
-                        <div className='notification-text'>{message.text}</div>
-                        <button className='notification-close-button' onClick={()=>props.deleteNotification(message.id)}>X</button>
-                    </div>)
+                    return (<NotificationMessage message={message} deleteNotification={() => props.deleteNotification(message.id)}></NotificationMessage>)
                 })}
             </div>
         )

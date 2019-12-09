@@ -1,0 +1,20 @@
+table {
+  border-collapse: collapse;
+  width: 90%;
+}
+
+th {
+    text-align: left;
+    font-weight: 250;
+}
+
+td {
+  background-color: rgb(246, 248, 248);
+  border: 1px solid black;
+  padding: 8px;
+}
+
+table td:last-child {
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+}

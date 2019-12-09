@@ -10,15 +10,15 @@ const NotificationMessage: React.FC<Props> = (props) => {
     const message = props.message
 
 
-    const [showCloseButton, setShowCloseButton] = useState<boolean>(false)
+    const [hovered, setHovered] = useState<boolean>(false)
 
     return(
-        <div key={message.id} className={`notification ${message.type}`} onMouseEnter={() => setShowCloseButton(true)} onMouseLeave={() => setShowCloseButton(false)}>
+        <div key={message.id} className={`notification ${message.type}`} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
             <div className='notification-text'>{message.text}</div>
             <button
                 className='notification-close-button'
                 onClick={() => props.deleteNotification()}
-                style={{ opacity: showCloseButton ? 1 : 0 }}
+                style={{ opacity: hovered ? 1 : 0 }}
             >X</button>
         </div>
     )

@@ -25,7 +25,6 @@ const Login: React.FC<Props> = (props) => {
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log('Sending login...')
 
         loginService.login(username.value, password.value)
             .then(response => {
@@ -34,12 +33,11 @@ const Login: React.FC<Props> = (props) => {
                 )
                 props.setUser(response)
                 props.showNotification('Login successful', Type.SUCCESS, 4)
-                console.log('showNotification used', response)
             }).catch((error:loginError) => {
                 if (error.response.data.error ) {
-                    console.log('Error:', error.response.data.error)
+                    props.showNotification(`Error ${error.response.data.error}`, Type.ERROR, 4)
                 } else {
-                    console.log('No response from server')
+                    props.showNotification(`Error no response from server`, Type.ERROR, 4)
                 }
             })
     }

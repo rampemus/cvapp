@@ -31,11 +31,7 @@ const guidGenerator = () => {
 
 const initState: NotificationState = {
     visible: true,
-    messages: [{
-        text: 'Page loaded',
-        id: 'defaultnotification',
-        type: Type.SUCCESS
-    }]
+    messages: []
 } 
 
 const notificationReducer = (state: NotificationState = initState, action: NotificationAction) => {

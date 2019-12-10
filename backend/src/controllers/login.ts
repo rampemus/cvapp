@@ -39,9 +39,11 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
 
     const token = jwt.sign(userForToken, config.JWT_SALT)
 
+    const responseData = { token, username: user.username, name: user.name }
+
     response
         .status(200)
-        .send({ token, username: user.username, name: user.name })
+        .send(responseData)
 })
 
 export default loginRouter

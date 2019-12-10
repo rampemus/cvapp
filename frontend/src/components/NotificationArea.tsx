@@ -25,13 +25,11 @@ type Props = OwnProps & StateProps & DispatchProps
 const NotificationArea: React.FC<Props> = (props) => {
     const { visible, messages } = props
 
-    console.log(visible, messages)
-
     if ( messages ) {
         return (
-            <div className='notificationContainer'>
+            <div className='notificationContainer' style={{opacity: visible ? 1 : 0}}>
                 {messages.map( message => {
-                    return (<NotificationMessage message={message} deleteNotification={() => props.deleteNotification(message.id)}></NotificationMessage>)
+                    return (<NotificationMessage key={message.id} message={message} deleteNotification={() => props.deleteNotification(message.id)}></NotificationMessage>)
                 })}
             </div>
         )

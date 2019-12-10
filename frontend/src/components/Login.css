@@ -24,6 +24,10 @@ input {
   border-radius: 10px;
 }
 
+input:hover {
+  border: solid 3px rgb(225, 228, 233);
+}
+
 input:focus {
   border:solid 3px #ffffff;
 }
@@ -38,6 +42,10 @@ input:focus {
   border-radius: 10px;
   margin: 10px;
   background-color: rgb(255, 255, 255);
+}
+
+.login-button:hover {
+  border: solid 3px rgb(225, 228, 233);
 }
 
 .login-button:focus {

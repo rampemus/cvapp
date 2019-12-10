@@ -6,14 +6,20 @@ export interface IUser extends Document {
   passwordHash: string,
   username: string,
   id: string,
-  created: Date,
-  expires: Date,
+  created?: Date,
+  expires?: Date,
+  owner?: IUser,
 }
 
 const userSchema: Schema = new Schema({
-  created: { type: Date, derault: Date.now},
+  created: { type: Date, default: Date.now},
   expires: Date,
   name: String,
+  owner: {
+    ref: 'User',
+    required: true,
+    type: Schema.Types.ObjectId,
+  },
   passwordHash: { type: String, required: true },
   username: { type: String, minlength: 3, required: true, unique: true },
 })
@@ -22,6 +28,7 @@ userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject.admin
+    delete returnedObject.owner
     delete returnedObject._id
     delete returnedObject.__v
     delete returnedObject.passwordHash

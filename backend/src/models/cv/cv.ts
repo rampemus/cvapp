@@ -8,7 +8,7 @@ import { IInfo } from './info'
 import { IProfile } from './profile'
 
 export interface ICurriculumVitae extends Document {
-    owner: IUser
+    owner: IUser,
     name: string,
     contact: IContact,
     profile: IProfile,

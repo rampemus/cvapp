@@ -1,28 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './Users.css'
 import UsersRow from './UsersRow'
-
-export interface User {
-    name: string,
-    username: string,
-    id: string,
-    created: Date,
-    expires: Date,
-}
-
-const rootUser: User = {
-    name: 'Pasi Toivanen',
-    username: 'rampemus',
-    id: 'rootid',
-    created: new Date(),
-    expires: new Date()
-}
+import usersService, { IUser, usersError } from '../services/usersService'
 
 const handleUserDelete = (id:string) => {
     console.log('Delete of the user id ', id, ' was requested')
 }
 
 const Users: React.FC = (props) => {
+    const [users, setUsers] = useState<IUser[]>([])
+    
+    useEffect(()=>{
+        usersService.getAll().then(response => {
+            setUsers(response)
+            console.log('Users', response)
+        }).catch((error:usersError) => console.log(error.response.data.error))
+    },[])
+
     return(
         <div>
             <h1>Users</h1>
@@ -35,14 +29,11 @@ const Users: React.FC = (props) => {
                         <th>Status</th>
                         <th></th>
                     </tr>
-                    <UsersRow user={rootUser} handleUserDelete={()=>handleUserDelete(rootUser.id)}/>
-                    <tr>   
-                        <td>dannythedude</td>
-                        <td>Danny Testing</td>
-                        <td>2017-12-9 / 2017-12-9 </td>
-                        <td>User</td>
-                        <td><button>Delete</button></td>
-                    </tr>
+                    {users.map(user => {
+                        return (
+                            <UsersRow key={'usersrow' + user.id} user={user} handleUserDelete={()=>handleUserDelete(user.id)}/>
+                        )
+                    })}
                 </tbody>
             </table>
         </div>

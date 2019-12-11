@@ -18,6 +18,7 @@ interface INewUserBody {
 
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
 
+    // TODO: enable users to add children
     if (request.userGroup !== 'admin') {
         return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
     }
@@ -27,6 +28,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
     const user = await new User({
+        date: new Date(),
         name: body.name,
         passwordHash,
         username: body.username,
@@ -41,6 +43,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {
+    // TODO: enable users to delete themselves
     if (request.userGroup !== 'admin') {
         return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
     }

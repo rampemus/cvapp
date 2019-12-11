@@ -6,18 +6,17 @@ export interface IUser extends Document {
   passwordHash: string,
   username: string,
   id: string,
-  created?: Date,
+  created: Date,
   expires?: Date,
   owner?: IUser,
 }
 
 const userSchema: Schema = new Schema({
-  created: { type: Date, default: Date.now},
+  created: { type: Date, required: true },
   expires: Date,
   name: String,
   owner: {
     ref: 'User',
-    required: true,
     type: Schema.Types.ObjectId,
   },
   passwordHash: { type: String, required: true },

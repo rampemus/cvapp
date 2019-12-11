@@ -28,7 +28,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
     const user = await new User({
-        date: new Date(),
+        created: new Date(),
         name: body.name,
         passwordHash,
         username: body.username,
@@ -44,18 +44,22 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {
     // TODO: enable users to delete themselves
+    // TODO: enable users to delete their children
     if (request.userGroup !== 'admin') {
         return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
     }
 
     try {
+
+        if (!await User.exists({ _id: request.params.id })) {
+            response.status(404).json({ error: 'User does not exist' }).end()
+        }
+
         // TODO: find user references and delete them
-        // Delete blog from data
         await User.deleteOne({ _id: request.params.id })
 
         response.status(204).end()
     } catch (error) {
-        // console.log(`response.status(400).json({ error: ${error.message} })`)
         response.status(400).json({ error: error.message })
     }
 })

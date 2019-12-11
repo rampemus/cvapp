@@ -10,7 +10,7 @@ export interface IUser {
     owner?: string,
 }
 
-interface loginResponse extends AxiosResponse {
+interface getAllUsersResponse extends AxiosResponse {
     data: IUser[]
 }
 
@@ -33,8 +33,6 @@ const getAll = () => {
         
     const userToken = user ? JSON.parse(user).token : '' 
 
-    console.log('usersService',userToken)
-
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -43,7 +41,23 @@ const getAll = () => {
     }
 
     const request = axios.get(baseUrl, config)
-    return request.then((response: loginResponse) => response.data)
+    return request.then((response: getAllUsersResponse) => response.data)
 }
 
-export default { getAll }
+const deleteUser = (id:string) => {
+    const user = window.localStorage.getItem('loggedUser')
+
+    const userToken = user ? JSON.parse(user).token : ''
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + userToken
+        }
+    }
+    
+    const request = axios.delete(`${baseUrl}/${id}`, config)
+    return request.then( response => response)
+}
+
+export default { getAll, deleteUser }

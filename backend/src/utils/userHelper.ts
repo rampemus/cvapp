@@ -10,6 +10,27 @@ const userExists = async ( username: string ) => {
     return true
 }
 
+const getUserByUsername = async (username: string) => {
+    const user = await User.findOne({ username })
+    return user
+}
+
+const getUserById = async (id: string) => {
+    const user = await User.findOne({ _id: id })
+    return user
+}
+
+const ownerId = async (userId: string) => {
+    const user = await User.findOne({ _id: userId })
+    console.log('ownerId is taken from object', user.owner)
+    return user.owner.id
+}
+
+const userIsRootUser = async (id: string) => {
+    const user = await User.findOne({ _id: id })
+    return user.username === ROOT_USERNAME
+}
+
 const createRootUser = async () => {
 
     const saltRounds = 10
@@ -28,4 +49,8 @@ const createRootUser = async () => {
 export {
     createRootUser,
     userExists,
+    getUserByUsername,
+    getUserById,
+    userIsRootUser,
+    ownerId
 }

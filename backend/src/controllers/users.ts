@@ -2,6 +2,11 @@ import bcrypt from 'bcrypt'
 import { Request, Response, Router } from 'express'
 import User from '../models/user'
 import { IRequestWithIdentity } from '../utils/middleware'
+import {
+    getUserById,
+    ownerId,
+    userIsRootUser,
+} from '../utils/userHelper'
 
 const usersRouter = Router()
 
@@ -18,18 +23,18 @@ interface INewUserBody {
 
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
 
-    // TODO: enable users to add children
-    if (request.userGroup !== 'admin') {
-        return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
-    }
-
     const body: INewUserBody = await request.body
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
+    if (!await User.exists({ _id: request.userid })) {
+        response.status(404).json({ error: 'Invalid token' }).end()
+    }
+
     const user = await new User({
         created: new Date(),
         name: body.name,
+        owner: await User.findOne({ _id: request.userid }),
         passwordHash,
         username: body.username,
     })
@@ -45,8 +50,16 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {
     // TODO: enable users to delete themselves
     // TODO: enable users to delete their children
-    if (request.userGroup !== 'admin') {
+    // TODO: prevent rootuser deletion
+    const userHasPermission = request.userGroup === 'admin'
+        || request.userid === request.params.id
+        || await ownerId(request.params.id) === request.userid
+    if (!userHasPermission) {
         return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
+    }
+
+    if (await userIsRootUser(request.params.id)) { // Tokens will be not trusted
+        return response.status(400).json({ error: 'Root user cannot be deleted' }).end()
     }
 
     try {

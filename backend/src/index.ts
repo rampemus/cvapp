@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 mongoose.set('useCreateIndex', true)
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
-userExists(ROOT_USERNAME).then( (response) => {
+userExists(ROOT_USERNAME).then((response) => {
   if ( !response ) {
     createRootUser()
   }

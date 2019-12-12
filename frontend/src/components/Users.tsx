@@ -5,6 +5,7 @@ import usersService, { IUser, usersError } from '../services/usersService'
 import { showNotification, Type } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import Toolbar from './Toolbar'
+import UsersForm from './UsersForm'
 
 interface OwnProps { }
 export interface StateProps { }
@@ -59,14 +60,20 @@ const Users: React.FC<Props> = (props) => {
     ).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
   }
 
+  const [showAddUser, setShowAddUser] = useState(true) 
+
   return(
     <div>
       <Toolbar>
         <div>
-          <button className='toolbar-button' disabled>add user...</button>
           <button className='toolbar-button' onClick={()=>handleAddRandomUser()}>add random user</button>
+          <button className='toolbar-button' onClick={()=>{
+            setShowAddUser(!showAddUser)
+          }}>add user...</button>
         </div>
-        <div className='formContainer' style={{ display: 'none' }}>here is a form</div>
+        <div className='formContainer' style={{ display: showAddUser ? 'block' : 'none' }}>
+          <UsersForm closeForm={()=>setShowAddUser(false)}/>
+        </div>
       </Toolbar>
       <h1>Users</h1>
       <table>

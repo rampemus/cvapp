@@ -37,6 +37,16 @@
   background-color: rgb(255, 255, 255);
   border-color: #bdc6dc;
   border-style: solid;
-  padding: 6px;
-  border-radius: 0px;
+  padding: 12px;
+  border-radius: 14px;
+  background-color:rgb(235, 235, 235);
+}
+
+.formContainer p {
+  margin-bottom:0px;
+}
+
+.formContainer input {
+  margin-top: 4px;
+  width: fill;
 }

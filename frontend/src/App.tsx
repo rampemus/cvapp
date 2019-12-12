@@ -13,7 +13,6 @@ import NotificationArea from './components/NotificationArea'
 import { connect } from 'react-redux'
 import { AppState } from '.'
 import { UserState } from './reducers/userReducer'
-import Toolbar from './components/Toolbar'
 
 interface OwnProps { }
 export interface StateProps { user?: UserState }

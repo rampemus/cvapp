@@ -22,15 +22,19 @@ const Users: React.FC<Props> = (props) => {
   const [users, setUsers] = useState<IUser[]>([])
   
   useEffect(()=>{
+    updateUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const updateUsers = () => {
     usersService.getAll().then(response => {
       setUsers(response)
       console.log('Users', response)
-    }).catch((error:usersError) => {
+    }).catch((error: usersError) => {
       props.showNotification('Request for retrieving users was denied. ' + error.response.data.error, Type.ERROR, 4)
     })
-  },[props])
+  }
 
-  // TODO: handleUserDelete
   const handleUserDelete = (id: string) => {
     const user:IUser | undefined = users.find(user => user.id === id)
     if ( user ) {
@@ -46,11 +50,23 @@ const Users: React.FC<Props> = (props) => {
     }
   }
 
+  const handleAddRandomUser = () => {
+    usersService.createUser().then(
+      response => {
+        props.showNotification(`User ${response.data.name} created. Username/password is ${response.data.username}/${response.data.password}`, Type.SUCCESS)
+        updateUsers()
+      }
+    ).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
+  }
+
   return(
     <div>
       <Toolbar>
-        <button className='toolbar-button'>add user...</button>
-        <button className='toolbar-button'>add random user</button>
+        <div>
+          <button className='toolbar-button' disabled>add user...</button>
+          <button className='toolbar-button' onClick={()=>handleAddRandomUser()}>add random user</button>
+        </div>
+        <div className='formContainer' style={{ display: 'none' }}>here is a form</div>
       </Toolbar>
       <h1>Users</h1>
       <table>

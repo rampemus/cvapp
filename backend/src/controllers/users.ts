@@ -23,7 +23,9 @@ interface INewUserBody {
 
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
 
-    const body: INewUserBody = await request.body
+    const makeRandomUser = !request.body.name && !request.body.username && !request.body.password
+
+    const body: INewUserBody = makeRandomUser ? { name: 'random', username: 'random', password: 'random'} : request.body
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
@@ -44,7 +46,12 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
             response.status(400).json({ error: error.message }).end()
         })
 
-    response.status(201).json(savedUser).end()
+    response.status(201).json(makeRandomUser ? { 
+        created: user.created,
+        name: user.name,
+        password: body.password,
+        username: user.username,
+    } : savedUser).end()
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {

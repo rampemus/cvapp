@@ -8,10 +8,15 @@ export interface IUser {
     created: Date,
     expires?: Date,
     owner?: string,
+    password?: string
 }
 
 interface getAllUsersResponse extends AxiosResponse {
     data: IUser[]
+}
+
+interface createUsersResponse extends AxiosResponse {
+    data: IUser
 }
 
 export interface usersError {
@@ -22,42 +27,32 @@ export interface usersError {
     }
 }
 
-const getAll = () => {
-
+const getConfigHeader = () => {
     const user = window.localStorage.getItem('loggedUser')
-
-    // if (!user) {
-    //     const error:userError = { response: { data: { error: 'user not logged in' } } }
-    //     return error
-    // }
-        
-    const userToken = user ? JSON.parse(user).token : '' 
-
+    const userToken = user ? JSON.parse(user).token : ''
     const config = {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + userToken
         }
     }
+    return config
+}
 
-    const request = axios.get(baseUrl, config)
+const getAll = () => {
+    const request = axios.get(baseUrl, getConfigHeader())
     return request.then((response: getAllUsersResponse) => response.data)
 }
 
+const createUser = (username?: string, name?: string, password?: string) => {
+    const data = username || name || password ? { username, name, password } : {}
+    const request = axios.post(`${baseUrl}`, data, getConfigHeader())
+    return request.then((response: createUsersResponse) => response)
+}
+
 const deleteUser = (id:string) => {
-    const user = window.localStorage.getItem('loggedUser')
-
-    const userToken = user ? JSON.parse(user).token : ''
-
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + userToken
-        }
-    }
-    
-    const request = axios.delete(`${baseUrl}/${id}`, config)
+    const request = axios.delete(`${baseUrl}/${id}`, getConfigHeader())
     return request.then( response => response)
 }
 
-export default { getAll, deleteUser }
+export default { getAll, createUser, deleteUser }

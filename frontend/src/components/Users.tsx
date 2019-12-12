@@ -4,6 +4,7 @@ import UsersRow from './UsersRow'
 import usersService, { IUser, usersError } from '../services/usersService'
 import { showNotification, Type } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
+import Toolbar from './Toolbar'
 
 interface OwnProps { }
 export interface StateProps { }
@@ -47,6 +48,10 @@ const Users: React.FC<Props> = (props) => {
 
   return(
     <div>
+      <Toolbar>
+        <button className='toolbar-button'>add user...</button>
+        <button className='toolbar-button'>add random user</button>
+      </Toolbar>
       <h1>Users</h1>
       <table>
         <tbody>

@@ -2,6 +2,14 @@
   /* background-color: #ffffff; */
 }
 
+button {
+  outline: none;
+}
+
+input {
+  outline: none;
+}
+
 .content {
   z-index: 1;
   margin-top: 90px;

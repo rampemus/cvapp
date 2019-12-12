@@ -1,0 +1,36 @@
+.toolbar {
+    position: fixed;
+    top: 60px;
+    right: 0px;
+}
+
+.toolbar-input:focus {
+  border:solid 3px #ffffff;
+}
+
+.toolbar-button {
+  text-align: center;
+  font-size: 12px;
+  font-weight:500;
+  padding: 4px;
+  min-width: 30px;
+  border: solid 3px #ccc;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin: 1px 3px 1px 3px;
+  background-color: rgb(255, 255, 255);
+}
+
+.toolbar-button:hover {
+  border: solid 3px rgb(225, 228, 233);
+}
+
+.toolbar-button:focus {
+  border: solid 3px rgb(225, 228, 233);
+}
+
+
+.toolbar-button:active {
+  border: solid 3px rgb(203, 207, 212); 
+  color: #000;
+}

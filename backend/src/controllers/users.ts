@@ -57,7 +57,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
             response.status(400).json({ error: error.message }).end()
         })
 
-    response.status(201).json(makeRandomUser ? { 
+    response.status(201).json(makeRandomUser ? {
         created: user.created,
         name: user.name,
         password: body.password,
@@ -66,7 +66,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {
-  
+
     const userHasPermission = request.userGroup === 'admin'     // allowed to admin
         || request.userid === request.params.id                 // allowed to delete themselves
         || await ownerId(request.params.id) === request.userid  // allowed to delete children

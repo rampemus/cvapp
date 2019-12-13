@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#BDC9DB;stroke:#000000;stroke-miterlimit:10;}
+	.st1{clip-path:url(#SVGID_2_);}
+	.st2{font-family:'MyriadPro-Regular';}
+	.st3{font-size:78.3319px;}
+	.st4{fill:#231F20;}
+	.st5{fill:#FCFCFC;}
+	.st6{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st7{font-size:67.1701px;}
+</style>
+<path class="st0" d="M75.43,99.5H24.57C11.28,99.5,0.5,88.72,0.5,75.43V24.57C0.5,11.28,11.28,0.5,24.57,0.5h50.86
+	c13.29,0,24.07,10.78,24.07,24.07v50.86C99.5,88.72,88.72,99.5,75.43,99.5z"/>
+<g>
+	<defs>
+		<path id="SVGID_1_" d="M67.91,87H33.09C21.99,87,13,78.01,13,66.91V32.09C13,20.99,21.99,12,33.09,12h34.82
+			C79.01,12,88,20.99,88,32.09v34.82C88,78.01,79.01,87,67.91,87z"/>
+	</defs>
+	<use xlink:href="#SVGID_1_"  style="overflow:visible;fill:#484F60;"/>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g class="st1">
+		<g>
+			<text transform="matrix(1.172 0 0 1 9 69.2832)" class="st2 st3">C</text>
+			<text transform="matrix(1.172 0 0 1 9 69.2832)" class="st4 st2 st3">C</text>
+			<text transform="matrix(1.172 0 0 1 9 69.2832)" class="st5 st2 st3">C</text>
+			<text transform="matrix(1.172 0 0 1 9 69.2832)" class="st6 st2 st3">C</text>
+		</g>
+		<g>
+			<text transform="matrix(1.3767 0 0 1 42.1255 87.208)" class="st2 st7">V</text>
+			<text transform="matrix(1.3767 0 0 1 42.1255 87.208)" class="st5 st2 st7">V</text>
+			<text transform="matrix(1.3767 0 0 1 42.1255 87.208)" class="st6 st2 st7">V</text>
+		</g>
+	</g>
+	<use xlink:href="#SVGID_1_"  style="overflow:visible;fill:none;stroke:#000000;stroke-miterlimit:10;"/>
+</g>
+</svg>

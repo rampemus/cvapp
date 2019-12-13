@@ -9,7 +9,7 @@
   color: rgb(255, 255, 255);
   display: grid;
   grid-template-columns: [logo] 50px [menu-items] auto 50px [settings];
-  align-items: center;
+  align-items: flex-end;
 }
 
 a:link {
@@ -38,14 +38,16 @@ a:link:hover {
 
 .menu-items {
   grid-area: menu-items;
-  margin: 10px;
+  margin-left: 0px;
+  margin-right: 10px;
   display: flex;
   flex-direction: row;
 }
 
 .menu-item {
   padding: 10px;
-  margin: 1px;
+  margin: 4px;
+  height: 24px;
   font-weight: 600;
 }
 
@@ -60,4 +62,8 @@ a:link:hover {
 
 .setting-item {
   text-align: end;
+}
+
+.selected {
+  background-color: rgb(115, 119, 131);
 }

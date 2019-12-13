@@ -1,6 +1,6 @@
 import React from 'react'
 import './Menu.css'
-import { Link } from 'react-router-dom'
+import { Link, useRouteMatch, useLocation } from 'react-router-dom'
 import { UserState, logoutUser } from '../reducers/userReducer'
 import { AppState } from '..'
 import { connect } from 'react-redux'
@@ -22,6 +22,9 @@ const mapDispatchToProps:DispatchProps = {
 type Props = OwnProps & StateProps & DispatchProps
 
 const Menu: React.FC<Props> = (props) => {
+
+    const location = useLocation()
+
     const showLogout = props.user && props.user.token.length > 2
     const renderLogout = () => {
         if (showLogout) {
@@ -33,26 +36,27 @@ const Menu: React.FC<Props> = (props) => {
     return(
         <div className='Menu'>
             <div className='cv-app-logo'>
-                logo here
+                <img src='./logo.svg' width='38px' height='38px'/>
             </div>
             <div className='menu-items'>
-                <Link to='/'>
-                    <div className='menu-item'>Curriculum Vitae</div>
+                <Link to='/' >
+                    <div className={location.pathname === '/' ? 'menu-item selected' : 'menu-item'}>Curriculum Vitae</div>
                 </Link>
                 <Link to='/users'>
-                    <div className='menu-item'>Users</div>
+                    <div className={location.pathname === '/users' ? 'menu-item selected' : 'menu-item'}>Users</div>
                 </Link>
                 <Link to='/mycv'>
-                    <div className='menu-item'>MyCV</div>
+                    <div className={location.pathname === '/mycv' ? 'menu-item selected' : 'menu-item'}>MyCV</div>
                 </Link>
                 <Link to='/about'>
-                    <div className='menu-item'>About</div>
+                    <div className={location.pathname === '/about' ? 'menu-item selected' : 'menu-item'}>About</div>
                 </Link>
             </div>
             <div className='settings'>
                 <div className='setting-item'>language</div>
                 {renderLogout()}
             </div>
+            
         </div>
     )
 }

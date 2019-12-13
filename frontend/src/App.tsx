@@ -47,22 +47,21 @@ const App: React.FC<Props> = (props) => {
           <Login />
         </div>
       )
-    } else {
-      return (
-        <div className='content'>
-          <Route exact path='/'><h1>Home page</h1></Route>
-          <Route path='/users'><Users /></Route>
-          <Route path='/mycv'><MyCV /></Route>
-          <Route exact path='/about'><About /></Route>
-        </div>
-      )
     }
+    return (
+      <div className='content'>
+        <Route exact path='/'><h1>Home page</h1></Route>
+        <Route path='/users'><Users /></Route>
+        <Route path='/mycv'><MyCV /></Route>
+        <Route exact path='/about'><About /></Route>
+      </div>
+    )
   }
 
   return ( 
     <div className="App" id="App">
       <Router>
-      <Menu/>
+      <Menu showRoutes={!hideLogin}/>
       <NotificationArea/>
       <Background height={height}/>
         {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}

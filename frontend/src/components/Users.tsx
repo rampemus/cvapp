@@ -47,7 +47,7 @@ const Users: React.FC<Props> = (props) => {
         }
       ).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
     } else {
-        props.showNotification('User does not exist', Type.ERROR, 5)
+      props.showNotification('User does not exist', Type.ERROR, 5)
     }
   }
 
@@ -72,7 +72,7 @@ const Users: React.FC<Props> = (props) => {
           }}>add user...</button>
         </div>
         <div className='formContainer' style={{ display: showAddUser ? 'block' : 'none' }}>
-          <UsersForm closeForm={()=>setShowAddUser(false)}/>
+          <UsersForm closeForm={()=>setShowAddUser(false)} reloadUsers={()=>updateUsers()}/>
         </div>
       </Toolbar>
       <h1>Users</h1>

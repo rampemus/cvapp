@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import usersService, { usersError } from '../services/usersService'
 
 interface OwnProps {
-    closeForm: Function
+    closeForm: Function,
+    reloadUsers: Function
 }
 export interface StateProps {}
 export interface DispatchProps {
@@ -32,22 +33,33 @@ const UsersForm: React.FC<Props> = (props) => {
     const handleCreateUser = (event: any) => {
         event.preventDefault()
 
-        usersService.createUser(username, name, password, expires).then(
-            response => {
-                setName('')
-                setUsername('')
-                setExpires(null)
-                setPassword('')
-                setPasswordConfirm('')
-                props.showNotification(`User ${response.data.name} was created`, Type.SUCCESS, 4)
-                props.closeForm()
-            }
-        ).catch((error: usersError) => props.showNotification(error.response.data.error, Type.ERROR, 5))
+        if ( password === passwordConfirm ) {
+            usersService.createUser(username, name, password, expires).then(
+                response => {
+                    setName('')
+                    setUsername('')
+                    setExpires(null)
+                    setPassword('')
+                    setPasswordConfirm('')
+                    props.showNotification(`User ${response.data.name} was created`, Type.SUCCESS, 4)
+                    props.reloadUsers()
+                    props.closeForm()
+                }
+            ).catch((error: usersError) => props.showNotification(error.response.data.error, Type.ERROR, 5))
+        } else {
+            props.showNotification('Password and password confirmation does not match', Type.WARNING, 4)
+        }
+    }
+
+    const [passwordMatch, setPasswordMatch] = useState(true)
+
+    const checkPasswordMatch = (password1: string, password2:string) => {
+        setPasswordMatch(password1 === password2)
     }
 
     return(
-        <form onSubmit={handleCreateUser}>
-            Add new user with custom parameters
+        <form onSubmit={handleCreateUser} autoComplete='off'>
+            Create new custom user
             <p>Full name</p> 
             <input
                 type='text'
@@ -70,21 +82,31 @@ const UsersForm: React.FC<Props> = (props) => {
                 <input type="radio" name="expires" onClick={ () => setExpires(new Date(CalcDate.ONE_MONTH)) } /> a month
                 <input type="radio" name="expires" onClick={ () => setExpires(null) } /> forever
             </div>
-            <p>Password</p> 
+            <p>Password for new user</p> 
             <input
                 type='password'
                 value={password}
                 onChange={
-                    ({ target }) => setPassword(target.value)
+                    ({ target }) => {
+                        setPassword(target.value)
+                        if (passwordConfirm.length > 0) {
+                            checkPasswordMatch(target.value, passwordConfirm)
+                        }
+                    }
                 }
+                style={{ backgroundColor: passwordMatch ? 'white' : 'yellow' }}
             />
             <p>Confirm password</p>
             <input
                 type='password'
                 value={passwordConfirm}
                 onChange={
-                    ({ target }) => setPasswordConfirm(target.value)
+                    ({ target }) => {
+                        setPasswordConfirm(target.value)
+                        checkPasswordMatch(password,target.value)
+                    }
                 }
+                style={{ backgroundColor: passwordMatch ? 'white' : 'yellow'}}
             />
             <div style={{ textAlign: 'right', marginTop: '10px' }}>
                 <button className='toolbar-button' onClick={(event)=>{

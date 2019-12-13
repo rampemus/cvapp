@@ -19,6 +19,7 @@ interface INewUserBody {
     name: string,
     username: string,
     password: string,
+    expires: Date | null
 }
 
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
@@ -29,14 +30,24 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
-    if (!await User.exists({ _id: request.userid })) {
+    const owner = await User.findOne({ _id: request.userid })
+
+    if (!owner) {
         response.status(404).json({ error: 'Invalid token' }).end()
     }
 
-    const user = await new User({
+    let expires = null // prevent created user to live longer than it's owner
+    if (owner.expires && body.expires) {
+        expires = ( owner.expires > body.expires ) ? body.expires : owner.expires
+    } else {
+        expires = owner.expires ? owner.expires : body.expires
+    }
+
+    const user = new User({
         created: new Date(),
+        expires,
         name: body.name,
-        owner: await User.findOne({ _id: request.userid }),
+        owner,
         passwordHash,
         username: body.username,
     })
@@ -55,12 +66,10 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {
-    // TODO: enable users to delete themselves
-    // TODO: enable users to delete their children
-    // TODO: prevent rootuser deletion
-    const userHasPermission = request.userGroup === 'admin'
-        || request.userid === request.params.id
-        || await ownerId(request.params.id) === request.userid
+  
+    const userHasPermission = request.userGroup === 'admin'     // allowed to admin
+        || request.userid === request.params.id                 // allowed to delete themselves
+        || await ownerId(request.params.id) === request.userid  // allowed to delete children
     if (!userHasPermission) {
         return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
     }

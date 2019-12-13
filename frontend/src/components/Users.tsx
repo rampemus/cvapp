@@ -60,7 +60,7 @@ const Users: React.FC<Props> = (props) => {
     ).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
   }
 
-  const [showAddUser, setShowAddUser] = useState(true) 
+  const [showAddUser, setShowAddUser] = useState(false) 
 
   return(
     <div>

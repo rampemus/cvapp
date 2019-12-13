@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
-import { showNotification } from '../reducers/notificationReducer'
+import { showNotification, Type } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
-
-const handleCreateUser = (event:any) => {
-    event.preventDefault()
-    console.log('User needs to be created')
-}
+import usersService, { usersError } from '../services/usersService'
 
 interface OwnProps {
     closeForm: Function
 }
 export interface StateProps {}
-export interface DispatchProps {}
+export interface DispatchProps {
+    showNotification: Function
+}
 
 const mapDispatchToProps: DispatchProps = {
     showNotification
@@ -22,9 +20,30 @@ type Props = OwnProps & StateProps & DispatchProps
 const UsersForm: React.FC<Props> = (props) => {
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
+    const [expires, setExpires] = useState<Date | null>(null)
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
-    
+
+    enum CalcDate {
+        TWO_WEEKS = Date.now() + 1000 * 60 * 60 * 24 * 14,
+        ONE_MONTH = Date.now() + 1000 * 60 * 60 * 24 * 30
+    }
+
+    const handleCreateUser = (event: any) => {
+        event.preventDefault()
+
+        usersService.createUser(username, name, password, expires).then(
+            response => {
+                setName('')
+                setUsername('')
+                setExpires(null)
+                setPassword('')
+                setPasswordConfirm('')
+                props.showNotification(`User ${response.data.name} was created`, Type.SUCCESS, 4)
+                props.closeForm()
+            }
+        ).catch((error: usersError) => props.showNotification(error.response.data.error, Type.ERROR, 5))
+    }
 
     return(
         <form onSubmit={handleCreateUser}>
@@ -36,7 +55,7 @@ const UsersForm: React.FC<Props> = (props) => {
                 onChange={
                     ({ target }) => setName(target.value)
                 }
-                />
+            />
             <p>Username</p> 
             <input
                 type='text'
@@ -44,12 +63,12 @@ const UsersForm: React.FC<Props> = (props) => {
                 onChange={
                     ({ target }) => setUsername(target.value)
                 }
-                />
-            <p>User is valid for</p>
+            />
+            <p>User is valid</p>
             <div>
-                <input type="radio" name="lifetime" value="1hour" /> hour
-                <input type="radio" name="lifetime" value="2weeks" /> fortnight
-                <input type="radio" name="lifetime" value="1month" /> month
+                <input type="radio" name="expires" onClick={ () => setExpires(new Date(CalcDate.TWO_WEEKS)) }/> a fortnight
+                <input type="radio" name="expires" onClick={ () => setExpires(new Date(CalcDate.ONE_MONTH)) } /> a month
+                <input type="radio" name="expires" onClick={ () => setExpires(null) } /> forever
             </div>
             <p>Password</p> 
             <input
@@ -58,7 +77,7 @@ const UsersForm: React.FC<Props> = (props) => {
                 onChange={
                     ({ target }) => setPassword(target.value)
                 }
-                />
+            />
             <p>Confirm password</p>
             <input
                 type='password'
@@ -66,9 +85,12 @@ const UsersForm: React.FC<Props> = (props) => {
                 onChange={
                     ({ target }) => setPasswordConfirm(target.value)
                 }
-                />
+            />
             <div style={{ textAlign: 'right', marginTop: '10px' }}>
-                <button className='toolbar-button' onClick={()=>props.closeForm()}>Cancel</button>
+                <button className='toolbar-button' onClick={(event)=>{
+                    event.preventDefault()
+                    props.closeForm()
+                }}>Cancel</button>
                 <button className='toolbar-button' type='submit'>Create user</button>                
             </div>
         </form>

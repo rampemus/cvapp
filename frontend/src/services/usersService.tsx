@@ -44,8 +44,8 @@ const getAll = () => {
     return request.then((response: getAllUsersResponse) => response.data)
 }
 
-const createUser = (username?: string, name?: string, password?: string) => {
-    const data = username || name || password ? { username, name, password } : {}
+const createUser = (username?: string, name?: string, password?: string, expires?: Date | null) => {
+    const data = username || name || password ? { username, name, password, expires } : {}
     const request = axios.post(`${baseUrl}`, data, getConfigHeader())
     return request.then((response: createUsersResponse) => response)
 }

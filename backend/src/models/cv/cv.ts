@@ -10,6 +10,8 @@ import { IProfile } from './profile'
 export interface ICurriculumVitae extends Document {
     owner: IUser,
     name: string,
+    github: string,
+    techlist: string,
     contact: IContact,
     profile: IProfile,
     reference: IContact[],
@@ -43,6 +45,7 @@ const cvSchema: Schema = new Schema({
         ref: 'Experience',
         type: Schema.Types.ObjectId,
     }],
+    github: String,
     info: [{
         ref: 'Info',
         type: Schema.Types.ObjectId,
@@ -65,7 +68,7 @@ const cvSchema: Schema = new Schema({
         ref: 'Info',
         type: Schema.Types.ObjectId,
     }],
-
+    techlist: String,
 })
 
 cvSchema.set('toJSON', {

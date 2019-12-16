@@ -1,9 +1,15 @@
 .toolbar {
   position: fixed;
-  top: 60px;
+  top: 42px;
   right: 0px;
   text-align: right;
+  flex-wrap: nowrap;
   max-width: 40%;
+  margin-right: 10px;
+  padding: 5px;
+  border-color: #bdc6dc;
+  border-radius: 14px;
+  background-color:rgb(235, 235, 235);
 }
 
 .toolbar-input:focus {
@@ -34,12 +40,7 @@
 
 .formContainer {
   text-align: left;
-  background-color: rgb(255, 255, 255);
-  border-color: #bdc6dc;
-  border-style: solid;
   padding: 12px;
-  border-radius: 14px;
-  background-color:rgb(235, 235, 235);
 }
 
 .formContainer p {

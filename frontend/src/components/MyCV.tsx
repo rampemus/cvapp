@@ -1,8 +1,24 @@
 import React from 'react'
 import Toolbar from './Toolbar'
+import { AppState } from '..'
+import { connect } from 'react-redux'
+import MyCVSelector from './MyCVSelector'
+
+interface OwnProps {}
+export interface StateProps {}
+export interface DispatchProps {}
+
+const mapStateToProps = (state: AppState, props: OwnProps) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps: DispatchProps = { }
+
+type Props = OwnProps & StateProps & DispatchProps
 
 const MyCV: React.FC = (props) => {
-
 
     return(
         <div>
@@ -14,8 +30,7 @@ const MyCV: React.FC = (props) => {
                     <button className='toolbar-button'>Preview</button>
                 </div>
             </Toolbar>
-            <h1>Create and edit CV's</h1>
-            <h3>Name of the cv</h3>
+            <MyCVSelector></MyCVSelector>
             <h3>Info</h3>
             <h3>Contact</h3>
             <h3>Profile</h3>
@@ -28,4 +43,5 @@ const MyCV: React.FC = (props) => {
     )
 }
 
-export default MyCV
+export default connect(mapStateToProps,mapDispatchToProps)(MyCV)
+

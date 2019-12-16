@@ -56,8 +56,9 @@ a:link:hover {
   justify-self: right;
   margin: 3px;
   padding: 7px;
+  margin-bottom: 25px;
   display: flex;
-  flex-flow: column;
+  flex-flow: row;
 }
 
 .setting-item {

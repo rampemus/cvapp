@@ -3,7 +3,6 @@ import { Request, Response, Router } from 'express'
 import User from '../models/user'
 import { IRequestWithIdentity } from '../utils/middleware'
 import {
-    getUserById,
     ownerId,
     userIsRootUser,
 } from '../utils/userHelper'

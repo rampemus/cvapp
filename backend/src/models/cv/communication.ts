@@ -14,7 +14,7 @@ const Communication = Info.discriminator('Communication',
             language: String,
             level: String,
         }]
-    })
+    }, { _id: false })
 )
 
 export default Communication

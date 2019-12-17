@@ -15,7 +15,7 @@ export interface IExperience extends Document {
 
 const experienceSchema: Schema = new Schema({
     description: { type: String, minlength: 3, required: true },
-    name: { type: String, minlength: 3, required: true, unique: true },
+    name: { type: String, minlength: 3, required: true },
     owner: {
         ref: 'User',
         required: true,
@@ -38,6 +38,6 @@ experienceSchema.set('toJSON', {
 
 experienceSchema.plugin(uniqueValidator)
 
-const Experience = model<IExperience>('Project', experienceSchema)
+const Experience = model<IExperience>('Experience', experienceSchema)
 
 export default Experience

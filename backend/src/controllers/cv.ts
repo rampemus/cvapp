@@ -99,7 +99,7 @@ interface INewContactBody {
     pictureUrl?: string,
 }
 
-export interface ICurriculumVitae {
+export interface INewCurriculumVitae {
     name: string,
     github?: string,
     techlist?: string,
@@ -115,8 +115,13 @@ export interface ICurriculumVitae {
     attachments?: INewInfoBody,
 }
 
+export interface IChanges {
+    changes: any
+    id: string,
+}
+
 cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
-    const contactBody: ICurriculumVitae = request.body
+    const contactBody: INewCurriculumVitae = request.body
     const owner = await (await User.findOne({ _id: request.userid }))
     const cv = new CurriculumVitae({
         ...contactBody, owner
@@ -198,9 +203,43 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             response.status(201).json(savedProject)
             break
         default:
+            response.status(400).json({ error: '/cv/:type invalid' })
             break
     }
 })
+
+cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
+    const body: IChanges = request.body
+    const newCV = await CurriculumVitae.findOneAndUpdate({ _id: body.id }, body.changes)
+    response.status(201).json(newCV)
+})
+
+// cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response) => {
+//     const owner = await User.findOne({ _id: request.userid })
+//     switch (request.params.type) {
+//         case 'contact':
+
+//             break
+//         case 'profile':
+
+//             break
+//         case 'experience':
+
+//             break
+//         case 'communication':
+
+//             break
+//         case 'info':
+
+//             break
+//         case 'project':
+
+//             break
+//         default:
+//             response.status(400).json({ error: '/cv/:type invalid' })
+//             break
+//     }
+// })
 
 // TODO: PUT EDIT CV
 // TODO: PUT EDIT object

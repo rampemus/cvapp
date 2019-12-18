@@ -214,32 +214,56 @@ cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
     response.status(201).json(newCV)
 })
 
-// cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response) => {
-//     const owner = await User.findOne({ _id: request.userid })
-//     switch (request.params.type) {
-//         case 'contact':
-
-//             break
-//         case 'profile':
-
-//             break
-//         case 'experience':
-
-//             break
-//         case 'communication':
-
-//             break
-//         case 'info':
-
-//             break
-//         case 'project':
-
-//             break
-//         default:
-//             response.status(400).json({ error: '/cv/:type invalid' })
-//             break
-//     }
-// })
+cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response) => {
+    const changes: IChanges = request.body
+    switch (request.params.type) {
+        case 'contact':
+            const newContact = await Contact.findOneAndUpdate(
+                { _id: changes.id },
+                changes.changes
+            )
+            response.status(201).json(newContact)
+            break
+        case 'profile':
+            const newProfile = await Profile.findOneAndUpdate(
+                { _id: changes.id },
+                changes.changes
+            )
+            response.status(201).json(newProfile)
+            break
+        case 'experience':
+            const newExperience = await Experience.findOneAndUpdate(
+                { _id: changes.id },
+                changes.changes
+            )
+            response.status(201).json(newExperience)
+            break
+        case 'communication':
+            const newCommunication = await Communication.findOneAndUpdate(
+                { _id: changes.id },
+                changes.changes
+            )
+            response.status(201).json(newCommunication)
+            break
+        case 'info':
+            const newInfo = await Info.findOneAndUpdate(
+                { _id: changes.id },
+                changes.changes
+            )
+            response.status(201).json(newInfo)
+            break
+        case 'project':
+            const newProject = await Project.findOneAndUpdate(
+                { _id: changes.id },
+                changes.changes
+            )
+            response.status(201).json(newProject)
+            break
+        default:
+            response.status(400).json({ error: '/cv/:type invalid' })
+            break
+    }
+})
 
 // TODO: PUT EDIT CV
 // TODO: PUT EDIT object

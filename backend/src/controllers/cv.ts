@@ -12,7 +12,18 @@ import { IRequestWithIdentity } from '../utils/middleware'
 const cvRouter = Router()
 
 cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
-    const cv = await CurriculumVitae.find({})
+    const cv = await CurriculumVitae.find({}).populate([
+        'communication',
+        'projects',
+        'attachments',
+        'education',
+        'experience',
+        'info',
+        'reference',
+        'skills',
+        'contact',
+        'profile',
+    ])
     response.json(cv)
 })
 
@@ -38,6 +49,7 @@ cvRouter.get('/:type', async (request: IRequestWithIdentity, response: Response)
             response.json(await Info.find({}))
             break
         default:
+            response.status(400).json({ error: '/cv/:type invalid'})
             break
     }
 })
@@ -60,7 +72,7 @@ interface INewExperienceBody {
     timeFrame?: {
         endDate: Date,
         startDate: Date
-    }
+    },
 }
 
 interface INewProfileBody {
@@ -87,12 +99,13 @@ interface INewContactBody {
     pictureUrl?: string,
 }
 
-export interface ICurriculumVitae extends Document {
+export interface ICurriculumVitae {
     name: string,
     github?: string,
     techlist?: string,
     contact: INewContactBody,
     profile?: INewProfileBody,
+    project?: INewProjectBody[],
     reference?: INewContactBody[],
     experience?: INewExperienceBody[],
     education?: INewExperienceBody[],
@@ -104,7 +117,7 @@ export interface ICurriculumVitae extends Document {
 
 cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
     const contactBody: ICurriculumVitae = request.body
-    const owner = await User.findOne({ _id: request.userid })
+    const owner = await (await User.findOne({ _id: request.userid }))
     const cv = new CurriculumVitae({
         ...contactBody, owner
     })
@@ -174,7 +187,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             response.status(201).json(savedInfo)
             break
         case 'project':
-            const projectBody: INewProjectBody = request.body
+            const projectBody: INewProjectBody[] = request.body
             const project = new Project({
                 ...projectBody, owner
             })
@@ -189,9 +202,8 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
     }
 })
 
-// implement
-// TODO: POST create object
-// TODO: PUT replace object
-// TODO: DELETE delete object
+// TODO: PUT EDIT CV
+// TODO: PUT EDIT object
+// TODO: DELETE delete cv/object
 
 export default cvRouter

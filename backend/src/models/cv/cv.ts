@@ -6,6 +6,7 @@ import { IContact } from './contact'
 import { IExperience } from './experience'
 import { IInfo } from './info'
 import { IProfile } from './profile'
+import { IProject } from './project'
 
 export interface ICurriculumVitae extends Document {
     owner: IUser,
@@ -14,6 +15,7 @@ export interface ICurriculumVitae extends Document {
     techlist: string,
     contact: IContact,
     profile: IProfile,
+    projects: IProject[],
     reference: IContact[],
     experience: IExperience[],
     education: IExperience[],
@@ -60,6 +62,10 @@ const cvSchema: Schema = new Schema({
         ref: 'Profile',
         type: Schema.Types.ObjectId,
     },
+    projects: [{
+        ref: 'Project',
+        type: Schema.Types.ObjectId
+    }],
     reference: [{
         ref: 'Contact',
         type: Schema.Types.ObjectId,

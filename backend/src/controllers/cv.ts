@@ -105,7 +105,7 @@ export interface INewCurriculumVitae {
     techlist?: string,
     contact: INewContactBody,
     profile?: INewProfileBody,
-    project?: INewProjectBody[],
+    projects?: INewProjectBody[],
     reference?: INewContactBody[],
     experience?: INewExperienceBody[],
     education?: INewExperienceBody[],
@@ -265,8 +265,56 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
     }
 })
 
-// TODO: PUT EDIT CV
-// TODO: PUT EDIT object
-// TODO: DELETE delete cv/object
+cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response) => {
+    const cv = await CurriculumVitae.findOne({ _id: request.params.id })
+    CurriculumVitae.findOneAndDelete({ _id: request.params })
+    if (cv.contact) { Contact.findOneAndDelete({ _id: cv.contact }) }
+    if (cv.profile) { Contact.findOneAndDelete({ _id: cv.profile }) }
+    if (cv.projects && cv.projects.length > 0) {
+        cv.projects.map((project) => { Project.findOneAndDelete({ _id: project }) })
+    }
+    if (cv.reference && cv.reference.length > 0) {
+        cv.reference.map((contact) => { Contact.findOneAndDelete({ _id: contact }) })
+    }
+    if (cv.experience && cv.experience.length > 0) {
+        cv.experience.map((experience) => { Experience.findOneAndDelete({ _id: experience }) })
+    }
+    if (cv.education) {
+        cv.education.map((experience) => { Experience.findOneAndDelete({ _id: experience }) })
+    }
+    if (cv.communication) { Communication.findOneAndDelete({ _id: cv.communication }) }
+    if (cv.skills) { Info.findOneAndDelete({ _id: cv.skills }) }
+    if (cv.info) { Info.findOneAndDelete({ _id: cv.info }) }
+    if (cv.attachments) { Info.findOneAndDelete({ _id: cv.attachments }) }
+    response.status(204)
+})
+
+cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Response) => {
+    switch (request.params.type) {
+        case 'contact':
+            await Contact.findOneAndDelete({ _id: request.params.id })
+            response.status(204)
+            break
+        case 'profile':
+            await Profile.findOneAndDelete({ _id: request.params.id })
+            break
+        case 'experience':
+            await Experience.findOneAndDelete({ _id: request.params.id })
+            break
+        case 'communication':
+            await Communication.findOneAndDelete({ _id: request.params.id })
+            break
+        case 'info':
+            await Info.findOneAndDelete({ _id: request.params.id })
+            break
+        case 'project':
+            await Project.findOneAndDelete({ _id: request.params.id })
+            break
+        default:
+            response.status(400).json({ error: '/cv/:type/:id invalid' })
+            break
+    }
+})
+
 
 export default cvRouter

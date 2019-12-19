@@ -297,18 +297,23 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             break
         case 'profile':
             await Profile.findOneAndDelete({ _id: request.params.id })
+            response.status(204)
             break
         case 'experience':
             await Experience.findOneAndDelete({ _id: request.params.id })
+            response.status(204)
             break
         case 'communication':
             await Communication.findOneAndDelete({ _id: request.params.id })
+            response.status(204)
             break
         case 'info':
             await Info.findOneAndDelete({ _id: request.params.id })
+            response.status(204)
             break
         case 'project':
             await Project.findOneAndDelete({ _id: request.params.id })
+            response.status(204)
             break
         default:
             response.status(400).json({ error: '/cv/:type/:id invalid' })

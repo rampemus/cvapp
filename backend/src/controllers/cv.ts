@@ -7,6 +7,7 @@ import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
 import User, { IUser } from '../models/user'
+import { connectObjectToCVField } from '../utils/cvHelper'
 import { IRequestWithIdentity } from '../utils/middleware'
 
 const cvRouter = Router()
@@ -54,9 +55,15 @@ cvRouter.get('/:type', async (request: IRequestWithIdentity, response: Response)
     }
 })
 
+interface ICVConnect {
+    id: string,
+    field: string,
+}
+
 interface INewInfoBody {
     name: string,
     content: string[],
+    cv?: ICVConnect,
 }
 
 interface INewCommunicationBody extends INewInfoBody {
@@ -73,11 +80,13 @@ interface INewExperienceBody {
         endDate: Date,
         startDate: Date
     },
+    cv?: ICVConnect,
 }
 
 interface INewProfileBody {
     name: string,
     content: string[],
+    cv?: ICVConnect,
 }
 
 interface INewProjectBody {
@@ -86,6 +95,7 @@ interface INewProjectBody {
     name: string,
     showcaseUrl?: string,
     thumbnailUrl?: string,
+    cv?: ICVConnect,
 }
 
 interface INewContactBody {
@@ -97,6 +107,7 @@ interface INewContactBody {
     phone?: string,
     phoneAvailable?: string,
     pictureUrl?: string,
+    cv?: ICVConnect,
 }
 
 export interface INewCurriculumVitae {
@@ -113,6 +124,7 @@ export interface INewCurriculumVitae {
     skills?: INewInfoBody,
     info?: INewInfoBody,
     attachments?: INewInfoBody,
+    cv?: ICVConnect,
 }
 
 export interface IChanges {
@@ -145,6 +157,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                 .catch((error) => {
                     response.status(400).json({ error: error.message }).end()
                 })
+            if (contactBody.cv && savedContact) {
+                await connectObjectToCVField(contactBody.cv.id, contactBody.cv.field, savedContact._id)
+            }
             response.status(201).json(savedContact)
             break
         case 'profile':
@@ -156,6 +171,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                 .catch((error) => {
                     response.status(400).json({ error: error.message }).end()
                 })
+            if (profileBody.cv && savedProfile) {
+                await connectObjectToCVField(profileBody.cv.id, profileBody.cv.field, savedProfile._id)
+            }
             response.status(201).json(savedProfile)
             break
         case 'experience':
@@ -167,6 +185,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                 .catch((error) => {
                     response.status(400).json({ error: error.message }).end()
                 })
+            if (experienceBody.cv && savedExperience) {
+                await connectObjectToCVField(experienceBody.cv.id, experienceBody.cv.field, savedExperience._id)
+            }
             response.status(201).json(savedExperience)
             break
         case 'communication':
@@ -178,6 +199,13 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                 .catch((error) => {
                     response.status(400).json({ error: error.message }).end()
                 })
+            if (communicationBody.cv && savedCommunication) {
+                await connectObjectToCVField(
+                    communicationBody.cv.id,
+                    communicationBody.cv.field,
+                    savedCommunication._id
+                )
+            }
             response.status(201).json(savedCommunication)
             break
         case 'info':
@@ -189,10 +217,13 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                 .catch((error) => {
                     response.status(400).json({ error: error.message }).end()
                 })
+            if (infoBody.cv && savedInfo) {
+                await connectObjectToCVField(infoBody.cv.id, infoBody.cv.field, savedInfo._id)
+            }
             response.status(201).json(savedInfo)
             break
         case 'project':
-            const projectBody: INewProjectBody[] = request.body
+            const projectBody: INewProjectBody = request.body
             const project = new Project({
                 ...projectBody, owner
             })
@@ -200,6 +231,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                 .catch((error) => {
                     response.status(400).json({ error: error.message }).end()
                 })
+            if (projectBody.cv && savedProject) {
+                await connectObjectToCVField(projectBody.cv.id, projectBody.cv.field, savedProject._id)
+            }
             response.status(201).json(savedProject)
             break
         default:
@@ -266,60 +300,65 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
 })
 
 cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response) => {
-    const cv = await CurriculumVitae.findOne({ _id: request.params.id })
-    CurriculumVitae.findOneAndDelete({ _id: request.params })
-    if (cv.contact) { Contact.findOneAndDelete({ _id: cv.contact }) }
-    if (cv.profile) { Contact.findOneAndDelete({ _id: cv.profile }) }
+    const id = request.params.id
+    const cv = await CurriculumVitae.findOne({ _id: id })
+
+    if (!cv) {
+        response.status(400).json({ error: 'cv does not exist' }).end()
+    }
+
+    await CurriculumVitae.deleteOne({ _id: id })
+    if (cv.contact) { Contact.deleteOne({ _id: cv.contact }) }
+    if (cv.profile) { await Contact.deleteOne({ _id: cv.profile }) }
     if (cv.projects && cv.projects.length > 0) {
-        cv.projects.map((project) => { Project.findOneAndDelete({ _id: project }) })
+        cv.projects.map(async (project) => { await Project.deleteOne({ _id: project }) })
     }
     if (cv.reference && cv.reference.length > 0) {
-        cv.reference.map((contact) => { Contact.findOneAndDelete({ _id: contact }) })
+        cv.reference.map(async (contact) => { await Contact.deleteOne({ _id: contact }) })
     }
     if (cv.experience && cv.experience.length > 0) {
-        cv.experience.map((experience) => { Experience.findOneAndDelete({ _id: experience }) })
+        cv.experience.map(async (experience) => { await Experience.deleteOne({ _id: experience }) })
     }
     if (cv.education) {
-        cv.education.map((experience) => { Experience.findOneAndDelete({ _id: experience }) })
+        cv.education.map(async (experience) => { await Experience.deleteOne({ _id: experience }) })
     }
-    if (cv.communication) { Communication.findOneAndDelete({ _id: cv.communication }) }
-    if (cv.skills) { Info.findOneAndDelete({ _id: cv.skills }) }
-    if (cv.info) { Info.findOneAndDelete({ _id: cv.info }) }
-    if (cv.attachments) { Info.findOneAndDelete({ _id: cv.attachments }) }
-    response.status(204)
+    if (cv.communication) { await Communication.deleteOne({ _id: cv.communication }) }
+    if (cv.skills) { await Info.deleteOne({ _id: cv.skills }) }
+    if (cv.info) { await Info.deleteOne({ _id: cv.info }) }
+    if (cv.attachments) { await Info.deleteOne({ _id: cv.attachments }) }
+    response.status(204).end()
 })
 
 cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Response) => {
     switch (request.params.type) {
         case 'contact':
             await Contact.findOneAndDelete({ _id: request.params.id })
-            response.status(204)
+            response.status(204).end()
             break
         case 'profile':
             await Profile.findOneAndDelete({ _id: request.params.id })
-            response.status(204)
+            response.status(204).end()
             break
         case 'experience':
             await Experience.findOneAndDelete({ _id: request.params.id })
-            response.status(204)
+            response.status(204).end()
             break
         case 'communication':
             await Communication.findOneAndDelete({ _id: request.params.id })
-            response.status(204)
+            response.status(204).end()
             break
         case 'info':
             await Info.findOneAndDelete({ _id: request.params.id })
-            response.status(204)
+            response.status(204).end()
             break
         case 'project':
             await Project.findOneAndDelete({ _id: request.params.id })
-            response.status(204)
+            response.status(204).end()
             break
         default:
-            response.status(400).json({ error: '/cv/:type/:id invalid' })
+            response.status(400).json({ error: '/cv/:type/:id invalid' }).end()
             break
     }
 })
-
 
 export default cvRouter

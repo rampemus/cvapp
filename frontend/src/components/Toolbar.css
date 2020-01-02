@@ -1,13 +1,14 @@
 .toolbar {
   position: fixed;
-  top: 44px;
+  top: 60px;
   right: 0px;
   text-align: right;
   flex-wrap: nowrap;
   margin-right: 10px;
   padding: 3px;
   border-color: #bdc6dc;
-  border-radius: 14px;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
   background-color:rgb(235, 235, 235);
 }
 

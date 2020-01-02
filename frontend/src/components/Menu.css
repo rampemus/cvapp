@@ -54,8 +54,7 @@ a:link:hover {
 .settings {
   grid-area: settings;
   justify-self: right;
-  margin: 3px;
-  padding: 4px;
+  margin: 5px;
   margin-bottom: 25px;
   display: flex;
   flex-flow: row;

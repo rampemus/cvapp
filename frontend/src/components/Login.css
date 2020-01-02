@@ -15,7 +15,7 @@
   border-radius: 15px
 }
 
-input {
+.login-input {
   font-size: 16px;
   padding: 4px;
   margin: 10px;
@@ -24,11 +24,11 @@ input {
   border-radius: 10px;
 }
 
-input:hover {
+.login-input:hover {
   border: solid 3px rgb(225, 228, 233);
 }
 
-input:focus {
+.login-input:focus {
   border:solid 3px #ffffff;
 }
 

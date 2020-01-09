@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import { getConfigHeader } from '../utils/serviceHelper'
 const baseUrl = '/api/users'
 
 export interface IUser {
@@ -25,18 +26,6 @@ export interface usersError {
             error: string
         }
     }
-}
-
-const getConfigHeader = () => {
-    const user = window.localStorage.getItem('loggedUser')
-    const userToken = user ? JSON.parse(user).token : ''
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + userToken
-        }
-    }
-    return config
 }
 
 const getAll = () => {

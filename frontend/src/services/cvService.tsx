@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { IUser } from './usersService'
+import { getConfigHeader } from '../utils/serviceHelper'
 const baseUrl = '/api/cv'
 
 interface IContact {
@@ -64,7 +65,7 @@ interface ICV {
     id: string,
 }
 
-enum ServiceType {
+export enum ServiceType {
     CV = '',
     CONTACT = '/contact',
     PROFILE = '/profile',
@@ -73,8 +74,9 @@ enum ServiceType {
     INFO = '/info'
 }
 
-interface getAllResponse extends AxiosResponse {
-    data: ICV[] | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
+interface getAllCVResponse extends AxiosResponse {
+    data: ICV[] 
+    // | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
 }
 
 const createObject = (type: ServiceType, object: ICV | IContact | IProfile | IExperience | ICommunication | IInfo ) => {
@@ -89,9 +91,9 @@ const deleteObject = (type: ServiceType, id: string) => {
     console.log('Delete?:', type, id)
 }
 
-const getAll = (type: ServiceType) => {
-    const request = axios.get(baseUrl+type)
-    return request.then((response: getAllResponse) => response.data)
+const getAllCV = () => {
+    const request = axios.get(baseUrl, getConfigHeader())
+    return request.then((response: getAllCVResponse) => response.data)
 }
 
-export default { createObject, replaceObject, deleteObject, getAll}
+export default { createObject, replaceObject, deleteObject, getAllCV}

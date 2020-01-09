@@ -12,17 +12,17 @@
   align-items: flex-end;
 }
 
-a:link {
+.menu-items > a:link {
   color: white;
   text-decoration: none;
   transform: scaleY(1.1);
 }
 
-a:visited {
+.menu-items > a:visited {
   color: white;
 }
 
-a:link:hover {
+.menu-items > a:link:hover {
   text-decoration: underline;
 }
 

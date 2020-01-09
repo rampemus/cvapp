@@ -62,11 +62,11 @@ const App: React.FC<Props> = (props) => {
     <div className="App" id="App">
       <Router>
       <Menu showRoutes={!hideLogin}/>
-      <NotificationArea/>
       <Background height={height}/>
         {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}
         {content()}
         {/* </ReactHeight> */}
+      <NotificationArea/>
       <Footer/>
       </Router>
     </div>

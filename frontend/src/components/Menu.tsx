@@ -64,7 +64,7 @@ const Menu: React.FC<Props> = (props) => {
     return(
         <div className='Menu'>
             <div className='cv-app-logo'>
-                <img src='./logo.svg' width='38px' height='38px' alt='logo'/>
+                <img src='logo.svg' width='38px' height='38px' alt='logo'/>
             </div>
         </div>
     )

@@ -158,7 +158,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                     response.status(400).json({ error: error.message }).end()
                 })
             if (contactBody.cv && savedContact) {
-                await connectObjectToCVField(contactBody.cv.id, contactBody.cv.field, savedContact._id)
+                if (contactBody.cv.field === 'contact' || contactBody.cv.field === 'reference') {
+                    await connectObjectToCVField(contactBody.cv.id, contactBody.cv.field, savedContact._id)
+                }
             }
             response.status(201).json(savedContact)
             break
@@ -172,7 +174,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                     response.status(400).json({ error: error.message }).end()
                 })
             if (profileBody.cv && savedProfile) {
-                await connectObjectToCVField(profileBody.cv.id, profileBody.cv.field, savedProfile._id)
+                if (profileBody.cv.field === 'profile') {
+                    await connectObjectToCVField(profileBody.cv.id, profileBody.cv.field, savedProfile._id)
+                }
             }
             response.status(201).json(savedProfile)
             break
@@ -186,7 +190,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                     response.status(400).json({ error: error.message }).end()
                 })
             if (experienceBody.cv && savedExperience) {
-                await connectObjectToCVField(experienceBody.cv.id, experienceBody.cv.field, savedExperience._id)
+                if (experienceBody.cv.field === 'experience' || experienceBody.cv.field === 'education') {
+                    await connectObjectToCVField(experienceBody.cv.id, experienceBody.cv.field, savedExperience._id)
+                }
             }
             response.status(201).json(savedExperience)
             break
@@ -200,11 +206,13 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                     response.status(400).json({ error: error.message }).end()
                 })
             if (communicationBody.cv && savedCommunication) {
-                await connectObjectToCVField(
-                    communicationBody.cv.id,
-                    communicationBody.cv.field,
-                    savedCommunication._id
-                )
+                if (communicationBody.cv.field === 'communication') {
+                    await connectObjectToCVField(
+                        communicationBody.cv.id,
+                        communicationBody.cv.field,
+                        savedCommunication._id
+                    )
+                }
             }
             response.status(201).json(savedCommunication)
             break
@@ -218,7 +226,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                     response.status(400).json({ error: error.message }).end()
                 })
             if (infoBody.cv && savedInfo) {
-                await connectObjectToCVField(infoBody.cv.id, infoBody.cv.field, savedInfo._id)
+                if (infoBody.cv.field === 'skills' || infoBody.cv.field === 'info' || infoBody.cv.field === 'attachments') {
+                    await connectObjectToCVField(infoBody.cv.id, infoBody.cv.field, savedInfo._id)
+                }
             }
             response.status(201).json(savedInfo)
             break
@@ -232,7 +242,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                     response.status(400).json({ error: error.message }).end()
                 })
             if (projectBody.cv && savedProject) {
-                await connectObjectToCVField(projectBody.cv.id, projectBody.cv.field, savedProject._id)
+                if (projectBody.cv.field === 'project') {
+                    await connectObjectToCVField(projectBody.cv.id, projectBody.cv.field, savedProject._id)
+                }
             }
             response.status(201).json(savedProject)
             break

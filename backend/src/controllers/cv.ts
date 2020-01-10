@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { Response, Router } from 'express'
 import Communication from '../models/cv/communication'
 import Contact from '../models/cv/contact'
 import CurriculumVitae from '../models/cv/cv'

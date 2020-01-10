@@ -48,7 +48,7 @@ interface IProfile {
     owner: IUser,
 }
 
-interface ICV {
+export interface ICV {
     owner: IUser,
     name: string,
     github?: string,

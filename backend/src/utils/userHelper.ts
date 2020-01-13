@@ -37,13 +37,13 @@ const createRootUser = async () => {
     const passwordHash = await bcrypt.hash(ROOT_PASSWORD, saltRounds)
 
     const rootUser = await new User({
+        created: new Date(),
         name: ROOT_NAME,
         passwordHash,
         username: ROOT_USERNAME,
     })
 
     const savedUser = await rootUser.save()
-    console.log('Root user created')
 }
 
 export {

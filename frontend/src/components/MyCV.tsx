@@ -35,11 +35,12 @@ const MyCV: React.FC = (props) => {
     const updateCVs = () => {
         cvService.getAllCV().then(response => {
             setMyCVs(response)
-            console.log(response)
-        }).catch((error) => {
-            // props.showNotification('Request for retrieving CVs was denied. ' + error.response.data.error, Type.ERROR, 4)
-            console.log(error.response.data.error)
+            // console.log(response)
         })
+        // .catch((error) => {
+        //     // props.showNotification('Request for retrieving CVs was denied. ' + error.response.data.error, Type.ERROR, 4)
+        //     console.log(error.response.data.error)
+        // })
     }
 
     const renderForm = (CVs: ICV[]) => {

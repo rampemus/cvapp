@@ -3,7 +3,7 @@ import { IUser } from './usersService'
 import { getConfigHeader } from '../utils/serviceHelper'
 const baseUrl = '/api/cv'
 
-interface IContact {
+export interface IContact {
     owner: IUser,
     address: string,
     company: string,
@@ -16,7 +16,7 @@ interface IContact {
     id: string
 }
 
-interface IExperience {
+export interface IExperience {
     description: string,
     name: string,
     owner: IUser,
@@ -27,21 +27,21 @@ interface IExperience {
     id: string,
 }
 
-interface IInfo {
+export interface IInfo {
     name: string,
     id: string,
     content: string[],
     owner: IUser,
 }
 
-interface ICommunication extends IInfo {
+export interface ICommunication extends IInfo {
     languages: [{
         language: string,
         level: string,
     }],
 }
 
-interface IProfile {
+export interface IProfile {
     name: string,
     id: string,
     content: string[],
@@ -53,15 +53,15 @@ export interface ICV {
     name: string,
     github?: string,
     techlist?: string,
-    contact: IContact,
-    profile?: IProfile,
+    contact: IContact, // single
+    profile?: IProfile, // single
     reference?: IContact[],
     experience?: IExperience[],
     education?: IExperience[],
-    communication?: ICommunication,
-    skills?: IInfo,
-    info?: IInfo,
-    attachments?: IInfo,
+    communication?: ICommunication, // single
+    skills?: IInfo, // single
+    info?: IInfo, // single
+    attachments?: IInfo, // single
     id: string,
 }
 
@@ -75,7 +75,7 @@ export enum ServiceType {
 }
 
 interface getAllCVResponse extends AxiosResponse {
-    data: ICV[] 
+    data: ICV[]
     // | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
 }
 
@@ -93,7 +93,20 @@ const deleteObject = (type: ServiceType, id: string) => {
 
 const getAllCV = () => {
     const request = axios.get(baseUrl, getConfigHeader())
-    return request.then((response: getAllCVResponse) => response.data)
+    return request.then((response: getAllCVResponse) => {
+        console.log('formatted data will be handling this:',response.data)
+        // format data to match ICV interface (mongoose wiggles the non required values to arrays)
+        const formattedData = response.data.map((cv:any) => {
+            return { ...cv,
+                communication: cv.communication ? cv.communication[0] : null,
+                profile: cv.profile ? cv.profile[0] : null,
+                skills: cv.skills ? cv.skills[0] : null,
+                info: cv.info ? cv.info[0] : null,
+                attachments: cv.attachments ? cv.attachments[0] : null,
+            }
+        })
+        return formattedData
+    })
 }
 
 export default { createObject, replaceObject, deleteObject, getAllCV}

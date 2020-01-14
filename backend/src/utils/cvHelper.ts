@@ -248,7 +248,6 @@ const generateTestCV = async (username: string) => {
 
 const userIsCVOwner = async ( username: string ) => {
     const cvs = await CurriculumVitae.find({}).populate('owner')
-    console.log('looking for user ' + username + ' in CVs')
     return cvs.findIndex( (cv) => cv.owner.username === username) !== -1
 }
 

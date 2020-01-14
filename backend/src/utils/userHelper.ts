@@ -22,7 +22,6 @@ const getUserById = async (id: string) => {
 
 const ownerId = async (userId: string) => {
     const user = await User.findOne({ _id: userId })
-    console.log('ownerId is taken from object', user.owner)
     return user.owner.id
 }
 

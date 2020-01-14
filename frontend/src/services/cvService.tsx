@@ -48,6 +48,16 @@ export interface IProfile {
     owner: IUser,
 }
 
+export interface IProject {
+    description: string,
+    githubUrl: string,
+    name: string,
+    owner: IUser,
+    showcaseUrl: string,
+    thumbnailUrl: string,
+    id: string,
+}
+
 export interface ICV {
     owner: IUser,
     name: string,
@@ -55,6 +65,7 @@ export interface ICV {
     techlist?: string,
     contact: IContact, // single
     profile?: IProfile, // single
+    projects?: IProject[],
     reference?: IContact[],
     experience?: IExperience[],
     education?: IExperience[],
@@ -99,7 +110,6 @@ const getAllCV = () => {
         const formattedData = response.data.map((cv:any) => {
             return { ...cv,
                 communication: cv.communication ? cv.communication[0] : null,
-                profile: cv.profile ? cv.profile[0] : null,
                 skills: cv.skills ? cv.skills[0] : null,
                 info: cv.info ? cv.info[0] : null,
                 attachments: cv.attachments ? cv.attachments[0] : null,

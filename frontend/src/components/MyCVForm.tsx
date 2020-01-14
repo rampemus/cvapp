@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
-import cvService, { ICV, IProfile, ICommunication } from '../services/cvService'
+import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
 
 interface OwnProps {
   cv: ICV | undefined
@@ -14,13 +14,14 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderProfileForm = (profile:IProfile) => { return (
     <Formik
-      initialValues={{ name: profile.name, content: profile.content }}
+      initialValues={{ ...profile }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2))
           setSubmitting(false)
         }, 400)
       }}
+      key={profile.id}
     >
       {({ isSubmitting }) => (
         <Form>
@@ -41,18 +42,14 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderCommunicationForm = (communication:ICommunication) => { return (
     <Formik
-      initialValues={{
-        id: communication.id,
-        name: communication.name,
-        content: communication.content,
-        languages: communication.languages
-      }}
+      initialValues={{...communication}}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2))
           setSubmitting(false)
         }, 400)
       }}
+      key={communication.id}
     >
       {({ isSubmitting }) => (
         <Form>
@@ -62,71 +59,57 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <ErrorMessage name='content' component='div' />
           <div>
             Language panel
-            </div>
+          </div>
           <button>
             Cancel
-            </button>
+          </button>
           <button type='submit' disabled={isSubmitting}>
             Save
-            </button>
+          </button>
         </Form>
       )}
     </Formik>
   )}
 
-  if (cv) { return (
-    <div>
-      CV form
+  const renderInfoForm = (info: IInfo) => {
+    return(
       <Formik
-        initialValues={{
-          name: cv.name,
-          github: cv.github,
-          techlist: cv.techlist
-        }}
+        initialValues={{ ...info }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2))
             setSubmitting(false)
           }, 400)
         }}
+        key={info.id}
       >
         {({ isSubmitting }) => (
           <Form>
             <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
             <ErrorMessage name='name' component='div' />
-            <Field className='form-input' placeholder='Github url' type='text' name='github' disabled={isSubmitting} />
-            <ErrorMessage name='github' component='div' />
-            <Field className='form-input' placeholder='Techlist' type='text' name='techlist' disabled={isSubmitting} />
-            <ErrorMessage name='techlist' component='div' />
-            <button>
-              Cancel
-            </button>
+            <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
+            <ErrorMessage name='content' component='div' />
+            <div> Cancel </div>
             <button type='submit' disabled={isSubmitting}>
               Save
             </button>
           </Form>
         )}
       </Formik>
-      <h3>Contact*</h3>
-      Contact form
+    )
+  }
+
+  const renderContactForm = (contact: IContact) => {
+    return(
       <Formik
-        initialValues={{
-          id: cv.contact.id,
-          firstname: cv.contact.firstname,
-          lastname: cv.contact.lastname,
-          email: cv.contact.email,
-          phone: cv.contact.phone,
-          phoneAvailable: cv.contact.phoneAvailable,
-          address: cv.contact.address,
-          company: cv.contact.company,
-          pictureUrl: cv.contact.pictureUrl,
-        }}
+        initialValues={{ ...contact }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2))
             setSubmitting(false)
           }, 400)
         }}
+        key={contact.id}
       >
         {({ isSubmitting }) => (
           <Form>
@@ -155,63 +138,54 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           </Form>
         )}
       </Formik>
-      <h3>Profile</h3>
-      Profile form
-      {cv.profile && renderProfileForm(cv.profile)}
-      <h3>Projects</h3>
-      Projects form (Array)
+    )
+  }
+
+  const renderProjectForm = (project: IProject) => {
+    return (<Formik
+      initialValues={{ ...project }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2))
+          setSubmitting(false)
+        }, 400)
+      }}
+      key={project.id}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
+          <ErrorMessage name='name' component='div' />
+          <Field className='form-textarea' placeholder='Description' as='textarea' type='text' name='description' disabled={isSubmitting} />
+          <ErrorMessage name='description' component='div' />
+          <Field className='form-input' placeholder='Github' type='text' name='githubUrl' disabled={isSubmitting} />
+          <ErrorMessage name='name' component='div' />
+          <Field className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl' disabled={isSubmitting} />
+          <ErrorMessage name='name' component='div' />
+          <Field className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' disabled={isSubmitting} />
+          <ErrorMessage name='name' component='div' />
+          <button>
+            Cancel
+            </button>
+          <button type='submit' disabled={isSubmitting}>
+            Save
+            </button>
+        </Form>
+      )}
+    </Formik>)
+  }
+
+  const renderExperienceForm = (experience: IExperience) => {
+    return(
       <Formik
-        initialValues={{
-          name: '',
-          description: '',
-          githubUrl: '',
-          showcaseUrl: '',
-          thumbnailUrl: '',
-        }}
+        initialValues={{ ...experience }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2))
             setSubmitting(false)
           }, 400)
         }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
-            <ErrorMessage name='name' component='div' />
-            <Field className='form-textarea' placeholder='Description' as='textarea' type='text' name='description' disabled={isSubmitting} />
-            <ErrorMessage name='description' component='div' />
-            <Field className='form-input' placeholder='Github' type='text' name='githubUrl' disabled={isSubmitting} />
-            <ErrorMessage name='name' component='div' />
-            <Field className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl' disabled={isSubmitting} />
-            <ErrorMessage name='name' component='div' />
-            <Field className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' disabled={isSubmitting} />
-            <ErrorMessage name='name' component='div' />
-            <button>
-              Cancel
-            </button>
-            <button type='submit' disabled={isSubmitting}>
-              Save
-            </button>
-          </Form>
-        )}
-      </Formik>
-      <h3>References</h3>
-      Contact^^ (Array)
-      <h3>Work experience</h3>
-      Experience form (Array)
-      <Formik
-        initialValues={{
-          name: '',
-          description: '',
-          timeFrame: ''
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            setSubmitting(false)
-          }, 400)
-        }}
+        key={experience.id}
       >
         {({ isSubmitting }) => (
           <Form>
@@ -230,15 +204,14 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           </Form>
         )}
       </Formik>
-      <h3>Education</h3>
-      Experience^^ (Array)
-      <h3>Communication</h3>
-      Communication form
-      {cv.communication && renderCommunicationForm(cv.communication)}
-      <h3>Other skills</h3>
-      Info form
+    )
+  }
+
+  if (cv) { return (
+    <div className='cvFormContainer'>
+      CV form
       <Formik
-        initialValues={{ name: '', content: '' }}
+        initialValues={{ name: cv.name, github: cv.github, techlist: cv.techlist }}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2))
@@ -250,19 +223,48 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <Form>
             <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
             <ErrorMessage name='name' component='div' />
-            <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
-            <ErrorMessage name='content' component='div' />
-            <div> Cancel </div>
+            <Field className='form-input' placeholder='Github url' type='text' name='github' disabled={isSubmitting} />
+            <ErrorMessage name='github' component='div' />
+            <Field className='form-input' placeholder='Techlist' type='text' name='techlist' disabled={isSubmitting} />
+            <ErrorMessage name='techlist' component='div' />
+            <button>
+              Cancel
+            </button>
             <button type='submit' disabled={isSubmitting}>
               Save
             </button>
           </Form>
         )}
       </Formik>
+      <h3>Contact*</h3>
+      Contact form
+      {renderContactForm(cv.contact)}
+      <h3>Profile</h3>
+      Profile form
+      {cv.profile && renderProfileForm(cv.profile)}
+      <h3>Projects</h3>
+      Projects form (Array)
+      {cv.projects && cv.projects.map((project) => renderProjectForm(project))}
+      <h3>References</h3>
+      {cv.reference && cv.reference.map((ref) => renderContactForm(ref))}
+      <h3>Work experience</h3>
+      Experience form (Array)
+      {cv.experience && cv.experience.map((exp) => renderExperienceForm(exp))}
+      <h3>Education</h3>
+      Experience^^ (Array)
+      {cv.education && cv.education.map((edu) => renderExperienceForm(edu))}
+      <h3>Communication</h3>
+      Communication form
+      {cv.communication && renderCommunicationForm(cv.communication)}
+      <h3>Other skills</h3>
+      Skills form
+      {cv.skills && renderInfoForm(cv.skills)}
       <h3>Info</h3>
-      Other skills^^
+      Info form
+      {cv.info && renderInfoForm(cv.info)}
       <h3>Attachments</h3>
-      Other skills^^
+      Info form
+      {cv.attachments && renderInfoForm(cv.attachments)}
     </div>
   )
 } else {

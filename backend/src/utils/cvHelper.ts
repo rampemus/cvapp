@@ -123,7 +123,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
     }
 }
 
-const createTestCV = async (username: string) => {
+const generateTestCV = async (username: string) => {
     const owner = await User.findOne({ username })
 
     const contact = new Contact({
@@ -243,10 +243,18 @@ const createTestCV = async (username: string) => {
         skills: savedSkills,
         techlist: 'Java, Python, CSS, C#, Angular',
     })
+    const savedCV = await cv.save()
+}
+
+const userIsCVOwner = async ( username: string ) => {
+    const cvs = await CurriculumVitae.find({}).populate('owner')
+    console.log('looking for user ' + username + ' in CVs')
+    return cvs.findIndex( (cv) => cv.owner.username === username) !== -1
 }
 
 export {
     connectObjectToCVField,
     disconnectObjectFromCVField,
-    createTestCV
+    generateTestCV,
+    userIsCVOwner,
 }

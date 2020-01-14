@@ -6,6 +6,7 @@ import cvRouter from './controllers/cv'
 import loginRouter from './controllers/login'
 import usersRouter from './controllers/users'
 import { MONGODB_URI, PORT, ROOT_USERNAME } from './utils/config'
+import { generateTestCV, userIsCVOwner } from './utils/cvHelper'
 import { AuthenticateUser, RequestLogger, TokenExtractor } from './utils/middleware'
 import { createRootUser, userExists } from './utils/userHelper'
 
@@ -19,6 +20,12 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 userExists(ROOT_USERNAME).then((response) => {
   if (!response) {
     createRootUser()
+  }
+})
+
+userIsCVOwner(ROOT_USERNAME).then((result) => {
+  if (!result) {
+    generateTestCV(ROOT_USERNAME)
   }
 })
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage, setNestedObjectValues, FieldArray } from 'formik'
 import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
-import MyCVFormCalendar from './MyCVFormCalendar'
+import MyCVFormDateSelector from './MyCVFormDateSelector'
 
 interface OwnProps {
   cv: ICV | undefined
@@ -56,19 +56,16 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <ErrorMessage name='name' component='div' />
           <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
           <ErrorMessage name='content' component='div' />
-          <FieldArray
-            name="languages"
-            render={() => (
-              <div>
-                {values.languages && values.languages.map((language, index) => {
-                  return (<div key={index}>
-                    <Field name={`languages.${index}.language`} />
-                    <Field name={`languages.${index}.level`} />
-                  </div>)
-                })}
-              </div>
-            )}
-          />
+          <FieldArray name="languages" render={() => (
+            <div className='languagePanel'>
+              {values.languages && values.languages.map((language, index) => {
+                return (<div key={index}>
+                  <Field name={`languages.${index}.language`} />
+                  <Field name={`languages.${index}.level`} />
+                </div>)
+              })}
+            </div>
+          )}/>
           <button type='submit' disabled={isSubmitting}>
             Save
           </button>
@@ -189,15 +186,29 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         }}
         key={experience.id}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setValues, values }) => (
           <Form>
             <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
             <ErrorMessage name='name' component='div' />
+            <div className='timeFrameContainer'>
+              <MyCVFormDateSelector date={values.timeFrame.startDate} handleChange={(newDate)=>{
+                setValues( { ...values, timeFrame: {
+                  startDate: newDate,
+                  endDate: values.timeFrame.endDate,
+                }})
+              }}/>
+              <div>&nbsp;-&nbsp;</div>
+              <MyCVFormDateSelector date={values.timeFrame.endDate} handleChange={(newDate) => {
+                setValues({
+                  ...values, timeFrame: {
+                    startDate: values.timeFrame.startDate,
+                    endDate: newDate,
+                  }
+                })
+              }}/>
+            </div>
             <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='description' disabled={isSubmitting} />
             <ErrorMessage name='description' component='div' />
-            <Field className='form-input' placeholder='Time frame' type='text' name='timeFrame' disabled={isSubmitting} />
-            <ErrorMessage name='name' component='div' />
-            <MyCVFormCalendar /> - <MyCVFormCalendar />
             Cancel
             <button type='submit' disabled={isSubmitting}>
               Save
@@ -236,33 +247,24 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         )}
       </Formik>
       <h3>Contact*</h3>
-      Contact form
       {renderContactForm(cv.contact)}
       <h3>Profile</h3>
-      Profile form
       {cv.profile && renderProfileForm(cv.profile)}
       <h3>Projects</h3>
-      Projects form (Array)
       {cv.projects && cv.projects.map((project) => renderProjectForm(project))}
       <h3>References</h3>
       {cv.reference && cv.reference.map((ref) => renderContactForm(ref))}
       <h3>Work experience</h3>
-      Experience form (Array)
       {cv.experience && cv.experience.map((exp) => renderExperienceForm(exp))}
       <h3>Education</h3>
-      Experience^^ (Array)
       {cv.education && cv.education.map((edu) => renderExperienceForm(edu))}
       <h3>Communication</h3>
-      Communication form
       {cv.communication && renderCommunicationForm(cv.communication)}
       <h3>Other skills</h3>
-      Skills form
       {cv.skills && renderInfoForm(cv.skills)}
       <h3>Info</h3>
-      Info form
       {cv.info && renderInfoForm(cv.info)}
       <h3>Attachments</h3>
-      Info form
       {cv.attachments && renderInfoForm(cv.attachments)}
     </div>
   )

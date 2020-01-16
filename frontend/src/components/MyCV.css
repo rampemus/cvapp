@@ -1,9 +1,15 @@
 .cvFormContainer > form {
-  /* background-color:red; */
+  /* background-color:lightgrey; */
 }
 
 .languagePanel {
-  /* background-color:red; */
+  /* background-color:white; */
+}
+
+.timeFrameContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 .form-input {

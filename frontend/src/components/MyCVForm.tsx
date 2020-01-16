@@ -1,6 +1,7 @@
 import React from 'react'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage, setNestedObjectValues, FieldArray } from 'formik'
 import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
+import MyCVFormCalendar from './MyCVFormCalendar'
 
 interface OwnProps {
   cv: ICV | undefined
@@ -29,12 +30,10 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <ErrorMessage name='name' component='div' />
           <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
           <ErrorMessage name='content' component='div' />
-          <button>
-            Cancel
-            </button>
+          Cancel
           <button type='submit' disabled={isSubmitting}>
             Save
-            </button>
+          </button>
         </Form>
       )}
     </Formik>
@@ -51,18 +50,25 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       }}
       key={communication.id}
     >
-      {({ isSubmitting }) => (
+      {({ values, isSubmitting }) => (
         <Form>
           <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
           <ErrorMessage name='name' component='div' />
           <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
           <ErrorMessage name='content' component='div' />
-          <div>
-            Language panel
-          </div>
-          <button>
-            Cancel
-          </button>
+          <FieldArray
+            name="languages"
+            render={() => (
+              <div>
+                {values.languages && values.languages.map((language, index) => {
+                  return (<div key={index}>
+                    <Field name={`languages.${index}.language`} />
+                    <Field name={`languages.${index}.level`} />
+                  </div>)
+                })}
+              </div>
+            )}
+          />
           <button type='submit' disabled={isSubmitting}>
             Save
           </button>
@@ -129,9 +135,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <ErrorMessage name='company' component='div' />
             <Field className='form-input' placeholder='Picture Url' type='text' name='pictureUrl' disabled={isSubmitting} />
             <ErrorMessage name='pictureUrl' component='div' />
-            <button>
-              Cancel
-            </button>
+             Cancel
             <button type='submit' disabled={isSubmitting}>
               Save
             </button>
@@ -164,9 +168,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <ErrorMessage name='name' component='div' />
           <Field className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' disabled={isSubmitting} />
           <ErrorMessage name='name' component='div' />
-          <button>
-            Cancel
-            </button>
+          Cancel
           <button type='submit' disabled={isSubmitting}>
             Save
             </button>
@@ -195,9 +197,8 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <ErrorMessage name='description' component='div' />
             <Field className='form-input' placeholder='Time frame' type='text' name='timeFrame' disabled={isSubmitting} />
             <ErrorMessage name='name' component='div' />
-            <button>
-              Cancel
-            </button>
+            <MyCVFormCalendar /> - <MyCVFormCalendar />
+            Cancel
             <button type='submit' disabled={isSubmitting}>
               Save
             </button>
@@ -227,9 +228,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <ErrorMessage name='github' component='div' />
             <Field className='form-input' placeholder='Techlist' type='text' name='techlist' disabled={isSubmitting} />
             <ErrorMessage name='techlist' component='div' />
-            <button>
-              Cancel
-            </button>
+            Cancel
             <button type='submit' disabled={isSubmitting}>
               Save
             </button>

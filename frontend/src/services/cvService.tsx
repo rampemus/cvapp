@@ -35,10 +35,10 @@ export interface IInfo {
 }
 
 export interface ICommunication extends IInfo {
-    languages: [{
+    languages: {
         language: string,
         level: string,
-    }],
+    }[],
 }
 
 export interface IProfile {

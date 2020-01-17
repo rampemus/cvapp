@@ -51,19 +51,17 @@ const MyCVFormDateSelector: React.FC<OwnProps> = (props) => {
 
     return(
         <div>
-            <select onChange={handleYearChange} value={year}>
+            <select onChange={handleYearChange} value={year} className='year-selector'>
                 {numbers(2000,2030).map((yearNumber) => {
                     return (<option key={yearNumber} value={yearNumber}>{yearNumber}</option>)
                 })}
             </select>
-            /
-            <select onChange={handleMonthChange} value={month}>
+            <select onChange={handleMonthChange} value={month} className='month-selector'>
                 {numbers(0, 12).map((monthNumber) => {
                     return (<option key={monthNumber} value={monthNumber}>{months[monthNumber]}</option>)
                 })}
             </select>
-            /
-            <select onChange={handleDayChange} value={day}>
+            <select onChange={handleDayChange} value={day} className='day-selector'>
                 {numbers(1, lastDayOfTheMonth+1).map((dayNumber) => {
                     return (<option key={dayNumber} value={dayNumber}>{dayNumber}</option>)
                 })}

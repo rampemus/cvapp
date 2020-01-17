@@ -24,7 +24,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       }}
       key={profile.id}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, values, setValues }) => (
         <Form className='form-component'>
           <div className='form-label'>Name</div>
           <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
@@ -36,7 +36,15 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <button className='form-delete-button' type='submit' disabled={isSubmitting}>
             Delete
           </button>
-          <button className='form-clear-button' type='submit' disabled={isSubmitting}>
+          <button
+            className='form-clear-button'
+            type='submit'
+            disabled={isSubmitting}
+            onClick={(event)=>{
+              event.preventDefault()
+              setValues({ ...values, name: '', content: ['']})
+            }}
+          >
             Clear
           </button>
           <button className='form-cancel-button' type='submit' disabled={isSubmitting}>
@@ -61,7 +69,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       }}
       key={communication.id}
     >
-      {({ values, isSubmitting }) => (
+      {({ values, isSubmitting, setValues }) => (
         <Form className='form-component'>
           <div className='form-label'>Name</div>
           <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
@@ -84,9 +92,23 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <button className='form-delete-button' type='submit' disabled={isSubmitting}>
             Delete
           </button>
-          <button className='form-clear-button' type='submit' disabled={isSubmitting}>
-            Clear
+          <button
+            className='form-clear-button'
+            type='submit'
+            disabled={isSubmitting}
+            onClick={(event) => {
+              event.preventDefault()
+              setValues({
+                ...values,
+                name: '',
+                languages: [{ language: '', level: ''}],
+                content: ['']
+              })
+            }}
+          >
+          Clear
           </button>
+
           <button className='form-cancel-button' type='submit' disabled={isSubmitting}>
             Cancel
           </button>
@@ -110,7 +132,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         }}
         key={info.id}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setValues }) => (
           <Form className='form-component'>
             <div className='form-label'>Name</div>
             <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
@@ -122,7 +144,15 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <button className='form-delete-button' type='submit' disabled={isSubmitting}>
               Delete
             </button>
-            <button className='form-clear-button' type='submit' disabled={isSubmitting}>
+            <button
+              className='form-clear-button'
+              type='submit'
+              disabled={isSubmitting}
+              onClick={(event)=>{
+                event.preventDefault()
+                setValues({...values, name: '', content: ['']})
+              }}
+            >
               Clear
             </button>
             <button className='form-cancel-button' type='submit' disabled={isSubmitting}>
@@ -149,7 +179,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         }}
         key={contact.id}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setValues }) => (
           <Form className='form-component'>
             <div className='form-label'>Firstname</div>
             <Field className='form-input' placeholder='Firstname' type='text' name='firstname' disabled={isSubmitting} />
@@ -179,7 +209,15 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <button className='form-delete-button' type='submit' disabled={isSubmitting || noDelete}>
               Delete
             </button>
-            <button className='form-clear-button' type='submit' disabled={isSubmitting}>
+            <button
+              className='form-clear-button'
+              type='submit'
+              disabled={isSubmitting}
+              onClick={(event)=>{
+                event.preventDefault()
+                setValues({...values, address: '', company: '', email: '', firstname: '', lastname: '', phone: '', phoneAvailable: '', pictureUrl: ''})
+              }}
+            >
               Clear
             </button>
             <button className='form-cancel-button' type='submit' disabled={isSubmitting}>
@@ -205,7 +243,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       }}
       key={project.id}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, values, setValues }) => (
         <Form className='form-component'>
           <div className='form-label'>Name</div>
           <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
@@ -226,7 +264,15 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <button className='form-delete-button' type='submit' disabled={isSubmitting}>
             Delete
           </button>
-          <button className='form-clear-button' type='submit' disabled={isSubmitting}>
+          <button
+            className='form-clear-button'
+            type='submit'
+            disabled={isSubmitting}
+            onClick={(event)=>{
+              event.preventDefault()
+              setValues({ ...values, description: '', githubUrl: '', name: '', showcaseUrl: '', thumbnailUrl: '' })
+            }}
+          >
             Clear
           </button>
           <button className='form-cancel-button' type='submit' disabled={isSubmitting}>
@@ -286,7 +332,23 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <button className='form-delete-button' type='submit' disabled={isSubmitting}>
               Delete
             </button>
-            <button className='form-clear-button' type='submit' disabled={isSubmitting}>
+            <button
+              className='form-clear-button'
+              type='submit'
+              disabled={isSubmitting}
+              onClick={(event)=>{
+                event.preventDefault()
+                setValues({ 
+                  ...values, 
+                  description: '', 
+                  name: '', 
+                  timeFrame: {
+                    startDate: new Date(),
+                    endDate: new Date()
+                  }
+                })
+              }}
+            >
               Clear
             </button>
             <button className='form-cancel-button' type='submit' disabled={isSubmitting}>
@@ -303,7 +365,6 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   if (cv) { return (
     <div className='cvFormContainer'>
-      CV form
       <Formik
         initialValues={{ name: cv.name, github: cv.github, techlist: cv.techlist }}
         onSubmit={(values, { setSubmitting }) => {
@@ -313,29 +374,37 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           }, 400)
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values, setValues }) => (
           <Form className='form-component'>
-          <div className='form-label'>Name</div>
+            <div className='form-label'>Name</div>
             <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
             <ErrorMessage name='name' component='div' />
-          <div className='form-label'>Github url</div>
+            <div className='form-label'>Github url</div>
             <Field className='form-input' placeholder='Github url' type='text' name='github' disabled={isSubmitting} />
             <ErrorMessage name='github' component='div' />
-          <div className='form-label'>Techlist</div>
+            <div className='form-label'>Techlist</div>
             <Field className='form-input' placeholder='Techlist' type='text' name='techlist' disabled={isSubmitting} />
             <ErrorMessage name='techlist' component='div' />
 
             <button className='form-delete-button' type='submit' disabled>
-                Delete
+              Delete
             </button>
-              <button className='form-clear-button' type='submit' disabled={isSubmitting}>
-                Clear
+            <button
+              className='form-clear-button'
+              type='submit'
+              disabled={isSubmitting}
+              onClick={(event)=>{
+                event.preventDefault()
+                setValues({ ...values, name: '', github: '', techlist: '' })
+              }}
+            >
+              Clear
             </button>
             <button className='form-cancel-button' type='submit' disabled={isSubmitting}>
-                Cancel
+              Cancel
             </button>
             <button className='form-save-button' type='submit' disabled={isSubmitting}>
-                Save
+              Save
             </button>
           </Form>
         )}

@@ -96,7 +96,12 @@
 .form-delete-button {
   grid-column-start: 2;
   grid-column-end: 3;
-  background-color: rgb(255, 205, 205);
+  background-color: rgb(255, 187, 187);
+  /* border-radius: 4px; */
+}
+
+.form-delete-button:disabled {
+  background-color: rgb(226, 226, 226);
 }
 
 .form-clear-button {

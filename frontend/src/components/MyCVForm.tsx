@@ -11,8 +11,6 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const { cv } = props
 
-  console.log('cv form about',cv)
-
   const renderProfileForm = (profile:IProfile) => { return (
     <Formik
       initialValues={{ ...profile }}
@@ -33,11 +31,11 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
           <ErrorMessage name='content' component='div' />
           
-          <button className='form-delete-button' type='submit' disabled={isSubmitting}>
+          <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
             Delete
           </button>
           <button
-            className='form-clear-button'
+            className='form-clear-button form-button'
             type='submit'
             disabled={isSubmitting}
             onClick={(event)=>{
@@ -48,7 +46,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             Clear
           </button>
           <button
-            className='form-cancel-button'
+            className='form-cancel-button form-button'
             type='submit'
             disabled={isSubmitting}
             onClick={(event)=>{
@@ -58,7 +56,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           >
             Cancel
           </button> 
-          <button className='form-save-button' type='submit' disabled={isSubmitting}>
+          <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
             Save
           </button>
         </Form>
@@ -97,11 +95,11 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
           <ErrorMessage name='content' component='div' />
 
-          <button className='form-delete-button' type='submit' disabled={isSubmitting}>
+          <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
             Delete
           </button>
           <button
-            className='form-clear-button'
+            className='form-clear-button form-button'
             type='submit'
             disabled={isSubmitting}
             onClick={(event) => {
@@ -118,7 +116,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           </button>
 
           <button
-            className='form-cancel-button'
+            className='form-cancel-button form-button'
             type='submit'
             disabled={isSubmitting}
             onClick={(event) => {
@@ -128,7 +126,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           >
             Cancel
           </button>
-          <button className='form-save-button' type='submit' disabled={isSubmitting}>
+          <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
             Save
           </button>
         </Form>
@@ -157,11 +155,11 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
             <ErrorMessage name='content' component='div' />
 
-            <button className='form-delete-button' type='submit' disabled={isSubmitting}>
+            <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
               Delete
             </button>
             <button
-              className='form-clear-button'
+              className='form-clear-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event)=>{
@@ -172,7 +170,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
               Clear
             </button>
             <button
-              className='form-cancel-button'
+              className='form-cancel-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event) => {
@@ -182,7 +180,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             >
               Cancel
             </button>
-            <button className='form-save-button' type='submit' disabled={isSubmitting}>
+            <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
               Save
             </button>
           </Form>
@@ -230,11 +228,11 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <Field className='form-input' placeholder='Picture Url' type='text' name='pictureUrl' disabled={isSubmitting} />
             <ErrorMessage name='pictureUrl' component='div' />
             
-            <button className='form-delete-button' type='submit' disabled={isSubmitting || noDelete}>
+            <button className='form-delete-button form-button' type='submit' disabled={isSubmitting || noDelete}>
               Delete
             </button>
             <button
-              className='form-clear-button'
+              className='form-clear-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event)=>{
@@ -245,7 +243,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
               Clear
             </button>
             <button
-              className='form-cancel-button'
+              className='form-cancel-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event) => {
@@ -255,7 +253,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             >
               Cancel
             </button> 
-            <button className='form-save-button' type='submit' disabled={isSubmitting}>
+            <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
               Save
             </button>
           </Form>
@@ -293,11 +291,11 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           <Field className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' disabled={isSubmitting} />
           <ErrorMessage name='name' component='div' />
 
-          <button className='form-delete-button' type='submit' disabled={isSubmitting}>
+          <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
             Delete
           </button>
           <button
-            className='form-clear-button'
+            className='form-clear-button form-button'
             type='submit'
             disabled={isSubmitting}
             onClick={(event)=>{
@@ -308,7 +306,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             Clear
           </button>
           <button
-            className='form-cancel-button'
+            className='form-cancel-button form-button'
             type='submit'
             disabled={isSubmitting}
             onClick={(event) => {
@@ -318,7 +316,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           >
             Cancel
           </button>
-          <button className='form-save-button' type='submit' disabled={isSubmitting}>
+          <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
             Save
           </button>
         </Form>
@@ -369,11 +367,11 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='description' disabled={isSubmitting} />
             <ErrorMessage name='description' component='div' />
 
-            <button className='form-delete-button' type='submit' disabled={isSubmitting}>
+            <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
               Delete
             </button>
             <button
-              className='form-clear-button'
+              className='form-clear-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event)=>{
@@ -392,7 +390,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
               Clear
             </button>
             <button
-              className='form-cancel-button'
+              className='form-cancel-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event) => {
@@ -402,7 +400,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             >
               Cancel
             </button>
-            <button className='form-save-button' type='submit' disabled={isSubmitting}>
+            <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
               Save
             </button>
           </Form>
@@ -434,11 +432,11 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             <Field className='form-input' placeholder='Tech1, tech2, ...' type='text' name='techlist' disabled={isSubmitting} />
             <ErrorMessage name='techlist' component='div' />
 
-            <button className='form-delete-button' type='submit' disabled>
+            <button className='form-delete-button form-button' type='submit' disabled>
               Delete
             </button>
             <button
-              className='form-clear-button'
+              className='form-clear-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event)=>{
@@ -449,7 +447,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
               Clear
             </button>
             <button
-              className='form-cancel-button'
+              className='form-cancel-button form-button'
               type='submit'
               disabled={isSubmitting}
               onClick={(event) => {
@@ -459,7 +457,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
             >
               Cancel
             </button>
-            <button className='form-save-button' type='submit' disabled={isSubmitting}>
+            <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
               Save
             </button>
           </Form>

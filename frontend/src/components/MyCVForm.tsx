@@ -2,6 +2,7 @@ import React from 'react'
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
 import MyCVFormDateSelector from './MyCVFormDateSelector'
+import FormPanel from './MyCVFormPanel'
 
 interface OwnProps {
   cv: ICV | undefined
@@ -12,56 +13,14 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
   const { cv } = props
 
   const renderProfileForm = (profile:IProfile) => { return (
-    <Formik
-      initialValues={{ ...profile }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          setSubmitting(false)
-        }, 400)
-      }}
-      key={profile.id}
-    >
-      {({ isSubmitting, values, setValues }) => (
-        <Form className='form-component'>
-          <div className='form-label'>Name</div>
-          <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
-          <ErrorMessage name='name' component='div' />
-          <div className='form-label'>Content</div>
-          <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
-          <ErrorMessage name='content' component='div' />
-          
-          <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
-            Delete
-          </button>
-          <button
-            className='form-clear-button form-button'
-            type='submit'
-            disabled={isSubmitting}
-            onClick={(event)=>{
-              event.preventDefault()
-              setValues({ ...values, name: '', content: ['']})
-            }}
-          >
-            Clear
-          </button>
-          <button
-            className='form-cancel-button form-button'
-            type='submit'
-            disabled={isSubmitting}
-            onClick={(event)=>{
-              event.preventDefault()
-              setValues({ ...profile })
-            }}
-          >
-            Cancel
-          </button> 
-          <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
-            Save
-          </button>
-        </Form>
-      )}
-    </Formik>
+    <FormPanel formValues={profile} clearActionValues={{name: '', content: ''}}>
+      <div className='form-label'>Name</div>
+      <Field className='form-input' placeholder='Name' type='text' name='name'/>
+      <ErrorMessage name='name' component='div' />
+      <div className='form-label'>Content</div>
+      <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content'/>
+      <ErrorMessage name='content' component='div' />
+    </FormPanel> 
   )}
 
   const renderCommunicationForm = (communication:ICommunication) => { return (
@@ -136,192 +95,66 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderInfoForm = (info: IInfo) => {
     return(
-      <Formik
-        initialValues={{ ...info }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            setSubmitting(false)
-          }, 400)
-        }}
-        key={info.id}
-      >
-        {({ isSubmitting, values, setValues }) => (
-          <Form className='form-component'>
-            <div className='form-label'>Name</div>
-            <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
-            <ErrorMessage name='name' component='div' />
-            <div className='form-label'>Content</div>
-            <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
-            <ErrorMessage name='content' component='div' />
-
-            <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
-              Delete
-            </button>
-            <button
-              className='form-clear-button form-button'
-              type='submit'
-              disabled={isSubmitting}
-              onClick={(event)=>{
-                event.preventDefault()
-                setValues({...values, name: '', content: ['']})
-              }}
-            >
-              Clear
-            </button>
-            <button
-              className='form-cancel-button form-button'
-              type='submit'
-              disabled={isSubmitting}
-              onClick={(event) => {
-                event.preventDefault()
-                setValues({ ...info })
-              }}
-            >
-              Cancel
-            </button>
-            <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
-              Save
-            </button>
-          </Form>
-        )}
-      </Formik>
+      <FormPanel formValues={info} clearActionValues={{ name: '', content: '' }}>
+        <div className='form-label'>Name</div>
+        <Field className='form-input' placeholder='Name' type='text' name='name'/>
+        <ErrorMessage name='name' component='div' />
+        <div className='form-label'>Content</div>
+        <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content'/>
+        <ErrorMessage name='content' component='div' />
+      </FormPanel>
     )
   }
 
   const renderContactForm = (contact: IContact, noDelete?: boolean) => {
     return(
-      <Formik
-        initialValues={{ ...contact }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            setSubmitting(false)
-          }, 400)
-        }}
-        key={contact.id}
-      >
-        {({ isSubmitting, values, setValues }) => (
-          <Form className='form-component'>
+      <FormPanel formValues={contact} clearActionValues={{ address: '', company: '', email: '', firstname: '', lastname: '', phone: '', phoneAvailable: '', pictureUrl: ''}}>
             <div className='form-label'>Firstname</div>
-            <Field className='form-input' placeholder='Firstname' type='text' name='firstname' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='Firstname' type='text' name='firstname'/>
             <ErrorMessage name='fistname' component='div' />
             <div className='form-label'>Lastname</div>
-            <Field className='form-input' placeholder='LastName' type='text' name='lastname' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='LastName' type='text' name='lastname'/>
             <ErrorMessage name='lastname' component='div' />
             <div className='form-label'>E-mail</div>
-            <Field className='form-input' placeholder='mailto@mail.com' type='text' name='email' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='mailto@mail.com' type='text' name='email'/>
             <ErrorMessage name='email' component='div' />
             <div className='form-label'>Phone</div>
-            <Field className='form-input' placeholder='+358000000000' type='text' name='phone' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='+358000000000' type='text' name='phone'/>
             <ErrorMessage name='phone' component='div' />
             <div className='form-label'>Available</div>
-            <Field className='form-input' placeholder='Available during 9 am -  4 pm' type='text' name='phoneAvailable' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='Available during 9 am -  4 pm' type='text' name='phoneAvailable'/>
             <ErrorMessage name='phoneAvailable' component='div' />
             <div className='form-label'>Address</div>
-            <Field className='form-input' placeholder='Streetname 1 A 1, 00100 Cityname' type='text' name='address' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='Streetname 1 A 1, 00100 Cityname' type='text' name='address'/>
             <ErrorMessage name='address' component='div' />
             <div className='form-label'>Company</div>
-            <Field className='form-input' placeholder='Company name' type='text' name='company' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='Company name' type='text' name='company'/>
             <ErrorMessage name='company' component='div' />
             <div className='form-label'>Picture</div>
-            <Field className='form-input' placeholder='Picture Url' type='text' name='pictureUrl' disabled={isSubmitting} />
+            <Field className='form-input' placeholder='Picture Url' type='text' name='pictureUrl'/>
             <ErrorMessage name='pictureUrl' component='div' />
-            
-            <button className='form-delete-button form-button' type='submit' disabled={isSubmitting || noDelete}>
-              Delete
-            </button>
-            <button
-              className='form-clear-button form-button'
-              type='submit'
-              disabled={isSubmitting}
-              onClick={(event)=>{
-                event.preventDefault()
-                setValues({...values, address: '', company: '', email: '', firstname: '', lastname: '', phone: '', phoneAvailable: '', pictureUrl: ''})
-              }}
-            >
-              Clear
-            </button>
-            <button
-              className='form-cancel-button form-button'
-              type='submit'
-              disabled={isSubmitting}
-              onClick={(event) => {
-                event.preventDefault()
-                setValues({ ...contact })
-              }}
-            >
-              Cancel
-            </button> 
-            <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
-              Save
-            </button>
-          </Form>
-        )}
-      </Formik>
+      </FormPanel>
     )
   }
 
   const renderProjectForm = (project: IProject) => {
-    return (<Formik
-      initialValues={{ ...project }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          setSubmitting(false)
-        }, 400)
-      }}
-      key={project.id}
-    >
-      {({ isSubmitting, values, setValues }) => (
-        <Form className='form-component'>
-          <div className='form-label'>Name</div>
-          <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
-          <ErrorMessage name='name' component='div' />
-          <div className='form-label'>Description</div>
-          <Field className='form-textarea' placeholder='Description' as='textarea' type='text' name='description' disabled={isSubmitting} />
-          <ErrorMessage name='description' component='div' />
-          <div className='form-label'>Github</div>
-          <Field className='form-input' placeholder='Github url' type='text' name='githubUrl' disabled={isSubmitting} />
-          <ErrorMessage name='name' component='div' />
-          <div className='form-label'>Showcase</div>
-          <Field className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl' disabled={isSubmitting} />
-          <ErrorMessage name='name' component='div' />
-          <div className='form-label'>Thumbnail</div>
-          <Field className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' disabled={isSubmitting} />
-          <ErrorMessage name='name' component='div' />
-
-          <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
-            Delete
-          </button>
-          <button
-            className='form-clear-button form-button'
-            type='submit'
-            disabled={isSubmitting}
-            onClick={(event)=>{
-              event.preventDefault()
-              setValues({ ...values, description: '', githubUrl: '', name: '', showcaseUrl: '', thumbnailUrl: '' })
-            }}
-          >
-            Clear
-          </button>
-          <button
-            className='form-cancel-button form-button'
-            type='submit'
-            disabled={isSubmitting}
-            onClick={(event) => {
-              event.preventDefault()
-              setValues({ ...project })
-            }}
-          >
-            Cancel
-          </button>
-          <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
-            Save
-          </button>
-        </Form>
-      )}
-    </Formik>)
+    return (<FormPanel formValues={project} clearActionValues={{ description: '', githubUrl: '', name: '', showcaseUrl: '', thumbnailUrl: '' }}>
+      <div className='form-label'>Name</div>
+      <Field className='form-input' placeholder='Name' type='text' name='name'/>
+      <ErrorMessage name='name' component='div' />
+      <div className='form-label'>Description</div>
+      <Field className='form-textarea' placeholder='Description' as='textarea' type='text' name='description'/>
+      <ErrorMessage name='description' component='div' />
+      <div className='form-label'>Github</div>
+      <Field className='form-input' placeholder='Github url' type='text' name='githubUrl'/>
+      <ErrorMessage name='name' component='div' />
+      <div className='form-label'>Showcase</div>
+      <Field className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl'/>
+      <ErrorMessage name='name' component='div' />
+      <div className='form-label'>Thumbnail</div>
+      <Field className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl'/>
+      <ErrorMessage name='name' component='div' />
+    </FormPanel>)
   }
 
   const renderExperienceForm = (experience: IExperience) => {
@@ -411,58 +244,18 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   if (cv) { return (
     <div className='cvFormContainer'>
-      <Formik
-        initialValues={{ name: cv.name, github: cv.github, techlist: cv.techlist }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            setSubmitting(false)
-          }, 400)
-        }}
-      >
-        {({ isSubmitting, values, setValues }) => (
-          <Form className='form-component'>
-            <div className='form-label'>Name</div>
-            <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
-            <ErrorMessage name='name' component='div' />
-            <div className='form-label'>Github</div>
-            <Field className='form-input' placeholder='Github url' type='text' name='github' disabled={isSubmitting} />
-            <ErrorMessage name='github' component='div' />
-            <div className='form-label'>Techlist</div>
-            <Field className='form-input' placeholder='Tech1, tech2, ...' type='text' name='techlist' disabled={isSubmitting} />
-            <ErrorMessage name='techlist' component='div' />
-
-            <button className='form-delete-button form-button' type='submit' disabled>
-              Delete
-            </button>
-            <button
-              className='form-clear-button form-button'
-              type='submit'
-              disabled={isSubmitting}
-              onClick={(event)=>{
-                event.preventDefault()
-                setValues({ ...values, name: '', github: '', techlist: '' })
-              }}
-            >
-              Clear
-            </button>
-            <button
-              className='form-cancel-button form-button'
-              type='submit'
-              disabled={isSubmitting}
-              onClick={(event) => {
-                event.preventDefault()
-                setValues({ name: cv.name, github: cv.github, techlist: cv.techlist })
-              }}
-            >
-              Cancel
-            </button>
-            <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
-              Save
-            </button>
-          </Form>
-        )}
-      </Formik>
+      <FormPanel formValues={{ id:cv.id, name: cv.name, github: cv.github, techlist: cv.techlist }} clearActionValues={{name: '', github: '', techlist: '' }}>
+        <div className='form-label'>Name</div>
+        <Field className='form-input' placeholder='CV name' type='text' name='name' />
+        <ErrorMessage name='name' component='div' />
+        <div className='form-label'>Github</div>
+        <Field className='form-input' placeholder='Github url' type='text' name='github'/>
+        <ErrorMessage name='github' component='div' />
+        <div className='form-label'>Techlist</div>
+        <Field className='form-input' placeholder='Java, CSS, Python, ...' type='text' name='techlist'/>
+        <ErrorMessage name='techlist' component='div' />
+      </FormPanel>
+        
       <h3>Contact*</h3>
       {renderContactForm(cv.contact, true)}
       <h3>Profile</h3>

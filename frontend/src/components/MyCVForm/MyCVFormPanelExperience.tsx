@@ -22,7 +22,6 @@ const MyCVFormPanelExperience: React.FC<OwnProps> = (props) => {
             setSubmitting(false)
           }, 400)
         }}
-        key={experience.id}
       >
       {({ isSubmitting, values, setValues }) => (
         <Form className='form-component'>

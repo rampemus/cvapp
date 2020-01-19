@@ -21,7 +21,6 @@ const MyCVFormPanelCommunication: React.FC<OwnProps> = (props) => {
           setSubmitting(false)
         }, 400)
       }}
-      key={communication.id}
     >
       {({ values, isSubmitting, setValues }) => (
         <Form className='form-component'>
@@ -33,8 +32,8 @@ const MyCVFormPanelCommunication: React.FC<OwnProps> = (props) => {
           <div className='form-label'>Languages</div>
           <FieldArray name="languages" render={() => (
             <div className='language-panel'>
-              {values.languages && values.languages.map((index: number) => {
-                return (<div key={index} className='language-pair'>
+              {values.languages && values.languages.map((language: any, index: number) => {
+                return (<div key={language._id} className='language-pair'>
                   <Field className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
                   <Field className='form-input' name={`languages.${index}.level`} placeholder='Level' />
                 </div>)

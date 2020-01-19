@@ -32,6 +32,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         languages: [{ language: '', level: '' }],
         content: ['']
       }}
+      key={communication.id}
     />
   )}
 
@@ -50,7 +51,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderContactForm = (contact: IContact, noDelete?: boolean) => {
     return(
-      <FormPanel formValues={contact} clearActionValues={{ address: '', company: '', email: '', firstname: '', lastname: '', phone: '', phoneAvailable: '', pictureUrl: ''}}>
+      <FormPanel key={contact.id} formValues={contact} clearActionValues={{ address: '', company: '', email: '', firstname: '', lastname: '', phone: '', phoneAvailable: '', pictureUrl: ''}}>
         <div className='form-label'>Firstname</div>
         <Field className='form-input' placeholder='Firstname' type='text' name='firstname'/>
         <ErrorMessage name='fistname' component='div' />
@@ -81,7 +82,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderProjectForm = (project: IProject) => {
     return (
-      <FormPanel formValues={project} clearActionValues={{ description: '', githubUrl: '', name: '', showcaseUrl: '', thumbnailUrl: '' }}>
+      <FormPanel key={project.id} formValues={project} clearActionValues={{ description: '', githubUrl: '', name: '', showcaseUrl: '', thumbnailUrl: '' }}>
         <div className='form-label'>Name</div>
         <Field className='form-input' placeholder='Name' type='text' name='name'/>
         <ErrorMessage name='name' component='div' />
@@ -106,6 +107,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       <FormPanelExperience
         formValues={experience}
         clearActionValues={{ description: '', name: '', timeFrame: { startDate: new Date(), endDate: new Date() } }}
+        key={experience.id}
       /> 
     )
   }

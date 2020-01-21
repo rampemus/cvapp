@@ -9,10 +9,12 @@ import * as serviceWorker from './serviceWorker'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
 import thunk from 'redux-thunk'
+import cvReducer from './reducers/cvReducer';
 
 export const rootReducer = combineReducers({
     notification: notificationReducer,
-    user: userReducer
+    user: userReducer,
+    cv: cvReducer
 })
 
 export type AppState = ReturnType<typeof rootReducer>

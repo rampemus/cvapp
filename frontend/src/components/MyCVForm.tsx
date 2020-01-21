@@ -4,6 +4,7 @@ import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience }
 import FormPanel from './MyCVForm/MyCVFormPanel'
 import FormPanelExperience from './MyCVForm/MyCVFormPanelExperience'
 import FormPanelCommunication from './MyCVForm/MyCVFormPanelCommunication'
+import { ServiceType } from '../services/cvService'
 
 interface OwnProps {
   cv: ICV | undefined
@@ -14,23 +15,30 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
   const { cv } = props
 
   const renderProfileForm = (profile:IProfile) => { return (
-    <FormPanel formValues={profile} clearActionValues={{name: '', content: ''}}>
+    <FormPanel
+      formValues={{
+        id: profile.id,
+        name: profile.name,
+        content: profile.content,
+      }}
+      serviceType={ServiceType.PROFILE}
+    >
       <div className='form-label'>Name</div>
-      <Field className='form-input' placeholder='Name' type='text' name='name'/>
+      <Field className='form-input' placeholder='Name' type='text' name='name' />
       <ErrorMessage name='name' component='div' />
       <div className='form-label'>Content</div>
-      <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content'/>
+      <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
       <ErrorMessage name='content' component='div' />
-    </FormPanel> 
+    </FormPanel>
   )}
 
   const renderCommunicationForm = (communication:ICommunication) => { return (
     <FormPanelCommunication
-      formValues={communication}
-      clearActionValues={{
-        name: '',
-        languages: [{ language: '', level: '' }],
-        content: ['']
+      formValues={{
+        id: communication.id,
+        name: communication.name,
+        content: communication.content,
+        languages: communication.languages
       }}
       key={communication.id}
     />
@@ -38,7 +46,14 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderInfoForm = (info: IInfo) => {
     return(
-      <FormPanel formValues={info} clearActionValues={{ name: '', content: '' }}>
+      <FormPanel
+        formValues={{
+          id: info.id,
+          name: info.name,
+          content: info.content
+        }}
+        serviceType={ServiceType.INFO}
+      >
         <div className='form-label'>Name</div>
         <Field className='form-input' placeholder='Name' type='text' name='name'/>
         <ErrorMessage name='name' component='div' />
@@ -51,7 +66,21 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderContactForm = (contact: IContact, noDelete?: boolean) => {
     return(
-      <FormPanel key={contact.id} formValues={contact} clearActionValues={{ address: '', company: '', email: '', firstname: '', lastname: '', phone: '', phoneAvailable: '', pictureUrl: ''}}>
+      <FormPanel
+        key={contact.id}
+        formValues={{
+          id: contact.id,
+          address: contact.address,
+          company: contact.company,
+          email: contact.email,
+          firstname: contact.firstname,
+          lastname: contact.lastname,
+          phone: contact.phone,
+          phoneAvailable: contact.phoneAvailable,
+          pictureUrl: contact.pictureUrl
+        }}
+        serviceType={ServiceType.CONTACT}
+      >
         <div className='form-label'>Firstname</div>
         <Field className='form-input' placeholder='Firstname' type='text' name='firstname'/>
         <ErrorMessage name='fistname' component='div' />
@@ -82,7 +111,18 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderProjectForm = (project: IProject) => {
     return (
-      <FormPanel key={project.id} formValues={project} clearActionValues={{ description: '', githubUrl: '', name: '', showcaseUrl: '', thumbnailUrl: '' }}>
+      <FormPanel
+        key={project.id}
+        formValues={{
+          id: project.id,
+          description: project.description,
+          githubUrl: project.githubUrl,
+          name: project.name,
+          showcaseUrl: project.showcaseUrl,
+          thumbnailUrl: project.thumbnailUrl
+        }}
+        serviceType={ServiceType.PROJECT}
+      >
         <div className='form-label'>Name</div>
         <Field className='form-input' placeholder='Name' type='text' name='name'/>
         <ErrorMessage name='name' component='div' />
@@ -105,8 +145,12 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
   const renderExperienceForm = (experience: IExperience) => {
     return(
       <FormPanelExperience
-        formValues={experience}
-        clearActionValues={{ description: '', name: '', timeFrame: { startDate: new Date(), endDate: new Date() } }}
+        formValues={{
+          id: experience.id,
+          description: experience.description,
+          name: experience.name,
+          timeFrame: experience.timeFrame,
+        }}
         key={experience.id}
       /> 
     )
@@ -114,7 +158,15 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   if (cv) { return (
     <div className='cvFormContainer'>
-      <FormPanel formValues={{ id:cv.id, name: cv.name, github: cv.github, techlist: cv.techlist }} clearActionValues={{name: '', github: '', techlist: '' }}>
+      <FormPanel
+        formValues={{
+          id: cv.id,
+          name: cv.name,
+          github: cv.github,
+          techlist: cv.techlist
+        }}
+        serviceType={ServiceType.CV}
+      >
         <div className='form-label'>Name</div>
         <Field className='form-input' placeholder='CV name' type='text' name='name' />
         <ErrorMessage name='name' component='div' />

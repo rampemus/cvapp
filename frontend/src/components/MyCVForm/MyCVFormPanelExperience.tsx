@@ -2,16 +2,17 @@ import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import MyCVFormDateSelector from './MyCVFormDateSelector'
 import { DeleteButton, ClearButton, CancelButton, SaveButton } from './MyCVFormPanelButtons'
+import { ServiceType } from '../../services/cvService'
 
 interface OwnProps {
     formValues: any,
-    clearActionValues: any
 }
 
 const MyCVFormPanelExperience: React.FC<OwnProps> = (props) => {
 
     const experience = props.formValues
-    const clearActionValues = props.clearActionValues
+    const clearActionValues = { description: '', name: '', timeFrame: { startDate: new Date(), endDate: new Date()} }
+    const serviceType = ServiceType.EXPERIENCE
 
     return (
       <Formik

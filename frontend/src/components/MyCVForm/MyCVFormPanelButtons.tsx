@@ -1,4 +1,5 @@
 import React from 'react'
+import cvService, { ServiceType } from '../../services/cvService'
 
 interface DeleteProps {
   isSubmitting: boolean,
@@ -15,9 +16,9 @@ const DeleteButton: React.FC<DeleteProps> = (props) => {
 
 interface ClearProps {
   isSubmitting: boolean,
-  values: any[],
-  clearActionValues: any[],
-  setValues(values: any[]): void,
+  values: any,
+  clearActionValues: any,
+  setValues(values: any): void,
 }
 
 const ClearButton: React.FC<ClearProps> = (props) => {
@@ -39,8 +40,8 @@ const ClearButton: React.FC<ClearProps> = (props) => {
 
 interface CancelProps {
   isSubmitting: boolean,
-  setValues(values: any[]): void,
-  formValues: any[],
+  setValues(values: any): void,
+  formValues: any,
 }
 
 const CancelButton: React.FC<CancelProps> = (props) => {
@@ -67,7 +68,10 @@ interface SaveProps {
 const SaveButton: React.FC<SaveProps> = (props) => {
   const { isSubmitting } = props
   return(
-    <button className='form-save-button form-button' type='submit' disabled={isSubmitting}>
+    <button
+      className='form-save-button form-button'
+      type='submit' disabled={isSubmitting}
+    >
       Save
     </button>
   )

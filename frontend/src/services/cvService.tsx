@@ -82,7 +82,8 @@ export enum ServiceType {
     PROFILE = '/profile',
     EXPERIENCE = '/experience',
     COMMUNICATION = '/communication',
-    INFO = '/info'
+    INFO = '/info',
+    PROJECT = '/project'
 }
 
 interface getAllCVResponse extends AxiosResponse {
@@ -94,8 +95,13 @@ const createObject = (type: ServiceType, object: ICV | IContact | IProfile | IEx
     console.log('created?:', type, object) 
 }
 
-const replaceObject = (type: ServiceType, id: string, object: ICV | IContact | IProfile | IExperience | ICommunication | IInfo ) => {
-    console.log('replace?', type, id, object)
+const modifyObject = (type: ServiceType, id: string, object: any ) => {
+    const changes = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id'))
+    console.log(`axios.put(${baseUrl} + ${type}, { changes, ${id} },getConfigHeader()`, changes)
+    const request = axios.put(baseUrl + type, { changes, id },getConfigHeader())
+    return request.then((response:any) => {
+        return response.data
+    })
 }
 
 const deleteObject = (type: ServiceType, id: string) => {
@@ -119,4 +125,4 @@ const getAllCV = () => {
     })
 }
 
-export default { createObject, replaceObject, deleteObject, getAllCV}
+export default { createObject, modifyObject, deleteObject, getAllCV }

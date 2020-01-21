@@ -1,16 +1,17 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import { DeleteButton, ClearButton, CancelButton, SaveButton } from './MyCVFormPanelButtons'
+import { ServiceType } from '../../services/cvService'
 
 interface OwnProps {
     formValues: any,
-    clearActionValues: any
 }
 
 const MyCVFormPanelCommunication: React.FC<OwnProps> = (props) => {
 
   const communication = props.formValues
-  const clearActionValues = props.clearActionValues
+  const clearActionValues = { name: '', languages: [{ language: '', level: '' }], content: [''] }
+  const serviceType = ServiceType.COMMUNICATION
 
   return (
     <Formik
@@ -47,7 +48,7 @@ const MyCVFormPanelCommunication: React.FC<OwnProps> = (props) => {
           <DeleteButton isSubmitting={isSubmitting} />
           <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
           <CancelButton isSubmitting={isSubmitting} setValues={setValues} formValues={communication} />
-          <SaveButton isSubmitting={isSubmitting} />
+          <SaveButton isSubmitting={isSubmitting}/>
         </Form>
       )}
     </Formik>

@@ -15,7 +15,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 mongoose.set('useCreateIndex', true)
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false})
 
 userExists(ROOT_USERNAME).then((response) => {
   if (!response) {

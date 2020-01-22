@@ -1,51 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Toolbar from './Toolbar'
 import { AppState } from '..'
 import { connect } from 'react-redux'
 import './MyCV.css'
-import cvService, { ICV } from '../services/cvService'
+import { ICV } from '../services/cvService'
 import { Link, Route, useLocation } from 'react-router-dom'
 import MyCVForm from './MyCVForm'
+import { UserState } from '../reducers/userReducer'
 
 interface OwnProps {}
-export interface StateProps {}
+export interface StateProps { user?: UserState, cvs?: ICV[] }
 export interface DispatchProps {}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
-        user: state.user
+        user: state.user,
+        cvs: state.cv.cvs
     }
 }
 
-const mapDispatchToProps: DispatchProps = { }
+// const mapDispatchToProps: DispatchProps = {}
 
 type Props = OwnProps & StateProps & DispatchProps
 
-const MyCV: React.FC = (props) => {
+const MyCV: React.FC<Props> = (props) => {
 
-    const [myCVs, setMyCVs] = useState<ICV[]>([])
     const location = useLocation()
     const formActive = location.pathname.includes('/mycv/') ? false : true
+    const myCVs = props.cvs ? props.cvs : []
 
-    useEffect(() => {
-        updateCVs()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    const updateCVs = () => {
-        cvService.getAllCV().then(response => {
-            setMyCVs(response)
-        })
-    }
-
-    const renderForm = (CVs: ICV[]) => {
-        if ( CVs ) {
-            return (
-                <Route exact path="/mycv/:id" render={({ match }) => 
-                    <MyCVForm cv={myCVs.find(cv => { return cv.id === match.params.id })}/>
-                }/>
-            )
-        }
+    const renderForm = (cvs: ICV[]) => {
+        return (
+            <Route exact path="/mycv/:id" render={({ match }) => 
+                <MyCVForm cv={cvs.find(cv => { return cv.id === match.params.id })}/>
+            }/>
+        )
     }
 
     return(
@@ -59,7 +48,7 @@ const MyCV: React.FC = (props) => {
                 </div>
             </Toolbar>
             <p>CV selector here</p>
-            {myCVs.map( cv => {
+            {myCVs.map((cv:ICV) => {
                 return(
                     <Link to={`/mycv/${cv.id}`} key={cv.id}>{cv.name}</Link> 
                 )
@@ -70,5 +59,5 @@ const MyCV: React.FC = (props) => {
     )
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(MyCV)
+export default connect(mapStateToProps,null)(MyCV)
 

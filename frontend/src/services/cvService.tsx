@@ -97,7 +97,6 @@ const createObject = (type: ServiceType, object: ICV | IContact | IProfile | IEx
 
 const modifyObject = (type: ServiceType, id: string, object: any ) => {
     const changes = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id'))
-    console.log(`axios.put(${baseUrl} + ${type}, { changes, ${id} },getConfigHeader()`, changes)
     const request = axios.put(baseUrl + type, { changes, id },getConfigHeader())
     return request.then((response:any) => {
         return response.data
@@ -111,7 +110,7 @@ const deleteObject = (type: ServiceType, id: string) => {
 const getAllCV = () => {
     const request = axios.get(baseUrl, getConfigHeader())
     return request.then((response: getAllCVResponse) => {
-        console.log('formatted data will be handling this:',response.data)
+        // console.log('formatted data will be handling this:',response.data)
         // format data to match ICV interface (mongoose wiggles the non required values to arrays)
         const formattedData = response.data.map((cv:any) => {
             return { ...cv,

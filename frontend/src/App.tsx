@@ -13,10 +13,13 @@ import NotificationArea from './components/NotificationArea'
 import { connect } from 'react-redux'
 import { AppState } from '.'
 import { UserState } from './reducers/userReducer'
+import { updateCVs } from './reducers/cvReducer'
 
 interface OwnProps { }
 export interface StateProps { user?: UserState }
-export interface DispatchProps { }
+export interface DispatchProps {
+  updateCVs: Function
+}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -24,7 +27,9 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-// const mapDispatchToProps = { }
+const mapDispatchToProps: DispatchProps = {
+  updateCVs
+}
 
 type Props = OwnProps & StateProps & DispatchProps
 
@@ -38,6 +43,8 @@ const App: React.FC<Props> = (props) => {
     if ( content ) {
       setHeight(content.clientHeight)
     }
+    props.updateCVs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const content = () => {
@@ -74,4 +81,4 @@ const App: React.FC<Props> = (props) => {
 }
 
 
-export default connect(mapStateToProps,null)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

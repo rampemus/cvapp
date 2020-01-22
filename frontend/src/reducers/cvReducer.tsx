@@ -1,10 +1,10 @@
-import { ICV } from "../services/cvService"
+import cvService, { ICV } from "../services/cvService"
 
 interface cvState {
     cvs: ICV[],
 }
 
-interface CVsAction {
+interface CVAction {
     type: string,
     data: any
 }
@@ -171,21 +171,42 @@ const initState: cvState = {
     ]
 }
 
-const cvReducer = (state: cvState = initState, action: CVsAction) => {
+const cvReducer = (state: cvState = initState, action: CVAction) => {
     switch (action.type) {
-    case 'SET_STATE': {
-        return action.data
-    }
-    default: return state
+        case 'UPDATE_CVS': {
+            return action.data
+        }
+        // case 'UPDATE_CV': {
+        //     const id = action.data.id
+        //     const changes = action.data.changes
+        //     const newState = { cvs: state.cvs.map( (cv: ICV) => {
+        //         if (cv.id === id) {
+        //             return { ...cv, ...changes }
+        //         } else {
+        //             return cv
+        //         }
+        //     }) }
+        // }
+        default: return state
     }
 }
 
 export const updateCVs = () => {
-    const action: CVsAction = {
-        type: 'UPDATE_CVS',
-        data: null
+    return async (dispatch:any) => {
+        const action: CVAction = {
+            type: 'UPDATE_CVS',
+            data: { cvs: await cvService.getAllCV() }
+        }
+        dispatch(action)
     }
-    return action
 }
+
+// export const modifyCV = (id:string, changes:any) => {
+//     const action: CVAction = {
+//         type: 'UPDATE_CV',
+//         data: { id, changes }
+//     }
+//     return action
+// }
 
 export default cvReducer

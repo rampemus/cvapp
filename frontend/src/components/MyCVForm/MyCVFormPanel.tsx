@@ -8,7 +8,7 @@ import { updateCVs, addEmptyCVObject, CVAction } from '../../reducers/cvReducer'
 
 interface OwnProps {
   formValues?: Object,
-  field?: string,
+  field: string,
   serviceType: ServiceType,
   children?: any,
 }
@@ -32,14 +32,22 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
   const clearActionValues = props.formValues ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key,value] : [key, ''])) : null
   const serviceType = props.serviceType
   const location = useLocation()
+  const field = props.field
 
-  if (formValues) { return(
+  if (formValues) { 
+    return(
       <Formik
         initialValues={{ ...formValues }}
         enableReinitialize
         onSubmit={(values, { setSubmitting }) => {
-            if ( values.id === 'noid') {
-              console.log('noid submit is not handled')
+            if ( values.id.includes('noid')) {
+              const path = location.pathname
+              const id = path.substring('/myCV/'.length)
+              console.log('MyCVFormPanel',props.field)
+              cvService.createObject(serviceType, values, id, field).then(response => {
+                props.updateCVs()
+                setSubmitting(false)
+              })
             } else {
               const changes = Object.fromEntries(Object.entries(values).filter(([key, value]) => formValues[key] !== value))
               cvService.modifyObject(serviceType, values.id, changes).then(response => {
@@ -48,14 +56,21 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
               })
             }
           }}
-          key={formValues.id}
+          key={formValues.id + field }
         >
         {({ isSubmitting, values, setValues }) => (
           <Form className='form-component'>
 
             {props.children}
 
-            <DeleteButton isSubmitting={isSubmitting}/>
+            <DeleteButton isSubmitting={isSubmitting} handleDelete={(event:any)=>{
+              event.preventDefault()
+              if ( values.id.includes('noid') ) {
+                
+              } else {
+                cvService.deleteObject(serviceType, values.id)
+              }
+            }}/>
             <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues}/>
             <CancelButton isSubmitting={isSubmitting} setValues={setValues} formValues={formValues}/>
             <SaveButton isSubmitting={isSubmitting}/>
@@ -70,7 +85,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
       onClick={()=>{
         const path = location.pathname
         const id = path.substring('/myCV/'.length)
-        props.addEmptyCVObject(id, props.field || '')
+        props.addEmptyCVObject(id, field)
       }}>
         <img src='plus.svg' width='100px' height='100px' alt='add' />
       </div>

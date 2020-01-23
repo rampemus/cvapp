@@ -91,8 +91,13 @@ interface getAllCVResponse extends AxiosResponse {
     // | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
 }
 
-const createObject = (type: ServiceType, object?: ICV | IContact | IProfile | IExperience | ICommunication | IInfo ) => {
-    console.log('created?:', type, object) 
+const createObject = (type: ServiceType, object: any, id:string, field?:string) => {
+     const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== '') )
+    const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : ''} }, getConfigHeader())
+     return request.then((response:any) => {
+         console.log(response.data)
+         return response.data
+     })
 }
 
 const modifyObject = (type: ServiceType, id: string, object: any ) => {
@@ -104,7 +109,10 @@ const modifyObject = (type: ServiceType, id: string, object: any ) => {
 }
 
 const deleteObject = (type: ServiceType, id: string) => {
-    console.log('Delete?:', type, id)
+    const request = axios.delete(baseUrl + type + '/' + id, getConfigHeader())
+    return request.then((response:any) => {
+        return response.data
+    })
 }
 
 const getAllCV = () => {

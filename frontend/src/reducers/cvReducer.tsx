@@ -188,7 +188,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           startDate: new Date(),
           endDate: new Date(),
         },
-        id: 'noid',
+        id: 'noid' + Math.floor((Math.random() * 1000) + 1),
       }
       switch(action.data.field) {
         case 'experience':
@@ -223,7 +223,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
                   phone: '',
                   phoneAvailable: '',
                   pictureUrl: '',
-                  id: 'noid'
+                  id: 'noid' + Math.floor((Math.random() * 1000) + 1),
                 }
                 return { ...cv, reference: cv.reference ? cv.reference.concat(emptyContact) : new Array(emptyContact) }
               } else {
@@ -244,7 +244,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
                     owner: cv.owner,
                     showcaseUrl: '',
                     thumbnailUrl: '',
-                    id: 'noid',
+                    id: 'noid' + Math.floor((Math.random() * 1000) + 1),
                   }
                   return { ...cv, projects: cv.projects ? cv.projects.concat(emptyProject) : new Array(emptyProject) }
                 } else {
@@ -259,6 +259,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
         // case 'skills':
         // case 'info':
         // case 'attachments':
+        // TODO: handle REMOVE_EMPTY_OBJECT
         default:
           return state
       }
@@ -294,6 +295,13 @@ export const addEmptyCVObject = (id:string, field:string) => {
     data: { id, field }
   }
   return action
+}
+
+export const removeNonSavedObject = (id:string, field:string, objectId: string) => {
+  const action: CVAction = {
+    type: 'REMOVE_EMPTY_OBJECT',
+    data: { cv: {id, field: {id: objectId} } }
+  }
 }
 
 // export const modifyCV = (id:string, changes:any) => {

@@ -3,12 +3,13 @@ import cvService, { ServiceType } from '../../services/cvService'
 
 interface DeleteProps {
   isSubmitting: boolean,
+  handleDelete(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void,
 }
 
 const DeleteButton: React.FC<DeleteProps> = (props) => {
   const { isSubmitting } = props
   return(
-    <button className='form-delete-button form-button' type='submit' disabled={isSubmitting}>
+    <button className='form-delete-button form-button' type='submit' onClick={props.handleDelete} disabled={isSubmitting}>
       Delete
     </button>
   )

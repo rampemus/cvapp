@@ -14,7 +14,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const cv = props.cv
 
-  const renderProfileForm = (profile:IProfile) => (
+  const renderProfileForm = (profile:IProfile, field: string) => (
     <FormPanel
       formValues={{
         id: profile.id,
@@ -22,6 +22,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         content: profile.content,
       }}
       serviceType={ServiceType.PROFILE}
+      field={field}
     >
       <div className='form-label'>Name</div>
       <Field className='form-input' placeholder='Name' type='text' name='name' />
@@ -32,7 +33,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
     </FormPanel>
   )
 
-  const renderCommunicationForm = (communication:ICommunication) => { return (
+  const renderCommunicationForm = (communication:ICommunication, field: string) => { return (
     <FormPanelCommunication
       formValues={{
         id: communication.id,
@@ -45,7 +46,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
     )
   }
 
-  const renderInfoForm = (info: IInfo) => {
+  const renderInfoForm = (info: IInfo, field: string) => {
     return(
       <FormPanel
         formValues={{
@@ -54,6 +55,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           content: info.content
         }}
         serviceType={ServiceType.INFO}
+        field={field}
       >
         <div className='form-label'>Name</div>
         <Field className='form-input' placeholder='Name' type='text' name='name'/>
@@ -65,7 +67,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
     )
   }
 
-  const renderContactForm = (contact: IContact, noDelete?: boolean) => {
+  const renderContactForm = (contact: IContact, field: string) => {
     return(
       <FormPanel
         key={contact.id}
@@ -81,6 +83,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           pictureUrl: contact.pictureUrl
         }}
         serviceType={ServiceType.CONTACT}
+        field={field}
       >
         <div className='form-label'>Firstname</div>
         <Field className='form-input' placeholder='Firstname' type='text' name='firstname'/>
@@ -110,7 +113,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
     )
   }
 
-  const renderProjectForm = (project: IProject) => {
+  const renderProjectForm = (project: IProject, field: string) => {
     return (
       <FormPanel
         key={project.id}
@@ -123,6 +126,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           thumbnailUrl: project.thumbnailUrl
         }}
         serviceType={ServiceType.PROJECT}
+        field={field}
       >
         <div className='form-label'>Name</div>
         <Field className='form-input' placeholder='Name' type='text' name='name'/>
@@ -143,7 +147,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
     )
   }
 
-  const renderExperienceForm = (experience: IExperience) => {
+  const renderExperienceForm = (experience: IExperience, field: string) => {
     return(
       <FormPanelExperience
         formValues={{
@@ -167,6 +171,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           techlist: cv.techlist
         }}
         serviceType={ServiceType.CV}
+        field=''
       >
         <div className='form-label'>Name</div>
         <Field className='form-input' placeholder='CV name' type='text' name='name' />
@@ -180,37 +185,37 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       </FormPanel>
         
       <h3>Contact*</h3>
-      {renderContactForm(cv.contact, true)}
+      {renderContactForm(cv.contact, 'contact')}
       <h3>Profile</h3>
-      {cv.profile && renderProfileForm(cv.profile)}
+      {cv.profile && renderProfileForm(cv.profile, 'profile')}
       <h3>Projects</h3>
       <div className='projects-container'>
-        {cv.projects && cv.projects.map((project) => renderProjectForm(project))}
+        {cv.projects && cv.projects.map((project) => renderProjectForm(project, 'projects'))}
         <FormPanel serviceType={ServiceType.PROJECT} field='projects'/>
       </div>
       <h3>References</h3>
       <div className='projects-container'>
-        {cv.reference && cv.reference.map((ref) => renderContactForm(ref))}
+        {cv.reference && cv.reference.map((ref) => renderContactForm(ref, 'reference'))}
         <FormPanel serviceType={ServiceType.CONTACT} field='reference'/>
       </div>
       <h3>Work experience</h3>
       <div className='projects-container'>
-        {cv.experience && cv.experience.map((exp) => renderExperienceForm(exp))}
+        {cv.experience && cv.experience.map((exp) => renderExperienceForm(exp, 'experience'))}
         <FormPanel serviceType={ServiceType.EXPERIENCE} field='experience'/>
       </div>
       <h3>Education</h3>
       <div className='projects-container'>
-        {cv.education && cv.education.map((edu) => renderExperienceForm(edu))}
+        {cv.education && cv.education.map((edu) => renderExperienceForm(edu, 'education'))}
         <FormPanel serviceType={ServiceType.EXPERIENCE} field='education'/>
       </div>
       <h3>Communication</h3>
-      {cv.communication && renderCommunicationForm(cv.communication)}
+      {/* {cv.communication && renderCommunicationForm(cv.communication)} */}
       <h3>Other skills</h3>
-      {cv.skills && renderInfoForm(cv.skills)}
+      {cv.skills && renderInfoForm(cv.skills, 'skills')}
       <h3>Info</h3>
-      {cv.info && renderInfoForm(cv.info)}
+      {cv.info && renderInfoForm(cv.info, 'info')}
       <h3>Attachments</h3>
-      {cv.attachments && renderInfoForm(cv.attachments)}
+      {cv.attachments && renderInfoForm(cv.attachments, 'attachments')}
     </div>
   )
 } else {

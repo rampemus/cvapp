@@ -59,7 +59,7 @@ const MyCVFormPanelExperience: React.FC<OwnProps> = (props) => {
           <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='description' disabled={isSubmitting} />
           <ErrorMessage name='description' component='div' />
 
-          <DeleteButton isSubmitting={isSubmitting} />
+          <DeleteButton isSubmitting={isSubmitting} handleDelete={() => { }}/>
           <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
           <CancelButton isSubmitting={isSubmitting} setValues={setValues} formValues={experience} />
           <SaveButton isSubmitting={isSubmitting} />

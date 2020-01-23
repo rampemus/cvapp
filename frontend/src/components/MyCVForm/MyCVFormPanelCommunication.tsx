@@ -45,7 +45,7 @@ const MyCVFormPanelCommunication: React.FC<OwnProps> = (props) => {
           <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
           <ErrorMessage name='content' component='div' />
           
-          <DeleteButton isSubmitting={isSubmitting} />
+          <DeleteButton isSubmitting={isSubmitting} handleDelete={()=>{}}/>
           <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
           <CancelButton isSubmitting={isSubmitting} setValues={setValues} formValues={communication} />
           <SaveButton isSubmitting={isSubmitting}/>

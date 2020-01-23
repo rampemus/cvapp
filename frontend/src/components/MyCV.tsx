@@ -48,11 +48,9 @@ const MyCV: React.FC<Props> = (props) => {
                 </div>
             </Toolbar>
             <p>CV selector here</p>
-            {myCVs.map((cv:ICV) => {
-                return(
-                    <Link to={`/mycv/${cv.id}`} key={cv.id}>{cv.name}</Link> 
-                )
-            })}
+            {myCVs.map((cv:ICV) => 
+                <Link to={`/mycv/${cv.id}`} key={cv.id}>{cv.name}</Link> 
+            )}
             <button>add new cv</button>
             {renderForm(myCVs)}
         </div>

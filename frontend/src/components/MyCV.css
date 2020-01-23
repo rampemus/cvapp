@@ -1,8 +1,9 @@
-.cvFormContainer > form {
+.cvFormContainer form {
   background-color:rgb(238, 238, 238);
   padding: 8px;
   padding-left: 10px;
   border-radius: 10px;
+  margin-right: 10px;
 }
 
 .year-selector {
@@ -48,13 +49,41 @@
   grid-column-end: -1;
 }
 
+.projects-container {
+  display:flex;
+  flex-wrap: wrap;
+}
+
 .form-component {
   margin-top: 5px;
   margin-bottom: 5px;
-  width: 524px;
+  width: 522px;
 
   display: grid;
   grid-template-columns: 120px auto auto 20px auto auto
+}
+
+.form-component-empty {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 538px;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px rgb(238, 238, 238);
+}
+
+.form-component-empty:hover {
+  border: solid 2px white;
+  color: white;
+  fill:rgb(255, 255, 255);
+}
+
+.form-component-empty:hover svg .st0 {
+  fill:rgb(255, 255, 255);
+  color: white;
 }
 
 .form-label {

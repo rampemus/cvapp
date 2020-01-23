@@ -45,7 +45,7 @@ export interface IProfile {
     name: string,
     id: string,
     content: string[],
-    owner: IUser,
+    owner?: IUser,
 }
 
 export interface IProject {
@@ -91,7 +91,7 @@ interface getAllCVResponse extends AxiosResponse {
     // | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
 }
 
-const createObject = (type: ServiceType, object: ICV | IContact | IProfile | IExperience | ICommunication | IInfo ) => {
+const createObject = (type: ServiceType, object?: ICV | IContact | IProfile | IExperience | ICommunication | IInfo ) => {
     console.log('created?:', type, object) 
 }
 

@@ -1,10 +1,10 @@
-import cvService, { ICV } from "../services/cvService"
+import cvService, { ICV, IExperience, IContact, IProject } from "../services/cvService"
 
 interface cvState {
     cvs: ICV[],
 }
 
-interface CVAction {
+export interface CVAction {
     type: string,
     data: any
 }
@@ -176,6 +176,93 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
         case 'UPDATE_CVS': {
             return action.data
         }
+        case 'ADD_EMPTY_OBJECT': {
+            const cv = state.cvs.find((cv:ICV) => cv.id === action.data.id )
+            if (!cv) return state
+
+            const emptyExperience: IExperience = {
+                description: '',
+                name: '',
+                owner: cv.owner,
+                timeFrame: {
+                    startDate: new Date(),
+                    endDate: new Date(),
+                },
+                id: 'noid',
+            }
+            switch(action.data.field) {
+                case 'experience':
+                    return { cvs: state.cvs.map((cvObject: ICV) => {
+                        if ( cvObject.id === cv.id ) {
+                            return { ...cv, experience: cv.experience ? cv.experience.concat(emptyExperience) : new Array(emptyExperience) }
+                        } else {
+                            return cvObject
+                        }
+                    }) }
+                case 'education':
+                    return {
+                        cvs: state.cvs.map((cvObject: ICV) => {
+                            if (cvObject.id === cv.id) {
+                                return { ...cv, education: cv.education ? cv.education.concat(emptyExperience) : new Array(emptyExperience) }
+                            } else {
+                                return cvObject
+                            }
+                        })
+                    }
+                case 'reference':
+                    return {
+                        cvs: state.cvs.map((cvObject: ICV) => {
+                            if (cvObject.id === cv.id) {
+                                const emptyContact: IContact = {
+                                    owner: cv.owner,
+                                    address: '',
+                                    company: '',
+                                    email: '',
+                                    firstname: '',
+                                    lastname: '',
+                                    phone: '',
+                                    phoneAvailable: '',
+                                    pictureUrl: '',
+                                    id: 'noid'
+                                }
+                                return { ...cv, reference: cv.reference ? cv.reference.concat(emptyContact) : new Array(emptyContact) }
+                            } else {
+                                return cvObject
+                            }
+                        })
+                    }
+                case 'projects':
+                    {
+                        console.log('project recieved')
+                        return {
+                            cvs: state.cvs.map((cvObject: ICV) => {
+                                if (cvObject.id === cv.id) {
+                                    const emptyProject: IProject = {
+                                        description: '',
+                                        githubUrl: '',
+                                        name: '',
+                                        owner: cv.owner,
+                                        showcaseUrl: '',
+                                        thumbnailUrl: '',
+                                        id: 'noid',
+                                    }
+                                    return { ...cv, projects: cv.projects ? cv.projects.concat(emptyProject) : new Array(emptyProject) }
+                                } else {
+                                    return cvObject
+                                }
+                            })
+                        }
+                    }
+                // case 'profile':
+                // case 'contact':
+                // case 'communication':
+                // case 'skills':
+                // case 'info':
+                // case 'attachments':
+                default:
+                    return state
+            }
+        }
         // case 'UPDATE_CV': {
         //     const id = action.data.id
         //     const changes = action.data.changes
@@ -199,6 +286,14 @@ export const updateCVs = () => {
         }
         dispatch(action)
     }
+}
+
+export const addEmptyCVObject = (id:string, field:string) => {
+    const action: CVAction = {
+        type: 'ADD_EMPTY_OBJECT',
+        data: { id, field }
+    }
+    return action
 }
 
 // export const modifyCV = (id:string, changes:any) => {

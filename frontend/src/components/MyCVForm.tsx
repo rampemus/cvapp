@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Field, ErrorMessage } from 'formik'
 import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
 import FormPanel from './MyCVForm/MyCVFormPanel'
@@ -12,9 +12,9 @@ interface OwnProps {
 
 const MyCVForm: React.FC<OwnProps> = (props) => {
 
-  const { cv } = props
+  const cv = props.cv
 
-  const renderProfileForm = (profile:IProfile) => { return (
+  const renderProfileForm = (profile:IProfile) => (
     <FormPanel
       formValues={{
         id: profile.id,
@@ -30,7 +30,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
       <ErrorMessage name='content' component='div' />
     </FormPanel>
-  )}
+  )
 
   const renderCommunicationForm = (communication:ICommunication) => { return (
     <FormPanelCommunication
@@ -42,7 +42,8 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       }}
       key={communication.id}
     />
-  )}
+    )
+  }
 
   const renderInfoForm = (info: IInfo) => {
     return(
@@ -183,13 +184,25 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       <h3>Profile</h3>
       {cv.profile && renderProfileForm(cv.profile)}
       <h3>Projects</h3>
-      {cv.projects && cv.projects.map((project) => renderProjectForm(project))}
+      <div className='projects-container'>
+        {cv.projects && cv.projects.map((project) => renderProjectForm(project))}
+        <FormPanel serviceType={ServiceType.PROJECT} field='projects'/>
+      </div>
       <h3>References</h3>
-      {cv.reference && cv.reference.map((ref) => renderContactForm(ref))}
+      <div className='projects-container'>
+        {cv.reference && cv.reference.map((ref) => renderContactForm(ref))}
+        <FormPanel serviceType={ServiceType.CONTACT} field='reference'/>
+      </div>
       <h3>Work experience</h3>
-      {cv.experience && cv.experience.map((exp) => renderExperienceForm(exp))}
+      <div className='projects-container'>
+        {cv.experience && cv.experience.map((exp) => renderExperienceForm(exp))}
+        <FormPanel serviceType={ServiceType.EXPERIENCE} field='experience'/>
+      </div>
       <h3>Education</h3>
-      {cv.education && cv.education.map((edu) => renderExperienceForm(edu))}
+      <div className='projects-container'>
+        {cv.education && cv.education.map((edu) => renderExperienceForm(edu))}
+        <FormPanel serviceType={ServiceType.EXPERIENCE} field='education'/>
+      </div>
       <h3>Communication</h3>
       {cv.communication && renderCommunicationForm(cv.communication)}
       <h3>Other skills</h3>

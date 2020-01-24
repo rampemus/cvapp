@@ -218,7 +218,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       {cv.info ? renderInfoForm(cv.info, 'info') : <FormPanel serviceType={ServiceType.INFO} field='info' />}
       <h3>Attachments</h3>
       {cv.attachments ? renderInfoForm(cv.attachments, 'attachments') : <FormPanel serviceType={ServiceType.INFO} field='attachments' />}
-      {!cv.attachments && <p style={{height: '134px'}}/>}
+      {!cv.attachments && <p style={{height: '110px'}}/>}
     </div>
   )
 } else {

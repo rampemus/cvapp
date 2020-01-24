@@ -186,10 +186,10 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         <ErrorMessage name='techlist' component='div' />
       </FormPanel>
         
-      <h3>Contact*</h3>
+      <h3>Contact</h3>
       {renderContactForm(cv.contact, 'contact')}
       <h3>Profile</h3>
-      {cv.profile && renderProfileForm(cv.profile, 'profile')}
+      {cv.profile ? renderProfileForm(cv.profile, 'profile') : <FormPanel serviceType={ServiceType.PROFILE} field='profile' />}
       <h3>Projects</h3>
       <div className='projects-container'>
         {cv.projects && cv.projects.map((project) => renderProjectForm(project, 'projects'))}
@@ -211,16 +211,14 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         <FormPanel serviceType={ServiceType.EXPERIENCE} field='education'/>
       </div>
       <h3>Communication</h3>
-      {cv.communication && renderCommunicationForm(cv.communication, 'communication')}
+      {cv.communication ? renderCommunicationForm(cv.communication, 'communication') : <FormPanel serviceType={ServiceType.COMMUNICATION} field='communication'/>}
       <h3>Other skills</h3>
-      {cv.skills && renderInfoForm(cv.skills, 'skills')}
+      {cv.skills ? renderInfoForm(cv.skills, 'skills') : <FormPanel serviceType={ServiceType.INFO} field='skills' />}
       <h3>Info</h3>
-      {cv.info && renderInfoForm(cv.info, 'info')}
+      {cv.info ? renderInfoForm(cv.info, 'info') : <FormPanel serviceType={ServiceType.INFO} field='info' />}
       <h3>Attachments</h3>
-      {cv.attachments && renderInfoForm(cv.attachments, 'attachments')}
-
-      <p></p>
-      <p></p>
+      {cv.attachments ? renderInfoForm(cv.attachments, 'attachments') : <FormPanel serviceType={ServiceType.INFO} field='attachments' />}
+      {!cv.attachments && <p style={{height: '134px'}}/>}
     </div>
   )
 } else {

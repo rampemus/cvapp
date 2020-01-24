@@ -1,4 +1,4 @@
-import cvService, { ICV, IExperience, IContact, IProject } from "../services/cvService"
+import cvService, { ICV, IExperience, IContact, IProject, IProfile, ICommunication, IInfo } from "../services/cvService"
 
 interface cvState {
   cvs: ICV[],
@@ -171,6 +171,8 @@ const initState: cvState = {
   ]
 }
 
+
+
 const cvReducer = (state: cvState = initState, action: CVAction) => {
   switch (action.type) {
     case 'UPDATE_CVS': {
@@ -180,19 +182,19 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
       const cv = state.cvs.find((cv:ICV) => cv.id === action.data.id )
       if (!cv) return state
 
-      const emptyExperience: IExperience = {
-        description: '',
-        name: '',
-        owner: cv.owner,
-        timeFrame: {
-          startDate: new Date(),
-          endDate: new Date(),
-        },
-        id: 'temp' + Math.floor((Math.random() * 100000) + 1),
-      }
       switch(action.data.field) {
         case 'experience':
           return { cvs: state.cvs.map((cvObject: ICV) => {
+            const emptyExperience: IExperience = {
+              description: '',
+              name: '',
+              owner: cv.owner,
+              timeFrame: {
+                startDate: new Date(),
+                endDate: new Date(),
+              },
+              id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+            }
             if ( cvObject.id === cv.id ) {
               return { ...cv, experience: cv.experience ? cv.experience.concat(emptyExperience) : new Array(emptyExperience) }
             } else {
@@ -203,6 +205,16 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return {
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
+                const emptyExperience: IExperience = {
+                  description: '',
+                  name: '',
+                  owner: cv.owner,
+                  timeFrame: {
+                    startDate: new Date(),
+                    endDate: new Date(),
+                  },
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+                }
                 return { ...cv, education: cv.education ? cv.education.concat(emptyExperience) : new Array(emptyExperience) }
               } else {
                 return cvObject
@@ -232,33 +244,126 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
             })
           }
         case 'projects':
-          {
-            console.log('project recieved')
-            return {
-              cvs: state.cvs.map((cvObject: ICV) => {
-                if (cvObject.id === cv.id) {
-                  const emptyProject: IProject = {
-                    description: '',
-                    githubUrl: '',
-                    name: '',
-                    owner: cv.owner,
-                    showcaseUrl: '',
-                    thumbnailUrl: '',
-                    id: 'temp' + Math.floor((Math.random() * 100000) + 1),
-                  }
-                  return { ...cv, projects: cv.projects ? cv.projects.concat(emptyProject) : new Array(emptyProject) }
-                } else {
-                  return cvObject
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                const emptyProject: IProject = {
+                  description: '',
+                  githubUrl: '',
+                  name: '',
+                  owner: cv.owner,
+                  showcaseUrl: '',
+                  thumbnailUrl: '',
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
                 }
-              })
-            }
+                return { ...cv, projects: cv.projects ? cv.projects.concat(emptyProject) : new Array(emptyProject) }
+              } else {
+                return cvObject
+              }
+            })
           }
-        // case 'profile':
-        // case 'contact':
-        // case 'communication':
-        // case 'skills':
-        // case 'info':
-        // case 'attachments':
+        case 'profile':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                const emptyProfile: IProfile = {
+                  name: '',
+                  content: [''],
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+                }
+                return { ...cv, profile: emptyProfile }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'contact':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                const emptyContact: IContact = {
+                  owner: cv.owner,
+                  address: '',
+                  company: '',
+                  email: '',
+                  firstname: '',
+                  lastname: '',
+                  phone: '',
+                  phoneAvailable: '',
+                  pictureUrl: '',
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+                }
+                return { ...cv, contact: emptyContact }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'communication':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                const emptyCommunication: ICommunication = {
+                  owner: cv.owner,
+                  name: '',
+                  content: [''],
+                  languages: new Array(),
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+                }
+                return { ...cv, communication: emptyCommunication }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'skills':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                const emptyInfo: IInfo = {
+                  owner: cv.owner,
+                  name: '',
+                  content: [''],
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+                }
+                return { ...cv, skills: emptyInfo }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'info':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                const emptyInfo: IInfo = {
+                  owner: cv.owner,
+                  name: '',
+                  content: [''],
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+                }
+                return { ...cv, info: emptyInfo }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'attachments':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                const emptyInfo: IInfo = {
+                  owner: cv.owner,
+                  name: '',
+                  content: [''],
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
+                }
+                return { ...cv, attachments: emptyInfo }
+              } else {
+                return cvObject
+              }
+            })
+          }
         default:
           return state
       }
@@ -299,23 +404,67 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
             })
           }
         case 'projects':
-          {
-            return {
-              cvs: state.cvs.map((cvObject: ICV) => {
-                if (cvObject.id === cv.id) {
-                  return { ...cv, projects: cv.projects ? cv.projects.filter((project: IProject) => project.id !== action.data.objectId) : new Array() }
-                } else {
-                  return cvObject
-                }
-              })
-            }
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, projects: cv.projects ? cv.projects.filter((project: IProject) => project.id !== action.data.objectId) : new Array() }
+              } else {
+                return cvObject
+              }
+            })
           }
-        // case 'profile':
-        // case 'contact':
-        // case 'communication':
-        // case 'skills':
-        // case 'info':
-        // case 'attachments':
+        case 'profile':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, profile: undefined }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'contact':
+          return state // cannot delete contact field
+        case 'communication':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, communication: undefined }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'skills':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, skills: undefined }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'info':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, info: undefined }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'attachments':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, attachments: undefined }
+              } else {
+                return cvObject
+              }
+            })
+          }
         default:
           return state
       }

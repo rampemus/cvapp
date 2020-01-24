@@ -212,7 +212,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
 
             {props.children}
 
-            <DeleteButton isSubmitting={isSubmitting} handleDelete={(event:any)=>{
+            <DeleteButton isSubmitting={isSubmitting || field === 'contact' || field === ''} handleDelete={(event:any)=>{
               event.preventDefault()
               if ( values.id.includes('temp') ) {
                 const path = location.pathname
@@ -220,6 +220,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 props.removeTempCVObject(CVid, field, values.id)
               } else {
                 cvService.deleteObject(serviceType, values.id)
+                props.updateCVs()
               }
             }}/>
             <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues}/>

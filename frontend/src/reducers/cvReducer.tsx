@@ -188,7 +188,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           startDate: new Date(),
           endDate: new Date(),
         },
-        id: 'noid' + Math.floor((Math.random() * 1000) + 1),
+        id: 'temp' + Math.floor((Math.random() * 100000) + 1),
       }
       switch(action.data.field) {
         case 'experience':
@@ -223,7 +223,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
                   phone: '',
                   phoneAvailable: '',
                   pictureUrl: '',
-                  id: 'noid' + Math.floor((Math.random() * 1000) + 1),
+                  id: 'temp' + Math.floor((Math.random() * 100000) + 1),
                 }
                 return { ...cv, reference: cv.reference ? cv.reference.concat(emptyContact) : new Array(emptyContact) }
               } else {
@@ -244,7 +244,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
                     owner: cv.owner,
                     showcaseUrl: '',
                     thumbnailUrl: '',
-                    id: 'noid' + Math.floor((Math.random() * 1000) + 1),
+                    id: 'temp' + Math.floor((Math.random() * 100000) + 1),
                   }
                   return { ...cv, projects: cv.projects ? cv.projects.concat(emptyProject) : new Array(emptyProject) }
                 } else {
@@ -259,7 +259,63 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
         // case 'skills':
         // case 'info':
         // case 'attachments':
-        // TODO: handle REMOVE_EMPTY_OBJECT
+        default:
+          return state
+      }
+    }
+    case 'REMOVE_TEMP_OBJECT': {
+      const cv = state.cvs.find((cv: ICV) => cv.id === action.data.id)
+      if (!cv) return state
+
+      switch (action.data.field) {
+        case 'experience':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, experience: cv.experience ? cv.experience.filter((experience: IExperience) => experience.id !== action.data.objectId) : new Array() }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'education':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, education: cv.education ? cv.education.filter((education: IExperience) => education.id !== action.data.objectId) : new Array() }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'reference':
+          return {
+            cvs: state.cvs.map((cvObject: ICV) => {
+              if (cvObject.id === cv.id) {
+                return { ...cv, reference: cv.reference ? cv.reference.filter((reference: IContact) => reference.id !== action.data.objectId) : new Array() }
+              } else {
+                return cvObject
+              }
+            })
+          }
+        case 'projects':
+          {
+            return {
+              cvs: state.cvs.map((cvObject: ICV) => {
+                if (cvObject.id === cv.id) {
+                  return { ...cv, projects: cv.projects ? cv.projects.filter((project: IProject) => project.id !== action.data.objectId) : new Array() }
+                } else {
+                  return cvObject
+                }
+              })
+            }
+          }
+        // case 'profile':
+        // case 'contact':
+        // case 'communication':
+        // case 'skills':
+        // case 'info':
+        // case 'attachments':
         default:
           return state
       }
@@ -297,11 +353,12 @@ export const addEmptyCVObject = (id:string, field:string) => {
   return action
 }
 
-export const removeNonSavedObject = (id:string, field:string, objectId: string) => {
+export const removeTempCVObject = (id:string, field:string, objectId: string) => {
   const action: CVAction = {
-    type: 'REMOVE_EMPTY_OBJECT',
-    data: { cv: {id, field: {id: objectId} } }
+    type: 'REMOVE_TEMP_OBJECT',
+    data: {id, field, objectId}
   }
+  return action
 }
 
 // export const modifyCV = (id:string, changes:any) => {

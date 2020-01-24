@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Field, ErrorMessage } from 'formik'
 import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
 import FormPanel from './MyCVForm/MyCVFormPanel'
-import FormPanelExperience from './MyCVForm/MyCVFormPanelExperience'
-import FormPanelCommunication from './MyCVForm/MyCVFormPanelCommunication'
 import { ServiceType } from '../services/cvService'
 
 interface OwnProps {
@@ -34,13 +32,15 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
   )
 
   const renderCommunicationForm = (communication:ICommunication, field: string) => { return (
-    <FormPanelCommunication
+    <FormPanel
       formValues={{
         id: communication.id,
         name: communication.name,
         content: communication.content,
         languages: communication.languages
       }}
+      field={field}
+      serviceType={ServiceType.COMMUNICATION}
       key={communication.id}
     />
     )
@@ -149,13 +149,15 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
 
   const renderExperienceForm = (experience: IExperience, field: string) => {
     return(
-      <FormPanelExperience
+      <FormPanel
         formValues={{
           id: experience.id,
           description: experience.description,
           name: experience.name,
           timeFrame: experience.timeFrame,
         }}
+        serviceType={ServiceType.COMMUNICATION}
+        field={field}
         key={experience.id}
       /> 
     )
@@ -209,13 +211,16 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         <FormPanel serviceType={ServiceType.EXPERIENCE} field='education'/>
       </div>
       <h3>Communication</h3>
-      {/* {cv.communication && renderCommunicationForm(cv.communication)} */}
+      {cv.communication && renderCommunicationForm(cv.communication, 'communication')}
       <h3>Other skills</h3>
       {cv.skills && renderInfoForm(cv.skills, 'skills')}
       <h3>Info</h3>
       {cv.info && renderInfoForm(cv.info, 'info')}
       <h3>Attachments</h3>
       {cv.attachments && renderInfoForm(cv.attachments, 'attachments')}
+
+      <p></p>
+      <p></p>
     </div>
   )
 } else {

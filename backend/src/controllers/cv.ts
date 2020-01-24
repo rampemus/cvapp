@@ -145,6 +145,28 @@ cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => 
     response.status(201).json(savedCV)
 })
 
+export interface ISetDefaultCV {
+    cvid: string,
+    userid?: string,
+}
+
+cvRouter.post('/default', async (request: IRequestWithIdentity, response: Response) => {
+    if (request.userGroup !== 'admin') {
+        response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
+    }
+
+    const requestBody: ISetDefaultCV = request.body
+    if (!requestBody.cvid) {
+        response.status(400).json({ error: 'CV id is empty' })
+    }
+
+    const users = await User.find({})
+    await CurriculumVitae.updateMany({}, { default: [] })
+    await CurriculumVitae.updateOne({ _id: requestBody.cvid },
+        { default: users })
+    response.status(200).json({ message: 'marked default for all users, cv id: ' + requestBody.cvid })
+})
+
 cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response) => {
     const owner = await User.findOne({ _id: request.userid })
     switch (request.params.type) {

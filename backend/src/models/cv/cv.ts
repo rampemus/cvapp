@@ -10,6 +10,7 @@ import { IProject } from './project'
 
 export interface ICurriculumVitae extends Document {
     owner: IUser,
+    default?: IUser[],
     name: string,
     github: string,
     techlist: string,
@@ -39,6 +40,10 @@ const cvSchema: Schema = new Schema({
         required: true,
         type: Schema.Types.ObjectId,
     },
+    default: [{
+        ref: 'User',
+        type: Schema.Types.ObjectId,
+    }],
     education: [{
         ref: 'Experience',
         type: Schema.Types.ObjectId,
@@ -80,6 +85,7 @@ const cvSchema: Schema = new Schema({
 cvSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
+        delete returnedObject.default
         delete returnedObject._id
         delete returnedObject.__v
         return returnedObject

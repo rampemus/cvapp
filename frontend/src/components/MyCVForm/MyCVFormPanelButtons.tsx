@@ -1,5 +1,4 @@
 import React from 'react'
-import cvService, { ServiceType } from '../../services/cvService'
 
 interface DeleteProps {
   isSubmitting: boolean,

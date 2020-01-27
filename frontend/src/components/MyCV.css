@@ -1,5 +1,16 @@
+.cv-selector {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cv-item {
+  width: 150px;
+  height: 200px;
+  background-color: rgb(216, 216, 216);
+}
+
 .cvFormContainer form {
-  background-color:rgb(238, 238, 238);
+  background-color: rgb(238, 238, 238);
   padding: 8px;
   padding-left: 10px;
   border-radius: 10px;
@@ -49,7 +60,7 @@
   grid-column-end: -1;
 }
 
-.projects-container {
+.form-component-container {
   display:flex;
   flex-wrap: wrap;
 }

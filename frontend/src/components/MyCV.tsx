@@ -42,15 +42,22 @@ const MyCV: React.FC<Props> = (props) => {
             <Toolbar>
                 <div>
                     <button className='toolbar-button' disabled={formActive}>Clear CV</button>
-                    <button className='toolbar-button'>Duplicate Default CV</button>
+                    <button className='toolbar-button'>Create new</button>
+                    <button className='toolbar-button'>Duplicate Default</button>
                     <button className='toolbar-button' disabled={formActive}>Set As Default CV</button>
                     <button className='toolbar-button' disabled={formActive}>Preview</button>
                 </div>
             </Toolbar>
-            <p>CV selector here</p>
-            {myCVs.map((cv:ICV) => 
-                <Link to={`/mycv/${cv.id}`} key={cv.id}>{cv.name}</Link> 
-            )}
+            <h1>My CV's</h1>
+            <div className='cv-selector'>
+                {myCVs.map((cv:ICV) => 
+                    <Link to={`/mycv/${cv.id}`} key={cv.id}>
+                        <div className='cv-item'>
+                            {cv.name}
+                        </div>
+                    </Link> 
+                )}
+            </div>
             <button>add new cv</button>
             {renderForm(myCVs)}
         </div>

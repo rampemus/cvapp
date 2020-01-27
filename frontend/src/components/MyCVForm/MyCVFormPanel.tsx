@@ -150,9 +150,9 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
             <ErrorMessage name='name' component='div' />
             <div className='form-label'>Languages</div>
             <FieldArray name="languages" render={() => (
-              <div className='language-panel'>
+              <div className='language-panel' key={values.id+'languagepanel'}>
                 {values.languages && values.languages.map((language: any, index: number) => {
-                  return (<div key={language._id} className='language-pair'>
+                  return (<div className='language-pair' key={index + 'language-pair'}>
                     <Field className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
                     <Field className='form-input' name={`languages.${index}.level`} placeholder='Level' />
                   </div>)

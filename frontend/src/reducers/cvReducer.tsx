@@ -307,7 +307,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
                   owner: cv.owner,
                   name: '',
                   content: [''],
-                  languages: new Array(),
+                  languages: [],
                   id: 'temp' + Math.floor((Math.random() * 100000) + 1),
                 }
                 return { ...cv, communication: emptyCommunication }
@@ -377,7 +377,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return {
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
-                return { ...cv, experience: cv.experience ? cv.experience.filter((experience: IExperience) => experience.id !== action.data.objectId) : new Array() }
+                return { ...cv, experience: cv.experience ? cv.experience.filter((experience: IExperience) => experience.id !== action.data.objectId) : [] }
               } else {
                 return cvObject
               }
@@ -387,7 +387,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return {
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
-                return { ...cv, education: cv.education ? cv.education.filter((education: IExperience) => education.id !== action.data.objectId) : new Array() }
+                return { ...cv, education: cv.education ? cv.education.filter((education: IExperience) => education.id !== action.data.objectId) : [] }
               } else {
                 return cvObject
               }
@@ -397,7 +397,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return {
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
-                return { ...cv, reference: cv.reference ? cv.reference.filter((reference: IContact) => reference.id !== action.data.objectId) : new Array() }
+                return { ...cv, reference: cv.reference ? cv.reference.filter((reference: IContact) => reference.id !== action.data.objectId) : [] }
               } else {
                 return cvObject
               }
@@ -407,7 +407,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return {
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
-                return { ...cv, projects: cv.projects ? cv.projects.filter((project: IProject) => project.id !== action.data.objectId) : new Array() }
+                return { ...cv, projects: cv.projects ? cv.projects.filter((project: IProject) => project.id !== action.data.objectId) : [] }
               } else {
                 return cvObject
               }

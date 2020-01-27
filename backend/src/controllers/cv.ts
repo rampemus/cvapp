@@ -108,6 +108,7 @@ interface INewContactBody {
     phoneAvailable?: string,
     pictureUrl?: string,
     cv?: ICVConnect,
+    id?: string,
 }
 
 export interface INewCurriculumVitae {
@@ -133,16 +134,35 @@ export interface IChanges {
 }
 
 cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
-    const contactBody: INewCurriculumVitae = request.body
-    const owner = await (await User.findOne({ _id: request.userid }))
-    const cv = new CurriculumVitae({
-        ...contactBody, owner
-    })
-    const savedCV = await cv.save()
-        .catch((error) => {
-            response.status(400).json({ error: error.message }).end()
+    const cvBody: INewCurriculumVitae = request.body
+    const owner = await User.findOne({ _id: request.userid })
+
+    if (cvBody.contact && cvBody.contact.id) {
+        const cv = new CurriculumVitae({
+            ...cvBody, owner
         })
-    response.status(201).json(savedCV)
+        const savedCV = await cv.save()
+            .catch((error) => {
+                response.status(400).json({ error: error.message }).end()
+            })
+        response.status(201).json(savedCV)
+    } else {
+        const emptyContact = new Contact({ ...cvBody.contact, owner})
+        const savedContact = await emptyContact.save()
+            .catch((error) => {
+                response.status(400).json({ error: error.messages }).end()
+            })
+        const cv = new CurriculumVitae({
+            ...cvBody,
+            contact: savedContact,
+            owner,
+        })
+        const savedCV = await cv.save()
+            .catch((error) => {
+                response.status(400).json({ error: error.message }).end()
+            })
+        response.status(201).json(savedCV)
+    }
 })
 
 export interface ISetDefaultCV {

@@ -1,12 +1,52 @@
 .cv-selector {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
 }
 
-.cv-item {
-  width: 150px;
-  height: 200px;
-  background-color: rgb(216, 216, 216);
+.cv-item div {
+  width: 110px;
+  height: 132px;
+  padding: 20px;
+  padding-top: 30px;
+
+  font-size: 8px;
+  overflow: hidden;
+
+  margin: 2px;
+}
+
+.cv-item :focus, :hover, :visited, :link, :active {
+  text-decoration: none;
+}
+
+.cv-item p {
+  font-size: 3px;
+}
+
+.cv-item button {
+  position: relative;
+  bottom: 180px;
+  left: 95px;
+  opacity: 0;
+}
+
+.cv-item:hover button {
+  opacity: 1;
+}
+
+.cv-selector a img {
+  position: absolute;
+  z-index: -1;
+}
+
+.cv-selector > img {
+  opacity: 0.5;
+}
+
+.cv-selector > img:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .cvFormContainer form {

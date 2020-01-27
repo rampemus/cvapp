@@ -58,12 +58,28 @@ export interface IProject {
     id: string,
 }
 
-export interface ICV {
+export interface ICV extends ICVEmpty {
     owner: IUser,
+    contact: IContact, // single
+    id: string,
+}
+
+interface IContactEmpty {
+    address?: string,
+    company?: string,
+    email?: string,
+    firstname: string,
+    lastname: string,
+    phone?: string,
+    phoneAvailable?: string,
+    pictureUrl?: string,
+}
+
+interface ICVEmpty {
     name: string,
     github?: string,
     techlist?: string,
-    contact: IContact, // single
+    contact: IContactEmpty, // single
     profile?: IProfile, // single
     projects?: IProject[],
     reference?: IContact[],
@@ -73,7 +89,6 @@ export interface ICV {
     skills?: IInfo, // single
     info?: IInfo, // single
     attachments?: IInfo, // single
-    id: string,
 }
 
 export enum ServiceType {
@@ -91,13 +106,26 @@ interface getAllCVResponse extends AxiosResponse {
     // | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
 }
 
+const createEmptyCV = () => {
+    const emptyCV: ICVEmpty = {
+        name: 'name-required',
+        contact: {
+            firstname: 'firstname-required',
+            lastname: 'lastname-required'
+        }
+    }
+    const request = axios.post(baseUrl + ServiceType.CV, emptyCV, getConfigHeader())
+    return request.then((response:any) => {
+        return response.data
+    })
+}
+
 const createObject = (type: ServiceType, object: any, id:string, field?:string) => {
-     const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== '') )
+    const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== '') )
     const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : ''} }, getConfigHeader())
-     return request.then((response:any) => {
-         console.log(response.data)
-         return response.data
-     })
+    return request.then((response:any) => {
+        return response.data
+    })
 }
 
 const modifyObject = (type: ServiceType, id: string, object: any ) => {
@@ -132,4 +160,4 @@ const getAllCV = () => {
     })
 }
 
-export default { createObject, modifyObject, deleteObject, getAllCV }
+export default { createObject, modifyObject, deleteObject, getAllCV, createEmptyCV }

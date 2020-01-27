@@ -3,14 +3,17 @@ import Toolbar from './Toolbar'
 import { AppState } from '..'
 import { connect } from 'react-redux'
 import './MyCV.css'
-import { ICV } from '../services/cvService'
-import { Link, Route, useLocation } from 'react-router-dom'
+import cvService, { ICV, ServiceType } from '../services/cvService'
+import { Link, Route, useLocation, Redirect } from 'react-router-dom'
 import MyCVForm from './MyCVForm'
 import { UserState } from '../reducers/userReducer'
+import { updateCVs } from '../reducers/cvReducer'
 
 interface OwnProps {}
 export interface StateProps { user?: UserState, cvs?: ICV[] }
-export interface DispatchProps {}
+export interface DispatchProps {
+    updateCVs: Function,
+}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
@@ -19,7 +22,9 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
     }
 }
 
-// const mapDispatchToProps: DispatchProps = {}
+const mapDispatchToProps: DispatchProps = {
+    updateCVs
+}
 
 type Props = OwnProps & StateProps & DispatchProps
 
@@ -51,18 +56,44 @@ const MyCV: React.FC<Props> = (props) => {
             <h1>My CV's</h1>
             <div className='cv-selector'>
                 {myCVs.map((cv:ICV) => 
-                    <Link to={`/mycv/${cv.id}`} key={cv.id}>
-                        <div className='cv-item'>
-                            {cv.name}
-                        </div>
-                    </Link> 
+                    <div className='cv-item' key={cv.id}>
+                        <Link to={`/mycv/${cv.id}`}>
+                            <img src='emptycv.svg' width='150px' height='180px' alt='document'/>
+                            <div style={{zIndex: 1}}>
+                                {cv.name}
+                                {Object.entries(cv).map(([key, value]) => value ? <p key={key}>{key + ': ' + value}</p> : '')}
+                            </div>
+                        </Link> 
+                        <button
+                            onClick={(event) => {
+                                event.preventDefault()
+                                cvService.deleteObject(ServiceType.CV, cv.id)
+                                    .then((response) => {
+                                        props.updateCVs()
+                                        console.log(response)
+                                    })
+                            }}
+                        >Delete</button>
+                    </div>
                 )}
+                <img
+                    src='emptycvplus.svg'
+                    width='150px'
+                    height='180px'
+                    alt='document'
+                    onClick={(event)=>{
+                        event.preventDefault()
+                        cvService.createEmptyCV().then(response => {
+                            props.updateCVs()
+                            console.log(response)
+                        })
+                    }}
+                /> 
             </div>
-            <button>add new cv</button>
             {renderForm(myCVs)}
         </div>
     )
 }
 
-export default connect(mapStateToProps,null)(MyCV)
+export default connect(mapStateToProps, mapDispatchToProps)(MyCV)
 

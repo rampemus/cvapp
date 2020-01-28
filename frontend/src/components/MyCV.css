@@ -42,6 +42,7 @@
 
 .cv-selector > img {
   opacity: 0.5;
+  margin-bottom: 26px;
 }
 
 .cv-selector > img:hover {

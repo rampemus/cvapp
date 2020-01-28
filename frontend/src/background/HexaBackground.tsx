@@ -79,7 +79,7 @@ const Background: React.FC<Props> = (props: Props) => {
                                 hexaSize, spacing, transformToColorArray(numbers), index)
                         }
                     })}
-                <text x='4' y='50%'>{height}</text>
+                {/* <text x='4' y='50%'>{height}</text> */}
             </svg>
         )
     } 

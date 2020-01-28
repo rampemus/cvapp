@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import { AppState } from '.'
 import { UserState } from './reducers/userReducer'
 import { updateCVs } from './reducers/cvReducer'
+import Home from './components/Home'
 
 interface OwnProps { }
 export interface StateProps { user?: UserState }
@@ -57,7 +58,7 @@ const App: React.FC<Props> = (props) => {
     }
     return (
       <div className='content'>
-        <Route exact path='/'><h1>Home page</h1></Route>
+        <Route exact path='/'><Home /></Route>
         <Route path='/users'><Users /></Route>
         <Route path='/mycv'><MyCV /></Route>
         <Route exact path='/about'><About /></Route>

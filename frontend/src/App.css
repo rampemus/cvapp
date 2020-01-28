@@ -20,7 +20,7 @@ input {
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .content {
-    width: 500px;
+    width: 450px;
   }
 } 
 
@@ -34,7 +34,7 @@ input {
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .content {
-    width: 700px;
+    width: 650px;
   }
 } 
 

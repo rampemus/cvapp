@@ -5,6 +5,8 @@ import User from '../models/user'
 import { IRequestWithIdentity } from '../utils/middleware'
 import {
     ownerId,
+    randomPassword,
+    randomUserName,
     userIsRootUser,
 } from '../utils/userHelper'
 
@@ -26,7 +28,11 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
     const makeRandomUser = !request.body.name && !request.body.username && !request.body.password
 
-    const body: INewUserBody = makeRandomUser ? { name: 'random', username: 'random', password: 'random'} : request.body
+    const body: INewUserBody = makeRandomUser ? {
+        name: 'noname',
+        password: randomPassword(),
+        username: randomUserName(),
+    } : request.body
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 

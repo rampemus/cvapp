@@ -14,6 +14,14 @@ td {
   padding: 8px;
 }
 
+tr button {
+  visibility: hidden;
+}
+
+tr:hover button {
+  visibility: visible;
+}
+
 table td:last-child {
   border: none;
   background-color: rgba(255, 255, 255, 0);

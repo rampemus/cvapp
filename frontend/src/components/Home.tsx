@@ -22,13 +22,25 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 type Props = OwnProps & StateProps & DispatchProps
 
 const Home: React.FC<Props> = (props) => {
-    console.log(props.cv)
+    console.log('Home props.cv', props.cv)
     if (!props.cv) {
         return <div>No default cv</div>
     } 
+    const contact = props.cv.contact
 
     return(
         <div className='cv-container'>
+            <div className='cv-container-item contact-container'>
+                <div>
+                    <p>{contact.firstname} {contact.lastname}</p>
+                    <p>{contact.address}</p>
+                    <p>Phone num. {contact.phone}</p>
+                    <p>{contact.email}</p>
+                </div>
+                <div>
+                    <img src={contact.pictureUrl} width='120px' alt='logo' />
+                </div>
+            </div>
             <h1>Curriculum Vitae</h1>
             <div className='cv-container-item cv-container-item-first'>
                 {props.cv.github && <p>Github: <a href={props.cv.github}>{props.cv.github}</a></p>}

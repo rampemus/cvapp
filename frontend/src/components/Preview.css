@@ -5,6 +5,20 @@
     grid-template-columns: auto 80px auto;
 }
 
+.contact-container {
+    margin-left: auto;
+    padding: 5px;
+    text-align: right;
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.contact-container p {
+    margin-right: 10px;
+}
+
 .cv-container-item {
     grid-column-start: 1;
     grid-column-end: -1;
@@ -35,12 +49,19 @@
 .cv-container h1 {
     letter-spacing: 4px;
     font-weight: 400;
+    margin-top: -50px;
 }
 
 .cv-container h3 {
     text-transform: uppercase;
     font-weight: 500;
     margin-bottom: 4px;
+}
+
+.cv-container p {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    line-height: 1.0;
 }
 
 .cv-container hr {

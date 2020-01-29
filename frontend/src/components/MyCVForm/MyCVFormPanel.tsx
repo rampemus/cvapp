@@ -22,6 +22,14 @@ export interface DispatchProps {
 
 // const mapStateToProps = (state: AppState, props: OwnProps) => { }
 
+const stringToArray = (data:string) => {
+  return data.split('\n')
+}
+
+const arrayToString = (data:string[]) => {
+  return data.join('\n')
+}
+
 const mapDispatchToProps: DispatchProps = {
   updateCVs, addEmptyCVObject, removeTempCVObject
 }
@@ -179,22 +187,36 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
       </Formik>
     )
   } else if (formValues) {
-    const clearActionValues = props.formValues ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, ''])) : null
+    const clearActionValues = props.formValues
+      ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, ''])) 
+      : null
     
     return(
       <Formik
-        initialValues={{ ...formValues }}
+        initialValues={Object.fromEntries(
+          Object.entries(formValues)
+            .map(([key, value]) => key === 'content' ? [key, arrayToString(value)] : [key, value])
+        )}
         enableReinitialize
         onSubmit={(values, { setSubmitting }) => {
           if ( values.id.includes('temp')) {
             const path = location.pathname
             const id = path.substring('/myCV/'.length)
-            cvService.createObject(serviceType, values, id, field).then(response => {
+            const newValues = Object.fromEntries(
+              Object.entries(values)
+                .filter(([key, value]) => formValues[key] !== value)
+                .map(([key, value]) => key === 'content' ? [key, stringToArray(value)] : [key, value])
+            )
+            cvService.createObject(serviceType, newValues, id, field).then(response => {
               props.updateCVs()
               setSubmitting(false)
             })
           } else {
-            const changes = Object.fromEntries(Object.entries(values).filter(([key, value]) => formValues[key] !== value))
+            const changes = Object.fromEntries(
+              Object.entries(values)
+                .filter(([key, value]) => formValues[key] !== value)
+                .map(([key, value]) => key === 'content' ? [key,stringToArray(value)] : [key, value])
+            )
             cvService.modifyObject(serviceType, values.id, changes).then(response => {
               props.updateCVs()
               setSubmitting(false)

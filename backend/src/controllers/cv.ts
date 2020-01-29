@@ -137,7 +137,9 @@ cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => 
     const cvBody: INewCurriculumVitae = request.body
     const owner = await User.findOne({ _id: request.userid })
 
-    if (cvBody.contact && cvBody.contact.id) {
+    const contactIsSaved = cvBody.contact && cvBody.contact.id
+
+    if (contactIsSaved) {
         const cv = new CurriculumVitae({
             ...cvBody, owner
         })
@@ -209,7 +211,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         case 'profile':
             const profileBody: INewProfileBody = request.body
             const profile = new Profile({
-                ...profileBody, owner
+                ...profileBody, owner,
             })
             const savedProfile = await profile.save()
                 .catch((error) => {

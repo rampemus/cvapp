@@ -30,7 +30,6 @@ const Users: React.FC<Props> = (props) => {
   const updateUsers = () => {
     usersService.getAll().then(response => {
       setUsers(response)
-      console.log('Users', response)
     }).catch((error: usersError) => {
       props.showNotification('Request for retrieving users was denied. ' + error.response.data.error, Type.ERROR, 4)
     })
@@ -41,7 +40,6 @@ const Users: React.FC<Props> = (props) => {
     if ( user ) {
       usersService.deleteUser(id).then(
         response => {
-          console.log('handleUserDelete response', response)
           setUsers(users.filter(user => user.id !== id))
           props.showNotification(`User ${user.name} was deleted`, Type.SUCCESS, 3)
         }

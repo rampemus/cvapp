@@ -48,7 +48,6 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
           if (values.id.includes('temp')) {
             const path = location.pathname
             const id = path.substring('/myCV/'.length)
-            console.log('createObject', serviceType, values, id, field)
             cvService.createObject(serviceType, values, id, field).then(response => {
               props.updateCVs()
               setSubmitting(false)
@@ -126,7 +125,6 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
           if (values.id.includes('temp')) {
             const path = location.pathname
             const id = path.substring('/myCV/'.length)
-            console.log('MyCVFormPanel', props.field)
             cvService.createObject(serviceType, values, id, field).then(response => {
               props.updateCVs()
               setSubmitting(false)

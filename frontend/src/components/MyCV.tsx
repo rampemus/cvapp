@@ -70,7 +70,6 @@ const MyCV: React.FC<Props> = (props) => {
                                 cvService.deleteObject(ServiceType.CV, cv.id)
                                     .then((response) => {
                                         props.updateCVs()
-                                        console.log(response)
                                     })
                             }}
                         >Delete</button>
@@ -85,7 +84,6 @@ const MyCV: React.FC<Props> = (props) => {
                         event.preventDefault()
                         cvService.createEmptyCV().then(response => {
                             props.updateCVs()
-                            console.log(response)
                         })
                     }}
                 /> 

@@ -29,4 +29,5 @@ package-lock.json
 /public/kasvokuva.jpg
 
 # no sketches
+/public/
 .ai

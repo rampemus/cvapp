@@ -33,7 +33,24 @@
     grid-column-start: 1;
     grid-column-end: -1;
 }
-    
+
+.project-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.project-card img {
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+.project-card h4 {
+    margin: 0px;
+}
+
 @media (min-width: 1000px) {
     .cv-container-item-left {
         grid-column-start: 1;
@@ -61,7 +78,7 @@
 .cv-container p {
     margin-top: 6px;
     margin-bottom: 6px;
-    line-height: 1.0;
+    line-height: 1.4;
 }
 
 .cv-container hr {

@@ -38,7 +38,7 @@ const Home: React.FC<Props> = (props) => {
                     <p>{contact.email}</p>
                 </div>
                 <div>
-                    <img src={contact.pictureUrl} width='120px' alt='logo' />
+                    <img src={contact.pictureUrl} width='120px' alt='mypicture' />
                 </div>
             </div>
             <h1>Curriculum Vitae</h1>
@@ -57,7 +57,16 @@ const Home: React.FC<Props> = (props) => {
                 <div className='cv-container-item-right'>
                     <h3>Projects</h3>
                     <hr />
-                    {props.cv.projects.map(project => <p>{project.description}</p>)}
+                    {props.cv.projects.map(project => 
+                        <div className='project-card'>
+                            <img src={project.thumbnailUrl} width='140px' alt='mypicture' />
+                            <div>
+                                <h4>{project.name}</h4>
+                                <p>{project.description}</p>
+                                <p className='project-card-links'><a href={project.githubUrl}>github</a> - <a href={project.showcaseUrl}>showcase</a></p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             }
             <div className='cv-container-item'>

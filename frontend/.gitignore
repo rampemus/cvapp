@@ -24,3 +24,9 @@ yarn-error.log*
 
 yarn.lock
 package-lock.json
+
+# no face
+/public/kasvokuva.jpg
+
+# no sketches
+.ai

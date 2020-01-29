@@ -15,7 +15,7 @@ export interface IProject extends Document {
 const projectSchema: Schema = new Schema({
     description: { type: String, minlength: 3, required: true},
     githubUrl: String,
-    name: { type: String, minlength: 3, required: true, unique: true },
+    name: { type: String, minlength: 3, required: true },
     owner: {
         ref: 'User',
         required: true,

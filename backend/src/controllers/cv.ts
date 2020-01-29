@@ -284,7 +284,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
                     response.status(400).json({ error: error.message }).end()
                 })
             if (projectBody.cv && savedProject) {
-                if (projectBody.cv.field === 'project') {
+                if (projectBody.cv.field === 'projects') {
                     await connectObjectToCVField(projectBody.cv.id, projectBody.cv.field, savedProject._id)
                 }
             }

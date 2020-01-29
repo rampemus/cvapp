@@ -125,6 +125,8 @@ const createObject = (type: ServiceType, object: any, id:string, field?:string) 
     const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : ''} }, getConfigHeader())
     return request.then((response:any) => {
         return response.data
+    }).catch(error => {
+        console.log('create object error:', error.response.data.error)
     })
 }
 
@@ -133,6 +135,8 @@ const modifyObject = (type: ServiceType, id: string, object: any ) => {
     const request = axios.put(baseUrl + type, { changes, id },getConfigHeader())
     return request.then((response:any) => {
         return response.data
+    }).catch(error => {
+       console.log('modify object error:',error.response.data.error)
     })
 }
 

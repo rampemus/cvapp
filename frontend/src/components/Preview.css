@@ -42,6 +42,21 @@
     margin-bottom: 10px;
 }
 
+.reference-container {
+    display: grid;
+    grid-template-columns: auto 15px auto;
+}
+
+.reference-container-left {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.reference-container-right {
+    grid-column-start: -2;
+    grid-column-end: -1;
+}
+
 .project-card img {
     margin-right: 10px;
     object-fit: contain;
@@ -73,6 +88,14 @@
     text-transform: uppercase;
     font-weight: 500;
     margin-bottom: 4px;
+    margin-left: -30px;
+}
+
+.cv-container h3 img {
+    position: relative;
+    right: 5px;
+    top: 15px;
+    margin-top: -27px;
 }
 
 .cv-container p {
@@ -90,7 +113,7 @@
     border-width: 0.5px;
     margin-top: 2px;
     margin-bottom: 8px;
-    margin-left: -10px;
+    margin-left: -5px;
 }
 
 .cv-container-item-first {

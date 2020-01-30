@@ -2,7 +2,7 @@ import React from 'react'
 import './Preview.css'
 import { connect } from 'react-redux'
 import { AppState } from '..'
-import { ICV } from '../services/cvService'
+import { ICV, IContact } from '../services/cvService'
 
 
 interface OwnProps { }
@@ -27,6 +27,7 @@ const Home: React.FC<Props> = (props) => {
         return <div>No default cv</div>
     } 
     const contact = props.cv.contact
+    const reference: IContact[] | undefined = props.cv.reference
 
     return(
         <div className='cv-container'>
@@ -47,15 +48,15 @@ const Home: React.FC<Props> = (props) => {
                 {props.cv.techlist && <p>{props.cv.techlist}</p>}
             </div>
             {props.cv.profile && 
-                <div className='cv-container-item-left'>
-                    <h3>Profile</h3>
+                <div className='cv-container-item cv-container-item-left'>
+                    <h3><img src='profile.svg' width='45px' height='45px' />Profile</h3>
                     <hr />
                     {props.cv.profile.content.map(paragraph => <p>{paragraph}</p>)}
                 </div>
             }
             {props.cv.projects &&
-                <div className='cv-container-item-right'>
-                    <h3>Projects</h3>
+                <div className='cv-container-item cv-container-item-right'>
+                    <h3><img src='project.svg' width='45px' height='45px' />Projects</h3>
                     <hr />
                     {props.cv.projects.map(project => 
                         <div className='project-card'>
@@ -70,27 +71,42 @@ const Home: React.FC<Props> = (props) => {
                 </div>
             }
             <div className='cv-container-item'>
-                <h3>References</h3>
+                <h3><img src='reference.svg' width='45px' height='45px' />References</h3>
+                <hr />
+                <div className='reference-container'>
+                    {reference && reference.map((ref: IContact) => [
+                        <div className='reference-container-left'>
+                            <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p> 
+                        </div>,
+                        <div className='reference-container-right'>
+                            <p>Phone num. {ref.phone} ({ref.phoneAvailable})</p>
+                            <p>{ref.email}</p>    
+                        </div>
+                    ])}
+                </div>
+            </div>
+            <div className='cv-container-item'>
+                <h3><img src='work.svg' width='45px' height='45px' />Work Experience</h3>
                 <hr />
 
             </div>
             <div className='cv-container-item'>
-                <h3>Education</h3>
+                <h3><img src='education.svg' width='45px' height='45px' />Education</h3>
                 <hr />
 
             </div>
             <div className='cv-container-item'>
-                <h3>Communication</h3>
+                <h3><img src='communication.svg' width='45px' height='45px' />Communication</h3>
                 <hr />
 
             </div>
             <div className='cv-container-item'>
-                <h3>Other Skills</h3>
+                <h3><img src='skills.svg' width='45px' height='45px' />Other Skills</h3>
                 <hr />
 
             </div>
             <div className='cv-container-item'>
-                <h3>Attachments</h3>
+                <h3><img src='attachment.svg' width='45px' height='45px' />Attachments</h3>
                 <hr />
 
             </div>

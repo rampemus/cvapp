@@ -124,9 +124,10 @@ const createObject = (type: ServiceType, object: any, id:string, field?:string) 
     const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== '') )
     const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : ''} }, getConfigHeader())
     return request.then((response:any) => {
+        console.log('successful createObject response: ', response)
         return response.data
     }).catch(error => {
-    //  console.log('create object error:', error.response.data.error)
+     console.log('create object error:', error.response.data.error)
     })
 }
 
@@ -136,7 +137,7 @@ const modifyObject = (type: ServiceType, id: string, object: any ) => {
     return request.then((response:any) => {
         return response.data
     }).catch(error => {
-    //  console.log('modify object error:',error.response.data.error)
+     console.log('modify object error:',error.response.data.error)
     })
 }
 
@@ -145,6 +146,16 @@ const deleteObject = (type: ServiceType, id: string) => {
     return request.then((response:any) => {
         return response.data
     })
+}
+
+interface IExperienceNoDate {
+    description: string,
+    name: string,
+    timeFrame: {
+        startDate: string,
+        endDate: string,
+    },
+    id: string,
 }
 
 const getAllCV = () => {
@@ -158,6 +169,13 @@ const getAllCV = () => {
                 skills: cv.skills ? cv.skills[0] : null,
                 info: cv.info ? cv.info[0] : null,
                 attachments: cv.attachments ? cv.attachments[0] : null,
+                experience: cv.experience.map((exp: IExperienceNoDate) => ({
+                    ...exp, 
+                    timeFrame: {
+                        startDate: new Date(exp.timeFrame.startDate),
+                        endDate: new Date(exp.timeFrame.endDate)
+                    }
+                }))
             }
         })
         return formattedData

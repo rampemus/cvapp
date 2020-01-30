@@ -42,17 +42,17 @@
     margin-bottom: 10px;
 }
 
-.reference-container {
+.key-value-container {
     display: grid;
-    grid-template-columns: auto 15px auto;
+    grid-template-columns: 25% auto 75%;
 }
 
-.reference-container-left {
+.key-value-container-left {
     grid-column-start: 1;
     grid-column-end: 2;
 }
 
-.reference-container-right {
+.key-value-container-right {
     grid-column-start: -2;
     grid-column-end: -1;
 }

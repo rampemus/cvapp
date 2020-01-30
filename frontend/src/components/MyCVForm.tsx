@@ -158,7 +158,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           name: experience.name,
           timeFrame: experience.timeFrame,
         }}
-        serviceType={ServiceType.COMMUNICATION}
+        serviceType={ServiceType.EXPERIENCE}
         field={field}
         key={experience.id}
       /> 

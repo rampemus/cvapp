@@ -2,8 +2,20 @@ import React from 'react'
 import './Preview.css'
 import { connect } from 'react-redux'
 import { AppState } from '..'
-import { ICV, IContact } from '../services/cvService'
+import { ICV, IContact, IExperience } from '../services/cvService'
+import { start } from 'repl'
 
+const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
+    const { startDate, endDate } = timeFrame
+    const duration = endDate.valueOf() - startDate.valueOf()
+    const month = 1000 * 60 * 60 * 24 * 30
+    const year = 1000 * 60 * 60 * 24 * 365
+    if (duration < month) 
+            return <p>{startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate()+1} - {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate()+1}</p>
+    if (duration < year) 
+        return <p>{startDate.getFullYear()}/{startDate.getMonth()+1} - {endDate.getFullYear()}/{endDate.getMonth()+1}</p>
+    return <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>
+}
 
 interface OwnProps { }
 export interface StateProps {
@@ -28,6 +40,7 @@ const Home: React.FC<Props> = (props) => {
     } 
     const contact = props.cv.contact
     const reference: IContact[] | undefined = props.cv.reference
+    const experience: IExperience[] | undefined = props.cv.experience
 
     return(
         <div className='cv-container'>
@@ -73,12 +86,12 @@ const Home: React.FC<Props> = (props) => {
             <div className='cv-container-item'>
                 <h3><img src='reference.svg' width='45px' height='45px' />References</h3>
                 <hr />
-                <div className='reference-container'>
+                <div className='key-value-container'>
                     {reference && reference.map((ref: IContact) => [
-                        <div className='reference-container-left'>
+                        <div className='key-value-container-left'>
                             <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p> 
                         </div>,
-                        <div className='reference-container-right'>
+                        <div className='key-value-container-right'>
                             <p>Phone num. {ref.phone} ({ref.phoneAvailable})</p>
                             <p>{ref.email}</p>    
                         </div>
@@ -88,7 +101,16 @@ const Home: React.FC<Props> = (props) => {
             <div className='cv-container-item'>
                 <h3><img src='work.svg' width='45px' height='45px' />Work Experience</h3>
                 <hr />
-
+                <div className='key-value-container'>
+                    {experience && experience.map((exp:IExperience) => [
+                        <div className='key-value-container-left'>
+                            {renderTimeFrame(exp.timeFrame)}
+                        </div>,
+                        <div className='key-value-container-right'>
+                            <p>{exp.description}</p>
+                        </div>
+                    ])}
+                </div>
             </div>
             <div className='cv-container-item'>
                 <h3><img src='education.svg' width='45px' height='45px' />Education</h3>

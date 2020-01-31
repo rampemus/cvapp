@@ -18,6 +18,8 @@ Local mongoDB-server for newer versions of iOS works simply, if you create empty
 
 `$ mongod --dbpath=/Users/<your_username>/data/`
 
-Once mongoDB is up and running the development servers start up for frontend according to [these](https://github.com/rampemus/cvapp/tree/master/frontend) instructions. Backend nodemon starts watching the changes by running:
+Once mongoDB is up and running the development servers start up for frontend according to [these](https://github.com/rampemus/cvapp/tree/master/frontend) instructions and backend nodemon starts watching the changes by running:
 
 `yarn watch`
+
+in the backend-folder.

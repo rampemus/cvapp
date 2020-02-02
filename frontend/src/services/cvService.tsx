@@ -175,6 +175,13 @@ const getAllCV = () => {
                         startDate: new Date(exp.timeFrame.startDate),
                         endDate: new Date(exp.timeFrame.endDate)
                     }
+                })),
+                education: cv.education.map((edu: IExperienceNoDate) => ({
+                    ...edu,
+                    timeFrame: {
+                        startDate: new Date(edu.timeFrame.startDate),
+                        endDate: new Date(edu.timeFrame.endDate)
+                    }
                 }))
             }
         })

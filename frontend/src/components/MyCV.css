@@ -84,12 +84,14 @@
 .language-panel {
   /* background-color:white; */
   grid-column-start: 2;
-  grid-column-end: -1; 
+  grid-column-end: -1;
 }
 
 .language-pair {
   display: flex;
   flex-flow: row;
+  justify-content: center;
+  margin: 5px;
 }
 
 .timeFrameContainer {

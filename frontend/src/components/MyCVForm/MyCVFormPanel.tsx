@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateCVs, addEmptyCVObject, removeTempCVObject, CVAction } from '../../reducers/cvReducer'
 import MyCVFormDateSelector from './MyCVFormDateSelector'
+import MyCVFormLanguageLevelSelector, { ILevel } from './MyCVFormLanguageLevelSelector'
 
 interface OwnProps {
   formValues?: Object,
@@ -160,9 +161,31 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 {values.languages && values.languages.map((language: any, index: number) => {
                   return (<div className='language-pair' key={index + 'language-pair'}>
                     <Field className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
-                    <Field className='form-input' name={`languages.${index}.level`} placeholder='Level' />
+                    <MyCVFormLanguageLevelSelector initLevel={`languages.${index}.level`} handleChange={
+                      (newLevel)=>{
+                        const newValues = {...values,
+                          languages: values.languages.map((entry: {language:string, level:string}) =>
+                          entry.language === language.language ? {language: entry.language, level: newLevel} : entry )
+                        } 
+                        setValues(newValues)
+                      }
+                    }/>
                   </div>)
                 })}
+                <button
+                  className='add-language-button form-button'
+                  disabled={isSubmitting}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    const newValues = {
+                      ...values,
+                      languages: values.languages.concat({ language: '', level: ILevel.Elementary })
+                    }
+                    setValues(newValues)
+                  }}
+                >
+                  add language
+                </button>
               </div>
             )} />
             <div className='form-label'>Content</div>

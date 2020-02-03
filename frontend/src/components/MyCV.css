@@ -85,6 +85,8 @@
   /* background-color:white; */
   grid-column-start: 2;
   grid-column-end: -1;
+
+  text-align: center;
 }
 
 .language-pair {
@@ -92,6 +94,10 @@
   flex-flow: row;
   justify-content: center;
   margin: 5px;
+}
+
+.language-pair select {
+  height: 25px;
 }
 
 .timeFrameContainer {
@@ -188,6 +194,11 @@
   height: 25px;
   border-color: #ccc;
   margin: 1px;
+}
+
+.add-language-button {
+  margin-top: -5px;
+  margin-bottom: 5px;
 }
 
 .form-delete-button {

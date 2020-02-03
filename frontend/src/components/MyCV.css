@@ -196,6 +196,14 @@
   margin: 1px;
 }
 
+.language-pair .form-button {
+  visibility: hidden;
+}
+
+.language-pair:hover .form-button {
+  visibility: visible;
+}
+
 .add-language-button {
   margin-top: -5px;
   margin-bottom: 5px;

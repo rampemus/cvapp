@@ -161,8 +161,9 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 {values.languages && values.languages.map((language: any, index: number) => {
                   return (<div className='language-pair' key={index + 'language-pair'}>
                     <Field className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
-                    <MyCVFormLanguageLevelSelector initLevel={`languages.${index}.level`} handleChange={
-                      (newLevel)=>{
+                    <MyCVFormLanguageLevelSelector
+                      initLevel={language.level}
+                      handleChange={(newLevel)=>{
                         const newValues = {...values,
                           languages: values.languages.map((entry: {language:string, level:string}) =>
                           entry.language === language.language ? {language: entry.language, level: newLevel} : entry )
@@ -170,6 +171,15 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                         setValues(newValues)
                       }
                     }/>
+                    <button className='form-button' onClick={(event) => {
+                      event.preventDefault()
+                      const newValues = {
+                        ...values,
+                        languages: values.languages.filter((entry: { language: string, level: string }) =>
+                          entry.language !== language.language)
+                      }
+                      setValues(newValues)
+                    }}>delete</button>
                   </div>)
                 })}
                 <button
@@ -207,8 +217,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
             <SaveButton isSubmitting={isSubmitting} />
           </Form>
         )}
-      </Formik>
-    )
+      </Formik>)
   } else if (formValues) {
     const clearActionValues = props.formValues
       ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, ''])) 

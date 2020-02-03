@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 interface OwnProps {
     initLevel: string,
@@ -19,6 +19,11 @@ const levels = [ILevel.Elementary, ILevel.EveryDay, ILevel.Working, ILevel.Advan
 const MyCVFormLanguageLevelSelector: React.FC<OwnProps> = (props) => {
 
     const [level, setLevel] = useState(props.initLevel)
+
+    useEffect(() => {
+        setLevel(props.initLevel)
+        console.log('initLevel', props.initLevel)
+    }, [props.initLevel])
 
     const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault()

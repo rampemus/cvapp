@@ -17,11 +17,12 @@ const About: React.FC = (props) => {
                 Other bigger change will be that the tests will be implemented in the future for creating a usable pipeline.
                 Many changes will be done for the deployment and for the backend so I wish you visit my github for following the version control.
             </p>
-            <h3>Known bugs</h3>
+            <h3>Known issues</h3>
             <ul>
                 <li>Refreshing CVForm page will not read language-level pairs properly</li>
                 <li>Attachment title doesn't overflow additional text correctly in small screen sizes</li>
                 <li>Printing the site includes background pictures with wrong background color</li>
+                <li>Written values are only validated in backend, and no error handling</li>
             </ul>
         </div>
     )

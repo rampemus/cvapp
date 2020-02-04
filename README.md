@@ -10,6 +10,16 @@ Backend can be installed the same way running:
 
 `yarn install`
 
+Define required environmental variables:
+
+`ROOT_USERNAME`
+`ROOT_PASSWORD`
+`ROOT_NAME`
+`MONGODB_URI=mongodb://127.0.0.1:27017/cv-app`
+`JWT_SALT`
+
+You can write these also in .env-file.
+
 For local mongoDB follow instructions from [here](https://docs.mongodb.com/manual/administration/install-community/) to install community version or if you are a Mac and have homebrew installed, just run:
 
 `brew install mongodb-community@4.2`

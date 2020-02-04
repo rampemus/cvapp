@@ -29,9 +29,7 @@ userIsCVOwner(ROOT_USERNAME).then((result) => {
   }
 })
 
-app.get('/', ( request: Request, respone: Response) => {
-  respone.status(200).send('<h1>Hello world</h1><p>frontend is not yet here</p>')
-})
+app.use(express.static('build'))
 
 app.use('/api/login', loginRouter)
 

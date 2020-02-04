@@ -20,7 +20,7 @@ Define required environmental variables:
 
 You can write these also in .env-file.
 
-For local mongoDB follow instructions from [here](https://docs.mongodb.com/manual/administration/install-community/) to install community version or if you are a Mac and have homebrew installed, just run:
+For local mongoDB follow instructions from [here](https://docs.mongodb.com/manual/administration/install-community/) to install community version. IF you are on Mac and have homebrew installed, just run:
 
 `brew install mongodb-community@4.2`
 

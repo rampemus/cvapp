@@ -14,9 +14,9 @@ For local mongoDB follow instructions from [here](https://docs.mongodb.com/manua
 
 `brew install mongodb-community@4.2`
 
-Local mongoDB-server for newer versions of iOS works simply, if you create empty "data" folder in your users folder. Starting up the db will work just by running:
+Local mongoDB-server for newest iOS works most simple if you create empty "data" folder in your users folder. Starting up the db will then work just by running:
 
-`$ mongod --dbpath=/Users/<your_username>/data/`
+`mongod --dbpath=/Users/<your_username>/data/`
 
 Once mongoDB is up and running the development servers start up for frontend according to [these](https://github.com/rampemus/cvapp/tree/master/frontend) instructions and backend nodemon starts watching the changes by running:
 

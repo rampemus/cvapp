@@ -23,6 +23,7 @@ const About: React.FC = (props) => {
                 <li>Attachment title doesn't overflow additional text correctly in small screen sizes</li>
                 <li>Printing the site includes background pictures with wrong background color</li>
                 <li>Written values are only validated in backend, and no error handling</li>
+                <li>Many buttons still have no style or function (like that language and logout button in the upper right corner)</li>
             </ul>
         </div>
     )

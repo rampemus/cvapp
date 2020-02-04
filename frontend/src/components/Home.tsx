@@ -3,7 +3,6 @@ import './Preview.css'
 import { connect } from 'react-redux'
 import { AppState } from '..'
 import { ICV, IContact, IExperience, ICommunication } from '../services/cvService'
-import { start } from 'repl'
 
 const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
     const { startDate, endDate } = timeFrame
@@ -64,14 +63,14 @@ const Home: React.FC<Props> = (props) => {
             </div>
             {props.cv.profile && 
                 <div className='cv-container-item cv-container-item-left'>
-                    <h3><img src='profile.svg' width='45px' height='45px' />Profile</h3>
+                    <h3><img src='profile.svg' width='45px' height='45px' alt='profileimage'/>Profile</h3>
                     <hr />
                     {props.cv.profile.content.map(paragraph => <p>{paragraph}</p>)}
                 </div>
             }
             {props.cv.projects &&
                 <div className='cv-container-item cv-container-item-right'>
-                    <h3><img src='project.svg' width='50px' height='45px' />Projects</h3>
+                    <h3><img src='project.svg' width='50px' height='45px' alt='icon'/>Projects</h3>
                     <hr />
                     {props.cv.projects.map(project => 
                         <div className='project-card'>
@@ -86,7 +85,7 @@ const Home: React.FC<Props> = (props) => {
                 </div>
             }
             <div className='cv-container-item'>
-                <h3><img src='reference.svg' width='45px' height='45px' />References</h3>
+                <h3><img src='reference.svg' width='45px' height='45px' alt='icon'/>References</h3>
                 <hr />
                 <div className='key-value-container'>
                     {reference && reference.map((ref: IContact) => [
@@ -101,7 +100,7 @@ const Home: React.FC<Props> = (props) => {
                 </div>
             </div>
             <div className='cv-container-item'>
-                <h3><img src='work.svg' width='45px' height='45px' />Work Experience</h3>
+                <h3><img src='work.svg' width='45px' height='45px' alt='icon'/>Work Experience</h3>
                 <hr />
                 <div className='key-value-container'>
                     {experience && experience.map((exp:IExperience) => [
@@ -115,7 +114,7 @@ const Home: React.FC<Props> = (props) => {
                 </div>
             </div>
             <div className='cv-container-item'>
-                <h3><img src='education.svg' width='45px' height='45px' />Education</h3>
+                <h3><img src='education.svg' width='45px' height='45px' alt='icon'/>Education</h3>
                 <hr />
                 <div className='key-value-container'>
                     {education && education.map((edu: IExperience) => [
@@ -129,7 +128,7 @@ const Home: React.FC<Props> = (props) => {
                 </div>
             </div>
             <div className='cv-container-item'>
-                <h3><img src='communication.svg' width='45px' height='45px' />Communication</h3>
+                <h3><img src='communication.svg' width='45px' height='45px' alt='icon'/>Communication</h3>
                 <hr />
                 <div className='language-container'>
                     {communication && communication.languages.map(language => <div><p>{language.language}</p><p>:</p><p>{language.level}</p></div>)}
@@ -139,14 +138,14 @@ const Home: React.FC<Props> = (props) => {
                 )}
             </div>
             <div className='cv-container-item'>
-                <h3><img src='skills.svg' width='45px' height='45px' />Other Skills</h3>
+                <h3><img src='skills.svg' width='45px' height='45px' alt='icon'/>Other Skills</h3>
                 <hr />
                 {props.cv.skills && props.cv.skills.content.map(skill =>
                     <p>{skill}</p>
                 )}
             </div>
             <div className='cv-container-item'>
-                <h3><img src='attachment.svg' width='45px' height='45px' />Attachments <span>(Please, ask during interview for these that only exist as original copies)</span></h3>
+                <h3><img src='attachment.svg' width='45px' height='45px' alt='icon'/>Attachments <span>(Please, ask during interview for these that only exist as original copies)</span></h3>
                 <hr />
                 {props.cv.attachments && props.cv.attachments.content.map(attachment =>
                     <p>{attachment}</p>

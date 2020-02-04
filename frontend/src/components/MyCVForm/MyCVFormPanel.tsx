@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import { DeleteButton, ClearButton, CancelButton, SaveButton } from './MyCVFormPanelButtons'
-import cvService, { ServiceType, ICV } from '../../services/cvService'
+import cvService, { ServiceType } from '../../services/cvService'
 import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateCVs, addEmptyCVObject, removeTempCVObject, CVAction } from '../../reducers/cvReducer'

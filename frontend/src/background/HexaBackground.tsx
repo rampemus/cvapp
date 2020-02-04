@@ -19,7 +19,7 @@ enum Color {
 
 const Background: React.FC<Props> = (props: Props) => {
 
-    const { height } = props
+    // const { height } = props
 
     const hexaSize = 46
     const spacing = 7

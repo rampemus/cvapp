@@ -74,7 +74,11 @@ const Home: React.FC<Props> = (props) => {
                     <hr />
                     {props.cv.projects.map(project => 
                         <div className='project-card'>
-                            <img src={project.thumbnailUrl} width='140px' alt='mypicture' />
+                            <div style={{
+                                width: '140px'
+                            }}>
+                                <img src={project.thumbnailUrl} width="100%" height="100%" alt='mypicture' />
+                            </div>
                             <div>
                                 <h4>{project.name}</h4>
                                 <p>{project.description}</p>

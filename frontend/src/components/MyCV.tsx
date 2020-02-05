@@ -47,7 +47,6 @@ const MyCV: React.FC<Props> = (props) => {
             <Toolbar>
                 <div>
                     <button className='toolbar-button' disabled={formActive}>Clear CV</button>
-                    <button className='toolbar-button'>Create new</button>
                     <button className='toolbar-button'>Duplicate Default</button>
                     <button className='toolbar-button' disabled={formActive}>Set As Default CV</button>
                     <button className='toolbar-button' disabled={formActive}>Preview</button>

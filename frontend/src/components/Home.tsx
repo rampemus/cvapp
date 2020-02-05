@@ -77,7 +77,7 @@ const Home: React.FC<Props> = (props) => {
                             <div style={{
                                 width: '140px'
                             }}>
-                                <img src={project.thumbnailUrl} width="100%" height="100%" alt='mypicture' />
+                                <img src={project.thumbnailUrl} width="100%" alt='mypicture' />
                             </div>
                             <div>
                                 <h4>{project.name}</h4>

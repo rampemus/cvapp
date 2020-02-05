@@ -29,6 +29,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
     const makeRandomUser = !request.body.name && !request.body.username && !request.body.password
 
     const body: INewUserBody = makeRandomUser ? {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // valid for a month
         name: 'noname',
         password: randomPassword(),
         username: randomUserName(),

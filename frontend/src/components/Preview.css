@@ -45,7 +45,7 @@
 
 .key-value-container {
     display: grid;
-    grid-template-columns: 25% auto 75%;
+    grid-template-columns: 170px 20px auto;
 }
 
 .key-value-container-left {

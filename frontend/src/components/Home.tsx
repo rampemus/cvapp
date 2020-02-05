@@ -10,9 +10,9 @@ const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
     const month = 1000 * 60 * 60 * 24 * 30
     const year = 1000 * 60 * 60 * 24 * 365
     if (duration < month) 
-            return <p>{startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate()+1} - {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate()+1}</p>
+            return <p>{startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate()+1} – {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate()+1}</p>
     if (duration < year) 
-        return <p>{startDate.getFullYear()}/{startDate.getMonth()+1} - {endDate.getFullYear()}/{endDate.getMonth()+1}</p>
+        return <p>{startDate.getFullYear()}/{startDate.getMonth()+1} – {endDate.getFullYear()}/{endDate.getMonth()+1}</p>
     return <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>
 }
 
@@ -65,7 +65,7 @@ const Home: React.FC<Props> = (props) => {
                 <div className='cv-container-item cv-container-item-left'>
                     <h3><img src='profile.svg' width='45px' height='45px' alt='profileimage'/>Profile</h3>
                     <hr />
-                    {props.cv.profile.content.map(paragraph => <p>{paragraph}</p>)}
+                    {props.cv.profile.content.map((paragraph, index) => <p key={`profile-p-${index}`} >{paragraph}</p>)}
                 </div>
             }
             {props.cv.projects &&
@@ -75,7 +75,8 @@ const Home: React.FC<Props> = (props) => {
                     {props.cv.projects.map(project => 
                         <div className='project-card'>
                             <div style={{
-                                width: '140px'
+                                width: '140px',
+                                marginRight: '10px'
                             }}>
                                 <img src={project.thumbnailUrl} width="100%" alt='mypicture' />
                             </div>
@@ -107,7 +108,7 @@ const Home: React.FC<Props> = (props) => {
                 <h3><img src='work.svg' width='45px' height='45px' alt='icon'/>Work Experience</h3>
                 <hr />
                 <div className='key-value-container'>
-                    {experience && experience.map((exp:IExperience) => [
+                    {experience && experience.sort((a: IExperience, b: IExperience) => b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()).map((exp:IExperience) => [
                         <div className='key-value-container-left'>
                             {renderTimeFrame(exp.timeFrame)}
                         </div>,
@@ -121,7 +122,7 @@ const Home: React.FC<Props> = (props) => {
                 <h3><img src='education.svg' width='45px' height='45px' alt='icon'/>Education</h3>
                 <hr />
                 <div className='key-value-container'>
-                    {education && education.map((edu: IExperience) => [
+                    {education && education.sort((a: IExperience, b: IExperience) => b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()).map((edu: IExperience) => [
                         <div className='key-value-container-left'>
                             {renderTimeFrame(edu.timeFrame)}
                         </div>,

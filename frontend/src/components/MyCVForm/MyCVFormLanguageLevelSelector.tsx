@@ -22,7 +22,6 @@ const MyCVFormLanguageLevelSelector: React.FC<OwnProps> = (props) => {
 
     useEffect(() => {
         setLevel(props.initLevel)
-        console.log('initLevel', props.initLevel)
     }, [props.initLevel])
 
     const handleLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

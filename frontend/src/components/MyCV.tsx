@@ -7,12 +7,13 @@ import cvService, { ICV, ServiceType } from '../services/cvService'
 import { Link, Route, useLocation } from 'react-router-dom'
 import MyCVForm from './MyCVForm'
 import { UserState } from '../reducers/userReducer'
-import { updateCVs } from '../reducers/cvReducer'
+import { updateCVs, setPreviousCV } from '../reducers/cvReducer'
 
 interface OwnProps {}
 export interface StateProps { user?: UserState, cvs?: ICV[] }
 export interface DispatchProps {
     updateCVs: Function,
+    setPreviousCV: Function
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -23,7 +24,8 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 }
 
 const mapDispatchToProps: DispatchProps = {
-    updateCVs
+    updateCVs,
+    setPreviousCV
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -56,7 +58,7 @@ const MyCV: React.FC<Props> = (props) => {
             <div className='cv-selector'>
                 {myCVs.map((cv:ICV) => 
                     <div className='cv-item' key={cv.id}>
-                        <Link to={`/mycv/${cv.id}`}>
+                        <Link to={`/mycv/${cv.id}`} onClick={()=>{props.setPreviousCV(cv.id)}}>
                             <img src='emptycv.svg' width='150px' height='180px' alt='document'/>
                             <div style={{zIndex: 1}}>
                                 {cv.name}

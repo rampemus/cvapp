@@ -2,6 +2,7 @@ import cvService, { ICV, IExperience, IContact, IProject, IProfile, ICommunicati
 
 interface cvState {
   cvs: ICV[],
+  lastOpened: string
 }
 
 export interface CVAction {
@@ -168,7 +169,8 @@ const initState: cvState = {
       techlist: 'Java, Python, CSS, C#, Angular',
       id: '5e1db55948aa55f4cb54fe4e'
     }
-  ]
+  ],
+  lastOpened: ''
 }
 
 // TODO: save last visited cv and open it automaticly for the CV selector
@@ -176,7 +178,10 @@ const initState: cvState = {
 const cvReducer = (state: cvState = initState, action: CVAction) => {
   switch (action.type) {
     case 'UPDATE_CVS': {
-      return action.data
+      return { cvs:action.data.cvs, lastOpened: action.data.cvs.includes((cv:ICV) => cv.id === state.lastOpened) ? state.lastOpened : ''}
+    }
+    case 'SET_PREVIOUS_CV': {
+      return { cvs: state.cvs, lastOpened: action.data.id }
     }
     case 'ADD_EMPTY_OBJECT': {
       const cv = state.cvs.find((cv:ICV) => cv.id === action.data.id )
@@ -184,7 +189,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
 
       switch(action.data.field) {
         case 'experience':
-          return { cvs: state.cvs.map((cvObject: ICV) => {
+          return { lastOpened: state.lastOpened, cvs: state.cvs.map((cvObject: ICV) => {
             const emptyExperience: IExperience = {
               description: '',
               name: '',
@@ -203,6 +208,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }) }
         case 'education':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyExperience: IExperience = {
@@ -223,6 +229,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'reference':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyContact: IContact = {
@@ -245,6 +252,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'projects':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyProject: IProject = {
@@ -264,6 +272,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'profile':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyProfile: IProfile = {
@@ -279,6 +288,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'contact':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyContact: IContact = {
@@ -301,6 +311,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'communication':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyCommunication: ICommunication = {
@@ -318,6 +329,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'skills':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyInfo: IInfo = {
@@ -334,6 +346,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'info':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyInfo: IInfo = {
@@ -350,6 +363,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'attachments':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyInfo: IInfo = {
@@ -375,6 +389,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
       switch (action.data.field) {
         case 'experience':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, experience: cv.experience ? cv.experience.filter((experience: IExperience) => experience.id !== action.data.objectId) : [] }
@@ -385,6 +400,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'education':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, education: cv.education ? cv.education.filter((education: IExperience) => education.id !== action.data.objectId) : [] }
@@ -395,6 +411,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'reference':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, reference: cv.reference ? cv.reference.filter((reference: IContact) => reference.id !== action.data.objectId) : [] }
@@ -405,6 +422,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'projects':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, projects: cv.projects ? cv.projects.filter((project: IProject) => project.id !== action.data.objectId) : [] }
@@ -415,6 +433,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'profile':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, profile: undefined }
@@ -427,6 +446,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return state // cannot delete contact field
         case 'communication':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, communication: undefined }
@@ -437,6 +457,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'skills':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, skills: undefined }
@@ -447,6 +468,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'info':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, info: undefined }
@@ -457,6 +479,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           }
         case 'attachments':
           return {
+            lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 return { ...cv, attachments: undefined }
@@ -506,6 +529,14 @@ export const removeTempCVObject = (id:string, field:string, objectId: string) =>
   const action: CVAction = {
     type: 'REMOVE_TEMP_OBJECT',
     data: {id, field, objectId}
+  }
+  return action
+}
+
+export const setPreviousCV = (id:string) => {
+  const action: CVAction = {
+    type: 'SET_PREVIOUS_CV',
+    data: {id}
   }
   return action
 }

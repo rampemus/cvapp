@@ -8,12 +8,13 @@ import { connect } from 'react-redux'
 interface OwnProps {
     showRoutes: boolean
 }
-export interface StateProps { user: UserState }
+export interface StateProps { user: UserState, lastOpenedCV: string }
 export interface DispatchProps { logoutUser: Function }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
-        user: state.user
+        user: state.user,
+        lastOpenedCV: state.cv.lastOpened
     }
 }
 
@@ -47,7 +48,7 @@ const Menu: React.FC<Props> = (props) => {
                     <Link to='/users'>
                         <div className={location.pathname === '/users' ? 'menu-item selected' : 'menu-item'}>Users</div>
                     </Link>
-                    <Link to='/mycv'>
+                    <Link to={`/mycv${props.lastOpenedCV.length > 1 ? '/' + props.lastOpenedCV : ''}`}>
                         <div className={location.pathname.includes('/mycv') ? 'menu-item selected' : 'menu-item'}>MyCV</div>
                     </Link>
                     <Link to='/about'>

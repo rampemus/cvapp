@@ -141,7 +141,7 @@ const initState: cvState = {
         phone: '0452478903',
         phoneAvailable: 'always',
         company: 'Good company',
-        pictureUrl: 'Nice pictures',
+        pictureUrl: 'kasvokuva.jpg',
         id: '5e1db55948aa55f4cb54fe42'
       },
       github: 'https://github.com/rampemus',

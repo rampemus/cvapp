@@ -1,23 +1,24 @@
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../app'
-import { ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME } from '../utils/config'
-import { createRootUser, userExists } from '../utils/userHelper'
+import { MONGODB_URI, ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME } from '../utils/config'
+import { createRootUser, deleteAllUsers, userExists } from '../utils/userHelper'
 
 const api = supertest(app)
 
 beforeAll(async () => {
-    const rootExists = await userExists(ROOT_USERNAME)
-    if (!rootExists) {
-        await createRootUser()
-    }
+    mongoose.set('useCreateIndex', true)
+    mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+
+    await deleteAllUsers()
+    await createRootUser()
 })
 
 test('root_user exists', async () => {
     expect(await userExists(ROOT_USERNAME)).toBe(true)
 })
 
-test('Login success with root_user', async () => {
+test('/api/login POST success with root_user', async () => {
     const rootLogin = await api
         .post('/api/login')
         .set('Content-Type', 'application/json')

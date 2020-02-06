@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import User from '../models/user'
+import User, { IUser } from '../models/user'
 import { ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME } from './config'
 
 const colorNames = [
@@ -196,6 +196,10 @@ const randomPassword = () => {
     return randomString.toString()
 }
 
+const deleteAllUsers = async () => {
+    await User.deleteMany({})
+}
+
 export {
     createRootUser,
     userExists,
@@ -204,5 +208,6 @@ export {
     userIsRootUser,
     ownerId,
     randomUserName,
-    randomPassword
+    randomPassword,
+    deleteAllUsers
 }

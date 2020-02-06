@@ -71,8 +71,8 @@ const Home: React.FC<Props> = (props) => {
                 <div className='cv-container-item cv-container-item-right'>
                     <h3><img src='project.svg' width='50px' height='45px' alt='icon'/>Projects</h3>
                     <hr />
-                    {props.cv.projects.map(project => 
-                        <div className='project-card'>
+                    {props.cv.projects.map((project, index) => 
+                        <div className='project-card' key={index + 'project'}>
                             <div style={{
                                 width: '140px',
                                 marginRight: '10px'
@@ -92,11 +92,11 @@ const Home: React.FC<Props> = (props) => {
                 <h3><img src='reference.svg' width='45px' height='45px' alt='icon'/>References</h3>
                 <hr />
                 <div className='key-value-container'>
-                    {reference && reference.map((ref: IContact) => [
-                        <div className='key-value-container-left'>
+                    {reference && reference.map((ref: IContact, index) => [
+                        <div className='key-value-container-left' key={index+'-reference-left'}>
                             <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p> 
                         </div>,
-                        <div className='key-value-container-right'>
+                        <div className='key-value-container-right' key={index+'-reference-right'}>
                             <p>Phone num. {ref.phone} ({ref.phoneAvailable})</p>
                             <p>{ref.email}</p>    
                         </div>
@@ -107,11 +107,11 @@ const Home: React.FC<Props> = (props) => {
                 <h3><img src='work.svg' width='45px' height='45px' alt='icon'/>Work Experience</h3>
                 <hr />
                 <div className='key-value-container'>
-                    {experience && experience.sort((a: IExperience, b: IExperience) => b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()).map((exp:IExperience) => [
-                        <div className='key-value-container-left'>
+                    {experience && experience.sort((a: IExperience, b: IExperience) => b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()).map((exp:IExperience, index) => [
+                        <div className='key-value-container-left' key={index + '-experience-left'}>
                             {renderTimeFrame(exp.timeFrame)}
                         </div>,
-                        <div className='key-value-container-right'>
+                        <div className='key-value-container-right' key={index + '-experience-right'}>
                             <p>{exp.description}</p>
                         </div>
                     ])}
@@ -121,11 +121,11 @@ const Home: React.FC<Props> = (props) => {
                 <h3><img src='education.svg' width='45px' height='45px' alt='icon'/>Education</h3>
                 <hr />
                 <div className='key-value-container'>
-                    {education && education.sort((a: IExperience, b: IExperience) => b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()).map((edu: IExperience) => [
-                        <div className='key-value-container-left'>
+                    {education && education.sort((a: IExperience, b: IExperience) => b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()).map((edu: IExperience, index) => [
+                        <div className='key-value-container-left' key={index + '-education-left'}>
                             {renderTimeFrame(edu.timeFrame)}
                         </div>,
-                        <div className='key-value-container-right'>
+                        <div className='key-value-container-right' key={index + '-education-right'}>
                             <p>{edu.description}</p>
                         </div>
                     ])}
@@ -135,24 +135,24 @@ const Home: React.FC<Props> = (props) => {
                 <h3><img src='communication.svg' width='45px' height='45px' alt='icon'/>Communication</h3>
                 <hr />
                 <div className='language-container'>
-                    {communication && communication.languages.map(language => <div><p>{language.language}</p><p>:</p><p>{language.level}</p></div>)}
+                    {communication && communication.languages.map((language,index) => <div key={index + 'language-container'}><p>{language.language}</p><p>:</p><p>{language.level}</p></div>)}
                 </div>
-                {communication && communication.content.map(skill =>
-                    <p>{skill}</p>
+                {communication && communication.content.map((skill, index) =>
+                    <p key={index + 'skill'}>{skill}</p>
                 )}
             </div>
             <div className='cv-container-item'>
                 <h3><img src='skills.svg' width='45px' height='45px' alt='icon'/>Other Skills</h3>
                 <hr />
-                {props.cv.skills && props.cv.skills.content.map(skill =>
-                    <p>{skill}</p>
+                {props.cv.skills && props.cv.skills.content.map((skill, index) =>
+                    <p key={index + 'skill'}>{skill}</p>
                 )}
             </div>
             <div className='cv-container-item'>
                 <h3><img src='attachment.svg' width='45px' height='45px' alt='icon'/>Attachments <span>(Please, ask during interview for these that only exist as original copies)</span></h3>
                 <hr />
-                {props.cv.attachments && props.cv.attachments.content.map(attachment =>
-                    <p>{attachment}</p>
+                {props.cv.attachments && props.cv.attachments.content.map((attachment, index) =>
+                    <p key={index + 'attachment'}>{attachment}</p>
                 )}
             </div>
         </div>

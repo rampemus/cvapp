@@ -159,6 +159,7 @@ interface IExperienceNoDate {
 }
 
 const getAllCV = () => {
+    // TODO: prevent request if there is no Authorization
     const request = axios.get(baseUrl, getConfigHeader())
     return request.then((response: getAllCVResponse) => {
         // console.log('formatted data will be handling this:',response.data)

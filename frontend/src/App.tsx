@@ -44,7 +44,9 @@ const App: React.FC<Props> = (props) => {
     if ( content ) {
       setHeight(content.clientHeight)
     }
-    props.updateCVs()
+    if (props.user && props.user.token.length > 0) {
+      props.updateCVs()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 

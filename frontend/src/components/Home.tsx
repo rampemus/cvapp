@@ -33,7 +33,6 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 type Props = OwnProps & StateProps & DispatchProps
 
 const Home: React.FC<Props> = (props) => {
-    console.log('Home props.cv', props.cv)
     if (!props.cv) {
         return <div>No default cv</div>
     } 

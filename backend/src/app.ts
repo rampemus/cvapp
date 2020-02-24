@@ -39,7 +39,9 @@ app.use('/api/login', loginRouter)
 
 app.use(TokenExtractor)
 app.use(AuthenticateUser)
-app.use(RequestLogger)
+if (process.env.NODE_ENV !== 'test') {
+    app.use(RequestLogger)
+}
 
 app.use('/api/users', usersRouter)
 app.use('/api/cv', cvRouter)

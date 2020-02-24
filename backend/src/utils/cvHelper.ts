@@ -5,7 +5,7 @@ import Experience from '../models/cv/experience'
 import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
-import User, { IUser } from '../models/user'
+import User from '../models/user'
 
 const connectObjectToCVField = async (cv: string, field: string, object: string) => {
     switch (field) {
@@ -244,6 +244,8 @@ const generateTestCV = async (username: string) => {
         techlist: 'Java, Python, CSS, C#, Angular',
     })
     const savedCV = await cv.save()
+
+    return savedCV
 }
 
 const userIsCVOwner = async ( username: string ) => {
@@ -251,9 +253,25 @@ const userIsCVOwner = async ( username: string ) => {
     return cvs.findIndex( (cv) => cv.owner.username === username) !== -1
 }
 
+const deleteAllCVs = async () => {
+    await CurriculumVitae.deleteMany({})
+}
+
+const deleteAllCVObjects = async () => {
+    await Communication.deleteMany({})
+    await Contact.deleteMany({})
+    await Experience.deleteMany({})
+    await Info.deleteMany({})
+    await Profile.deleteMany({})
+    await Project.deleteMany({})
+    await CurriculumVitae.deleteMany({})
+}
+
 export {
     connectObjectToCVField,
     disconnectObjectFromCVField,
     generateTestCV,
     userIsCVOwner,
+    deleteAllCVs,
+    deleteAllCVObjects
 }

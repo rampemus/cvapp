@@ -154,16 +154,18 @@ cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => 
             .catch((error) => {
                 response.status(400).json({ error: error.messages }).end()
             })
-        const cv = new CurriculumVitae({
-            ...cvBody,
-            contact: savedContact,
-            owner,
-        })
-        const savedCV = await cv.save()
+        if (savedContact) {
+            const cv = new CurriculumVitae({
+                ...cvBody,
+                contact: savedContact,
+                owner,
+            })
+            const savedCV = await cv.save()
             .catch((error) => {
                 response.status(400).json({ error: error.message }).end()
             })
-        response.status(201).json(savedCV)
+            response.status(201).json(savedCV).end()
+        }
     }
 })
 

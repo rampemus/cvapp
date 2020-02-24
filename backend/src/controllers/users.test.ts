@@ -28,10 +28,10 @@ describe('/api/users GET', () => {
         const token = 'bearer ' + rootLogin.body.token
 
         const users = await api
-        .get('/api/users')
-        .set('Content-Type', 'application/json')
-        .set('Authorization', token)
-        .expect(200)
+            .get('/api/users')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .expect(200)
 
         expect(users.body).toHaveLength(await (await (User.find({}))).length)
     })
@@ -39,7 +39,6 @@ describe('/api/users GET', () => {
 
 describe('/api/users POST', () => {
     test('new random user success with root_user', async () => {
-
         const token = 'bearer ' + rootLogin.body.token
 
         const users = await api
@@ -52,7 +51,6 @@ describe('/api/users POST', () => {
     })
 
     test('new custom user success with root_user', async () => {
-
         const token = 'bearer ' + rootLogin.body.token
 
         const customUser = {
@@ -74,7 +72,6 @@ describe('/api/users POST', () => {
 
 describe('/api/users DELETE', () => {
     test('root_user can remove user', async () => {
-
         const token = 'bearer ' + rootLogin.body.token
 
         const saltRounds = 10

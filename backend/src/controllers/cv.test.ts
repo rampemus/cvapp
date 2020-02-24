@@ -1,8 +1,21 @@
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../app'
-import { INewCommunicationBody, INewContactBody, INewExperienceBody, INewInfoBody, INewProfileBody, INewProjectBody } from '../controllers/cv'
+import { 
+    INewCommunicationBody,
+    INewContactBody,
+    INewExperienceBody,
+    INewInfoBody,
+    INewProfileBody,
+    INewProjectBody
+} from '../controllers/cv'
+import Communication from '../models/cv/communication'
+import Contact from '../models/cv/contact'
 import CurriculumVitae from '../models/cv/cv'
+import Experience from '../models/cv/experience'
+import Info from '../models/cv/info'
+import Profile from '../models/cv/profile'
+import Project from '../models/cv/project'
 import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME } from '../utils/config'
 import { deleteAllCVObjects, deleteAllCVs, generateTestCV } from '../utils/cvHelper'
 
@@ -61,7 +74,6 @@ describe('/api/cv GET', () => {
 
 describe('/api/cv/:type GET', () => {
     test('contact', async () => {
-        // TODO: empty test
         const token = 'bearer ' + rootLogin.body.token
 
         const contacts = await api
@@ -223,7 +235,7 @@ describe('/api/cv POST', () => {
 // describe('/api/cv/default POST', () => {
 //     test('Single user has different default', async () => {
 //         // TODO: empty test
-        
+
 //     })
 //     test('All will have same default', async () => {
 //         // TODO: empty test
@@ -459,41 +471,325 @@ describe('/api/cv/:type POST', () => {
     // })
 })
 
-// describe('/api/cv PUT', () => {
-//     test('Finds test CV', async () => {
-//         // TODO: empty test
-//     })
-// })
+describe('/api/cv PUT', () => {
+    test('Change name', async () => {
+        const token = 'bearer ' + rootLogin.body.token
 
-// describe('/api/cv/:type PUT', () => {
-//     test('contact', async () => {
-//         // TODO: empty test
-//     })
-//     test('profile', async () => {
+        const modifications = {
+            changes: { name: 'modified name' },
+            id: emptyTestCV.body.id
+        }
 
-//         // TODO: empty test
-//     })
-//     test('project', async () => {
-//         // TODO: empty test
+        const before = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
 
-//     })
-//     test('experience', async () => {
-//         // TODO: empty test
+        await api
+            .put('/api/cv/')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
 
-//     })
-//     test('communication', async () => {
-//         // TODO: empty test
+        const after = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
 
-//     })
-//     test('info', async () => {
-//         // TODO: empty test
+        expect(before.name).not.toEqual(after.name)
+        expect(after.name).toEqual(modifications.changes.name)
+    })
+    test('Change github', async () => {
+        const token = 'bearer ' + rootLogin.body.token
 
-//     })
+        const modifications = {
+            changes: { github: 'modified github' },
+            id: emptyTestCV.body.id
+        }
+
+        const before = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        await api
+            .put('/api/cv/')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
+
+        const after = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        expect(before.github).not.toEqual(after.github)
+        expect(after.github).toEqual(modifications.changes.github)
+    })
+    test('Change techlist', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const modifications = {
+            changes: { techlist: 'modified techlist' },
+            id: emptyTestCV.body.id
+        }
+
+        const before = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        await api
+            .put('/api/cv/')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
+
+        const after = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        expect(before.techlist).not.toEqual(after.techlist)
+        expect(after.techlist).toEqual(modifications.changes.techlist)
+    })
+})
+
+describe('/api/cv/:type PUT', () => {
+    test('Modify contact', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const cv = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        const modificationsContact = {
+            changes: {
+                address: 'modified address',
+                company: 'modified company',
+                email: 'modified email',
+                firstname: 'modified firstname',
+                lastname: 'modified lastname',
+                phone: 'modified phone number',
+                phoneAvailable: 'modified phoneAvailable',
+                pictureUrl: 'modified picture url',
+            },
+            id: cv.contact
+        }
+
+        const modificationsReference = {
+            changes: {
+                address: 'modified address',
+                company: 'modified company',
+                email: 'modified email',
+                firstname: 'modified firstname',
+                lastname: 'modified lastname',
+                phone: 'modified phone number',
+                phoneAvailable: 'modified phoneAvailable',
+                pictureUrl: 'modified picture url',
+            },
+            id: cv.reference[0]
+        }
+
+        let before = await Contact.findOne({ _id: cv.contact })
+
+        await api
+            .put('/api/cv/contact')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modificationsContact)
+            .expect(201)
+
+        let after = await Contact.findOne({ _id: cv.contact })
+
+        expect(before.address).not.toEqual(after.address)
+        expect(after.address).toEqual(modificationsContact.changes.address)
+
+        before = await Contact.findOne({ _id: cv.reference })
+
+        await api
+            .put('/api/cv/contact')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modificationsReference)
+            .expect(201)
+
+        after = await Contact.findOne({ _id: cv.reference})
+
+        expect(before.address).not.toEqual(after.address)
+        expect(after.address).toEqual(modificationsContact.changes.address)
+    })
+    test('Modify profile', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const cv = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        const modifications = {
+            changes: {
+                content: ['modified string array'],
+                name: 'modified name',
+            },
+            id: cv.profile
+        }
+
+        const before = await Profile.findOne({ _id: cv.profile })
+
+        await api
+            .put('/api/cv/profile')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
+
+        const after = await Profile.findOne({ _id: cv.profile })
+
+        expect(before.name).not.toEqual(after.name)
+        expect(after.name).toEqual(modifications.changes.name)
+
+        expect(before.content[0]).not.toEqual(after.content[0])
+        expect(after.content[0]).toEqual(modifications.changes.content[0])
+    })
+    test('Modify project', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const cv = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        const modifications = {
+            changes: {
+                description: 'Modified description',
+                githubUrl: 'Modified githubUrl',
+                name: 'Modified name',
+                showcaseUrl: 'Modified showcaseUrl',
+                thumbnailUrl: 'Modified thumbnailUrl'
+            },
+            id: cv.projects[0]
+        }
+
+        const before = await Project.findOne({ _id: cv.projects[0] })
+
+        await api
+            .put('/api/cv/project')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
+
+        const after = await Project.findOne({ _id: cv.projects[0] })
+
+        expect(before.description).not.toEqual(after.description)
+        expect(after.description).toEqual(modifications.changes.description)
+
+        expect(before.githubUrl).not.toEqual(after.githubUrl)
+        expect(after.githubUrl).toEqual(modifications.changes.githubUrl)
+
+        expect(before.name).not.toEqual(after.name)
+        expect(after.name).toEqual(modifications.changes.name)
+
+        expect(before.showcaseUrl).not.toEqual(after.showcaseUrl)
+        expect(after.showcaseUrl).toEqual(modifications.changes.showcaseUrl)
+
+        expect(before.thumbnailUrl).not.toEqual(after.thumbnailUrl)
+        expect(after.thumbnailUrl).toEqual(modifications.changes.thumbnailUrl)
+    })
+    test('Modify experience', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const cv = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        const modifications = {
+            changes: {
+                description: 'Modified description',
+                name: 'Modified name',
+                timeFrame: {
+                    endDate: new Date(),
+                    startDate: new Date()
+                }
+            },
+            id: cv.experience[0]
+        }
+
+        const before = await Experience.findOne({ _id: cv.experience[0] })
+
+        await api
+            .put('/api/cv/experience')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
+
+        const after = await Experience.findOne({ _id: cv.experience[0] })
+
+        expect(before.description).not.toEqual(after.description)
+        expect(after.description).toEqual(modifications.changes.description)
+
+        expect(before.name).not.toEqual(after.name)
+        expect(after.name).toEqual(modifications.changes.name)
+
+        expect(before.timeFrame.startDate).not.toEqual(after.timeFrame.startDate)
+        expect(after.timeFrame.startDate).toEqual(modifications.changes.timeFrame.startDate)
+
+        expect(before.timeFrame.endDate).not.toEqual(after.timeFrame.endDate)
+        expect(after.timeFrame.endDate).toEqual(modifications.changes.timeFrame.endDate)
+    })
+    test('Modify communication', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const cv: any = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        const modifications = {
+            changes: {
+                content: ['modified string array'],
+                languages: [{
+                    language: 'Modified language',
+                    level: 'Modified level',
+                }],
+                name: 'modified name',
+            },
+            id: cv.communication[0]
+        }
+
+        const before: any = await Communication.findOne({ _id: cv.communication[0] })
+
+        await api
+            .put('/api/cv/communication')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
+
+        const after: any = await Communication.findOne({ _id: cv.communication[0] })
+
+        expect(before.name).not.toEqual(after.name)
+        expect(after.name).toEqual(modifications.changes.name)
+
+        expect(before.content[0]).not.toEqual(after.content[0])
+        expect(after.content[0]).toEqual(modifications.changes.content[0])
+
+        expect(before.languages[0].language).not.toEqual(after.languages[0].language)
+        expect(after.languages[0].language).toEqual(modifications.changes.languages[0].language)
+
+        expect(before.languages[0].level).not.toEqual(after.languages[0].level)
+        expect(after.languages[0].level).toEqual(modifications.changes.languages[0].level)
+    })
+    test('Modify info', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const cv: any = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
+
+        const modifications = {
+            changes: {
+                content: ['modified string array'],
+                name: 'modified name',
+            },
+            id: cv.info[0]
+        }
+
+        const before: any = await Info.findOne({ _id: cv.info[0] })
+
+        await api
+            .put('/api/cv/info')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(modifications)
+            .expect(201)
+
+        const after: any = await Info.findOne({ _id: cv.info[0] })
+
+        expect(before.name).not.toEqual(after.name)
+        expect(after.name).toEqual(modifications.changes.name)
+
+        expect(before.content[0]).not.toEqual(after.content[0])
+        expect(after.content[0]).toEqual(modifications.changes.content[0])
+
+    })
 //     test('invalid type', async () => {
 //         // TODO: empty test
 
 //     })
-// })
+})
 
 // describe('/api/cv/:id DELETE', () => {
 //     test('Finds test CV', async () => {

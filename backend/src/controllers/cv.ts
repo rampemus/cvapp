@@ -60,20 +60,20 @@ interface ICVConnect {
     field: string,
 }
 
-interface INewInfoBody {
+export interface INewInfoBody {
     name: string,
     content: string[],
     cv?: ICVConnect,
 }
 
-interface INewCommunicationBody extends INewInfoBody {
+export interface INewCommunicationBody extends INewInfoBody {
     languages: [{
         language: string,
         level: string,
     }],
 }
 
-interface INewExperienceBody {
+export interface INewExperienceBody {
     description: string,
     name: string,
     timeFrame?: {
@@ -83,13 +83,13 @@ interface INewExperienceBody {
     cv?: ICVConnect,
 }
 
-interface INewProfileBody {
+export interface INewProfileBody {
     name: string,
     content: string[],
     cv?: ICVConnect,
 }
 
-interface INewProjectBody {
+export interface INewProjectBody {
     description: string,
     githubUrl?: string,
     name: string,
@@ -98,7 +98,7 @@ interface INewProjectBody {
     cv?: ICVConnect,
 }
 
-interface INewContactBody {
+export interface INewContactBody {
     address?: string,
     company?: string,
     email?: string,

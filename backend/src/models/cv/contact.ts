@@ -17,6 +17,7 @@ export interface IContact extends Document {
 
 const contactSchema: Schema = new Schema({
     address: String,
+    company: String,
     email: String,
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },

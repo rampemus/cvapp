@@ -10,7 +10,14 @@ import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
 import User from '../models/user'
 import { MONGODB_URI, ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME } from './config'
-import { connectObjectToCVField, deleteAllCVObjects, deleteAllCVs, generateTestCV, userIsCVOwner } from './cvHelper'
+import {
+    connectObjectToCVField,
+    deleteAllCVObjects,
+    deleteAllCVs,
+    disconnectObjectFromCVField,
+    generateTestCV,
+    userIsCVOwner
+} from './cvHelper'
 
 const api = supertest(app)
 
@@ -197,15 +204,51 @@ test('connectObjectToCVField', async () => {
     expect(await CurriculumVitae.find({ projects: project })).toHaveLength(1)
 })
 
-// test('disconnectObjectFromCVField', async () => {
-//         // TODO: empty test
+test('disconnectObjectFromCVField', async () => {
+    const cv = await CurriculumVitae.findOne({})
 
-// })
+    expect(await CurriculumVitae.find({ reference: cv.reference[0] + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField( cv._id, 'reference', cv.reference[0] + '')
+    expect(await CurriculumVitae.find({ reference: cv.reference[0] + '' })).toHaveLength(0)
 
-// test('generateTestCV with username root_user', async () => {
-//         // TODO: empty test
+    expect(await CurriculumVitae.find({ info: cv.info + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'info', cv.info + '')
+    expect(await CurriculumVitae.find({ info: cv.info + '' })).toHaveLength(0)
 
-// })
+    expect(await CurriculumVitae.find({ skills: cv.skills + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'skills', cv.skills + '')
+    expect(await CurriculumVitae.find({ skills: cv.skills + '' })).toHaveLength(0)
+
+    expect(await CurriculumVitae.find({ attachments: cv.attachments + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'attachments', cv.attachments + '')
+    expect(await CurriculumVitae.find({ attachments: cv.attachments + '' })).toHaveLength(0)
+
+    expect(await CurriculumVitae.find({ profile: cv.profile + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'profile', cv.profile + '')
+    expect(await CurriculumVitae.find({ profile: cv.profile + '' })).toHaveLength(0)
+
+    expect(await CurriculumVitae.find({ experience: cv.experience + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'experience', cv.experience + '')
+    expect(await CurriculumVitae.find({ experience: cv.experience + '' })).toHaveLength(0)
+
+    expect(await CurriculumVitae.find({ education: cv.education + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'education', cv.education + '')
+    expect(await CurriculumVitae.find({ education: cv.education + '' })).toHaveLength(0)
+
+    expect(await CurriculumVitae.find({ communication: cv.communication + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'communication', cv.communication + '')
+    expect(await CurriculumVitae.find({ communication: cv.communication + '' })).toHaveLength(0)
+
+    expect(await CurriculumVitae.find({ projects: cv.projects + '' })).toHaveLength(1)
+    await disconnectObjectFromCVField(cv._id, 'projects', cv.projects + '')
+    expect(await CurriculumVitae.find({ projects: cv.projects + '' })).toHaveLength(0)
+})
+
+test('generateTestCV with username root_user', async () => {
+    expect(await CurriculumVitae.find({})).toHaveLength(1)
+    await generateTestCV(ROOT_USERNAME)
+    expect(await CurriculumVitae.find({})).toHaveLength(2)
+})
 
 afterAll(() => {
     mongoose.connection.close()

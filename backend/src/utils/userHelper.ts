@@ -185,9 +185,9 @@ const randomUserName = () => {
 }
 
 // https://stackoverflow.com/questions/9719570/generate-random-password-string-with-requirements-in-javascript
-const randomPassword = () => {
+const randomPassword = ( length: number ) => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#%&'
-    const passwordLength = 10
+    const passwordLength = length
     let randomString = ''
     for (let i = 0; i < passwordLength; i++) {
         const rnumber = Math.floor(Math.random() * chars.length)

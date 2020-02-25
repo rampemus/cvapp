@@ -24,7 +24,8 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
 
     const user = await User.findOne({ username: body.username })
 
-    const passwordCorrect = user && await bcrypt.compare(body.password, user.passwordHash)
+    const passwordCorrect = user ?
+        await bcrypt.compare(body.password, user.passwordHash) : await bcrypt.hash(body.password, 10)
 
     if (!user || !passwordCorrect) {
         return response.status(401).send({

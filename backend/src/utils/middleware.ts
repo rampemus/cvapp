@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { IUserToken } from '../controllers/login'
 import { JWT_SALT, ROOT_USERNAME } from './config'
 
 interface IRequestWithToken extends Request {

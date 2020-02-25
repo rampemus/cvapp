@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production node .",
     "start:tsnode": "NODE_ENV=development ts-node src/index.ts",
     "watch": "nodemon",
-    "watch:test": "NODE_ENV=test jest --watchAll --verbose --runInBand",
+    "watch:test": "NODE_ENV=test jest --verbose --watchAll --runInBand",
     "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "nodemonConfig": {

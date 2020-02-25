@@ -43,13 +43,13 @@ const connectObjectToCVField = async (cv: string, field: string, object: string)
 }
 
 const disconnectObjectFromCVField = async (cv: string, field: string, object: string) => {
-    const cvFromData: ICurriculumVitae = await CurriculumVitae.findOne({ _id: cv })
+    const cvFromData: any = await CurriculumVitae.findOne({ _id: cv })
     switch (field) {
         case 'projects':
             if (cvFromData.projects) {
                 await CurriculumVitae.update(
                     { _id: cv },
-                    { projects: cvFromData.projects.filter((project) => project.id !== object) }
+                    { projects: cvFromData.projects.filter((project: any) => project._id + '' !== object) }
                 )
             }
             break
@@ -57,7 +57,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             if (cvFromData.reference) {
                 await CurriculumVitae.update(
                     { _id: cv },
-                    { reference: cvFromData.reference.filter((ref) => ref.id !== object) }
+                    { reference: cvFromData.reference.filter((ref: any) => ref._id + '' !== object) }
                 )
             }
             break
@@ -65,7 +65,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             if (cvFromData.experience) {
                 await CurriculumVitae.update(
                     { _id: cv },
-                    { experience: cvFromData.experience.filter((exp) => exp.id !== object) }
+                    { experience: cvFromData.experience.filter((exp: any) => exp._id + '' !== object) }
                 )
             }
             break
@@ -73,7 +73,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             if (cvFromData.education) {
                 await CurriculumVitae.update(
                     { _id: cv },
-                    { education: cvFromData.education.filter((exp) => exp.id !== object) }
+                    { education: cvFromData.education.filter((exp: any) => exp._id + '' !== object) }
                 )
             }
             break
@@ -86,7 +86,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             }
             break
         case 'communication':
-            if (cvFromData.communication) {
+            if (cvFromData.communication && cvFromData.communication[0]._id + '' === object) {
                 await CurriculumVitae.update(
                     { _id: cv },
                     { communication: undefined }
@@ -97,7 +97,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             // contact is required to be defined
             break
         case 'skills':
-            if (cvFromData.skills) {
+            if (cvFromData.skills && cvFromData.skills[0]._id + '' === object ) {
                 await CurriculumVitae.update(
                     { _id: cv },
                     { skills: undefined }
@@ -105,7 +105,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             }
             break
         case 'info':
-            if (cvFromData.info) {
+            if (cvFromData.info && cvFromData.info[0]._id + '' === object ) {
                 await CurriculumVitae.update(
                     { _id: cv },
                     { info: undefined }
@@ -113,10 +113,10 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             }
             break
         case 'attachments':
-            if (cvFromData.contact) {
+            if (cvFromData.attachments && cvFromData.attachments[0]._id + '' === object ) {
                 await CurriculumVitae.update(
                     { _id: cv },
-                    { contact: undefined }
+                    { attachments: undefined }
                 )
             }
             break

@@ -7,7 +7,7 @@ import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
 import User, { IUser } from '../models/user'
-import { connectObjectToCVField } from '../utils/cvHelper'
+import { connectObjectToCVField, disconnectObjectFromCVField } from '../utils/cvHelper'
 import { IRequestWithIdentity } from '../utils/middleware'
 
 const cvRouter = Router()
@@ -390,27 +390,94 @@ cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response
 cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Response) => {
     switch (request.params.type) {
         case 'contact':
+            const referenceCV = await CurriculumVitae.findOne({ reference: request.params.id })
+            const contactCV = await CurriculumVitae.findOne({ contact: request.params.id })
+            if (contactCV) { 
+                response.status(403).end()
+                break
+            }
             await Contact.findOneAndDelete({ _id: request.params.id })
+            if (!referenceCV) {
+                response.status(404).end()
+                break
+            }
+            await disconnectObjectFromCVField(
+                referenceCV.id,
+                'reference',
+                request.params.id
+            )
             response.status(204).end()
             break
         case 'profile':
+            const profileCV = await CurriculumVitae.findOne({ profile: request.params.id })
             await Profile.findOneAndDelete({ _id: request.params.id })
+            if (!profileCV) { response.status(404).end() }
+            await disconnectObjectFromCVField(
+                profileCV.id,
+                'profile',
+                request.params.id
+            )
             response.status(204).end()
             break
         case 'experience':
+            const experienceCV = await CurriculumVitae.findOne({ experience: request.params.id })
+                || await CurriculumVitae.findOne({ education: request.params.id })
             await Experience.findOneAndDelete({ _id: request.params.id })
+            if (!experienceCV) { response.status(404).end() }
+            await disconnectObjectFromCVField(
+                experienceCV._id,
+                'experience',
+                request.params.id
+            )
+            await disconnectObjectFromCVField(
+                experienceCV._id,
+                'education',
+                request.params.id
+            )
             response.status(204).end()
             break
         case 'communication':
+            const communicationCV = await CurriculumVitae.findOne({ communication: request.params.id })
             await Communication.findOneAndDelete({ _id: request.params.id })
+            if (!communicationCV) { response.status(404).end() }
+            await disconnectObjectFromCVField(
+                communicationCV._id,
+                'communication',
+                request.params.id
+            )
             response.status(204).end()
             break
         case 'info':
+            const infoCV = await CurriculumVitae.findOne({ skills: request.params.id })
+                || await CurriculumVitae.findOne({ attachments: request.params.id })
+                || await CurriculumVitae.findOne({ info: request.params.id })
             await Info.findOneAndDelete({ _id: request.params.id })
+            if (!infoCV) { response.status(404).end() }
+            await disconnectObjectFromCVField(
+                infoCV._id,
+                'skills',
+                request.params.id
+            )
+            await disconnectObjectFromCVField(
+                infoCV._id,
+                'attachments',
+                request.params.id
+            )
+            await disconnectObjectFromCVField(
+                infoCV._id,
+                'info',
+                request.params.id
+            )
             response.status(204).end()
             break
         case 'project':
             await Project.findOneAndDelete({ _id: request.params.id })
+            const projectCVid = (await CurriculumVitae.findOne({ projects: request.params.id })).id
+            await disconnectObjectFromCVField(
+                projectCVid,
+                'projects',
+                request.params.id
+            )
             response.status(204).end()
             break
         default:

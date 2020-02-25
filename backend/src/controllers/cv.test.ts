@@ -880,7 +880,7 @@ describe('/api/cv/:type/:id DELETE', () => {
         after = await CurriculumVitae.findOne({ _id: testCV.id })
         expect(after.education).toHaveLength(0)
     })
-    test('communication', async () => {
+    test('Deletes communication and ref fields', async () => {
         const token = 'bearer ' + rootLogin.body.token
 
         await api

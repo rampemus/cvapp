@@ -1,6 +1,4 @@
 import mongoose from 'mongoose'
-import supertest from 'supertest'
-import app from '../app'
 import Communication from '../models/cv/communication'
 import Contact from '../models/cv/contact'
 import CurriculumVitae from '../models/cv/cv'
@@ -9,7 +7,7 @@ import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
 import User from '../models/user'
-import { MONGODB_URI, ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME } from './config'
+import { MONGODB_URI, ROOT_USERNAME } from './config'
 import {
     connectObjectToCVField,
     deleteAllCVObjects,
@@ -18,8 +16,6 @@ import {
     generateTestCV,
     userIsCVOwner
 } from './cvHelper'
-
-const api = supertest(app)
 
 beforeAll(async () => {
     mongoose.set('useCreateIndex', true)

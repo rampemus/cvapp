@@ -248,8 +248,6 @@ const duplicateCV = (cv: ICV) => {
         await createObject(ServiceType.INFO, duplicateInfo, cvId, 'info')
 
         return response.data
-    }).catch(error => {
-        console.log('duplicate cv error:', error.response.data.error)
     })
 }
 
@@ -292,6 +290,28 @@ interface IExperienceNoDate {
     id: string,
 }
 
+interface ISetDefaultCV {
+    cvid: string,
+    userid?: string,
+}
+
+interface defaultResponse extends AxiosResponse {
+    data: {
+        message: string
+    }
+}
+
+const setCVDefault = (cv: string) => {
+    const defaultCommand: ISetDefaultCV = {
+        cvid: cv
+    }
+
+    const request = axios.post(baseUrl + '/default', defaultCommand, getConfigHeader())
+    return request.then((response: defaultResponse) => {
+        return response.data
+    })
+}
+
 const getAllCV = () => {
     // TODO: prevent request if there is no Authorization
     const request = axios.get(baseUrl, getConfigHeader())
@@ -324,4 +344,4 @@ const getAllCV = () => {
     })
 }
 
-export default { createObject, modifyObject, deleteObject, getAllCV, createEmptyCV, duplicateCV }
+export default { createObject, modifyObject, deleteObject, getAllCV, createEmptyCV, duplicateCV, setCVDefault }

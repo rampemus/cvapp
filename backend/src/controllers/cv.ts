@@ -383,51 +383,57 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
 cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response) => {
     const id = request.params.id
     const cv: any = await CurriculumVitae.findOne({ _id: id })
-
     if (!cv) {
         response.status(400).json({ error: 'cv does not exist' }).end()
     }
 
-    await CurriculumVitae.deleteOne({ _id: id })
-    if (cv.contact) { Contact.deleteOne({ _id: cv.contact + '' }) }
-    if (cv.profile) { await Profile.deleteOne({ _id: cv.profile + '' }) }
-    if (cv.projects && cv.projects.length > 0) {
-        cv.projects.map(async (project: any) => { await Project.deleteOne({ _id: project + '' }) })
+    if (request.userid + '' === cv.owner + ''
+        || request.userGroup === 'Admin') {
+
+        await CurriculumVitae.deleteOne({ _id: id })
+        if (cv.contact) { Contact.deleteOne({ _id: cv.contact + '' }) }
+        if (cv.profile) { await Profile.deleteOne({ _id: cv.profile + '' }) }
+        if (cv.projects && cv.projects.length > 0) {
+            cv.projects.map(async (project: any) => { await Project.deleteOne({ _id: project + '' }) })
+        }
+        if (cv.reference && cv.reference.length > 0) {
+            cv.reference.map(async (contact: any) => { await Contact.deleteOne({ _id: contact + '' }) })
+        }
+        if (cv.experience && cv.experience.length > 0) {
+            cv.experience.map(async (experience: any) => { await Experience.deleteOne({ _id: experience + '' }) })
+        }
+        if (cv.education && cv.education.length > 0) {
+            cv.education.map(async (experience: any) => { await Experience.deleteOne({ _id: experience + '' }) })
+        }
+        if (cv.communication) {
+            cv.communication.map(async (com: any) => { await Communication.deleteOne({ _id: com + '' }) })
+        }
+        if (cv.skills) {
+            cv.skills.map(async (skills: any) => { await Info.deleteOne({ _id: skills + '' }) })
+        }
+        if (cv.info) {
+            cv.info.map(async (info: any) => { await Info.deleteOne({ _id: info + '' }) })
+        }
+        if (cv.attachments) {
+            cv.attachments.map(async (attachments: any) => { await Info.deleteOne({ _id: attachments + '' }) })
+        }
+        response.status(204).end()
+
+    } else {
+        response.status(401).end()
     }
-    if (cv.reference && cv.reference.length > 0) {
-        cv.reference.map(async (contact: any) => { await Contact.deleteOne({ _id: contact + '' }) })
-    }
-    if (cv.experience && cv.experience.length > 0) {
-        cv.experience.map(async (experience: any) => { await Experience.deleteOne({ _id: experience + '' }) })
-    }
-    if (cv.education && cv.education.length > 0) {
-        cv.education.map(async (experience: any) => { await Experience.deleteOne({ _id: experience + '' }) })
-    }
-    if (cv.communication) {
-        cv.communication.map(async (com: any) => { await Communication.deleteOne({ _id: com + '' }) })
-    }
-    if (cv.skills) {
-        cv.skills.map(async (skills: any) => { await Info.deleteOne({ _id: skills + '' }) })
-    }
-    if (cv.info) {
-        cv.info.map(async (info: any) => { await Info.deleteOne({ _id: info + '' }) })
-    }
-    if (cv.attachments) {
-        cv.attachments.map(async (attachments: any) => { await Info.deleteOne({ _id: attachments + '' }) })
-    }
-    response.status(204).end()
 })
 
 cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Response) => {
     switch (request.params.type) {
         case 'contact':
-            const referenceCV = await CurriculumVitae.findOne({ reference: request.params.id })
-            const contactCV = await CurriculumVitae.findOne({ contact: request.params.id })
+            const referenceCV = await CurriculumVitae.findOne({ reference: request.params.id, owner: request.userid })
+            const contactCV = await CurriculumVitae.findOne({ contact: request.params.id, owner: request.userid })
             if (contactCV) {
                 response.status(403).end()
                 break
             }
-            await Contact.findOneAndDelete({ _id: request.params.id })
+            await Contact.findOneAndDelete({ _id: request.params.id, owner: request.userid })
             if (!referenceCV) {
                 response.status(404).end()
                 break
@@ -440,8 +446,8 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             response.status(204).end()
             break
         case 'profile':
-            const profileCV = await CurriculumVitae.findOne({ profile: request.params.id })
-            await Profile.findOneAndDelete({ _id: request.params.id })
+            const profileCV = await CurriculumVitae.findOne({ profile: request.params.id, owner: request.userid })
+            await Profile.findOneAndDelete({ _id: request.params.id, owner: request.userid })
             if (!profileCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 profileCV.id,
@@ -451,9 +457,9 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             response.status(204).end()
             break
         case 'experience':
-            const experienceCV = await CurriculumVitae.findOne({ experience: request.params.id })
-                || await CurriculumVitae.findOne({ education: request.params.id })
-            await Experience.findOneAndDelete({ _id: request.params.id })
+            const experienceCV = await CurriculumVitae.findOne({ experience: request.params.id, owner: request.userid })
+                || await CurriculumVitae.findOne({ education: request.params.id, owner: request.userid })
+            await Experience.findOneAndDelete({ _id: request.params.id, owner: request.userid })
             if (!experienceCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 experienceCV._id,
@@ -468,8 +474,9 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             response.status(204).end()
             break
         case 'communication':
-            const communicationCV = await CurriculumVitae.findOne({ communication: request.params.id })
-            await Communication.findOneAndDelete({ _id: request.params.id })
+            const communicationCV =
+                await CurriculumVitae.findOne({ communication: request.params.id, owner: request.userid })
+            await Communication.findOneAndDelete({ _id: request.params.id, owner: request.userid })
             if (!communicationCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 communicationCV._id,
@@ -479,10 +486,10 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             response.status(204).end()
             break
         case 'info':
-            const infoCV = await CurriculumVitae.findOne({ skills: request.params.id })
-                || await CurriculumVitae.findOne({ attachments: request.params.id })
-                || await CurriculumVitae.findOne({ info: request.params.id })
-            await Info.findOneAndDelete({ _id: request.params.id })
+            const infoCV = await CurriculumVitae.findOne({ skills: request.params.id, owner: request.userid })
+                || await CurriculumVitae.findOne({ attachments: request.params.id, owner: request.userid })
+                || await CurriculumVitae.findOne({ info: request.params.id, owner: request.userid })
+            await Info.findOneAndDelete({ _id: request.params.id, owner: request.userid })
             if (!infoCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 infoCV._id,
@@ -502,8 +509,10 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             response.status(204).end()
             break
         case 'project':
-            await Project.findOneAndDelete({ _id: request.params.id })
-            const projectCVid = (await CurriculumVitae.findOne({ projects: request.params.id })).id
+            await Project.findOneAndDelete({ _id: request.params.id, owner: request.userid })
+            const projectCVid = (
+                    await CurriculumVitae.findOne({ projects: request.params.id, owner: request.userid })
+                ).id
             await disconnectObjectFromCVField(
                 projectCVid,
                 'projects',

@@ -423,7 +423,7 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
         case 'contact':
             const referenceCV = await CurriculumVitae.findOne({ reference: request.params.id })
             const contactCV = await CurriculumVitae.findOne({ contact: request.params.id })
-            if (contactCV) { 
+            if (contactCV) {
                 response.status(403).end()
                 break
             }

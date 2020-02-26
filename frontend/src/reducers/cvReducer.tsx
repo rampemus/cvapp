@@ -15,41 +15,41 @@ const initState: cvState = {
     {
       attachments: {
         content: [
-          'Certificate of studies',
-          'certificate of driving',
-          'Certificate of trucks'
+          '...',
+          '...',
+          '...'
         ],
-        name: 'Certificates and that short of things',
+        name: '...',
         owner: {
           created: new Date('2020-01-13T13:18:58.111Z'),
-          name: 'Pasi Toivanen',
-          username: 'rampemus',
-          id: '5e1c6e42d9e1887cc7c4c968'
+          name: '...',
+          username: '...',
+          id: '...'
         },
-        id: '5e1db55948aa55f4cb54fe4c'
+        id: '...'
       },
       communication: {
         content: [
-          'I speak as Im spoken of that I spoke what I speak'
+          '...'
         ],
         languages: [
           {
-            'language': 'English',
-            'level': 'Fluent'
+            'language': '...',
+            'level': '...'
           },
           {
-            'language': 'Spook',
-            'level': 'Spok'
+            'language': '...',
+            'level': '...'
           }
         ],
-        name: 'Bilanguagelist',
+        name: '...',
         owner: {
           created: new Date('2020-01-13T13:18:58.111Z'),
-          name: 'Pasi Toivanen',
-          username: 'rampemus',
-          id: '5e1c6e42d9e1887cc7c4c968'
+          name: '...',
+          username: '...',
+          id: '...'
         },
-        id: '5e1db55948aa55f4cb54fe47'
+        id: '...'
         },
       education: [
         {
@@ -57,15 +57,15 @@ const initState: cvState = {
             endDate: new Date('2020-01-14T12:34:33.498Z'),
             startDate: new Date('2020-01-14T12:34:33.498Z')
           },
-          description: 'Many studies done',
-          name: 'The basic degree',
+          description: '...',
+          name: '...',
           owner: {
             created: new Date('2020-01-13T13:18:58.111Z'),
-            name: 'Pasi Toivanen',
-            username: 'rampemus',
-            id: '5e1c6e42d9e1887cc7c4c968'
+            name: '...',
+            username: '...',
+            id: '...'
           },
-          id: '5e1db55948aa55f4cb54fe46'
+          id: '...'
         }
       ],
       experience: [{
@@ -73,101 +73,101 @@ const initState: cvState = {
           endDate: new Date('2020-01-14T12:34:33.498Z'),
           startDate: new Date('2020-01-14T12:34:33.498Z')
         },
-        description: 'Many job done',
-        name: 'The average job',
+        description: '...',
+        name: '...',
         owner: {
           created: new Date('2020-01-13T13:18:58.111Z'),
-          name: 'Pasi Toivanen',
-          username: 'rampemus',
-          id: '5e1c6e42d9e1887cc7c4c968'
+          name: '...',
+          username: '...',
+          id: '...'
         },
-        id: '5e1db55948aa55f4cb54fe45'
+        id: '...'
       }],
       info: {
         content: [
-          'Can drive a car, a boat, a truck and a plane',
-          'All that with just a one hand!'
+          '...',
+          '...'
         ],
-        name: 'Driving info',
+        name: '...',
         owner: {
           created: new Date('2020-01-13T13:18:58.111Z'),
-          name: 'Pasi Toivanen',
-          username: 'rampemus',
-          id: '5e1c6e42d9e1887cc7c4c968'
+          name: '...',
+          username: '...',
+          id: '...'
         }, 
-        id: '5e1db55948aa55f4cb54fe4b'
+        id: '...'
       },
       projects: [
         {
-          description: 'Project that will be soon finished',
-          githubUrl: 'https://github.com/rampemus/cvapp',
-          name: 'CV project',
+          description: '...',
+          githubUrl: '',
+          name: '...',
           owner: {
             created: new Date('2020-01-13T13:18:58.111Z'),
-            name: 'Pasi Toivanen',
-            username: 'rampemus',
-            id: '5e1c6e42d9e1887cc7c4c968'
+            name: '...',
+            username: '...',
+            id: '...'
           }, 
-          showcaseUrl: 'http://localhost:3000/',
-          thumbnailUrl: 'logo.svg',
-          id: '5e1db55948aa55f4cb54fe4d'
+          showcaseUrl: '...',
+          thumbnailUrl: '',
+          id: '...'
         }
       ],
       reference: [],
       skills: {
           content: [
-            'A lot of social superskills'
+            '...'
           ],
-          name: 'Social skills',
+          name: '...',
           owner: {
             created: new Date('2020-01-13T13:18:58.111Z'),
-            name: 'Pasi Toivanen',
-            username: 'rampemus',
-            id: '5e1c6e42d9e1887cc7c4c968'
+            name: '...',
+            username: '...',
+            id: '...'
           }, 
-          id: '5e1db55948aa55f4cb54fe4a'
+        id: '...'
       },
       contact: {
-        address: 'Testaavankatu 23, 80200 Joensuu',
-        email: 'testaava.testi@testaus.net',
-        firstname: 'Teppo',
-        lastname: 'Testaavainen',
+        address: '...',
+        email: '...',
+        firstname: '...',
+        lastname: '...',
         owner: {
           created: new Date('2020-01-13T13:18:58.111Z'),
-          name: 'Pasi Toivanen',
-          username: 'rampemus',
-          id: '5e1c6e42d9e1887cc7c4c968'
+          name: '...',
+          username: '...',
+          id: '...'
         },
-        phone: '0452478903',
-        phoneAvailable: 'always',
-        company: 'Good company',
-        pictureUrl: 'kasvokuva.jpg',
-        id: '5e1db55948aa55f4cb54fe42'
+        phone: '...',
+        phoneAvailable: '...',
+        company: '...',
+        pictureUrl: '',
+        id: '...'
       },
-      github: 'https://github.com/rampemus',
-      name: 'Init cv straight from the reducer',
+      github: '',
+      name: '...',
       owner: { 
         created: new Date('2020-01-13T13:18:58.111Z'),
-        name: 'Pasi Toivanen',
-        username: 'rampemus',
-        id: '5e1c6e42d9e1887cc7c4c968'
+        name: '...',
+        username: '...',
+        id: '...'
       },
       profile: {
         content: [
-          'Many feelings of feeling the feels of feeling may lead to feel a alot.',
-          'Note that there is feelings that are felt many times of feelings that the feelings create'
+          '...',
+          '...'
         ],
-        name: 'Feelgoodjob profile',
+        name: '...',
         owner: {
-          created: new Date('2020-01-13T13:18:58.111Z'),
-          name: 'Pasi Toivanen',
-          username: 'rampemus',
-          id: '5e1c6e42d9e1887cc7c4c968'
+          created: new Date('...'),
+          name: '...',
+          username: '...',
+          id: '...'
         }, 
-        id: '5e1db55948aa55f4cb54fe44'
+        id: '...'
       },
-      techlist: 'Java, Python, CSS, C#, Angular',
-      id: '5e1db55948aa55f4cb54fe4e'
+      techlist: '...',
+      id: '...'
     }
   ],
   lastOpened: ''

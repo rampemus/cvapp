@@ -21,7 +21,6 @@ import User from '../models/user'
 import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME } from '../utils/config'
 import { deleteAllCVObjects, deleteAllCVs, generateTestCV } from '../utils/cvHelper'
 import { createRootUser, createTestUser, deleteAllUsers, getUserByUsername } from '../utils/userHelper'
-import usersRouter from './users'
 
 const api = supertest(app)
 

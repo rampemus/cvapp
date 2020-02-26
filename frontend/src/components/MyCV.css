@@ -142,6 +142,7 @@
   border: solid 2px white;
   color: white;
   fill:rgb(255, 255, 255);
+  cursor: pointer;
 }
 
 .form-component-empty:active {

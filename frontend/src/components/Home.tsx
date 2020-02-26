@@ -149,7 +149,7 @@ const Home: React.FC<Props> = (props) => {
                 )}
             </div>
             <div className='cv-container-item'>
-                <h3><img src='attachment.svg' width='45px' height='45px' alt='icon'/>Attachments <span>(Please, ask during interview for these that only exist as original copies)</span></h3>
+                <h3><img src='attachment.svg' width='45px' height='45px' alt='icon'/>Attachments</h3>
                 <hr />
                 {props.cv.attachments && props.cv.attachments.content.map((attachment, index) =>
                     <p key={index + 'attachment'}>{attachment}</p>

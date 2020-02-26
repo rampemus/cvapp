@@ -24,6 +24,12 @@
     grid-column-end: -1;
 }
 
+@media print {
+    .cv-container-item {
+        page-break-inside: avoid;
+    }
+}
+
 .cv-container-item-left {
     grid-column-start: 1;
     grid-column-end: -1;

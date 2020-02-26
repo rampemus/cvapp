@@ -18,8 +18,7 @@ svg {
 
 @media print {
   .bottom-hexa {
-    opacity: 0.25;
-    top: 260px;
+    visibility: hidden;
   }
   .top-hexa {
     opacity: 0.25;

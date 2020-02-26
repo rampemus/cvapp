@@ -13,8 +13,7 @@ import { IRequestWithIdentity } from '../utils/middleware'
 const cvRouter = Router()
 
 cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
-
-    const cvs = await CurriculumVitae.find({ owner: request.userid }).populate([
+    const cvs = await CurriculumVitae.find({ $or: [{ default: request.userid }, { owner: request.userid }] }).populate([
         'communication',
         'projects',
         'attachments',
@@ -27,20 +26,7 @@ cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
         'profile',
     ])
 
-    const defaultCV = await CurriculumVitae.findOne({ default: request.userid }).populate([
-        'communication',
-        'projects',
-        'attachments',
-        'education',
-        'experience',
-        'info',
-        'reference',
-        'skills',
-        'contact',
-        'profile',
-    ])
-
-    response.json([defaultCV].concat(cvs.filter((cv) => cv._id + '' !== defaultCV._id + '')))
+    response.json(cvs.sort((a, b) => b.default.length - a.default.length ))
 })
 
 cvRouter.get('/:type', async (request: IRequestWithIdentity, response: Response) => {

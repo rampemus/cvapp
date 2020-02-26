@@ -12,13 +12,13 @@ import { createRootUser, userExists } from './utils/userHelper'
 
 const app = express()
 
+app.use(cors())
+app.use(bodyParser.json())
+
 if (process.env.NODE_ENV !== 'test') {
     mongoose.set('useCreateIndex', true)
     mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 }
-
-app.use(cors())
-app.use(bodyParser.json())
 
 if (process.env.NODE_ENV !== 'test') {
     userExists(ROOT_USERNAME).then((response) => {

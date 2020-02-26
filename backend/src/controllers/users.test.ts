@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../app'
 import User from '../models/user'
-import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER1_NAME, TESTUSER1_PASSWORD, TESTUSER1_USERNAME } from '../utils/config'
+import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD, TESTUSER_USERNAME } from '../utils/config'
 import { createRootUser, deleteAllUsers } from '../utils/userHelper'
 
 const api = supertest(app)
@@ -54,9 +54,9 @@ describe('/api/users POST', () => {
         const token = 'bearer ' + rootLogin.body.token
 
         const customUser = {
-            name: TESTUSER1_NAME,
-            password: TESTUSER1_PASSWORD,
-            username: TESTUSER1_USERNAME
+            name: TESTUSER_NAME,
+            password: TESTUSER_PASSWORD,
+            username: TESTUSER_USERNAME
         }
 
         await api

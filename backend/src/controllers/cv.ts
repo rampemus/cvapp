@@ -6,7 +6,7 @@ import Experience from '../models/cv/experience'
 import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
-import User, { IUser } from '../models/user'
+import User from '../models/user'
 import { connectObjectToCVField, disconnectObjectFromCVField } from '../utils/cvHelper'
 import { IRequestWithIdentity } from '../utils/middleware'
 
@@ -184,6 +184,7 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
         response.status(400).json({ error: 'CV id is empty' })
     }
 
+    // TODO: implement single user default switch
     const users = await User.find({})
     await CurriculumVitae.updateMany({}, { default: [] })
     await CurriculumVitae.updateOne({ _id: requestBody.cvid },

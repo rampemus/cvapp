@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import User, { IUser } from '../models/user'
-import { ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME } from './config'
+import { ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD } from './config'
 
 const colorNames = [
     'IndiaRed',
@@ -175,7 +175,34 @@ const createRootUser = async () => {
         username: ROOT_USERNAME,
     })
 
-    const savedUser = await rootUser.save()
+    return await rootUser.save()
+}
+
+const createTestUser = async () => {
+    const saltRounds = 10
+
+    let i = 1
+    let username = TESTUSER_NAME
+    let password = TESTUSER_PASSWORD
+    let name = TESTUSER_NAME
+
+    while ( await userExists(username) ) { // iterates unused username
+        username = TESTUSER_NAME + '' + i
+        password = TESTUSER_PASSWORD + '' + i
+        name = TESTUSER_NAME + '' + i
+        i++
+    }
+
+    const passwordHash = await bcrypt.hash(password, saltRounds)
+
+    const testUser = await new User({
+        created: new Date(),
+        name,
+        passwordHash,
+        username,
+    })
+
+    return await testUser.save()
 }
 
 const randomUserName = () => {
@@ -202,6 +229,7 @@ const deleteAllUsers = async () => {
 
 export {
     createRootUser,
+    createTestUser,
     userExists,
     getUserByUsername,
     getUserById,
@@ -209,5 +237,5 @@ export {
     ownerId,
     randomUserName,
     randomPassword,
-    deleteAllUsers
+    deleteAllUsers,
 }

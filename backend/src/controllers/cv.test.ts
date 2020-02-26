@@ -7,7 +7,8 @@ import {
     INewExperienceBody,
     INewInfoBody,
     INewProfileBody,
-    INewProjectBody
+    INewProjectBody,
+    ISetDefaultCV
 } from '../controllers/cv'
 import Communication from '../models/cv/communication'
 import Contact from '../models/cv/contact'
@@ -16,8 +17,11 @@ import Experience from '../models/cv/experience'
 import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
+import User from '../models/user'
 import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME } from '../utils/config'
 import { deleteAllCVObjects, deleteAllCVs, generateTestCV } from '../utils/cvHelper'
+import { createRootUser, createTestUser, deleteAllUsers, getUserByUsername } from '../utils/userHelper'
+import usersRouter from './users'
 
 const api = supertest(app)
 
@@ -29,15 +33,60 @@ beforeAll(async () => {
     mongoose.set('useCreateIndex', true)
     mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 
+    await deleteAllCVs()
+    await deleteAllCVObjects()
+
+    await deleteAllUsers()
+    await createRootUser()
+    await createTestUser()
+    await createTestUser()
+
+    testCV = await generateTestCV(ROOT_USERNAME)
+
     rootLogin = await api
         .post('/api/login')
         .set('Content-Type', 'application/json')
         .send({ username: ROOT_USERNAME, password: ROOT_PASSWORD })
+})
 
-    await deleteAllCVs()
-    await deleteAllCVObjects()
+describe('/api/cv/default POST', () => {
+    test('All users default switch', async () => {
+        const token = 'bearer ' + rootLogin.body.token
 
-    testCV = await generateTestCV(ROOT_USERNAME)
+        const before = await CurriculumVitae.findOne({})
+        const defaultCommand: ISetDefaultCV = {
+            cvid: before._id
+        }
+        await api
+            .post('/api/cv/default')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(defaultCommand)
+            .expect(200)
+        const after = await CurriculumVitae.findOne({})
+
+        const numberOfUsers = (await User.find({})).length
+        expect(before.default).toHaveLength(0)
+        expect(after.default).toHaveLength(numberOfUsers)
+    })
+    test('Added user will get default from owner', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const newUser = await api
+            .post('/api/users')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .expect(201)
+
+        const after = await CurriculumVitae.findOne({})
+        expect(after.default.map((id) => id + '')).toContain((await getUserByUsername(newUser.body.username))._id + '')
+    })
+    // test('Users get only boolean default values', async () => {
+    // })
+    // test('Default switched for single user', async () => {
+    // })
+    // test('User delete will inherit default', async () => {
+    // })
 })
 
 describe('/api/cv GET', () => {
@@ -231,17 +280,6 @@ describe('/api/cv POST', () => {
             .expect(201)
     })
 })
-
-// describe('/api/cv/default POST', () => {
-//     test('Single user has different default', async () => {
-//         // TODO: empty test
-
-//     })
-//     test('All will have same default', async () => {
-//         // TODO: empty test
-
-//     })
-// })
 
 describe('/api/cv/:type POST', () => {
     test('contact', async () => {

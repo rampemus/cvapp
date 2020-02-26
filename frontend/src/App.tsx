@@ -45,7 +45,11 @@ const App: React.FC<Props> = (props) => {
       setHeight(content.clientHeight)
     }
     if (props.user && props.user.token.length > 0) {
-      props.updateCVs()
+      props.updateCVs().catch((error: any) => {
+        console.log('Data retrieving error', error)
+        console.log('Trying again')
+        props.updateCVs()
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])

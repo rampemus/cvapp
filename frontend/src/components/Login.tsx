@@ -4,16 +4,18 @@ import useField, { FieldType } from '../hooks/useField'
 import loginService, { loginError } from '../services/loginService'
 import { setUser } from '../reducers/userReducer'
 import { showNotification, Type } from '../reducers/notificationReducer'
+import { updateCVs } from '../reducers/cvReducer'
 import { connect } from 'react-redux'
 
 interface OwnProps {}
 interface StateProps {}
-interface DispatchProps { showNotification: Function, setUser: Function }
+interface DispatchProps { showNotification: Function, setUser: Function, updateCVs: Function }
 
 // const mapStateToProps = {}
 const mapDispatchToProps: DispatchProps = {
     showNotification,
-    setUser
+    setUser,
+    updateCVs
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -33,6 +35,7 @@ const Login: React.FC<Props> = (props) => {
                 )
                 props.setUser(response)
                 props.showNotification('Login successful', Type.SUCCESS, 4)
+                props.updateCVs()
             }).catch((error:loginError) => {
                 if (error.response.data.error ) {
                     props.showNotification(`Error ${error.response.data.error}`, Type.ERROR, 4)

@@ -13,7 +13,8 @@ import { IRequestWithIdentity } from '../utils/middleware'
 const cvRouter = Router()
 
 cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
-    const cv = await CurriculumVitae.find({}).populate([
+
+    const cvs = await CurriculumVitae.find({ owner: request.userid }).populate([
         'communication',
         'projects',
         'attachments',
@@ -25,7 +26,21 @@ cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
         'contact',
         'profile',
     ])
-    response.json(cv)
+
+    const defaultCV = await CurriculumVitae.findOne({ default: request.userid }).populate([
+        'communication',
+        'projects',
+        'attachments',
+        'education',
+        'experience',
+        'info',
+        'reference',
+        'skills',
+        'contact',
+        'profile',
+    ])
+
+    response.json([defaultCV].concat(cvs.filter((cv) => cv._id + '' !== defaultCV._id + '')))
 })
 
 cvRouter.get('/:type', async (request: IRequestWithIdentity, response: Response) => {
@@ -303,8 +318,15 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
 cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
     const body: IChanges = request.body
-    const newCV = await CurriculumVitae.findOneAndUpdate({ _id: body.id }, body.changes)
-    response.status(201).json(newCV)
+
+    if ( request.userid + '' === (await CurriculumVitae.findOne({ _id: body.id })).owner + ''
+        || request.userGroup === 'Admin') {
+        const newCV = await CurriculumVitae.findOneAndUpdate({ _id: body.id }, body.changes)
+        response.status(201).json(newCV)
+    } else {
+        response.status(401).end()
+    }
+
 })
 
 cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response) => {
@@ -312,42 +334,42 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
     switch (request.params.type) {
         case 'contact':
             const newContact = await Contact.update(
-                { _id: changes.id },
+                { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newContact)
             break
         case 'profile':
             const newProfile = await Profile.update(
-                { _id: changes.id },
+                { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newProfile)
             break
         case 'experience':
             const newExperience = await Experience.update(
-                { _id: changes.id },
+                { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newExperience)
             break
         case 'communication':
             const newCommunication = await Communication.update(
-                { _id: changes.id },
+                { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newCommunication)
             break
         case 'info':
             const newInfo = await Info.update(
-                { _id: changes.id },
+                { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newInfo)
             break
         case 'project':
             const newProject = await Project.update(
-                { _id: changes.id },
+                { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newProject)
@@ -361,7 +383,7 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
 cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response) => {
     const id = request.params.id
     const cv: any = await CurriculumVitae.findOne({ _id: id })
-    
+
     if (!cv) {
         response.status(400).json({ error: 'cv does not exist' }).end()
     }

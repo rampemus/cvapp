@@ -63,6 +63,7 @@ const App: React.FC<Props> = (props) => {
         <Route exact path='/'><Home /></Route>
         <Route path='/users'><Users /></Route>
         <Route path='/mycv'><MyCV /></Route>
+        <Route path='/preview'><MyCV /></Route> 
         <Route exact path='/about'><About /></Route>
       </div>
     )

@@ -11,7 +11,7 @@ export interface IProfile extends Document {
 
 const profileSchema: Schema = new Schema({
     content: [String],
-    name: { type: String, minlength: 3, required: true, unique: true },
+    name: { type: String, minlength: 3, required: true },
     owner: {
         ref: 'User',
         required: true,

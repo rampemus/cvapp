@@ -360,31 +360,39 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
 
 cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response) => {
     const id = request.params.id
-    const cv = await CurriculumVitae.findOne({ _id: id })
-
+    const cv: any = await CurriculumVitae.findOne({ _id: id })
+    
     if (!cv) {
         response.status(400).json({ error: 'cv does not exist' }).end()
     }
 
     await CurriculumVitae.deleteOne({ _id: id })
-    if (cv.contact) { Contact.deleteOne({ _id: cv.contact }) }
-    if (cv.profile) { await Contact.deleteOne({ _id: cv.profile }) }
+    if (cv.contact) { Contact.deleteOne({ _id: cv.contact + '' }) }
+    if (cv.profile) { await Profile.deleteOne({ _id: cv.profile + '' }) }
     if (cv.projects && cv.projects.length > 0) {
-        cv.projects.map(async (project) => { await Project.deleteOne({ _id: project }) })
+        cv.projects.map(async (project: any) => { await Project.deleteOne({ _id: project + '' }) })
     }
     if (cv.reference && cv.reference.length > 0) {
-        cv.reference.map(async (contact) => { await Contact.deleteOne({ _id: contact }) })
+        cv.reference.map(async (contact: any) => { await Contact.deleteOne({ _id: contact + '' }) })
     }
     if (cv.experience && cv.experience.length > 0) {
-        cv.experience.map(async (experience) => { await Experience.deleteOne({ _id: experience }) })
+        cv.experience.map(async (experience: any) => { await Experience.deleteOne({ _id: experience + '' }) })
     }
-    if (cv.education) {
-        cv.education.map(async (experience) => { await Experience.deleteOne({ _id: experience }) })
+    if (cv.education && cv.education.length > 0) {
+        cv.education.map(async (experience: any) => { await Experience.deleteOne({ _id: experience + '' }) })
     }
-    if (cv.communication) { await Communication.deleteOne({ _id: cv.communication }) }
-    if (cv.skills) { await Info.deleteOne({ _id: cv.skills }) }
-    if (cv.info) { await Info.deleteOne({ _id: cv.info }) }
-    if (cv.attachments) { await Info.deleteOne({ _id: cv.attachments }) }
+    if (cv.communication) {
+        cv.communication.map(async (com: any) => { await Communication.deleteOne({ _id: com + '' }) })
+    }
+    if (cv.skills) {
+        cv.skills.map(async (skills: any) => { await Info.deleteOne({ _id: skills + '' }) })
+    }
+    if (cv.info) {
+        cv.info.map(async (info: any) => { await Info.deleteOne({ _id: info + '' }) })
+    }
+    if (cv.attachments) {
+        cv.attachments.map(async (attachments: any) => { await Info.deleteOne({ _id: attachments + '' }) })
+    }
     response.status(204).end()
 })
 

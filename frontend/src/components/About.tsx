@@ -2,7 +2,6 @@ import React from 'react'
 
 const About: React.FC = (props) => {
 
-
     return(
         <div>
             <h1>About this site</h1>
@@ -10,19 +9,18 @@ const About: React.FC = (props) => {
             <p>Almost everything in this site is crafted from scratch (all the way from user authentication to datePicker-components). 
                 To make things more simple I have added ready made libraries to help organize things. 
                 Biggest impact was done by Formik to make forms on the page to be a bit less painful.</p>
+            <p>Please take a look of my source code in my <a href='https://github.com/rampemus/cvapp'>github</a></p>
+            <h3>Version 0.2 - 2020/2/26</h3>
+            <p>Fixed most of bugs away and bunch tests created for <a href='https://github.com/rampemus/cvapp/tree/master/backend'>backend</a>.</p>
+            <h4>Known issues</h4>
+            <ul>
+                <li>Written values are only validated in backend, and no error handling</li>
+                <li>Static server stuff and other resources should be hidden behind login</li>
+            </ul>
             <h3>Version 0.1 - 2020/2/5</h3>
-            <p>Please take a look at my source code in my <a href='https://github.com/rampemus/cvapp'>github</a>. 
-                For now, some of the code is not yet nicely organized but things will get better.
+            <p>For now, some of the code is not yet nicely organized but things will get better.
                 Other bigger changes will be that the tests will be implemented in the future for creating a automated pipeline.
                 Many changes will be done for the deployment and for the backend. Therefore, I wish you visit my github for changes.</p>
-            <h3>Known issues</h3>
-            <ul>
-                <li>Refreshing CVForm page will not read language-level pairs properly</li>
-                <li>Attachment title doesn't overflow additional text correctly in small screen sizes</li>
-                <li>Printing the site includes background pictures with wrong background color</li>
-                <li>Written values are only validated in backend, and no error handling</li>
-                <li>Many buttons still have no style or function (like that language and logout button in the upper right corner)</li>
-            </ul>
         </div>
     )
 }

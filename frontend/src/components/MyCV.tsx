@@ -9,12 +9,14 @@ import MyCVForm from './MyCVForm'
 import { UserState } from '../reducers/userReducer'
 import { updateCVs, setPreviousCV } from '../reducers/cvReducer'
 import Home from './Home'
+import { showNotification, Type } from '../reducers/notificationReducer'
 
 interface OwnProps {}
 export interface StateProps { user?: UserState, cvs?: ICV[] }
 export interface DispatchProps {
     updateCVs: Function,
-    setPreviousCV: Function
+    setPreviousCV: Function,
+    showNotification: Function
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -26,7 +28,8 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 
 const mapDispatchToProps: DispatchProps = {
     updateCVs,
-    setPreviousCV
+    setPreviousCV,
+    showNotification
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -77,15 +80,29 @@ const MyCV: React.FC<Props> = (props) => {
                                         props.updateCVs()
                                     })
                             }}>Duplicate Default</button>
-                            <button className='toolbar-button' disabled={formActive}>Set As Default CV</button>
-                            <Route exact path="/mycv/:id" render={({ match }) =>  
-                                <Link to={`/preview/${match.params.id}`}>
-                                    <button className='toolbar-button'>Preview</button>
-                                </Link>
+                            <Route exact path="/mycv/:id" render={({ match }) =>
+                                [
+                                    <button className='toolbar-button' disabled={formActive} onClick={(event) => {
+                                        event.preventDefault()
+                                        cvService.setCVDefault(match.params.id)
+                                            .then((response) => {
+                                                props.updateCVs()
+                                            })
+                                            .catch((error) => {
+                                                if (error.response.data.error) {
+                                                    props.showNotification(error.response.data.error, Type.ERROR, 5)
+                                                }
+                                            })
+                                    }}>Set As Default CV</button>,
+                                    <Link to={`/preview/${match.params.id}`}>
+                                        <button className='toolbar-button'>Preview</button>
+                                    </Link>
+                                ]
                             }/> 
-                            <Route exact path="/mycv" render={({ match }) =>
+                            <Route exact path="/mycv" render={({ match }) => [
+                                <button className='toolbar-button' disabled> Set As Default CV</button>,
                                 <button className='toolbar-button' disabled>Preview</button>
-                            } /> 
+                            ]} /> 
                         </div>
                     </Toolbar>
                     <h1>My CV's</h1>

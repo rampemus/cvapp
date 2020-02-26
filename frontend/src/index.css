@@ -10,7 +10,7 @@ body {
 
 @media print {
   body {
-    background-color: rgb(222, 223, 224);
+    background-color: rgb(255, 255, 255);
   }
 }
 

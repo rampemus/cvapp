@@ -18,9 +18,12 @@ svg {
 
 @media print {
   .bottom-hexa {
-    opacity: 0.2;
+    opacity: 0.25;
+    top: 260px;
   }
   .top-hexa {
-    opacity: 0.2;;
+    opacity: 0.25;
+    top: -10px;
+    height: 45vw;
   }
 }

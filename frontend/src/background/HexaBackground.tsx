@@ -3,7 +3,8 @@ import './HexaBackground.css'
 // import useWindowDimensions from '../hooks/useWindowDimensions'
 
 interface Props {
-    height: number
+    height: number,
+    bottom?: boolean
 }
 
 // TODO: move this to css
@@ -70,7 +71,7 @@ const Background: React.FC<Props> = (props: Props) => {
     const drawHexaGrid = (numberGrid: number[][]) => {
         const dy = hexaSize * 2 * cos30 + spacing
         return (
-            <svg height='100%' width='100%' viewBox='0 0 1200 1200' preserveAspectRatio="xMidYMin slice">
+            <svg height='100%' width='100%' viewBox='0 0 1200 1200' preserveAspectRatio={props.bottom ? "xMidYMin slice" : "xMidYMin slice"} className={props.bottom ? 'bottom-hexa' : 'top-hexa'}>
                 {numberGrid.map( (numbers:number[], index) => {
                         if ( index%2 === 0 ) {
                             return hexaRow( 0, 0 + dy * index/2, hexaSize, spacing, transformToColorArray(numbers), index)
@@ -84,25 +85,44 @@ const Background: React.FC<Props> = (props: Props) => {
         )
     } 
 
-    return <div>
-        {drawHexaGrid(
-            [
-                [3, 2, 3, 2, 3, 3, 3, 2, 3],
-                  [3, 2, 4, 2, 2, 2, 2, 4],
-                [3, 2, 3, 2, 3, 4, 3, 2, 3],
-                  [4, 2, 4, 2, 3, 4, 2, 4],
-                [3, 2, 2, 2, 2, 1, 1, 2, 4],
-                  [2, 1, 1, 1, 1, 1, 2, 2],
-                [3, 1, 1, 1, 1, 1, 1, 1, 2],
-                  [1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1],
-                  [1, 1, 1, 0, 1, 0, 1, 1],
-                [1, 1, 0, 1, 0, 1, 0, 1, 1],
-                  [1, 0, 0, 0, 0, 0, 1, 1],
-            ]
-        )}
-            
-    </div>
+    if (props.bottom) {
+        return <div>
+            {drawHexaGrid(
+                [
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 1, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0, 1],
+                    [1, 0, 0, 1, 1, 0, 1, 1],
+                    [3, 1, 1, 0, 0, 1, 1, 1, 2],
+                    [2, 1, 1, 1, 1, 1, 1, 2],
+                    [3, 2, 2, 1, 1, 1, 1, 2, 4],
+                    [4, 3, 2, 1, 1, 1, 2, 4],
+                    [3, 3, 3, 3, 2, 2, 3, 3, 2],
+                    [2, 2, 4, 4, 2, 2, 4, 3],
+                    [2, 2, 3, 2, 3, 3, 3, 2, 3],
+                ]
+            )
+        }</div>
+    } else {
+        return <div>
+            {drawHexaGrid(
+                [
+                    [3, 2, 3, 2, 3, 3, 3, 2, 3],
+                    [3, 2, 4, 2, 2, 2, 2, 4],
+                    [3, 2, 3, 2, 3, 4, 3, 2, 3],
+                    [4, 2, 4, 2, 3, 4, 2, 4],
+                    [3, 2, 2, 2, 2, 1, 1, 2, 4],
+                    [2, 1, 1, 1, 1, 1, 2, 2],
+                    [3, 1, 1, 1, 1, 1, 1, 1, 2],
+                    [1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 0, 1, 0, 1, 1],
+                    [1, 1, 0, 1, 0, 1, 0, 1, 1],
+                    [1, 0, 0, 0, 0, 0, 1, 1],
+                ]
+            )}
+        </div>
+    }
     
 }
 

@@ -31,7 +31,7 @@ const Menu: React.FC<Props> = (props) => {
     const showLogout = props.user && props.user.token.length > 2
     const renderLogout = () => {
         if (showLogout) {
-            return (<button onClick={() => props.logoutUser()}><div className='setting-item logout-button'>logout</div></button>)
+            return (<button className='setting-item logout-button' onClick={() => props.logoutUser()}>logout</button>)
         }
         return (<button disabled className='setting-item logout-button'>logout</button>)
     }
@@ -56,7 +56,7 @@ const Menu: React.FC<Props> = (props) => {
                     </Link>
                 </div>
                 <div className='settings'>
-                    <div className='setting-item'>language</div>
+                    {/* <div className='setting-item'>language</div> */}
                     {renderLogout()}
                 </div>
             </div>

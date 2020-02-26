@@ -32,6 +32,7 @@
 
 .toolbar-button:enabled:hover {
   border: solid 3px rgb(225, 228, 233);
+  cursor: pointer;
 }
 
 .toolbar-button:enabled:active {

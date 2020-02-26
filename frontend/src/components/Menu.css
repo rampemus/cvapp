@@ -13,6 +13,12 @@
   z-index: 1;
 }
 
+@media print {
+  .Menu {
+    visibility: hidden;
+  }
+}
+
 .menu-items > a:link {
   color: white;
   text-decoration: none;
@@ -28,7 +34,23 @@
 }
 
 .logout-button {
-  color: red;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px;
+  min-width: 30px;
+  border: solid 3px rgb(41, 41, 41);
+  border-radius: 10px;
+  margin-top: 10px;
+  margin: 1px 3px 1px 3px;
+  background-color: rgb(82, 82, 82);
+  color: white;
+}
+
+.logout-button:hover {
+  background-color: rgb(118, 118, 118);
+  border: solid 3px rgb(23, 23, 23);
+  cursor: pointer;
 }
 
 .cv-app-logo {
@@ -54,9 +76,11 @@
 
 .settings {
   grid-area: settings;
-  justify-self: right;
-  margin: 5px;
-  margin-bottom: 25px;
+  justify-self: end;
+  align-self: bottom;
+  margin-top: 0px;
+  margin-bottom: 18px;
+  margin-right: 5px;
   display: flex;
   flex-flow: row;
 }

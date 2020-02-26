@@ -1,10 +1,26 @@
 svg {
     /* width:100%; */
     /* min-height: calc(100vh); */
-    width: 120%; 
+    width: 100%; 
     display:block;
     position:absolute;
     top:60px;
     left:0;
     z-index: -1;
 } 
+
+.bottom-hexa {
+    position: relative;
+    height: 35vw;
+    margin-top: -35vw;
+    z-index: -2;
+}
+
+@media print {
+  .bottom-hexa {
+    opacity: 0.2;
+  }
+  .top-hexa {
+    opacity: 0.2;;
+  }
+}

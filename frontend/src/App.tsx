@@ -78,6 +78,7 @@ const App: React.FC<Props> = (props) => {
         {/* </ReactHeight> */}
       <NotificationArea/>
       <Footer/>
+      <Background height={height} bottom/>
       </Router>
     </div>
   )

@@ -73,13 +73,13 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
     return(
       <FormPanel
       formValues={{
-        id: contact.id,
-        address: contact.address,
-        company: contact.company,
-        email: contact.email,
-        firstname: contact.firstname,
-        lastname: contact.lastname,
-        phone: contact.phone,
+          id: contact.id,
+          address: contact.address,
+          company: contact.company,
+          email: contact.email,
+          firstname: contact.firstname,
+          lastname: contact.lastname,
+          phone: contact.phone,
           phoneAvailable: contact.phoneAvailable,
           pictureUrl: contact.pictureUrl
         }}

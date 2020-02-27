@@ -196,6 +196,7 @@
 .form-button {
   height: 25px;
   border-color: #ccc;
+  background-color: rgb(247, 247, 247);
   border-style: solid;
   border-width: 1px;
   margin: 1px;
@@ -203,6 +204,7 @@
 
 .form-button:active {
   background-color: white;
+  color: #000;
 }
 
 .language-pair .form-button {

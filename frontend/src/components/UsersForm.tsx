@@ -67,6 +67,7 @@ const UsersForm: React.FC<Props> = (props) => {
                 onChange={
                     ({ target }) => setName(target.value)
                 }
+                className='user-form-input'
             />
             <p>Username</p> 
             <input
@@ -75,6 +76,7 @@ const UsersForm: React.FC<Props> = (props) => {
                 onChange={
                     ({ target }) => setUsername(target.value)
                 }
+                className='user-form-input'
             />
             <p>User is valid</p>
             <div>
@@ -106,6 +108,7 @@ const UsersForm: React.FC<Props> = (props) => {
                         checkPasswordMatch(password,target.value)
                     }
                 }
+                className='user-form-input'
                 style={{ backgroundColor: passwordMatch ? 'white' : 'yellow'}}
             />
             <div style={{ textAlign: 'right', marginTop: '10px' }}>

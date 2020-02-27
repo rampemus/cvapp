@@ -23,7 +23,7 @@
     "watch": [
       "src"
     ],
-    "exec": "npm run start:tsnode",
+    "exec": "npm run start:tsnode --scripts-prepend-node-path",
     "ext": "ts"
   },
   "author": "Pasi Toivanen",

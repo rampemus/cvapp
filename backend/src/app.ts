@@ -33,6 +33,9 @@ if (process.env.NODE_ENV !== 'test') {
     })
 }
 
+if (process.env.NODE_ENV === 'production') {
+    app.use('/showcase', express.static('opetussivusto'))
+}
 app.use(express.static('build'))
 
 app.use('/api/login', loginRouter)

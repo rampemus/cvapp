@@ -186,6 +186,8 @@
   border: 2px solid #ccc;
   border-radius: 4px;
   resize: none;
+  font: inherit;
+  font-size: 12px;
 
   grid-column-start: 2;
   grid-column-end: -1;
@@ -194,7 +196,13 @@
 .form-button {
   height: 25px;
   border-color: #ccc;
+  border-style: solid;
+  border-width: 1px;
   margin: 1px;
+}
+
+.form-button:active {
+  background-color: white;
 }
 
 .language-pair .form-button {

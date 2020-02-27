@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { JWT_SALT, ROOT_USERNAME } from './config'
+import { getUserByUsername } from './userHelper'
 
 interface IRequestWithToken extends Request {
     token: string,
@@ -26,7 +27,7 @@ const TokenExtractor = ( request: IRequestWithToken, response: Response, next: a
     next()
 }
 
-const AuthenticateUser = (request: IRequestWithIdentity, response: Response, next: any) => {
+const AuthenticateUser = async (request: IRequestWithIdentity, response: Response, next: any) => {
     const token = request.token
 
     // TODO: need some help to fix this jwt typescript weirdo thingy
@@ -36,11 +37,18 @@ const AuthenticateUser = (request: IRequestWithIdentity, response: Response, nex
         return response.status(401).json({ error: 'token missing or invalid'}).end()
     }
 
-    request.userGroup = decodedToken.username === ROOT_USERNAME ? 'admin' : 'user'
-    request.username = decodedToken.username
-    request.userid = decodedToken.id
-
-    next()
+    getUserByUsername(decodedToken.username).then((result) => {
+        if (result.id === decodedToken.id) {
+            request.userGroup = decodedToken.username === ROOT_USERNAME ? 'admin' : 'user'
+            request.username = decodedToken.username
+            request.userid = decodedToken.id
+        } else {
+            return response.status(401).json({ error: 'token missing or invalid' }).end()
+        }
+        next()
+    }).catch( (error) => {
+        return response.status(401).json({ error: 'token missing or invalid' }).end()
+    })
 }
 
 const RequestLogger = (request: IRequestWithIdentity, response: Response, next: any ) => {

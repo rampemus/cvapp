@@ -5,10 +5,9 @@ import mongoose from 'mongoose'
 import cvRouter from './controllers/cv'
 import loginRouter from './controllers/login'
 import usersRouter from './controllers/users'
-import { MONGODB_URI, ROOT_USERNAME } from './utils/config'
-import { generateTestCV, userIsCVOwner } from './utils/cvHelper'
+import { MONGODB_URI } from './utils/config'
+import { initializeRootUserAndCV } from './utils/cvHelper'
 import { AuthenticateUser, RequestLogger, TokenExtractor } from './utils/middleware'
-import { createRootUser, userExists } from './utils/userHelper'
 
 const app = express()
 
@@ -21,16 +20,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 if (process.env.NODE_ENV !== 'test') {
-    userExists(ROOT_USERNAME).then((response) => {
-        if (!response) {
-            createRootUser()
-        }
-    })
-    userIsCVOwner(ROOT_USERNAME).then((result) => {
-        if (!result) {
-            generateTestCV(ROOT_USERNAME)
-        }
-    })
+    initializeRootUserAndCV()
 }
 
 if (process.env.NODE_ENV === 'production') {

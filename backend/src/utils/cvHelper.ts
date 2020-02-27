@@ -6,6 +6,8 @@ import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
 import User from '../models/user'
+import { ROOT_USERNAME } from './config'
+import { createRootUser, getUserByUsername, userExists } from './userHelper'
 
 const connectObjectToCVField = async (cv: string, field: string, object: string) => {
     switch (field) {
@@ -249,8 +251,18 @@ const generateTestCV = async (username: string) => {
 }
 
 const userIsCVOwner = async ( username: string ) => {
-    const cvs = await CurriculumVitae.find({}).populate('owner')
-    return cvs.findIndex( (cv) => cv.owner.username === username) !== -1
+    const user = await getUserByUsername(username)
+    const cvs = await CurriculumVitae.find({ owner: user._id + '' }).populate('owner')
+    return cvs.length > 0
+}
+
+const initializeRootUserAndCV = async () => {
+    if (!await userExists(ROOT_USERNAME)) {
+        await createRootUser()
+    }
+    if (!await userIsCVOwner(ROOT_USERNAME)) {
+        await generateTestCV(ROOT_USERNAME)
+    }
 }
 
 const deleteAllCVs = async () => {
@@ -273,5 +285,6 @@ export {
     generateTestCV,
     userIsCVOwner,
     deleteAllCVs,
-    deleteAllCVObjects
+    deleteAllCVObjects,
+    initializeRootUserAndCV
 }

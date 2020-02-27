@@ -319,42 +319,42 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
     const changes: IChanges = request.body
     switch (request.params.type) {
         case 'contact':
-            const newContact = await Contact.update(
+            const newContact = await Contact.updateOne(
                 { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newContact)
             break
         case 'profile':
-            const newProfile = await Profile.update(
+            const newProfile = await Profile.updateOne(
                 { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newProfile)
             break
         case 'experience':
-            const newExperience = await Experience.update(
+            const newExperience = await Experience.updateOne(
                 { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newExperience)
             break
         case 'communication':
-            const newCommunication = await Communication.update(
+            const newCommunication = await Communication.updateOne(
                 { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newCommunication)
             break
         case 'info':
-            const newInfo = await Info.update(
+            const newInfo = await Info.updateOne(
                 { _id: changes.id, owner: request.userid },
                 changes.changes
             )
             response.status(201).json(newInfo)
             break
         case 'project':
-            const newProject = await Project.update(
+            const newProject = await Project.updateOne(
                 { _id: changes.id, owner: request.userid },
                 changes.changes
             )

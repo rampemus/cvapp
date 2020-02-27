@@ -10,34 +10,34 @@ import User from '../models/user'
 const connectObjectToCVField = async (cv: string, field: string, object: string) => {
     switch (field) {
         case 'projects':
-            await CurriculumVitae.update({ _id: cv }, { $push: { projects: object } })
+            await CurriculumVitae.updateOne({ _id: cv }, { $push: { projects: object } })
             break
         case 'reference':
-            await CurriculumVitae.update({ _id: cv }, { $push: { reference: object } })
+            await CurriculumVitae.updateOne({ _id: cv }, { $push: { reference: object } })
             break
         case 'experience':
-            await CurriculumVitae.update({ _id: cv }, { $push: { experience: object } })
+            await CurriculumVitae.updateOne({ _id: cv }, { $push: { experience: object } })
             break
         case 'education':
-            await CurriculumVitae.update({ _id: cv }, { $push: { education: object } })
+            await CurriculumVitae.updateOne({ _id: cv }, { $push: { education: object } })
             break
         case 'contact':
-            await CurriculumVitae.update({ _id: cv }, { contact: object })
+            await CurriculumVitae.updateOne({ _id: cv }, { contact: object })
             break
         case 'profile':
-            await CurriculumVitae.update({ _id: cv }, { profile: object })
+            await CurriculumVitae.updateOne({ _id: cv }, { profile: object })
             break
         case 'communication':
-            await CurriculumVitae.update({ _id: cv }, { communication: object })
+            await CurriculumVitae.updateOne({ _id: cv }, { communication: object })
             break
         case 'skills':
-            await CurriculumVitae.update({ _id: cv }, { skills: object })
+            await CurriculumVitae.updateOne({ _id: cv }, { skills: object })
             break
         case 'info':
-            await CurriculumVitae.update({ _id: cv }, { info: object })
+            await CurriculumVitae.updateOne({ _id: cv }, { info: object })
             break
         case 'attachments':
-            await CurriculumVitae.update({ _id: cv }, { attachments: object })
+            await CurriculumVitae.updateOne({ _id: cv }, { attachments: object })
             break
     }
 }
@@ -47,7 +47,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
     switch (field) {
         case 'projects':
             if (cvFromData.projects) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { projects: cvFromData.projects.filter((project: any) => project._id + '' !== object) }
                 )
@@ -55,7 +55,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'reference':
             if (cvFromData.reference) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { reference: cvFromData.reference.filter((ref: any) => ref._id + '' !== object) }
                 )
@@ -63,7 +63,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'experience':
             if (cvFromData.experience) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { experience: cvFromData.experience.filter((exp: any) => exp._id + '' !== object) }
                 )
@@ -71,7 +71,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'education':
             if (cvFromData.education) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { education: cvFromData.education.filter((exp: any) => exp._id + '' !== object) }
                 )
@@ -79,7 +79,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'profile':
             if (cvFromData.profile) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { profile: undefined }
                 )
@@ -87,7 +87,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'communication':
             if (cvFromData.communication && cvFromData.communication[0]._id + '' === object) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { communication: undefined }
                 )
@@ -98,7 +98,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'skills':
             if (cvFromData.skills && cvFromData.skills[0]._id + '' === object ) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { skills: undefined }
                 )
@@ -106,7 +106,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'info':
             if (cvFromData.info && cvFromData.info[0]._id + '' === object ) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { info: undefined }
                 )
@@ -114,7 +114,7 @@ const disconnectObjectFromCVField = async (cv: string, field: string, object: st
             break
         case 'attachments':
             if (cvFromData.attachments && cvFromData.attachments[0]._id + '' === object ) {
-                await CurriculumVitae.update(
+                await CurriculumVitae.updateMany(
                     { _id: cv },
                     { attachments: undefined }
                 )

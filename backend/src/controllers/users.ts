@@ -64,7 +64,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
             response.status(400).json({ error: error.message }).end()
         })
 
-    await CurriculumVitae.update({ default: owner.id }, { $push: { default: savedUser } })
+    await CurriculumVitae.updateOne({ default: owner.id }, { $push: { default: savedUser } })
 
     response.status(201).json(makeRandomUser ? {
         created: user.created,
@@ -94,7 +94,7 @@ usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Respo
         }
 
         // TODO: find user references and delete them
-        await CurriculumVitae.update({ default: request.params.id }, { $pull: { default: request.params.id } })
+        await CurriculumVitae.updateMany({ default: request.params.id }, { $pull: { default: request.params.id } })
 
         await User.deleteOne({ _id: request.params.id })
 

@@ -72,7 +72,7 @@ const Home: React.FC<Props> = (props) => {
             }
             {cv.projects && cv.projects.length > 0 &&
                 <div className='cv-container-item cv-container-item-right'>
-                    <h3><img src='project.svg' width='50px' height='45px' alt='icon'/>Projects</h3>
+                    <h3><img src='project.svg' width='45px' height='40px' alt='icon'/>Projects</h3>
                     <hr />
                     {cv.projects.map((project, index) => 
                         <div className='project-card' key={index + 'project'}>
@@ -93,7 +93,7 @@ const Home: React.FC<Props> = (props) => {
             }
             {reference && reference.length > 0 &&
                 <div className='cv-container-item'>
-                    <h3><img src='reference.svg' width='45px' height='45px' alt='icon'/>References</h3>
+                    <h3><img src='reference.svg' width='40px' height='40px' alt='icon'/>References</h3>
                     <hr />
                     <div className='key-value-container'>
                         {reference.map((ref: IContact, index) => [
@@ -110,7 +110,7 @@ const Home: React.FC<Props> = (props) => {
             }
             {experience && experience.length > 0 &&
                 <div className='cv-container-item'>
-                    <h3><img src='work.svg' width='45px' height='45px' alt='icon'/>Work Experience</h3>
+                    <h3><img src='work.svg' width='55px' height='55px' alt='icon'/>Work Experience</h3>
                     <hr />
                     <div className='key-value-container'>
                         {experience.sort((a: IExperience, b: IExperience) => b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()).map((exp:IExperience, index) => [
@@ -163,7 +163,7 @@ const Home: React.FC<Props> = (props) => {
             }
             {cv.attachments &&
                 <div className='cv-container-item'>
-                    <h3><img src='attachment.svg' width='45px' height='45px' alt='icon'/>Attachments</h3>
+                    <h3><img src='attachment.svg' width='55px' height='45px' alt='icon'/>Attachments</h3>
                     <hr />
                     {cv.attachments.content.map((attachment, index) =>
                         <p key={index + 'attachment'}>{attachment}</p>

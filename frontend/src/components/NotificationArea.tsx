@@ -29,7 +29,7 @@ const NotificationArea: React.FC<Props> = (props) => {
         return (
             <div className='notificationContainer' style={{opacity: visible ? 1 : 0}}>
                 {messages.map( message => {
-                    return (<NotificationMessage key={message.id} message={message} deleteNotification={() => props.deleteNotification(message.id)}></NotificationMessage>)
+                    return (<NotificationMessage key={message.id} message={message} deleteNotification={() => props.deleteNotification(message.id)} duration={message.duration}></NotificationMessage>)
                 })}
             </div>
         )

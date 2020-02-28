@@ -7,7 +7,8 @@ export enum Type {
 export interface Message {
     text: string,
     id: string,
-    type: Type
+    type: Type,
+    duration?: number
 }
 
 export interface NotificationState {
@@ -62,7 +63,7 @@ export const showNotification = (message:string, type:Type, lifeTime?:number ) =
         const id = guidGenerator()
         const action: NotificationAction = {
             type: 'SHOW_NOTIFICATION',
-            data: [{ text: message, id: id, type: type }]
+            data: [{ text: message, id: id, type: type, duration: lifeTime }]
         }
         dispatch(action)
         if ( lifeTime ) {

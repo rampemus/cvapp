@@ -21,6 +21,14 @@
     grid-column-end: span -1;
 }
 
+.notification .notification-close-button {
+    align-self: center;
+}
+
+.notification .notification-close-button .close-circle {
+    stroke: black;
+}
+
 .error {
     background-color: rgba(255, 161, 161, 0.637);
     background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));

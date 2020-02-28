@@ -38,13 +38,12 @@ const NotificationMessage: React.FC<Props> = (props) => {
             <circle style={{
                 fill: 'none',
                 backgroundColor: 'none',
-                opacity: '.2', 
-                stroke: 'black',
+                opacity: duration ? '.15' : '0', 
                 strokeWidth: r,
                 strokeDasharray: timeLeft * r * 3.14 + ' ' + r * 3.14,
                 transition: 'stroke-dasharray ' + duration + 's ease',
                 transform: 'scale(-1,1) rotate(-135deg)'
-            }}  r={r/2} className="pie" />
+            }}  r={r/2} className="close-circle" />
         </g>
             <rect x="0.81" y="9.29" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 24.1421 10)" width="18.38" height="1.41"/>
             <rect x="0.66" y="9.4" transform="matrix(0.7071 0.7071 -0.7071 0.7071 10.038 -4.0285)" width="18.44" height="1.41"/>

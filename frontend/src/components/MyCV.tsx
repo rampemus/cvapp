@@ -85,7 +85,7 @@ const MyCV: React.FC<Props> = (props) => {
                                     <button className='toolbar-button' disabled={formActive} onClick={(event) => {
                                         event.preventDefault()
                                         cvService.setCVDefault(match.params.id)
-                                            .then((response) => {
+                                            .then(() => {
                                                 props.updateCVs()
                                             })
                                             .catch((error) => {
@@ -107,10 +107,21 @@ const MyCV: React.FC<Props> = (props) => {
                     </Toolbar>
                     <h1>My CV's</h1>
                     <div className='cv-selector'>
-                        {myCVs.map((cv:ICV) => 
-                            <div className='cv-item' key={cv.id}>
+                        {myCVs.map((cv:ICV, index:number) => {
+                            const locationid = location.pathname.substr(location.pathname.length - cv.id.length)
+                            const selected = locationid === cv.id
+                            return <div 
+                                    className='cv-item' 
+                                    key={cv.id}
+                                    style={{
+                                        transition: 'margin-top 0.2s ease, margin-bottom 0.2s ease',
+                                        marginTop: selected ? '10px' : '2px',
+                                        marginBottom: selected ? '2px' : '10px'
+                                    }}
+                                >
                                 <Link to={`/mycv/${cv.id}`} onClick={()=>{props.setPreviousCV(cv.id)}}>
                                     <img src='emptycv.svg' width='150px' height='180px' alt='document'/>
+                                    {index === 0 && <div className='default-label'>default</div>}
                                     <div style={{zIndex: 1}}>
                                         {cv.name}
                                         {Object.entries(cv).map(([key, value]) => value ? <p key={key}>{key + ': ' + value}</p> : '')}
@@ -126,7 +137,7 @@ const MyCV: React.FC<Props> = (props) => {
                                         }}
                                         >Delete</button>
                             </div>
-                        )}
+                        })}
                         <img
                             src='emptycvplus.svg'
                             width='150px'

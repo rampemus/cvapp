@@ -30,7 +30,8 @@ const NotificationMessage: React.FC<Props> = (props) => {
             style={{
                 width: '20px',
                 height: '20px',
-                position: 'static'
+                position: 'static',
+                transform: 'scale(1.2)'
             }}
             viewBox="0 0 20 20"
             >
@@ -38,10 +39,10 @@ const NotificationMessage: React.FC<Props> = (props) => {
             <circle style={{
                 fill: 'none',
                 backgroundColor: 'none',
-                opacity: duration ? '.15' : '0', 
+                opacity: duration ? '.25' : '0', 
                 strokeWidth: r,
                 strokeDasharray: timeLeft * r * 3.14 + ' ' + r * 3.14,
-                transition: 'stroke-dasharray ' + duration + 's ease',
+                transition: 'stroke-dasharray ' + duration + 's linear',
                 transform: 'scale(-1,1) rotate(-135deg)'
             }}  r={r/2} className="close-circle" />
         </g>

@@ -34,11 +34,12 @@ const Login: React.FC<Props> = (props) => {
                     'loggedUser', JSON.stringify(response)
                 )
                 props.setUser(response)
-                props.showNotification('Login successful', Type.SUCCESS, 4)
+                props.showNotification('Login successful', Type.SUCCESS, 10)
                 props.updateCVs()
             }).catch((error:loginError) => {
-                if (error.response.data.error ) {
-                    props.showNotification(`Error ${error.response.data.error}`, Type.ERROR, 4)
+                if (error) {
+                    console.log(error)
+                    props.showNotification(`Error ${error}`, Type.ERROR, 15)
                 } else {
                     props.showNotification(`Error no response from server`, Type.ERROR, 4)
                 }

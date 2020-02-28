@@ -25,6 +25,10 @@
     align-self: center;
 }
 
+.notification .notification-close-button:hover {
+    cursor: pointer;
+}
+
 .notification .notification-close-button .close-circle {
     stroke: black;
 }

@@ -107,7 +107,7 @@ const MyCV: React.FC<Props> = (props) => {
                     </Toolbar>
                     <h1>My CV's</h1>
                     <div className='cv-selector'>
-                        {myCVs.map((cv:ICV, index:number) => {
+                        {myCVs && myCVs.length > 0 && myCVs.map((cv:ICV, index:number) => {
                             const locationid = location.pathname.substr(location.pathname.length - cv.id.length)
                             const selected = locationid === cv.id
                             return <div 

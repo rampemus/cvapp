@@ -1,5 +1,6 @@
 import React from 'react'
 import './Menu.css'
+import { clearCVS } from '../reducers/cvReducer'
 import { Link, useLocation } from 'react-router-dom'
 import { UserState, logoutUser } from '../reducers/userReducer'
 import { AppState } from '..'
@@ -9,7 +10,7 @@ interface OwnProps {
     showRoutes: boolean
 }
 export interface StateProps { user: UserState, lastOpenedCV: string }
-export interface DispatchProps { logoutUser: Function }
+export interface DispatchProps { logoutUser: Function, clearCVS: Function }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
@@ -19,7 +20,8 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 }
 
 const mapDispatchToProps:DispatchProps = {
-    logoutUser
+    logoutUser,
+    clearCVS
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -31,7 +33,10 @@ const Menu: React.FC<Props> = (props) => {
     const showLogout = props.user && props.user.token.length > 2
     const renderLogout = () => {
         if (showLogout) {
-            return (<button className='setting-item logout-button' onClick={() => props.logoutUser()}>logout</button>)
+            return (<Link to='/'><button className='setting-item logout-button' onClick={() => {
+                props.logoutUser()
+                props.clearCVS()
+            }}>logout</button></Link>)
         }
         return (<button disabled className='setting-item logout-button'>logout</button>)
     }

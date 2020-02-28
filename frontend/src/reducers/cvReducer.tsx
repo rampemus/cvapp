@@ -178,7 +178,7 @@ const initState: cvState = {
 const cvReducer = (state: cvState = initState, action: CVAction) => {
   switch (action.type) {
     case 'UPDATE_CVS': {
-      return { cvs:action.data.cvs, lastOpened: action.data.cvs.includes((cv:ICV) => cv.id === state.lastOpened) ? state.lastOpened : ''}
+      return { cvs:action.data.cvs, lastOpened: action.data.cvs.length > 1 ? action.data.cvs.includes((cv:ICV) => cv.id === state.lastOpened) ? state.lastOpened : '' : ''}
     }
     case 'SET_PREVIOUS_CV': {
       return { cvs: state.cvs, lastOpened: action.data.id }
@@ -515,6 +515,15 @@ export const updateCVs = () => {
     }
     dispatch(action)
   }
+}
+
+export const clearCVS = () => {
+  const action: CVAction = {
+    type: 'UPDATE_CVS',
+    data: { cvs: initState }
+  }
+  console.log('clearCVS happening')
+  return action
 }
 
 export const addEmptyCVObject = (id:string, field:string) => {

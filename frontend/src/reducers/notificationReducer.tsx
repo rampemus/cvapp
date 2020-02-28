@@ -74,7 +74,7 @@ export const showNotification = (message:string, type:Type, lifeTime?:number ) =
                     data: []
                 }
                 dispatch(deleteAfterTimeoutAction)
-            }, lifeTime * 1000 - 100)
+            }, lifeTime * 1000 + 100)
         }
     }
     

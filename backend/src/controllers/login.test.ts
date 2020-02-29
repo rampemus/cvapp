@@ -33,7 +33,7 @@ test('/api/login POST success with root_user', async () => {
     expect(rootLogin.body.name).toBe(ROOT_NAME)
 })
 
-const repeat = 45
+const repeat = 1
 
 let start1 = new Date()
 let start2 = new Date()

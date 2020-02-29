@@ -51,12 +51,33 @@ const NotificationMessage: React.FC<Props> = (props) => {
         </svg>
     )} 
 
-
+    const deleted = message.id.substr(8) === 'deleted'
 
     return(
-        <div key={message.id} className={`notification ${message.type}`}>
-            <div className='notification-text'>{message.text}</div>
-            <div
+        <div 
+            key={message.id.substr(0,8)} 
+            className={`notification ${message.type}`}
+            style={{
+                transition: 'all 0.4s ease',
+                maxHeight: deleted ? '0' : '50px',
+                paddingTop: deleted ? '0' : '10px',
+                paddingBottom: deleted ? '0' : '10px',
+                marginTop: deleted ? '0' : '5px',
+                marginBottom: deleted ? '0' : '4px',
+                overflow: deleted ? 'hidden' : 'auto',
+            }}
+        >
+            <div className='notification-text'
+                style={{
+                    transition: 'all 0.4s ease',
+                    opacity: deleted ? '0' : '1'
+                }}
+            >{message.text}</div>
+            <div   
+                style={{
+                    transition: 'all 0.4s ease',
+                    opacity: deleted ? '0' : '1'
+                }}
                 className='notification-close-button'
                 onClick={() => props.deleteNotification()}
             >{closeButton()}</div>

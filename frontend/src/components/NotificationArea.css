@@ -9,11 +9,11 @@
 
 .notification {
     align-self: right;
-    margin: 5px 4px 0px 0px;
+    /* margin: 5px 4px 0px 0px; */
     padding: 10px;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: auto 20px
+    grid-template-columns: auto 20px;
 }
 
 .notification-close-button {

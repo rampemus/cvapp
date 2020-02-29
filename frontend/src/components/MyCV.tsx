@@ -78,6 +78,7 @@ const MyCV: React.FC<Props> = (props) => {
                                 myCVs[0] && cvService.duplicateCV(myCVs[0])
                                     .then((response) => {
                                         props.updateCVs()
+                                        props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
                                     })
                             }}>Duplicate Default</button>
                             <Route exact path="/mycv/:id" render={({ match }) =>
@@ -87,10 +88,11 @@ const MyCV: React.FC<Props> = (props) => {
                                         cvService.setCVDefault(match.params.id)
                                             .then(() => {
                                                 props.updateCVs()
+                                                props.showNotification('Default CV updated', Type.SUCCESS, 6)
                                             })
                                             .catch((error) => {
                                                 if (error.response.data.error) {
-                                                    props.showNotification(error.response.data.error, Type.ERROR, 5)
+                                                    props.showNotification(error.response.data.error, Type.ERROR, 12)
                                                 }
                                             })
                                     }}>Set As Default CV</button>,
@@ -133,6 +135,7 @@ const MyCV: React.FC<Props> = (props) => {
                                         cvService.deleteObject(ServiceType.CV, cv.id)
                                             .then((response) => {
                                                 props.updateCVs()
+                                                props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 6)
                                             })
                                         }}
                                         >Delete</button>
@@ -147,6 +150,7 @@ const MyCV: React.FC<Props> = (props) => {
                                 event.preventDefault()
                                 cvService.createEmptyCV().then(response => {
                                     props.updateCVs()
+                                    props.showNotification('Empty CV created', Type.SUCCESS, 4)
                                 })
                             }}
                             /> 

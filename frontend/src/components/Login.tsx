@@ -34,7 +34,7 @@ const Login: React.FC<Props> = (props) => {
                     'loggedUser', JSON.stringify(response)
                 )
                 props.setUser(response)
-                props.showNotification('Login successful', Type.SUCCESS, 10)
+                props.showNotification('Login successful', Type.SUCCESS, 7)
                 props.updateCVs()
             }).catch((error:loginError) => {
                 if (error) {

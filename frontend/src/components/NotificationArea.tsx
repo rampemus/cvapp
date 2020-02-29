@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './NotificationArea.css'
 import { connect } from 'react-redux'
 import { Message, deleteNotification } from '../reducers/notificationReducer'
@@ -6,12 +6,11 @@ import NotificationMessage from './NotificationMessage'
 import { AppState } from '../index'
 
 interface OwnProps {}
-export interface StateProps {visible?: boolean, messages?: Message[]}
+export interface StateProps {messages: Message[]}
 export interface DispatchProps { deleteNotification: Function }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
-        visible: state.notification.visible,
         messages: state.notification.messages
     }
 }
@@ -23,13 +22,21 @@ const mapDispatchToProps:DispatchProps = {
 type Props = OwnProps & StateProps & DispatchProps
 
 const NotificationArea: React.FC<Props> = (props) => {
-    const { visible, messages } = props
+
+    const [messages, setMessages] = useState(props.messages)
+
+    useEffect(()=>{
+        messages.map(message => console.log(message.id.substr(0,8)))
+        const newMessages = props.messages.filter(propsmessage => messages.findIndex(message => message.id === propsmessage.id) === -1)
+        setMessages(messages.map(message => props.messages.findIndex(propsmessage => propsmessage.id === message.id) > -1 ? message : { ...message, id: message.id.substr(0, 8) + 'deleted'})
+            .concat(newMessages))
+    },[props.messages])
 
     if ( messages ) {
         return (
-            <div className='notificationContainer' style={{opacity: visible ? 1 : 0}}>
+            <div className='notificationContainer' style={{opacity: messages.length > 0 ? 1 : 0}}>
                 {messages.map( message => {
-                    return (<NotificationMessage key={message.id} message={message} deleteNotification={() => props.deleteNotification(message.id)} duration={message.duration}></NotificationMessage>)
+                    return (<NotificationMessage key={message.id.substr(0,8)} message={message} deleteNotification={() => props.deleteNotification(message.id)} duration={message.duration}></NotificationMessage>)
                 })}
             </div>
         )

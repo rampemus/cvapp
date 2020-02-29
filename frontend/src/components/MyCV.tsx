@@ -75,7 +75,7 @@ const MyCV: React.FC<Props> = (props) => {
                             <button className='toolbar-button' disabled={formActive}>Clear CV</button>
                             <button className='toolbar-button' onClick={(event) => {
                                 event.preventDefault()
-                                myCVs[0] && cvService.duplicateCV(myCVs[0])
+                                myCVs[0] && cvService.duplicateCV(myCVs[0], props.showNotification)
                                     .then((response) => {
                                         props.updateCVs()
                                         props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
@@ -88,7 +88,7 @@ const MyCV: React.FC<Props> = (props) => {
                                         cvService.setCVDefault(match.params.id)
                                             .then(() => {
                                                 props.updateCVs()
-                                                props.showNotification('Default CV updated', Type.SUCCESS, 6)
+                                                props.showNotification('Default CV updated', Type.SUCCESS, 4)
                                             })
                                             .catch((error) => {
                                                 if (error.response.data.error) {
@@ -135,7 +135,7 @@ const MyCV: React.FC<Props> = (props) => {
                                         cvService.deleteObject(ServiceType.CV, cv.id)
                                             .then((response) => {
                                                 props.updateCVs()
-                                                props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 6)
+                                                props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
                                             })
                                         }}
                                         >Delete</button>

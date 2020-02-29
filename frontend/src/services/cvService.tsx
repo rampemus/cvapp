@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { IUser } from './usersService'
 import { getConfigHeader } from '../utils/serviceHelper'
+import { Type } from '../reducers/notificationReducer'
 const baseUrl = '/api/cv'
 
 export interface IContact {
@@ -120,7 +121,7 @@ const createEmptyCV = () => {
     })
 }
 
-const duplicateCV = (cv: ICV) => {
+const duplicateCV = (cv: ICV, showNotification?: Function ) => {
     const duplicateContact: IContactEmpty = {
         address: cv.contact.address,
         company: cv.contact.company,
@@ -221,15 +222,16 @@ const duplicateCV = (cv: ICV) => {
 
         const cvId = response.data.id
 
-        createObject(ServiceType.PROFILE, duplicateProfile, cvId, 'profile')
+        await createObject(ServiceType.PROFILE, duplicateProfile, cvId, 'profile')
 
-        duplicateProjects.map((project: any) => 
-            createObject(ServiceType.PROJECT, project, cvId, 'projects')
+        duplicateProjects.map(async (project: any) => 
+            await createObject(ServiceType.PROJECT, project, cvId, 'projects')
         )
 
         duplicateReference.map( async (reference: any) => {
             await createObject(ServiceType.CONTACT, reference, cvId, 'reference')
         })
+        showNotification && showNotification('Profile, projects and references duplicated', Type.SUCCESS, 4.2)
 
         duplicateExperience.map( async (experience: any) => {
             await createObject(ServiceType.EXPERIENCE, experience, cvId, 'experience')
@@ -238,12 +240,14 @@ const duplicateCV = (cv: ICV) => {
         duplicateEducation.map( async (experience: any) => {
             await createObject(ServiceType.EXPERIENCE, experience, cvId, 'education')
         })
+        showNotification && showNotification('Experiences and education duplicated', Type.SUCCESS, 4.4)
         
         await createObject(ServiceType.COMMUNICATION, duplicateCommunication, cvId, 'communication')
 
         await createObject(ServiceType.INFO, duplicateSkills, cvId, 'skills')
 
         await createObject(ServiceType.INFO, dupliaceAttachments, cvId, 'attachments')
+        showNotification && showNotification('Communication, skills and attachments duplicated', Type.SUCCESS, 4.7)
 
         await createObject(ServiceType.INFO, duplicateInfo, cvId, 'info')
 

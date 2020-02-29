@@ -14,9 +14,15 @@ const TESTUSER_USERNAME = process.env.TESTUSER1_USERNAME || 'testuser'
 const TESTUSER_PASSWORD = process.env.TESTUSER1_PASSWORD || 'password'
 const TESTUSER_NAME = process.env.TESTUSER1_NAME || 'username'
 
+const PASSWORD_DIGITS = process.env.PASSWORD_DIGITS
+
 if ( !ROOT_USERNAME || !ROOT_PASSWORD || !ROOT_NAME ) {
     console.log('Root user environment variables are missing')
     process.exit(1)
+}
+
+if (!PASSWORD_DIGITS) {
+    console.log('Need abcdef... string for password digits')
 }
 
 export {
@@ -28,5 +34,6 @@ export {
     ROOT_NAME,
     TESTUSER_USERNAME,
     TESTUSER_PASSWORD,
-    TESTUSER_NAME
+    TESTUSER_NAME,
+    PASSWORD_DIGITS
 }

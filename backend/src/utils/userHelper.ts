@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import User from '../models/user'
-import { ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD } from './config'
+import { PASSWORD_DIGITS, ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD } from './config'
 
 const colorNames = [
     'IndiaRed',
@@ -213,7 +213,7 @@ const randomUserName = () => {
 
 // https://stackoverflow.com/questions/9719570/generate-random-password-string-with-requirements-in-javascript
 const randomPassword = ( length: number ) => {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#%&'
+    const chars = PASSWORD_DIGITS
     const passwordLength = length
     let randomString = ''
     for (let i = 0; i < passwordLength; i++) {

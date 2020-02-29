@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
+import { IUserToken } from '../controllers/login'
 import { JWT_SALT, ROOT_USERNAME } from './config'
 import { getUserByUsername } from './userHelper'
 
@@ -30,8 +31,8 @@ const TokenExtractor = ( request: IRequestWithToken, response: Response, next: a
 const AuthenticateUser = async (request: IRequestWithIdentity, response: Response, next: any) => {
     const token = request.token
 
-    // TODO: need some help to fix this jwt typescript weirdo thingy
-    const decodedToken: any = jwt.verify(token, JWT_SALT)
+    // TODO: update jsonwebtoken with ncu and remove any
+    const decodedToken: IUserToken | any = jwt.verify(token, JWT_SALT)
 
     if (!token || !decodedToken.id) {
         return response.status(401).json({ error: 'token missing or invalid'}).end()

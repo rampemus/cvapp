@@ -26,10 +26,11 @@ const NotificationArea: React.FC<Props> = (props) => {
     const [messages, setMessages] = useState(props.messages)
 
     useEffect(()=>{
-        messages.map(message => console.log(message.id.substr(0,8)))
         const newMessages = props.messages.filter(propsmessage => messages.findIndex(message => message.id === propsmessage.id) === -1)
         setMessages(messages.map(message => props.messages.findIndex(propsmessage => propsmessage.id === message.id) > -1 ? message : { ...message, id: message.id.substr(0, 8) + 'deleted'})
             .concat(newMessages))
+        // adding messages to useEffect dependencies will crash the app
+        // eslint-disable-next-line
     },[props.messages])
 
     if ( messages ) {

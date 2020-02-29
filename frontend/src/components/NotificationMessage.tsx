@@ -10,16 +10,16 @@ interface Props {
 const NotificationMessage: React.FC<Props> = (props) => {
     const message = props.message
     const duration = props.duration
-    const [timeLeft, setTimeLeft] = useState(1)
+    const [alive, setAlive] = useState(1)
 
     useEffect(()=>{
         if (duration) {
             const timer = setTimeout(() => {
-                setTimeLeft(0)
+                setAlive(0)
                 clearTimeout(timer)
             }, 100);
         }
-    },[])
+    },[duration])
 
     const closeButton = () => {
         const r = 9
@@ -41,7 +41,7 @@ const NotificationMessage: React.FC<Props> = (props) => {
                 backgroundColor: 'none',
                 opacity: duration ? '.25' : '0', 
                 strokeWidth: r,
-                strokeDasharray: timeLeft * r * 3.14 + ' ' + r * 3.14,
+                strokeDasharray: alive * r * 3.14 + ' ' + r * 3.14,
                 transition: 'stroke-dasharray ' + duration + 's linear',
                 transform: 'scale(-1,1) rotate(-135deg)'
             }}  r={r/2} className="close-circle" />

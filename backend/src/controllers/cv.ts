@@ -7,7 +7,6 @@ import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
 import User from '../models/user'
-import { MONGODB_URI } from '../utils/config'
 import { connectObjectToCVField, disconnectObjectFromCVField } from '../utils/cvHelper'
 import { IRequestWithIdentity } from '../utils/middleware'
 

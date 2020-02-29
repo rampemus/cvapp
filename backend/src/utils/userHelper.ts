@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import User, { IUser } from '../models/user'
+import User from '../models/user'
 import { ROOT_NAME, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD } from './config'
 
 const colorNames = [

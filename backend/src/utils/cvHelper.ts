@@ -1,6 +1,6 @@
 import Communication from '../models/cv/communication'
 import Contact from '../models/cv/contact'
-import CurriculumVitae, { ICurriculumVitae } from '../models/cv/cv'
+import CurriculumVitae from '../models/cv/cv'
 import Experience from '../models/cv/experience'
 import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'

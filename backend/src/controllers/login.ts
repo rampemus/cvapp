@@ -36,7 +36,7 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
     if (index > -1 && incorrectLogins[index].expires.valueOf() > Date.now().valueOf()) {
         return response.status(429).send({
             cooldownEnd: incorrectLogins[index].expires.valueOf() - Date.now().valueOf(),
-            error: 'Request not handled, awaiting for a cooldown to end',
+            error: 'Will submit automatically after cooldown',
         }).end()
     }
 
@@ -65,11 +65,14 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
         }
 
         return response.status(401).send({
-            error: 'invalid username or password'
+            error: 'Invalid username or password',
         }).end()
     }
 
     // TODO: clean trash from incorrectLogins
+    if (index > -1 && incorrectLogins[index].expires.valueOf() < Date.now().valueOf()) {
+        incorrectLogins.splice(index)
+    }
 
     const userForToken: IUserToken = {
         id: user.id,

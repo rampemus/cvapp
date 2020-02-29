@@ -10,9 +10,11 @@ interface loginResponse extends AxiosResponse {
 }
 
 export interface loginError {
+    status: number,
     response: {
         data:{
-            error: string
+            error: string,
+            cooldownEnd?: number
         }
     }
 }

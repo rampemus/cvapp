@@ -24,7 +24,7 @@
   border-radius: 10px;
 }
 
-.login-input:hover {
+.login-input:hover:not:disabled {
   border: solid 3px rgb(225, 228, 233);
 }
 
@@ -44,7 +44,7 @@
   background-color: rgb(255, 255, 255);
 }
 
-.login-button:hover {
+.login-button:hover:not:disabled {
   border: solid 3px rgb(225, 228, 233);
 }
 

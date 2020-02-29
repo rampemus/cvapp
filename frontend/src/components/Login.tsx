@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Login.css'
 import useField, { FieldType } from '../hooks/useField'
 import loginService, { loginError } from '../services/loginService'
@@ -25,33 +25,48 @@ const Login: React.FC<Props> = (props) => {
     const username = useField( FieldType.TEXT )
     const password = useField( FieldType.PASSWORD )
 
+    const [submitLock, setSubmitLock] = useState(false)
+
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        loginService.login(username.value, password.value)
-            .then(response => {
-                window.localStorage.setItem(
-                    'loggedUser', JSON.stringify(response)
-                )
-                props.setUser(response)
-                props.showNotification('Login successful', Type.SUCCESS, 7)
-                props.updateCVs()
-            }).catch((error:loginError) => {
-                if (error) {
-                    console.log(error)
-                    props.showNotification(`Error ${error}`, Type.ERROR, 15)
-                } else {
-                    props.showNotification(`Error no response from server`, Type.ERROR, 4)
-                }
-            })
+        if (!submitLock) {
+            loginService.login(username.value, password.value)
+                .then(response => {
+                    window.localStorage.setItem(
+                        'loggedUser', JSON.stringify(response)
+                    )
+                    props.setUser(response)
+                    props.showNotification('Login successful', Type.SUCCESS, 5)
+                    props.updateCVs()
+                }).catch((error:loginError) => {
+                    if (error) {
+                        const cooldown = error.response.data.cooldownEnd && error.response.data.cooldownEnd / 1000
+                        if (cooldown) {
+                            props.showNotification(`${error.response.data.error}`, Type.WARNING, cooldown)
+                            setSubmitLock(true)
+                            const lock = setTimeout(() => {
+                                setSubmitLock(false)
+                                clearTimeout(lock)
+                                handleLogin(event)
+                            }, cooldown * 1000 + 700)
+                        } else {
+                            props.showNotification(`${error.response.data.error}`, Type.ERROR, 4) 
+                        }
+                        
+                    } else {
+                        props.showNotification(`Error no response from server`, Type.ERROR, 4)
+                    }
+                })
+        }
     }
 
     return(
         <div className='Login'>
             <form onSubmit={handleLogin} className='loginBox'>
-                <div>Username: <input className='login-input' id='username' name='username' value='' {...username}></input></div>
-                <div>Password: <input className='login-input' id='password' name='password' value='' {...password}></input></div>
-                <button type='submit' className='login-button'>Login</button>
+                <div>Username: <input disabled={submitLock} className='login-input' id='username' name='username' value='' {...username}></input></div>
+                <div>Password: <input disabled={submitLock} className='login-input' id='password' name='password' value='' {...password}></input></div>
+                <button type='submit' disabled={submitLock} className='login-button'>Login</button>
             </form>
         </div>
     )

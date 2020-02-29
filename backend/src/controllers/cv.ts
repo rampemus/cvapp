@@ -180,19 +180,20 @@ export interface ISetDefaultCV {
 cvRouter.post('/default', async (request: IRequestWithIdentity, response: Response) => {
     if (request.userGroup !== 'admin') {
         response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
+    } else {
+        const requestBody: ISetDefaultCV = request.body
+        if (!requestBody.cvid) {
+            response.status(400).json({ error: 'CV id is empty' })
+        }
+
+        // TODO: implement single user default switch
+        const users = await User.find({})
+        await CurriculumVitae.updateMany({}, { default: [] })
+        await CurriculumVitae.updateOne({ _id: requestBody.cvid },
+            { default: users })
+        response.status(200).json({ message: 'marked default for all users, cv id: ' + requestBody.cvid })
     }
 
-    const requestBody: ISetDefaultCV = request.body
-    if (!requestBody.cvid) {
-        response.status(400).json({ error: 'CV id is empty' })
-    }
-
-    // TODO: implement single user default switch
-    const users = await User.find({})
-    await CurriculumVitae.updateMany({}, { default: [] })
-    await CurriculumVitae.updateOne({ _id: requestBody.cvid },
-        { default: users })
-    response.status(200).json({ message: 'marked default for all users, cv id: ' + requestBody.cvid })
 })
 
 cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response) => {
@@ -489,7 +490,7 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
         case 'project':
             await Project.findOneAndDelete({ _id: request.params.id, owner: request.userid })
             const projectCVid = ( await CurriculumVitae.findOne({
-                    projects: request.params.id, owner: request.userid
+                    owner: request.userid, projects: request.params.id
                 })).id
             await disconnectObjectFromCVField(
                 projectCVid,

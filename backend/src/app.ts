@@ -26,7 +26,15 @@ if (process.env.NODE_ENV !== 'test') {
 if (process.env.NODE_ENV === 'production') {
     app.use('/showcase', express.static('opetussivusto'))
 }
-app.use(express.static('build'))
+
+const build = express.static('build')
+app.use('/', build)
+app.use('/users', build)
+app.use('/users/:id', build)
+app.use('/mycv', build)
+app.use('/mycv/:id', build)
+app.use('/preview/:id', build)
+app.use('/about', build)
 
 app.use('/api/login', loginRouter)
 

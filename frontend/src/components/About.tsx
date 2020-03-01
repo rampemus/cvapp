@@ -10,13 +10,15 @@ const About: React.FC = (props) => {
                 To make things more simple I have added ready made libraries to help organize things. 
                 Biggest impact was done by Formik to make forms on the page to be a bit less painful.</p>
             <p>Please take a look of my source code in my <a href='https://github.com/rampemus/cvapp'>github</a></p>
-            <h3>Version 0.2 - 2020/2/26</h3>
-            <p>Fixed most of bugs away and bunch tests created for <a href='https://github.com/rampemus/cvapp/tree/master/backend'>backend</a>.</p>
+            <h3>Version 0.3 - 2020/3/1</h3>
+            <p>Notifications and animations added and login logic changed.</p>
             <h4>Known issues</h4>
             <ul>
                 <li>Written values are only validated in backend, and no error handling</li>
                 <li>Static server stuff and other resources should be hidden behind login</li>
             </ul>
+            <h3>Version 0.2 - 2020/2/26</h3>
+            <p>Fixed most of bugs away and bunch tests created for <a href='https://github.com/rampemus/cvapp/tree/master/backend'>backend</a>.</p>
             <h3>Version 0.1 - 2020/2/5</h3>
             <p>For now, some of the code is not yet nicely organized but things will get better.
                 Other bigger changes will be that the tests will be implemented in the future for creating a automated pipeline.

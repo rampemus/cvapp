@@ -12,7 +12,7 @@ interface IIncorrectLogin {
     expires: Date
 }
 
-const incorrectLogins: IIncorrectLogin[] = []
+const incorrectLogins: IIncorrectLogin[] = [] // TODO: replace with hash table
 const usernameDetail = 4
 const initialCooldown = 4
 

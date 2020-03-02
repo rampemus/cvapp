@@ -14,9 +14,9 @@ import { showNotification, Type } from '../reducers/notificationReducer'
 interface OwnProps {}
 export interface StateProps { user: UserState, cvs?: ICV[] }
 export interface DispatchProps {
-    updateCVs: Function,
-    setPreviousCV: Function,
-    showNotification: Function
+    updateCVs: (user: UserState) => void,
+    setPreviousCV: (id: string) => void,
+    showNotification: (message: string, type: Type, lifeTime?: number) => void
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -83,7 +83,7 @@ const MyCV: React.FC<Props> = (props) => {
                                         event.preventDefault()
                                         cvService.setCVDefault(match.params.id, props.user)
                                             .then(() => {
-                                                props.updateCVs()
+                                                props.updateCVs(props.user)
                                                 props.showNotification('Default CV updated', Type.SUCCESS, 4)
                                             })
                                             .catch((error) => {
@@ -130,7 +130,7 @@ const MyCV: React.FC<Props> = (props) => {
                                         event.preventDefault()
                                         cvService.deleteObject(ServiceType.CV, cv.id, props.user)
                                             .then((response) => {
-                                                props.updateCVs()
+                                                props.updateCVs(props.user)
                                                 props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
                                             })
                                         }}
@@ -147,7 +147,7 @@ const MyCV: React.FC<Props> = (props) => {
                             onClick={(event)=>{
                                 event.preventDefault()
                                 cvService.createEmptyCV(props.user).then(response => {
-                                    props.updateCVs()
+                                    props.updateCVs(props.user)
                                     props.showNotification('Empty CV created', Type.SUCCESS, 4)
                                 })
                             }}

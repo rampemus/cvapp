@@ -67,7 +67,7 @@ const Login: React.FC<Props> = (props) => {
             <form onSubmit={handleLogin} className='loginBox'>
                 <div>Username: <input disabled={submitLock} className='login-input' id='username' name='username' value='' {...username}></input></div>
                 <div>Password: <input disabled={submitLock} className='login-input' id='password' name='password' value='' {...password}></input></div>
-                <div className='rememberme'>Remember me (use cookies) <input type='checkbox' defaultChecked={remember} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                <div className='rememberme'>Remember me<input type='checkbox' defaultChecked={remember} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     setRemember(!remember)
                 }}/></div>
                 <button type='submit' disabled={submitLock} className='login-button'>Login</button>

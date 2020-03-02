@@ -17,9 +17,9 @@ import { updateCVs } from './reducers/cvReducer'
 import Home from './components/Home'
 
 interface OwnProps { }
-export interface StateProps { user?: UserState }
+export interface StateProps { user: UserState }
 export interface DispatchProps {
-  updateCVs: Function
+  updateCVs: (user: UserState) => void
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -45,9 +45,7 @@ const App: React.FC<Props> = (props) => {
       setHeight(content.clientHeight)
     }
     if (props.user && props.user.token.length > 0) {
-      props.updateCVs().catch((error: any) => {
-        props.updateCVs(props.user)
-      })
+      props.updateCVs(props.user)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])

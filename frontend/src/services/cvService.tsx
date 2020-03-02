@@ -12,6 +12,7 @@ export interface IContact {
     email: string,
     firstname: string,
     lastname: string,
+    linkedin: string
     phone: string,
     phoneAvailable: string,
     pictureUrl: string,
@@ -72,6 +73,7 @@ interface IContactEmpty {
     email?: string,
     firstname: string,
     lastname: string,
+    linkedin?: string,
     phone?: string,
     phoneAvailable?: string,
     pictureUrl?: string,
@@ -129,6 +131,7 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
         email: cv.contact.email,
         firstname: cv.contact.firstname,
         lastname: cv.contact.lastname,
+        linkedin: cv.contact.linkedin,
         phone: cv.contact.phone,
         phoneAvailable: cv.contact.phoneAvailable,
         pictureUrl: cv.contact.pictureUrl, 
@@ -266,6 +269,7 @@ const createObject = (type: ServiceType, object: any, id: string, user: UserStat
 
 const modifyObject = (type: ServiceType, id: string, object: any, user: UserState ) => {
     const changes = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id'))
+    console.log(changes)
     const request = axios.put(baseUrl + type, { changes, id }, getConfigHeader(user))
     return request.then((response:any) => {
         return response.data

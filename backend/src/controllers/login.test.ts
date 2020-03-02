@@ -81,8 +81,8 @@ describe('Incorrect credentials', () => {
     test('Timed attack against username', async () => {
         const time1 = end1.valueOf() - start1.valueOf()
         const time2 = end2.valueOf() - start2.valueOf()
-        expect(time2 - time1).toBeLessThan(repeat * 2)
-        expect(time1 - time2).toBeLessThan(repeat * 2)
+        expect(time2 - time1).toBeLessThan(repeat * 10)
+        expect(time1 - time2).toBeLessThan(repeat * 10)
     })
 })
 

@@ -12,6 +12,7 @@ export interface ICurriculumVitae extends Document {
     owner: IUser,
     default?: IUser[],
     name: string,
+    linkedin: string,
     github: string,
     techlist: string,
     contact: IContact,
@@ -57,6 +58,7 @@ const cvSchema: Schema = new Schema({
         ref: 'Info',
         type: Schema.Types.ObjectId,
     }],
+    linkedin: String,
     name: String,
     owner: {
         ref: 'User',

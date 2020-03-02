@@ -72,13 +72,14 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
   const renderContactForm = (contact: IContact, field: string) => {
     return(
       <FormPanel
-      formValues={{
+        formValues={{
           id: contact.id,
           address: contact.address,
           company: contact.company,
           email: contact.email,
           firstname: contact.firstname,
           lastname: contact.lastname,
+          linkedin: contact.linkedin,
           phone: contact.phone,
           phoneAvailable: contact.phoneAvailable,
           pictureUrl: contact.pictureUrl
@@ -96,6 +97,9 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         <div className='form-label'>E-mail</div>
         <Field className='form-input' placeholder='mailto@mail.com' type='text' name='email'/>
         <ErrorMessage name='email' component='div' />
+        <div className='form-label'>Linkedin</div>
+        <Field className='form-input' placeholder='www.linkedin.com/in/xxxxx-xxxxxx-XXXXXXXXX' type='text' name='linkedin' />
+        <ErrorMessage name='linkedin' component='div' />
         <div className='form-label'>Phone</div>
         <Field className='form-input' placeholder='+358000000000' type='text' name='phone'/>
         <ErrorMessage name='phone' component='div' />

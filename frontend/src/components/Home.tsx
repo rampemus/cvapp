@@ -50,9 +50,10 @@ const Home: React.FC<Props> = (props) => {
             <div className='cv-container-item contact-container'>
                 <div>
                     <p>{contact.firstname} {contact.lastname}</p>
-                    <p>{contact.address}</p>
-                    <p>Phone num. {contact.phone}</p>
-                    <p>{contact.email}</p>
+                    {contact.address && <p>{contact.address}</p>}
+                    {contact.phone && <p>Phone num. {contact.phone}</p>}
+                    {contact.email && <p>{contact.email}</p>}
+                    {contact.linkedin && <p><a href={contact.linkedin}>{contact.linkedin}</a></p>}
                 </div>
                 <div>
                     <img src={contact.pictureUrl} width='120px' alt='mypicture' />

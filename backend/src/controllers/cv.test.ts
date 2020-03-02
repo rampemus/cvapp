@@ -138,6 +138,7 @@ describe('/api/cv/:type GET', () => {
         expect(myContact).toHaveProperty('email')
         expect(myContact).toHaveProperty('firstname')
         expect(myContact).toHaveProperty('lastname')
+        expect(myContact).toHaveProperty('linkedin')
         expect(myContact).toHaveProperty('owner')
         expect(myContact).toHaveProperty('phone')
         expect(myContact).toHaveProperty('phoneAvailable')

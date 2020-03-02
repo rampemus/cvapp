@@ -133,6 +133,7 @@ const initState: cvState = {
         email: '...',
         firstname: '...',
         lastname: '...',
+        linkedin: '...',
         owner: {
           created: new Date('2020-01-13T13:18:58.111Z'),
           name: '...',
@@ -240,6 +241,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
                   email: '',
                   firstname: '',
                   lastname: '',
+                  linkedin: '',
                   phone: '',
                   phoneAvailable: '',
                   pictureUrl: '',
@@ -299,6 +301,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
                   email: '',
                   firstname: '',
                   lastname: '',
+                  linkedin: '',
                   phone: '',
                   phoneAvailable: '',
                   pictureUrl: '',

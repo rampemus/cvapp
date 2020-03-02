@@ -9,6 +9,7 @@ export interface IContact extends Document {
     email: string,
     firstname: string,
     lastname: string,
+    linkedin: string,
     phone: string,
     phoneAvailable: string,
     pictureUrl: string,
@@ -21,6 +22,7 @@ const contactSchema: Schema = new Schema({
     email: String,
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
+    linkedin: String,
     owner: {
         ref: 'User',
         required: true,

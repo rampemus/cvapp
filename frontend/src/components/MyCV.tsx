@@ -40,8 +40,6 @@ const MyCV: React.FC<Props> = (props) => {
     const formActive = location.pathname.includes('/mycv/') ? false : true
     const myCVs = props.cvs ? props.cvs : []
 
-    console.log(myCVs)
-
     const renderForm = (cvs: ICV[]) => {
         return (
             <Route exact path="/mycv/:id" render={({ match }) => 
@@ -49,8 +47,6 @@ const MyCV: React.FC<Props> = (props) => {
             }/>
         )
     }
-
-    console.log(props.cvs)
 
     return(
         <div>

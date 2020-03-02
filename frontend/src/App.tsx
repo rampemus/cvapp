@@ -46,8 +46,6 @@ const App: React.FC<Props> = (props) => {
     }
     if (props.user && props.user.token.length > 0) {
       props.updateCVs().catch((error: any) => {
-        console.log('Data retrieving error', error)
-        console.log('Trying again')
         props.updateCVs()
       })
     }

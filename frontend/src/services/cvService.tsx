@@ -218,8 +218,6 @@ const duplicateCV = (cv: ICV, showNotification?: Function ) => {
 
     const request = axios.post(baseUrl + ServiceType.CV, duplicateCV, getConfigHeader())
     return request.then( async (response: any) => {
-        console.log('succesful duplicate cv response', response)
-
         const cvId = response.data.id
 
         await createObject(ServiceType.PROFILE, duplicateProfile, cvId, 'profile')
@@ -259,7 +257,6 @@ const createObject = (type: ServiceType, object: any, id:string, field?:string) 
     const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== '') )
     const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : ''} }, getConfigHeader())
     return request.then((response:any) => {
-        console.log('successful createObject response: ', response)
         return response.data
     }).catch(error => {
      console.log('create object error:', error.response.data.error)
@@ -278,7 +275,6 @@ const modifyObject = (type: ServiceType, id: string, object: any ) => {
 
 const deleteObject = (type: ServiceType, id: string) => {
     const request = axios.delete(baseUrl + type + '/' + id, getConfigHeader())
-    console.log('delete ' + baseUrl + type + '/' + id)
     return request.then((response:any) => {
         return response.data
     })

@@ -46,13 +46,25 @@
 
 .cv-item button {
   position: relative;
-  bottom: 180px;
-  left: 95px;
+  bottom: 179px;
+  left: 113px;
   opacity: 0;
+  width: 17;
+  padding-bottom: 0px;
+  height: 14;
+  border-width: 1px;
+  background-color: white;
+  border-style: none;
+  border-color: lightgrey;
 }
 
 .cv-item:hover button {
   opacity: 1;
+}
+
+.cv-item button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 195, 195);
 }
 
 .cv-selector a img {
@@ -264,4 +276,7 @@
 .form-save-button {
   grid-column-start: -2;
   grid-column-end: -1;
+}
+.form-component button:hover {
+  cursor: pointer;
 }

@@ -45,6 +45,16 @@
   margin: 1px 3px 1px 3px;
   background-color: rgb(82, 82, 82);
   color: white;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.logout-button img {
+  opacity: 1;
+  width: 15px;
+  position: relative;
+  top: 3px;
+  padding-right: 4px;
 }
 
 .logout-button:hover {

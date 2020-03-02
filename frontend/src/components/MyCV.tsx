@@ -138,7 +138,9 @@ const MyCV: React.FC<Props> = (props) => {
                                                 props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
                                             })
                                         }}
-                                        >Delete</button>
+                                >
+                                    <img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />
+                                </button>
                             </div>
                         })}
                         <img

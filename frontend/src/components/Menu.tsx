@@ -36,9 +36,15 @@ const Menu: React.FC<Props> = (props) => {
             return (<Link to='/'><button className='setting-item logout-button' onClick={() => {
                 props.logoutUser()
                 props.clearCVS()
-            }}>logout</button></Link>)
+            }}>
+                <img src='logout.svg' width='17px' height='15px' alt='out'/>
+                logout
+            </button></Link>)
         }
-        return (<button disabled className='setting-item logout-button'>logout</button>)
+        return (<button disabled className='setting-item logout-button'>
+                <img className='icon' src='logout.svg' width='17px' height='15px' alt='out' />
+                <div>logout</div>
+            </button>)
     }
     if (!props.showRoutes) {
         return (

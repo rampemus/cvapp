@@ -1,6 +1,7 @@
 table {
   border-collapse: collapse;
-  width: 90%;
+  display: table-row-group;
+  min-width: 632px;
 }
 
 th {
@@ -16,10 +17,37 @@ td {
 
 tr button {
   visibility: hidden;
+  text-align: center;
+  font-size: 12px;
+  font-weight:500;
+  padding: 4px;
+  padding-bottom: 7px;
+  min-width: 30px;
+  border: solid 3px rgb(225, 228, 233);
+  border-radius: 10px;
+  margin-top: 5px;
+  margin: 1px 3px 1px 3px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+tr button img {
+  opacity: 1;
+  width: 15px;
+  position: relative;
+  top: 3px;
+  padding-right: 0px;
 }
 
 tr:hover button {
   visibility: visible;
+}
+
+tr button:hover {
+  background-color: rgb(255, 195, 195);;
+  cursor: pointer;
 }
 
 table td:last-child {

@@ -6,15 +6,25 @@ import { showNotification, Type } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import Toolbar from './Toolbar'
 import UsersForm from './UsersForm'
+import { UserState } from '../reducers/userReducer'
+import { AppState } from '..'
 
 interface OwnProps { }
-export interface StateProps { }
+export interface StateProps {
+  user: UserState
+}
 export interface DispatchProps {
   showNotification: Function
 }
 
 const mapDispatchToProps: DispatchProps = {
   showNotification
+}
+
+const mapStateToProps = (state: AppState, props: OwnProps) => {
+  return {
+    user: state.user
+  }
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -28,7 +38,7 @@ const Users: React.FC<Props> = (props) => {
   }, [])
 
   const updateUsers = () => {
-    usersService.getAll().then(response => {
+    usersService.getAll(props.user).then(response => {
       setUsers(response)
     }).catch((error: usersError) => {
       props.showNotification('Request for retrieving users was denied. ' + error.response.data.error, Type.ERROR, 4)
@@ -38,7 +48,7 @@ const Users: React.FC<Props> = (props) => {
   const handleUserDelete = (id: string) => {
     const user:IUser | undefined = users.find(user => user.id === id)
     if ( user ) {
-      usersService.deleteUser(id).then(
+      usersService.deleteUser(id, props.user).then(
         response => {
           setUsers(users.filter(user => user.id !== id))
           props.showNotification(`User ${user.name} was deleted`, Type.SUCCESS, 3)
@@ -50,7 +60,7 @@ const Users: React.FC<Props> = (props) => {
   }
 
   const handleAddRandomUser = () => {
-    usersService.createUser().then(
+    usersService.createUser(props.user).then(
       response => {
         props.showNotification(`User ${response.data.name} created. Username/password is ${response.data.username}/${response.data.password}`, Type.SUCCESS)
         updateUsers()
@@ -98,5 +108,5 @@ const Users: React.FC<Props> = (props) => {
   )
 }
 
-export default connect(null,mapDispatchToProps)(Users)
+export default connect(mapStateToProps,mapDispatchToProps)(Users)
 

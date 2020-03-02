@@ -1,6 +1,7 @@
-const getConfigHeader = () => {
-    const user = window.localStorage.getItem('loggedUser')
-    const userToken = user ? JSON.parse(user).token : ''
+import { UserState } from "../reducers/userReducer"
+
+const getConfigHeader = (user: UserState) => {
+    const userToken = user.token
     const config = {
         headers: {
             'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { getConfigHeader } from '../utils/serviceHelper'
+import { UserState } from '../reducers/userReducer'
 const baseUrl = '/api/users'
 
 export interface IUser {
@@ -28,19 +29,19 @@ export interface usersError {
     }
 }
 
-const getAll = () => {
-    const request = axios.get(baseUrl, getConfigHeader())
+const getAll = (user: UserState) => {
+    const request = axios.get(baseUrl, getConfigHeader(user))
     return request.then((response: getAllUsersResponse) => response.data)
 }
 
-const createUser = (username?: string, name?: string, password?: string, expires?: Date | null) => {
+const createUser = (user: UserState, username?: string, name?: string, password?: string, expires?: Date | null) => {
     const data = username || name || password ? { username, name, password, expires } : {}
-    const request = axios.post(`${baseUrl}`, data, getConfigHeader())
+    const request = axios.post(`${baseUrl}`, data, getConfigHeader(user))
     return request.then((response: createUsersResponse) => response)
 }
 
-const deleteUser = (id:string) => {
-    const request = axios.delete(`${baseUrl}/${id}`, getConfigHeader())
+const deleteUser = (id:string, user: UserState) => {
+    const request = axios.delete(`${baseUrl}/${id}`, getConfigHeader(user))
     return request.then( response => response)
 }
 

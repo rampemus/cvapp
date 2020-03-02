@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { updateCVs, addEmptyCVObject, removeTempCVObject, CVAction } from '../../reducers/cvReducer'
 import MyCVFormDateSelector from './MyCVFormDateSelector'
 import MyCVFormLanguageLevelSelector, { ILevel } from './MyCVFormLanguageLevelSelector'
+import { UserState } from '../../reducers/userReducer'
+import { AppState } from '../..'
 
 interface OwnProps {
   formValues?: Object,
@@ -14,14 +16,20 @@ interface OwnProps {
   serviceType: ServiceType,
   children?: any,
 }
-export interface StateProps { }
+export interface StateProps {
+  user: UserState
+}
 export interface DispatchProps {
-  updateCVs: Function,
+  updateCVs: (user: UserState) => any,
   addEmptyCVObject(id: string, field: string): CVAction,
   removeTempCVObject(id: string, field: string, objectId: string): CVAction
 }
 
-// const mapStateToProps = (state: AppState, props: OwnProps) => { }
+const mapStateToProps = (state: AppState, props: OwnProps) => {
+  return {
+    user: state.user
+  }
+}
 
 const stringToArray = (data:string) => {
   return data.split('\n')
@@ -57,14 +65,14 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
           if (values.id.includes('temp')) {
             const path = location.pathname
             const id = path.substring('/myCV/'.length)
-            cvService.createObject(serviceType, values, id, field).then(response => {
-              props.updateCVs()
+            cvService.createObject(serviceType, values, id, props.user, field).then(response => {
+              props.updateCVs(props.user)
               setSubmitting(false)
             })
           } else {
             const changes = Object.fromEntries(Object.entries(values).filter(([key, value]) => formValues[key] !== value))
-            cvService.modifyObject(serviceType, values.id, changes).then(response => {
-              props.updateCVs()
+            cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
+              props.updateCVs(props.user)
               setSubmitting(false)
             })
           }
@@ -113,7 +121,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 const CVid = path.substring('/myCV/'.length)
                 props.removeTempCVObject(CVid, field, values.id)
               } else {
-                cvService.deleteObject(serviceType, values.id)
+                cvService.deleteObject(serviceType, values.id, props.user)
               }
             }} />
             <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
@@ -134,14 +142,14 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
           if (values.id.includes('temp')) {
             const path = location.pathname
             const id = path.substring('/myCV/'.length)
-            cvService.createObject(serviceType, values, id, field).then(response => {
-              props.updateCVs()
+            cvService.createObject(serviceType, values, id, props.user, field).then(response => {
+              props.updateCVs(props.user)
               setSubmitting(false)
             })
           } else {
             const changes = Object.fromEntries(Object.entries(values).filter(([key, value]) => formValues[key] !== value))
-            cvService.modifyObject(serviceType, values.id, changes).then(response => {
-              props.updateCVs()
+            cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
+              props.updateCVs(props.user)
               setSubmitting(false)
             })
           }
@@ -209,7 +217,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 const CVid = path.substring('/myCV/'.length)
                 props.removeTempCVObject(CVid, field, values.id)
               } else {
-                cvService.deleteObject(serviceType, values.id)
+                cvService.deleteObject(serviceType, values.id, props.user)
               }
             }} />
             <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
@@ -239,8 +247,8 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 .filter(([key, value]) => formValues[key] !== value)
                 .map(([key, value]) => key === 'content' ? [key, stringToArray(value)] : [key, value])
             )
-            cvService.createObject(serviceType, newValues, id, field).then(response => {
-              props.updateCVs()
+            cvService.createObject(serviceType, newValues, id, props.user, field).then(response => {
+              props.updateCVs(props.user)
               setSubmitting(false)
             })
           } else {
@@ -249,8 +257,8 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 .filter(([key, value]) => formValues[key] !== value)
                 .map(([key, value]) => key === 'content' ? [key,stringToArray(value)] : [key, value])
             )
-            cvService.modifyObject(serviceType, values.id, changes).then(response => {
-              props.updateCVs()
+            cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
+              props.updateCVs(props.user)
               setSubmitting(false)
             })
           }
@@ -270,8 +278,8 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 const CVid = path.substring('/myCV/'.length)
                 props.removeTempCVObject(CVid, field, values.id)
               } else {
-                cvService.deleteObject(serviceType, values.id)
-                props.updateCVs()
+                cvService.deleteObject(serviceType, values.id, props.user)
+                props.updateCVs(props.user)
               }
             }}/>
             <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues}/>
@@ -295,4 +303,4 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
   )}
 }
 
-export default connect(null,mapDispatchToProps)(MyCVFormPanel)
+export default connect(mapStateToProps,mapDispatchToProps)(MyCVFormPanel)

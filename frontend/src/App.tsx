@@ -46,7 +46,7 @@ const App: React.FC<Props> = (props) => {
     }
     if (props.user && props.user.token.length > 0) {
       props.updateCVs().catch((error: any) => {
-        props.updateCVs()
+        props.updateCVs(props.user)
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

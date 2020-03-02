@@ -15,6 +15,13 @@
   border-radius: 15px
 }
 
+.rememberme {
+  padding-top: 8px;
+  font-size: small;
+  width: 100%;
+  text-align: center;
+}
+
 .login-input {
   font-size: 16px;
   padding: 4px;

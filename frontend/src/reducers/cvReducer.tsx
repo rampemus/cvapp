@@ -1,4 +1,5 @@
 import cvService, { ICV, IExperience, IContact, IProject, IProfile, ICommunication, IInfo } from "../services/cvService"
+import { UserState } from "./userReducer"
 
 interface cvState {
   cvs: ICV[],
@@ -507,11 +508,11 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
   }
 }
 
-export const updateCVs = () => {
+export const updateCVs = (user: UserState) => {
   return async (dispatch:any) => {
     const action: CVAction = {
       type: 'UPDATE_CVS',
-      data: { cvs: await cvService.getAllCV() }
+      data: { cvs: await cvService.getAllCV(user) }
     }
     dispatch(action)
   }

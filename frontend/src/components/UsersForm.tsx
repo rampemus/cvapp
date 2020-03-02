@@ -2,18 +2,28 @@ import React, { useState } from 'react'
 import { showNotification, Type } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import usersService, { usersError } from '../services/usersService'
+import { UserState } from '../reducers/userReducer'
+import { AppState } from '..'
 
 interface OwnProps {
     closeForm: Function,
     reloadUsers: Function
 }
-export interface StateProps {}
+export interface StateProps {
+    user: UserState
+}
 export interface DispatchProps {
     showNotification: Function
 }
 
 const mapDispatchToProps: DispatchProps = {
     showNotification
+}
+
+const mapStateToProps = (state: AppState, props: OwnProps) => {
+    return {
+        user: state.user
+    }
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -34,7 +44,7 @@ const UsersForm: React.FC<Props> = (props) => {
         event.preventDefault()
 
         if ( password === passwordConfirm ) {
-            usersService.createUser(username, name, password, expires).then(
+            usersService.createUser(props.user, username, name, password, expires).then(
                 response => {
                     setName('')
                     setUsername('')
@@ -122,4 +132,4 @@ const UsersForm: React.FC<Props> = (props) => {
     )
 }
 
-export default connect(null,mapDispatchToProps)(UsersForm)
+export default connect(mapStateToProps,mapDispatchToProps)(UsersForm)

@@ -3,6 +3,7 @@ import './Preview.css'
 import { connect } from 'react-redux'
 import { AppState } from '..'
 import { ICV, IContact, IExperience, ICommunication } from '../services/cvService'
+import { UserState } from '../reducers/userReducer'
 
 const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
     const { startDate, endDate } = timeFrame
@@ -20,7 +21,7 @@ interface OwnProps {
     preview?: ICV
 }
 export interface StateProps {
-    cv?: ICV
+    cv?: ICV,
 }
 export interface DispatchProps { }
 

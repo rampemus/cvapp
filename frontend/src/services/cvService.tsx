@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { IUser } from './usersService'
 import { getConfigHeader } from '../utils/serviceHelper'
 import { Type } from '../reducers/notificationReducer'
+import { UserState } from '../reducers/userReducer'
 const baseUrl = '/api/cv'
 
 export interface IContact {
@@ -107,7 +108,7 @@ interface getAllCVResponse extends AxiosResponse {
     // | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
 }
 
-const createEmptyCV = () => {
+const createEmptyCV = (user: UserState) => {
     const emptyCV: ICVEmpty = {
         name: 'name-required',
         contact: {
@@ -115,13 +116,13 @@ const createEmptyCV = () => {
             lastname: 'lastname-required'
         }
     }
-    const request = axios.post(baseUrl + ServiceType.CV, emptyCV, getConfigHeader())
+    const request = axios.post(baseUrl + ServiceType.CV, emptyCV, getConfigHeader(user))
     return request.then((response:any) => {
         return response.data
     })
 }
 
-const duplicateCV = (cv: ICV, showNotification?: Function ) => {
+const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => {
     const duplicateContact: IContactEmpty = {
         address: cv.contact.address,
         company: cv.contact.company,
@@ -216,46 +217,46 @@ const duplicateCV = (cv: ICV, showNotification?: Function ) => {
         techlist: cv.techlist
     }
 
-    const request = axios.post(baseUrl + ServiceType.CV, duplicateCV, getConfigHeader())
+    const request = axios.post(baseUrl + ServiceType.CV, duplicateCV, getConfigHeader(user))
     return request.then( async (response: any) => {
         const cvId = response.data.id
 
-        await createObject(ServiceType.PROFILE, duplicateProfile, cvId, 'profile')
+        await createObject(ServiceType.PROFILE, duplicateProfile, cvId, user, 'profile')
 
         duplicateProjects.map(async (project: any) => 
-            await createObject(ServiceType.PROJECT, project, cvId, 'projects')
+            await createObject(ServiceType.PROJECT, project, cvId, user, 'projects')
         )
 
         duplicateReference.map( async (reference: any) => {
-            await createObject(ServiceType.CONTACT, reference, cvId, 'reference')
+            await createObject(ServiceType.CONTACT, reference, cvId, user, 'reference')
         })
         showNotification && showNotification('Profile, projects and references duplicated', Type.SUCCESS, 4.2)
 
         duplicateExperience.map( async (experience: any) => {
-            await createObject(ServiceType.EXPERIENCE, experience, cvId, 'experience')
+            await createObject(ServiceType.EXPERIENCE, experience, cvId, user, 'experience')
         })
 
         duplicateEducation.map( async (experience: any) => {
-            await createObject(ServiceType.EXPERIENCE, experience, cvId, 'education')
+            await createObject(ServiceType.EXPERIENCE, experience, cvId, user, 'education')
         })
         showNotification && showNotification('Experiences and education duplicated', Type.SUCCESS, 4.4)
         
-        await createObject(ServiceType.COMMUNICATION, duplicateCommunication, cvId, 'communication')
+        await createObject(ServiceType.COMMUNICATION, duplicateCommunication, cvId, user, 'communication')
 
-        await createObject(ServiceType.INFO, duplicateSkills, cvId, 'skills')
+        await createObject(ServiceType.INFO, duplicateSkills, cvId, user, 'skills')
 
-        await createObject(ServiceType.INFO, dupliaceAttachments, cvId, 'attachments')
+        await createObject(ServiceType.INFO, dupliaceAttachments, cvId, user, 'attachments')
         showNotification && showNotification('Communication, skills and attachments duplicated', Type.SUCCESS, 4.7)
 
-        await createObject(ServiceType.INFO, duplicateInfo, cvId, 'info')
+        await createObject(ServiceType.INFO, duplicateInfo, cvId, user, 'info')
 
         return response.data
     })
 }
 
-const createObject = (type: ServiceType, object: any, id:string, field?:string) => {
+const createObject = (type: ServiceType, object: any, id: string, user: UserState, field?: string) => {
     const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== '') )
-    const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : ''} }, getConfigHeader())
+    const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : '' } }, getConfigHeader(user))
     return request.then((response:any) => {
         return response.data
     }).catch(error => {
@@ -263,9 +264,9 @@ const createObject = (type: ServiceType, object: any, id:string, field?:string) 
     })
 }
 
-const modifyObject = (type: ServiceType, id: string, object: any ) => {
+const modifyObject = (type: ServiceType, id: string, object: any, user: UserState ) => {
     const changes = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id'))
-    const request = axios.put(baseUrl + type, { changes, id },getConfigHeader())
+    const request = axios.put(baseUrl + type, { changes, id }, getConfigHeader(user))
     return request.then((response:any) => {
         return response.data
     }).catch(error => {
@@ -273,8 +274,8 @@ const modifyObject = (type: ServiceType, id: string, object: any ) => {
     })
 }
 
-const deleteObject = (type: ServiceType, id: string) => {
-    const request = axios.delete(baseUrl + type + '/' + id, getConfigHeader())
+const deleteObject = (type: ServiceType, id: string, user: UserState) => {
+    const request = axios.delete(baseUrl + type + '/' + id, getConfigHeader(user))
     return request.then((response:any) => {
         return response.data
     })
@@ -301,20 +302,20 @@ interface defaultResponse extends AxiosResponse {
     }
 }
 
-const setCVDefault = (cv: string) => {
+const setCVDefault = (cv: string, user: UserState) => {
     const defaultCommand: ISetDefaultCV = {
         cvid: cv
     }
 
-    const request = axios.post(baseUrl + '/default', defaultCommand, getConfigHeader())
+    const request = axios.post(baseUrl + '/default', defaultCommand, getConfigHeader(user))
     return request.then((response: defaultResponse) => {
         return response.data
     })
 }
 
-const getAllCV = () => {
+const getAllCV = (user: UserState) => {
     // TODO: prevent request if there is no Authorization
-    const request = axios.get(baseUrl, getConfigHeader())
+    const request = axios.get(baseUrl, getConfigHeader(user))
     return request.then((response: getAllCVResponse) => {
         // console.log('formatted data will be handling this:',response.data)
         // format data to match ICV interface (mongoose wiggles the non required values to arrays)

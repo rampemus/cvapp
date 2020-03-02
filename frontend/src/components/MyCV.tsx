@@ -12,7 +12,7 @@ import Home from './Home'
 import { showNotification, Type } from '../reducers/notificationReducer'
 
 interface OwnProps {}
-export interface StateProps { user?: UserState, cvs?: ICV[] }
+export interface StateProps { user: UserState, cvs?: ICV[] }
 export interface DispatchProps {
     updateCVs: Function,
     setPreviousCV: Function,
@@ -71,9 +71,9 @@ const MyCV: React.FC<Props> = (props) => {
                             <button className='toolbar-button' disabled={formActive}>Clear CV</button>
                             <button className='toolbar-button' onClick={(event) => {
                                 event.preventDefault()
-                                myCVs[0] && cvService.duplicateCV(myCVs[0], props.showNotification)
+                                myCVs[0] && cvService.duplicateCV(myCVs[0], props.user, props.showNotification)
                                     .then((response) => {
-                                        props.updateCVs()
+                                        props.updateCVs(props.user)
                                         props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
                                     })
                             }}>Duplicate Default</button>
@@ -81,7 +81,7 @@ const MyCV: React.FC<Props> = (props) => {
                                 [
                                     <button className='toolbar-button' disabled={formActive} onClick={(event) => {
                                         event.preventDefault()
-                                        cvService.setCVDefault(match.params.id)
+                                        cvService.setCVDefault(match.params.id, props.user)
                                             .then(() => {
                                                 props.updateCVs()
                                                 props.showNotification('Default CV updated', Type.SUCCESS, 4)
@@ -109,14 +109,14 @@ const MyCV: React.FC<Props> = (props) => {
                             const locationid = location.pathname.substr(location.pathname.length - cv.id.length)
                             const selected = locationid === cv.id
                             return <div 
-                                    className='cv-item' 
-                                    key={cv.id}
-                                    style={{
-                                        transition: 'margin-top 0.2s ease, margin-bottom 0.2s ease',
-                                        marginTop: selected ? '10px' : '2px',
-                                        marginBottom: selected ? '2px' : '10px'
-                                    }}
-                                >
+                                className='cv-item' 
+                                key={cv.id}
+                                style={{
+                                    transition: 'margin-top 0.2s ease, margin-bottom 0.2s ease',
+                                    marginTop: selected ? '10px' : '2px',
+                                    marginBottom: selected ? '2px' : '10px'
+                                }}
+                            >
                                 <Link to={`/mycv/${cv.id}`} onClick={()=>{props.setPreviousCV(cv.id)}}>
                                     <img src='emptycv.svg' width='150px' height='180px' alt='document'/>
                                     {index === 0 && <div className='default-label'>default</div>}
@@ -128,7 +128,7 @@ const MyCV: React.FC<Props> = (props) => {
                                 <button
                                     onClick={(event) => {
                                         event.preventDefault()
-                                        cvService.deleteObject(ServiceType.CV, cv.id)
+                                        cvService.deleteObject(ServiceType.CV, cv.id, props.user)
                                             .then((response) => {
                                                 props.updateCVs()
                                                 props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
@@ -146,7 +146,7 @@ const MyCV: React.FC<Props> = (props) => {
                             alt='document'
                             onClick={(event)=>{
                                 event.preventDefault()
-                                cvService.createEmptyCV().then(response => {
+                                cvService.createEmptyCV(props.user).then(response => {
                                     props.updateCVs()
                                     props.showNotification('Empty CV created', Type.SUCCESS, 4)
                                 })

@@ -24,7 +24,8 @@ const Login: React.FC<Props> = (props) => {
 
     const username = useField( FieldType.TEXT )
     const password = useField( FieldType.PASSWORD )
-
+    
+    const [remember, setRemember] = useState(false)
     const [submitLock, setSubmitLock] = useState(false)
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,12 +34,12 @@ const Login: React.FC<Props> = (props) => {
         if (!submitLock) {
             loginService.login(username.value, password.value)
                 .then(response => {
-                    window.localStorage.setItem(
+                    props.setUser(response)
+                    remember && window.localStorage.setItem(
                         'loggedUser', JSON.stringify(response)
                     )
-                    props.setUser(response)
                     props.showNotification('Login successful', Type.SUCCESS, 5)
-                    props.updateCVs()
+                    props.updateCVs(response)
                 }).catch((error:loginError) => {
                     if (error) {
                         const cooldown = error.response.data.cooldownEnd && error.response.data.cooldownEnd / 1000
@@ -66,6 +67,9 @@ const Login: React.FC<Props> = (props) => {
             <form onSubmit={handleLogin} className='loginBox'>
                 <div>Username: <input disabled={submitLock} className='login-input' id='username' name='username' value='' {...username}></input></div>
                 <div>Password: <input disabled={submitLock} className='login-input' id='password' name='password' value='' {...password}></input></div>
+                <div className='rememberme'>Remember me (use cookies) <input type='checkbox' defaultChecked={remember} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setRemember(!remember)
+                }}/></div>
                 <button type='submit' disabled={submitLock} className='login-button'>Login</button>
             </form>
         </div>

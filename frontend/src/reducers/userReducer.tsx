@@ -9,7 +9,7 @@ interface SetUserAction {
     data: UserState
 }
 
-const loggedUserJSON = window.localStorage.getItem('loggedUser')
+const loggedUserJSON = window.localStorage.getItem('loggedUser') || null
 const user:UserState = loggedUserJSON ? JSON.parse(loggedUserJSON) : { token: '', username: '', name:'' }
 
 const userReducer = (state: UserState | undefined = user, action: SetUserAction ) => {

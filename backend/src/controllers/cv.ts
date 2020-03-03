@@ -1,4 +1,5 @@
 import { Response, Router } from 'express'
+import Joi from 'joi'
 import Communication from '../models/cv/communication'
 import Contact from '../models/cv/contact'
 import CurriculumVitae from '../models/cv/cv'
@@ -9,6 +10,7 @@ import Project from '../models/cv/project'
 import User from '../models/user'
 import { connectObjectToCVField, disconnectObjectFromCVField } from '../utils/cvHelper'
 import { IRequestWithIdentity } from '../utils/middleware'
+import { IJoiError } from './login'
 
 const cvRouter = Router()
 
@@ -57,10 +59,23 @@ cvRouter.get('/:type', async (request: IRequestWithIdentity, response: Response)
     }
 })
 
+const contentLength = 10000
+const contentString = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.()!"#€$%&@£§|{}'-]*$/).max(contentLength)
+const nameLenth = 300
+const nameString = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.()!"#€$%&@£§|{}'-]*$/).max(nameLenth)
+const objectId = Joi.string().regex(/^[a-f\d]{24}$/i)
+const fieldString = Joi.string().valid('communication', 'projects', 'attachments', 'education', 'experience',
+    'info', 'reference', 'skills', 'contact', 'profile')
+
 interface ICVConnect {
     id: string,
     field: string,
 }
+
+const CVConnectSchema = Joi.object().keys({
+    field: fieldString,
+    id: objectId,
+})
 
 export interface INewInfoBody {
     name: string,
@@ -68,12 +83,26 @@ export interface INewInfoBody {
     cv?: ICVConnect,
 }
 
+const NewInfoSchema = Joi.object().keys({
+    content: Joi.array().items(contentString),
+    cv: CVConnectSchema,
+    name: nameString,
+})
+
 export interface INewCommunicationBody extends INewInfoBody {
     languages: [{
         language: string,
         level: string,
     }],
 }
+
+// TODO: define languages and levels in Enum
+const NewCommunicationSchema = Joi.object().keys({
+    content: Joi.array().items(contentString),
+    cv: CVConnectSchema,
+    languages: Joi.array().items(Joi.object()),
+    name: nameString,
+})
 
 export interface INewExperienceBody {
     description: string,
@@ -85,11 +114,24 @@ export interface INewExperienceBody {
     cv?: ICVConnect,
 }
 
+const NewExperienceSchema = Joi.object().keys({
+    cv: CVConnectSchema,
+    description: contentString,
+    name: nameString,
+    timeFrame: Joi.object()
+})
+
 export interface INewProfileBody {
     name: string,
     content: string[],
     cv?: ICVConnect,
 }
+
+const NewProfileSchema = Joi.object().keys({
+    content: Joi.array().items(contentString),
+    cv: CVConnectSchema,
+    name: nameString,
+})
 
 export interface INewProjectBody {
     description: string,
@@ -99,6 +141,15 @@ export interface INewProjectBody {
     thumbnailUrl?: string,
     cv?: ICVConnect,
 }
+
+const NewProjectSchema = Joi.object().keys({
+    cv: CVConnectSchema,
+    description: contentString,
+    githubUrl: Joi.string().uri(),
+    name: nameString,
+    showcaseUrl: Joi.string().uri(),
+    thumbnailUrl: Joi.string().uri()
+})
 
 export interface INewContactBody {
     address?: string,
@@ -113,6 +164,20 @@ export interface INewContactBody {
     cv?: ICVConnect,
     id?: string,
 }
+
+const NewContactSchema = Joi.object().keys({
+    address: nameString,
+    company: nameString,
+    cv: CVConnectSchema,
+    email: Joi.string().email(),
+    firstname: nameString,
+    id: objectId,
+    lastname: nameString,
+    linkedin: Joi.string().uri(),
+    phone: nameString, // TODO: create phone regex
+    phoneAvailable: nameString,
+    pictureUrl: Joi.string().uri(),
+})
 
 export interface INewCurriculumVitae {
     name: string,
@@ -131,6 +196,14 @@ export interface INewCurriculumVitae {
     cv?: ICVConnect,
 }
 
+const NewCVSchema = Joi.object().keys({
+    contact: NewContactSchema,
+    cv: CVConnectSchema,
+    github: Joi.string().uri(),
+    name: nameString,
+    techlist: contentString,
+})
+
 export interface IChanges {
     changes: any
     id: string,
@@ -139,6 +212,14 @@ export interface IChanges {
 cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
     const cvBody: INewCurriculumVitae = request.body
     const owner = await User.findOne({ _id: request.userid })
+
+    Joi.validate(cvBody, NewCVSchema, (error: IJoiError) => {
+        if (error) {
+            response.status(400).send({
+                error: error.details[0].message
+            }).end()
+        }
+    })
 
     const contactIsSaved = cvBody.contact && cvBody.contact.id
 
@@ -177,7 +258,20 @@ export interface ISetDefaultCV {
     userid?: string,
 }
 
+const SetDefaultCVSchema = Joi.object().keys({
+    cvid: objectId,
+    userid: objectId
+})
+
 cvRouter.post('/default', async (request: IRequestWithIdentity, response: Response) => {
+    Joi.validate(request.body, SetDefaultCVSchema, (error: IJoiError) => {
+        if (error) {
+            response.status(400).send({
+                error: error.details[0].message
+            }).end()
+        }
+    })
+
     if (request.userGroup !== 'admin') {
         response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
     } else {
@@ -201,6 +295,16 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
     switch (request.params.type) {
         case 'contact':
             const contactBody: INewContactBody = request.body
+
+            Joi.validate(contactBody, NewContactSchema, (error: IJoiError) => {
+                if (error) {
+                    console.log(error)
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
+
             const contact = new Contact({
                 ...contactBody, owner
             })
@@ -215,6 +319,16 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'profile':
             const profileBody: INewProfileBody = request.body
+
+            Joi.validate(profileBody, NewProfileSchema, (error: IJoiError) => {
+                if (error) {
+                    console.log(error)
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
+
             const profile = new Profile({
                 ...profileBody, owner,
             })
@@ -229,6 +343,16 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'experience':
             const experienceBody: INewExperienceBody = request.body
+
+            Joi.validate(experienceBody, NewExperienceSchema, (error: IJoiError) => {
+                if (error) {
+                    console.log(error)
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
+
             const experience = new Experience({
                 ...experienceBody, owner
             })
@@ -244,6 +368,16 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'communication':
             const communicationBody: INewCommunicationBody = request.body
+
+            Joi.validate(communicationBody, NewCommunicationSchema, (error: IJoiError) => {
+                if (error) {
+                    console.log(error)
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
+
             const communication = new Communication({
                 ...communicationBody, owner
             })
@@ -262,6 +396,16 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'info':
             const infoBody: INewProfileBody = request.body
+
+            Joi.validate(infoBody, NewInfoSchema, (error: IJoiError) => {
+                if (error) {
+                    console.log(error)
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
+
             const info = new Info({
                 ...infoBody, owner
             })
@@ -277,6 +421,16 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'project':
             const projectBody: INewProjectBody = request.body
+
+            Joi.validate(projectBody, NewProjectSchema, (error: IJoiError) => {
+                if (error) {
+                    console.log(error)
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
+
             const project = new Project({
                 ...projectBody, owner
             })

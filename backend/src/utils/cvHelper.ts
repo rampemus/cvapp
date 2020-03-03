@@ -134,7 +134,7 @@ const generateTestCV = async (username: string) => {
         email: 'testaava.testi@testaus.net',
         firstname: 'Teppo',
         lastname: 'Testaavainen',
-        linkedin: 'www.linkedin.com/in/padabum',
+        linkedin: '',
         owner,
         phone: '0452478903',
         phoneAvailable: 'always',

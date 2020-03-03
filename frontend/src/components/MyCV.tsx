@@ -76,6 +76,11 @@ const MyCV: React.FC<Props> = (props) => {
                                         props.updateCVs(props.user)
                                         props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
                                     })
+                                    .catch((error) => {
+                                        if (error.response.data.error) {
+                                            props.showNotification(error.response.data.error, Type.ERROR, 12)
+                                        } 
+                                    })
                             }}>Duplicate Default</button>
                             <Route exact path="/mycv/:id" render={({ match }) =>
                                 [
@@ -130,6 +135,7 @@ const MyCV: React.FC<Props> = (props) => {
                                         event.preventDefault()
                                         cvService.deleteObject(ServiceType.CV, cv.id, props.user)
                                             .then((response) => {
+                                                console.log(response)
                                                 props.updateCVs(props.user)
                                                 props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
                                             })

@@ -28,9 +28,9 @@ interface INewUserBody {
 
 const NewUserRequestSchema = Joi.object().keys({
     expires: Joi.date(),
-    name: Joi.string().regex(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).min(2).max(100).required(),
+    name: Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).min(2).max(100).required(),
     password: Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64).required(),
-    username: Joi.string().alphanum().min(4).max(30).required(),
+    username: Joi.string().alphanum().min(4).max(30).required()
 })
 
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {

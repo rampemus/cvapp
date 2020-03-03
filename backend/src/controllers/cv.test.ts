@@ -297,7 +297,7 @@ describe('/api/cv/:type POST', () => {
             lastname: 'new lastname',
             phone: '01110101',
             phoneAvailable: 'sometimes',
-            pictureUrl: 'kasvokuva.jpg',
+            pictureUrl: 'http://localhost:3004/kasvokuva.jpg',
         }
 
         const newReference: INewContactBody = {
@@ -366,10 +366,10 @@ describe('/api/cv/:type POST', () => {
         const newProject: INewProjectBody = {
             cv: { field: 'projects', id: emptyTestCV.body.id },
             description: 'new description',
-            githubUrl: 'new githubUrl',
+            githubUrl: 'https://github.com/rampemus/cvapp',
             name: 'new name',
-            showcaseUrl: 'new showcaseUrl',
-            thumbnailUrl: 'thubnailUrl',
+            showcaseUrl: 'http://localhost:3004/',
+            thumbnailUrl: 'http://localhost:3004/project1.png',
         }
 
         const savedProject = await api

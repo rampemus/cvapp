@@ -46,14 +46,13 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
     Joi.validate(body, NewUserRequestSchema, async (error: IJoiError) => {
         if (error) {
-            const message = { error: error.details[0].path[0] === 'password'
-                && error.details[0].message.search(/regex/) > -1
+            response.status(400).send({
+                error: error.details[0].path[0] === 'password'
+                    && error.details[0].message.search(/regex/) > -1
                 ? 'Password can only hold characters that are numbers, letters special characters such as !, #, % or &'
                 : error.details[0].path[0] === 'name' && error.details[0].message.search(/regex/) > -1
                 ? 'Name has forbidden special characters'
-                : error.details[0].message }
-            response.status(400).send({
-                message
+                : error.details[0].message
             }).end()
         } else {
             const saltRounds = 10

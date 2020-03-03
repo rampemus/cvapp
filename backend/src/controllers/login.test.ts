@@ -35,10 +35,10 @@ test('/api/login POST success with root_user', async () => {
 
 const repeat = 1
 
-let start1 = new Date()
-let start2 = new Date()
-let end1 = new Date()
-let end2 = new Date()
+// let start1 = new Date()
+// let start2 = new Date()
+// let end1 = new Date()
+// let end2 = new Date()
 
 describe('Incorrect credentials', () => {
     test('/api/login POST fails with wrong username', async () => {

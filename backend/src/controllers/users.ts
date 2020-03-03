@@ -46,7 +46,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
     Joi.validate(body, NewUserRequestSchema, (error: IJoiError) => {
         if (error) {
-            response.status(401).send({
+            response.status(400).send({
                 error: error.details[0].path[0] === 'password' && error.details[0].message.search(/regex/) > -1
                     ? 'Password can only hold characters that are numbers, letters special characters such as !, #, % or &'
                     : error.details[0].path[0] === 'name' && error.details[0].message.search(/regex/) > -1

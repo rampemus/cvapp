@@ -209,6 +209,11 @@ export interface IChanges {
     id: string,
 }
 
+const ChangesSchema = Joi.object().keys({
+    changes: Joi.object(),
+    id: objectId
+})
+
 cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
     const cvBody: INewCurriculumVitae = request.body
     const owner = await User.findOne({ _id: request.userid })
@@ -298,7 +303,6 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
             Joi.validate(contactBody, NewContactSchema, (error: IJoiError) => {
                 if (error) {
-                    console.log(error)
                     response.status(400).send({
                         error: error.details[0].message
                     }).end()
@@ -322,7 +326,6 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
             Joi.validate(profileBody, NewProfileSchema, (error: IJoiError) => {
                 if (error) {
-                    console.log(error)
                     response.status(400).send({
                         error: error.details[0].message
                     }).end()
@@ -346,7 +349,6 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
             Joi.validate(experienceBody, NewExperienceSchema, (error: IJoiError) => {
                 if (error) {
-                    console.log(error)
                     response.status(400).send({
                         error: error.details[0].message
                     }).end()
@@ -371,7 +373,6 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
             Joi.validate(communicationBody, NewCommunicationSchema, (error: IJoiError) => {
                 if (error) {
-                    console.log(error)
                     response.status(400).send({
                         error: error.details[0].message
                     }).end()
@@ -399,7 +400,6 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
             Joi.validate(infoBody, NewInfoSchema, (error: IJoiError) => {
                 if (error) {
-                    console.log(error)
                     response.status(400).send({
                         error: error.details[0].message
                     }).end()
@@ -424,7 +424,6 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
             Joi.validate(projectBody, NewProjectSchema, (error: IJoiError) => {
                 if (error) {
-                    console.log(error)
                     response.status(400).send({
                         error: error.details[0].message
                     }).end()
@@ -452,6 +451,14 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
     const body: IChanges = request.body
 
+    Joi.validate(body.changes, NewCVSchema, (error: IJoiError) => {
+        if (error) {
+            response.status(400).send({
+                error: error.details[0].message
+            }).end()
+        }
+    })
+
     if ( request.userid + '' === (await CurriculumVitae.findOne({ _id: body.id })).owner + ''
         || request.userGroup === 'Admin') {
         const newCV = await CurriculumVitae.findOneAndUpdate({ _id: body.id }, body.changes)
@@ -463,47 +470,97 @@ cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
 })
 
 cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response) => {
-    const changes: IChanges = request.body
+    const body: IChanges = request.body
+    Joi.validate(body, ChangesSchema, (error: IJoiError) => {
+        if (error) {
+            response.status(400).send({
+                error: error.details[0].message
+            }).end()
+        }
+    })
+
     switch (request.params.type) {
         case 'contact':
+            Joi.validate(body.changes, NewContactSchema, (error: IJoiError) => {
+                if (error) {
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
             const newContact = await Contact.updateOne(
-                { _id: changes.id, owner: request.userid },
-                changes.changes
+                { _id: body.id, owner: request.userid },
+                body.changes
             )
             response.status(201).json(newContact)
             break
         case 'profile':
+            Joi.validate(body.changes, NewProfileSchema, (error: IJoiError) => {
+                if (error) {
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
             const newProfile = await Profile.updateOne(
-                { _id: changes.id, owner: request.userid },
-                changes.changes
+                { _id: body.id, owner: request.userid },
+                body.changes
             )
             response.status(201).json(newProfile)
             break
         case 'experience':
+            Joi.validate(body.changes, NewExperienceSchema, (error: IJoiError) => {
+                if (error) {
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
             const newExperience = await Experience.updateOne(
-                { _id: changes.id, owner: request.userid },
-                changes.changes
+                { _id: body.id, owner: request.userid },
+                body.changes
             )
             response.status(201).json(newExperience)
             break
         case 'communication':
+            Joi.validate(body.changes, NewCommunicationSchema, (error: IJoiError) => {
+                if (error) {
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
             const newCommunication = await Communication.updateOne(
-                { _id: changes.id, owner: request.userid },
-                changes.changes
+                { _id: body.id, owner: request.userid },
+                body.changes
             )
             response.status(201).json(newCommunication)
             break
         case 'info':
+            Joi.validate(body.changes, NewInfoSchema, (error: IJoiError) => {
+                if (error) {
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
             const newInfo = await Info.updateOne(
-                { _id: changes.id, owner: request.userid },
-                changes.changes
+                { _id: body.id, owner: request.userid },
+                body.changes
             )
             response.status(201).json(newInfo)
             break
         case 'project':
+            Joi.validate(body.changes, NewProjectSchema, (error: IJoiError) => {
+                if (error) {
+                    response.status(400).send({
+                        error: error.details[0].message
+                    }).end()
+                }
+            })
             const newProject = await Project.updateOne(
-                { _id: changes.id, owner: request.userid },
-                changes.changes
+                { _id: body.id, owner: request.userid },
+                body.changes
             )
             response.status(201).json(newProject)
             break

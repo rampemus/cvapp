@@ -536,7 +536,7 @@ describe('/api/cv PUT', () => {
         const token = 'bearer ' + rootLogin.body.token
 
         const modifications = {
-            changes: { github: 'modified github' },
+            changes: { github: 'https://github.com/modified' },
             id: emptyTestCV.body.id
         }
 
@@ -588,12 +588,12 @@ describe('/api/cv/:type PUT', () => {
             changes: {
                 address: 'modified address',
                 company: 'modified company',
-                email: 'modified email',
+                email: 'modified@email.com',
                 firstname: 'modified firstname',
                 lastname: 'modified lastname',
                 phone: 'modified phone number',
                 phoneAvailable: 'modified phoneAvailable',
-                pictureUrl: 'modified picture url',
+                pictureUrl: 'http://localhost:3000/project2.png',
             },
             id: cv.contact
         }
@@ -602,12 +602,12 @@ describe('/api/cv/:type PUT', () => {
             changes: {
                 address: 'modified address',
                 company: 'modified company',
-                email: 'modified email',
+                email: 'modified@email.fi',
                 firstname: 'modified firstname',
                 lastname: 'modified lastname',
                 phone: 'modified phone number',
                 phoneAvailable: 'modified phoneAvailable',
-                pictureUrl: 'modified picture url',
+                pictureUrl: 'http://localhost:3000/project3.png',
             },
             id: cv.reference[0]
         }
@@ -678,10 +678,10 @@ describe('/api/cv/:type PUT', () => {
         const modifications = {
             changes: {
                 description: 'Modified description',
-                githubUrl: 'Modified githubUrl',
+                githubUrl: 'https://github.com/rampemus/modified',
                 name: 'Modified name',
-                showcaseUrl: 'Modified showcaseUrl',
-                thumbnailUrl: 'Modified thumbnailUrl'
+                showcaseUrl: 'http://localhost:3004',
+                thumbnailUrl: 'http://localhost:3004/project3.png'
             },
             id: cv.projects[0]
         }

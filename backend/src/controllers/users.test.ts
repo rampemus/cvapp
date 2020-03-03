@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt'
+import { config } from 'dotenv/types'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../app'
 import User from '../models/user'
 import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD, TESTUSER_USERNAME } from '../utils/config'
-import { createRootUser, deleteAllUsers } from '../utils/userHelper'
+import { createRootUser, deleteAllUsers, randomPassword, randomUserName } from '../utils/userHelper'
 
 const api = supertest(app)
 
@@ -68,26 +69,88 @@ describe('/api/users POST', () => {
 
         expect(await User.find({ username: customUser.username })).toHaveLength(1)
     })
+    test('/api/users POST is validated', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const tooShortUserame = 'sho'
+        const tooLongUsername = 'thisusernameiswaytoolongtobeuse'
+        const usernameWithSpaces = 'User name'
+        const usernameWithForbiddenChar = 'username!'
+        const nonUniqueUsername = ROOT_USERNAME
+        const forbiddenUsernames = [
+            tooShortUserame,
+            tooLongUsername,
+            usernameWithSpaces,
+            usernameWithForbiddenChar,
+            nonUniqueUsername
+        ]
+
+        for (const forbiddenUsername in forbiddenUsernames) {
+            if (forbiddenUsername) {
+
+                const invalidUser = {
+                    name: 'no name',
+                    password: randomPassword(10),
+                    username: forbiddenUsername
+                }
+
+                await api
+                    .post('/api/users')
+                    .set('Content-Type', 'application/json')
+                    .set('Authorization', token)
+                    .send(invalidUser)
+                    .expect(400)
+            }
+        }
+
+        const passwordWithSpaces = 'pass word'
+        const passwordWithForbiddenChars = '{password}'
+        const tooShortPassword = 'passwor'
+        const tooLongPassword = 'passwordIsTooLongOver30letters!'
+        const forbiddenPasswords = [passwordWithSpaces, passwordWithForbiddenChars, tooShortPassword, tooLongPassword]
+
+        for (const forbiddenPassword in forbiddenPasswords) {
+            if (forbiddenPassword) {
+
+                const invalidUser = {
+                    name: 'no name',
+                    password: forbiddenPassword,
+                    username: randomUserName()
+                }
+
+                await api
+                    .post('/api/users')
+                    .set('Content-Type', 'application/json')
+                    .set('Authorization', token)
+                    .send(invalidUser)
+                    .expect(400)
+            }
+        }
+    })
+
 })
 
 describe('/api/users DELETE', () => {
     test('root_user can remove user', async () => {
+
         const token = 'bearer ' + rootLogin.body.token
 
         const saltRounds = 10
-        const passwordHash = await bcrypt.hash('password', saltRounds)
+        const passwordHash = await bcrypt.hash('password122', saltRounds)
+
+        const owner = await User.findOne({ username: ROOT_USERNAME })
 
         const userForDelete = new User({
             created: new Date(),
             name: 'Deletable User',
-            owner: await User.findOne({ username: ROOT_USERNAME }),
+            owner,
             passwordHash,
-            username: 'deleteme',
+            username: 'deletemeee',
         })
 
         const savedUser = await userForDelete.save()
 
-        expect(await User.find({ username: 'deleteme' })).toHaveLength(1)
+        expect(await User.find({ username: 'deletemeee' })).toHaveLength(1)
 
         await api
             .delete('/api/users/' + savedUser.id)
@@ -95,7 +158,7 @@ describe('/api/users DELETE', () => {
             .set('Authorization', token)
             .expect(204)
 
-        expect(await User.find({ username: 'deleteme' })).toHaveLength(0)
+        expect(await User.find({ username: 'deletemeee' })).toHaveLength(0)
     })
 })
 

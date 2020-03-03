@@ -572,6 +572,15 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
 
 cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response) => {
     const id = request.params.id
+
+    Joi.validate(id, objectId, (error: IJoiError) => {
+        if (error) {
+            return response.status(400).send({
+                error: error.details[0].message
+            }).end()
+        }
+    })
+
     const cv: any = await CurriculumVitae.findOne({ _id: id })
     if (!cv) {
         response.status(400).json({ error: 'cv does not exist' }).end()
@@ -615,6 +624,16 @@ cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response
 })
 
 cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Response) => {
+    const id = request.params.id
+
+    Joi.validate(id, objectId, (error: IJoiError) => {
+        if (error) {
+            return response.status(400).send({
+                error: error.details[0].message
+            }).end()
+        }
+    })
+
     switch (request.params.type) {
         case 'contact':
             const referenceCV = await CurriculumVitae.findOne({ reference: request.params.id, owner: request.userid })
@@ -623,7 +642,7 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
                 response.status(403).end()
                 break
             }
-            await Contact.findOneAndDelete({ _id: request.params.id, owner: request.userid })
+            await Contact.findOneAndDelete({ _id: id, owner: request.userid })
             if (!referenceCV) {
                 response.status(404).end()
                 break
@@ -637,7 +656,7 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             break
         case 'profile':
             const profileCV = await CurriculumVitae.findOne({ profile: request.params.id, owner: request.userid })
-            await Profile.findOneAndDelete({ _id: request.params.id, owner: request.userid })
+            await Profile.findOneAndDelete({ _id: id, owner: request.userid })
             if (!profileCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 profileCV.id,
@@ -647,9 +666,9 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             response.status(204).end()
             break
         case 'experience':
-            const experienceCV = await CurriculumVitae.findOne({ experience: request.params.id, owner: request.userid })
-                || await CurriculumVitae.findOne({ education: request.params.id, owner: request.userid })
-            await Experience.findOneAndDelete({ _id: request.params.id, owner: request.userid })
+            const experienceCV = await CurriculumVitae.findOne({ experience: id, owner: request.userid })
+                || await CurriculumVitae.findOne({ education: id, owner: request.userid })
+            await Experience.findOneAndDelete({ _id: id, owner: request.userid })
             if (!experienceCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 experienceCV._id,
@@ -665,8 +684,8 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             break
         case 'communication':
             const communicationCV =
-                await CurriculumVitae.findOne({ communication: request.params.id, owner: request.userid })
-            await Communication.findOneAndDelete({ _id: request.params.id, owner: request.userid })
+                await CurriculumVitae.findOne({ communication: id, owner: request.userid })
+            await Communication.findOneAndDelete({ _id: id, owner: request.userid })
             if (!communicationCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 communicationCV._id,
@@ -676,37 +695,37 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
             response.status(204).end()
             break
         case 'info':
-            const infoCV = await CurriculumVitae.findOne({ skills: request.params.id, owner: request.userid })
-                || await CurriculumVitae.findOne({ attachments: request.params.id, owner: request.userid })
-                || await CurriculumVitae.findOne({ info: request.params.id, owner: request.userid })
-            await Info.findOneAndDelete({ _id: request.params.id, owner: request.userid })
+            const infoCV = await CurriculumVitae.findOne({ skills: id, owner: request.userid })
+                || await CurriculumVitae.findOne({ attachments: id, owner: request.userid })
+                || await CurriculumVitae.findOne({ info: id, owner: request.userid })
+            await Info.findOneAndDelete({ _id: id, owner: request.userid })
             if (!infoCV) { response.status(404).end() }
             await disconnectObjectFromCVField(
                 infoCV._id,
                 'skills',
-                request.params.id
+                id
             )
             await disconnectObjectFromCVField(
                 infoCV._id,
                 'attachments',
-                request.params.id
+                id
             )
             await disconnectObjectFromCVField(
                 infoCV._id,
                 'info',
-                request.params.id
+                id
             )
             response.status(204).end()
             break
         case 'project':
-            await Project.findOneAndDelete({ _id: request.params.id, owner: request.userid })
+            await Project.findOneAndDelete({ _id: id, owner: request.userid })
             const projectCVid = ( await CurriculumVitae.findOne({
-                    owner: request.userid, projects: request.params.id
+                    owner: request.userid, projects: id
                 })).id
             await disconnectObjectFromCVField(
                 projectCVid,
                 'projects',
-                request.params.id
+                id
             )
             response.status(204).end()
             break

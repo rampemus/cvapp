@@ -84,7 +84,7 @@ const MyCV: React.FC<Props> = (props) => {
                             }}>Duplicate Default</button>
                             <Route exact path="/mycv/:id" render={({ match }) =>
                                 [
-                                    <button className='toolbar-button' disabled={formActive} onClick={(event) => {
+                                    <button key={'toolbarbutton' + match.params.id} className='toolbar-button' disabled={formActive} onClick={(event) => {
                                         event.preventDefault()
                                         cvService.setCVDefault(match.params.id, props.user)
                                             .then(() => {
@@ -97,7 +97,7 @@ const MyCV: React.FC<Props> = (props) => {
                                                 }
                                             })
                                     }}>Set As Default CV</button>,
-                                    <Link to={`/preview/${match.params.id}`}>
+                                    <Link key={'toolbarlink' + match.params.id} to={`/preview/${match.params.id}`}>
                                         <button className='toolbar-button'>Preview</button>
                                     </Link>
                                 ]

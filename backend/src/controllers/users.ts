@@ -93,7 +93,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
             await CurriculumVitae.updateOne({ default: owner.id }, { $push: { default: savedUser } })
 
-            response.status(201).json(makeRandomUser ? {
+            return response.status(201).json(makeRandomUser ? {
                 created: user.created,
                 name: user.name,
                 password: body.password,
@@ -127,9 +127,9 @@ usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Respo
 
         await User.deleteOne({ _id: request.params.id })
 
-        response.status(204).end()
+        return response.status(204).end()
     } catch (error) {
-        response.status(400).json({ error: error.message })
+        return response.status(400).json({ error: error.message })
     }
 })
 

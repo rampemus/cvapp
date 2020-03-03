@@ -53,7 +53,7 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
 
     Joi.validate(body, LoginRequestSchema, (error: IJoiError) => {
         if (error) {
-            response.status(400).send({
+            return response.status(400).send({
                 error: error.details[0].path[0] === 'password' && error.details[0].message.search(/password/) > -1
                 ? 'Invalid username or password'
                 : error.details[0].message
@@ -113,7 +113,7 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
 
     const responseData = { token, username: user.username, name: user.name }
 
-    response
+    return response
         .status(200)
         .send(responseData)
 })

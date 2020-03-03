@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import { Request, Response, Router } from 'express'
+import Joi from 'joi'
 import jwt from 'jsonwebtoken'
 import User from '../models/user'
 import config = require('../utils/config')
@@ -23,20 +24,49 @@ interface ILoginRequest extends Request {
     }
 }
 
+const LoginRequestSchema = Joi.object().keys({
+    password: Joi.string().regex(/^[a-zA-Z0-9!#%&]{3,30}$/),
+    username: Joi.string().alphanum().min(4).max(30).required()
+})
+
 export interface IUserToken extends Object {
     id: string,
     username: string
 }
 
+export interface IJoiError extends Joi.ValidationError {
+    isJoi: boolean,
+    details: [{
+        message: string,
+        path: string[],
+        type: string,
+        context: object
+    }],
+    _object: {
+        username: string,
+        password: string,
+    }
+}
+
 loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
     const body = request.body
+
+    Joi.validate(body, LoginRequestSchema, (error: IJoiError) => {
+        if (error) {
+            response.status(401).send({
+                error: error.details[0].message.search(/password/) > -1
+                ? 'Invalid username or password'
+                : error.details[0].message
+            }).end()
+        }
+    })
 
     const index = incorrectLogins.findIndex((login: IIncorrectLogin) =>
         login.usernameBeginning === body.username.substr(0, usernameDetail))
     if (index > -1 && incorrectLogins[index].expires.valueOf() > Date.now().valueOf()) {
         return response.status(429).send({
             cooldownEnd: incorrectLogins[index].expires.valueOf() - Date.now().valueOf(),
-            error: 'Will submit automatically after cooldown',
+            error: 'Resubmitting automatically after cooldown',
         }).end()
     }
 

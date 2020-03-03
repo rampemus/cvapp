@@ -20,7 +20,7 @@ const userSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
   },
   passwordHash: { type: String, required: true },
-  username: { type: String, minlength: 3, required: true, unique: true },
+  username: { type: String, minlength: 4, required: true, unique: true },
 })
 
 userSchema.set('toJSON', {

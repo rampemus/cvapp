@@ -316,7 +316,6 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
                 { _id: changes.id, owner: request.userid },
                 changes.changes
             )
-            console.log(newContact)
             response.status(201).json(newContact)
             break
         case 'profile':

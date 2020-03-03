@@ -29,19 +29,20 @@ const Login: React.FC<Props> = (props) => {
     const [submitLock, setSubmitLock] = useState(false)
 
     const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+        event.persist()
         event.preventDefault()
 
         if (!submitLock) {
             loginService.login(username.value, password.value)
-                .then(response => {
-                    props.setUser(response)
+                .then(user => {
+                    props.setUser(user)
                     remember && window.localStorage.setItem(
-                        'loggedUser', JSON.stringify(response)
+                        'loggedUser', JSON.stringify(user)
                     )
                     props.showNotification('Login successful', Type.SUCCESS, 5)
-                    props.updateCVs(response)
+                    props.updateCVs(user)
                 }).catch((error:loginError) => {
-                    if (error) {
+                    if (error.response.data.error) {
                         const cooldown = error.response.data.cooldownEnd && error.response.data.cooldownEnd / 1000
                         if (cooldown) {
                             props.showNotification(`${error.response.data.error}`, Type.WARNING, cooldown)
@@ -54,9 +55,8 @@ const Login: React.FC<Props> = (props) => {
                         } else {
                             props.showNotification(`${error.response.data.error}`, Type.ERROR, 4) 
                         }
-                        
                     } else {
-                        props.showNotification(`Error no response from server`, Type.ERROR, 4)
+                        props.showNotification(`No response from the server`, Type.ERROR, 4)
                     }
                 })
         }

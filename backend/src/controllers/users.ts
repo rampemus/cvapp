@@ -50,8 +50,8 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
                 && error.details[0].message.search(/regex/) > -1
                 ? 'Password can only hold characters that are numbers, letters special characters such as !, #, % or &'
                 : error.details[0].path[0] === 'name' && error.details[0].message.search(/regex/) > -1
-                    ? 'Name has forbidden special characters'
-                    : error.details[0].message }
+                ? 'Name has forbidden special characters'
+                : error.details[0].message }
             response.status(400).send({
                 message
             }).end()

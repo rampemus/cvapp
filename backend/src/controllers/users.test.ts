@@ -76,56 +76,48 @@ describe('/api/users POST', () => {
         const tooLongUsername = 'thisusernameiswaytoolongtobeuse'
         const usernameWithSpaces = 'User name'
         const usernameWithForbiddenChar = 'username!'
-        const nonUniqueUsername = ROOT_USERNAME
-        const forbiddenUsernames = [
+        const invalidUsernames = [
             tooShortUserame,
             tooLongUsername,
             usernameWithSpaces,
             usernameWithForbiddenChar,
-            nonUniqueUsername
         ]
 
-        for (const forbiddenUsername in forbiddenUsernames) {
-            if (forbiddenUsername) {
-
-                const invalidUser = {
-                    name: 'no name',
-                    password: randomPassword(10),
-                    username: forbiddenUsername
-                }
-
-                await api
-                    .post('/api/users')
-                    .set('Content-Type', 'application/json')
-                    .set('Authorization', token)
-                    .send(invalidUser)
-                    .expect(400)
+        invalidUsernames.forEach( async (invalidUsername: string) => {
+            const invalidUser = {
+                name: 'no name',
+                password: randomPassword(10),
+                username: invalidUsername
             }
-        }
+
+            await api
+                .post('/api/users')
+                .set('Content-Type', 'application/json')
+                .set('Authorization', token)
+                .send(invalidUser)
+                .expect(400)
+        })
 
         const passwordWithSpaces = 'pass word'
         const passwordWithForbiddenChars = '{password}'
         const tooShortPassword = 'passwor'
-        const tooLongPassword = 'passwordIsTooLongOver30letters!'
-        const forbiddenPasswords = [passwordWithSpaces, passwordWithForbiddenChars, tooShortPassword, tooLongPassword]
+        const tooLongPassword = 'passwordIsTooLongOver64lettersspasswordIsTooLongOver64lettersshere'
+        const invalidPasswords = [passwordWithSpaces, passwordWithForbiddenChars, tooShortPassword, tooLongPassword]
 
-        for (const forbiddenPassword in forbiddenPasswords) {
-            if (forbiddenPassword) {
-
-                const invalidUser = {
-                    name: 'no name',
-                    password: forbiddenPassword,
-                    username: randomUserName()
-                }
-
-                await api
-                    .post('/api/users')
-                    .set('Content-Type', 'application/json')
-                    .set('Authorization', token)
-                    .send(invalidUser)
-                    .expect(400)
+        invalidPasswords.forEach( async (invalidPassword: string) => {
+            const invalidUser = {
+                name: 'no name',
+                password: invalidPassword,
+                username: randomUserName()
             }
-        }
+
+            await api
+                .post('/api/users')
+                .set('Content-Type', 'application/json')
+                .set('Authorization', token)
+                .send(invalidUser)
+                .expect(400)
+        })
     })
 
 })

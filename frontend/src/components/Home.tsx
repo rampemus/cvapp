@@ -53,7 +53,7 @@ const Home: React.FC<Props> = (props) => {
                     {contact.address && <p>{contact.address}</p>}
                     {contact.phone && <p>Phone num. {contact.phone}</p>}
                     {contact.email && <p>{contact.email}</p>}
-                    {contact.linkedin && <p><a href={contact.linkedin}>{contact.linkedin}</a></p>}
+                    {contact.linkedin && <p><a href={contact.linkedin}>linkedin profile</a></p>}
                 </div>
                 <div>
                     <img src={contact.pictureUrl} width='120px' alt='mypicture' />

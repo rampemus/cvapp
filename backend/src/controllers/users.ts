@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import { Request, Response, Router } from 'express'
+import Joi from 'joi'
 import CurriculumVitae from '../models/cv/cv'
 import User from '../models/user'
 import { IRequestWithIdentity } from '../utils/middleware'
@@ -9,6 +10,7 @@ import {
     randomUserName,
     userIsRootUser,
 } from '../utils/userHelper'
+import { IJoiError } from './login'
 
 const usersRouter = Router()
 
@@ -24,6 +26,13 @@ interface INewUserBody {
     expires: Date | null
 }
 
+const NewUserRequestSchema = Joi.object().keys({
+    expires: Joi.date(),
+    name: Joi.string().regex(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).min(2).max(100).required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64).required(),
+    username: Joi.string().alphanum().min(4).max(30).required(),
+})
+
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
 
     const makeRandomUser = !request.body.name && !request.body.username && !request.body.password
@@ -34,6 +43,19 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
         password: randomPassword(10),
         username: randomUserName(),
     } : request.body
+
+    Joi.validate(body, NewUserRequestSchema, (error: IJoiError) => {
+        if (error) {
+            response.status(401).send({
+                error: error.details[0].path[0] === 'password' && error.details[0].message.search(/regex/) > -1
+                    ? 'Password can only hold characters that are numbers, letters special characters such as !, #, % or &'
+                    : error.details[0].path[0] === 'name' && error.details[0].message.search(/regex/) > -1
+                    ? 'Name has forbidden special characters'
+                    : error.details[0].message
+            }).end()
+        }
+    })
+
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
@@ -61,7 +83,11 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
     const savedUser = await user.save()
         .catch((error) => {
-            response.status(400).json({ error: error.message }).end()
+            response.status(400).json({
+                error: error.message.search(/expected `username` to be unique./) > -1
+                ? 'Username ' + body.username + ' is already taken'
+                : error.message
+            }).end()
         })
 
     await CurriculumVitae.updateOne({ default: owner.id }, { $push: { default: savedUser } })
@@ -83,7 +109,7 @@ usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Respo
         return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
     }
 
-    if (await userIsRootUser(request.params.id)) { // Tokens will be not trusted
+    if (await userIsRootUser(request.params.id)) { // Impossible to remove root_user
         return response.status(400).json({ error: 'Root user cannot be deleted' }).end()
     }
 

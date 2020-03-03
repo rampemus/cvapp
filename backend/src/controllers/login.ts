@@ -25,7 +25,7 @@ interface ILoginRequest extends Request {
 }
 
 const LoginRequestSchema = Joi.object().keys({
-    password: Joi.string().regex(/^[a-zA-Z0-9!#%&]{3,30}$/),
+    password: Joi.string().regex(/^[a-zA-Z0-9!#%&]{8,64}$/),
     username: Joi.string().alphanum().min(4).max(30).required()
 })
 
@@ -54,7 +54,7 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
     Joi.validate(body, LoginRequestSchema, (error: IJoiError) => {
         if (error) {
             response.status(401).send({
-                error: error.details[0].message.search(/password/) > -1
+                error: error.details[0].path[0] === 'password' && error.details[0].message.search(/password/) > -1
                 ? 'Invalid username or password'
                 : error.details[0].message
             }).end()

@@ -103,8 +103,8 @@ const MyCV: React.FC<Props> = (props) => {
                                 ]
                             }/> 
                             <Route exact path="/mycv" render={({ match }) => [
-                                <button className='toolbar-button' disabled> Set As Default CV</button>,
-                                <button className='toolbar-button' disabled>Preview</button>
+                                <button key='toolbar-button-1' className='toolbar-button' disabled> Set As Default CV</button>,
+                                <button key='toolbar-button-2' className='toolbar-button' disabled>Preview</button>
                             ]} /> 
                         </div>
                     </Toolbar>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Field, ErrorMessage } from 'formik'
 import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
 import FormPanel from './MyCVForm/MyCVFormPanel'
 import { ServiceType } from '../services/cvService'
@@ -23,12 +22,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       field={field}
       key={profile.id}
     >
-      <div className='form-label'>Name</div>
-      <Field className='form-input' placeholder='Name' type='text' name='name' />
-      <ErrorMessage name='name' component='div' />
-      <div className='form-label'>Content</div>
-      <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
-      <ErrorMessage name='content' component='div' />
+      
     </FormPanel>
   )
 
@@ -59,12 +53,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         field={field}
         key={info.id}
       >
-        <div className='form-label'>Name</div>
-        <Field className='form-input' placeholder='Name' type='text' name='name'/>
-        <ErrorMessage name='name' component='div' />
-        <div className='form-label'>Content</div>
-        <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='content'/>
-        <ErrorMessage name='content' component='div' />
+        
       </FormPanel>
     )
   }
@@ -88,33 +77,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         field={field}
         key={contact.id}
       >
-        <div className='form-label'>Firstname</div>
-        <Field className='form-input' placeholder='Firstname' type='text' name='firstname'/>
-        <ErrorMessage name='fistname' component='div' />
-        <div className='form-label'>Lastname</div>
-        <Field className='form-input' placeholder='LastName' type='text' name='lastname'/>
-        <ErrorMessage name='lastname' component='div' />
-        <div className='form-label'>E-mail</div>
-        <Field className='form-input' placeholder='mailto@mail.com' type='text' name='email'/>
-        <ErrorMessage name='email' component='div' />
-        <div className='form-label'>Linkedin</div>
-        <Field className='form-input' placeholder='www.linkedin.com/in/xxxxx-xxxxxx-XXXXXXXXX' type='text' name='linkedin' />
-        <ErrorMessage name='linkedin' component='div' />
-        <div className='form-label'>Phone</div>
-        <Field className='form-input' placeholder='+358000000000' type='text' name='phone'/>
-        <ErrorMessage name='phone' component='div' />
-        <div className='form-label'>Available</div>
-        <Field className='form-input' placeholder='Available during 9 am -  4 pm' type='text' name='phoneAvailable'/>
-        <ErrorMessage name='phoneAvailable' component='div' />
-        <div className='form-label'>Address</div>
-        <Field className='form-input' placeholder='Streetname 1 A 1, 00100 Cityname' type='text' name='address'/>
-        <ErrorMessage name='address' component='div' />
-        <div className='form-label'>Company</div>
-        <Field className='form-input' placeholder='Company name' type='text' name='company'/>
-        <ErrorMessage name='company' component='div' />
-        <div className='form-label'>Picture</div>
-        <Field className='form-input' placeholder='Picture Url' type='text' name='pictureUrl'/>
-        <ErrorMessage name='pictureUrl' component='div' />
+        
       </FormPanel>
     )
   }
@@ -134,21 +97,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         field={field}
         key={project.id}
       >
-        <div className='form-label'>Name</div>
-        <Field className='form-input' placeholder='Name' type='text' name='name'/>
-        <ErrorMessage name='name' component='div' />
-        <div className='form-label'>Description</div>
-        <Field className='form-textarea' placeholder='Description' as='textarea' type='text' name='description'/>
-        <ErrorMessage name='description' component='div' />
-        <div className='form-label'>Github</div>
-        <Field className='form-input' placeholder='Github url' type='text' name='githubUrl'/>
-        <ErrorMessage name='name' component='div' />
-        <div className='form-label'>Showcase</div>
-        <Field className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl'/>
-        <ErrorMessage name='name' component='div' />
-        <div className='form-label'>Thumbnail</div>
-        <Field className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl'/>
-        <ErrorMessage name='name' component='div' />
+        
       </FormPanel>
     )
   }
@@ -182,15 +131,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
           serviceType={ServiceType.CV}
           field=''
         >
-          <div className='form-label'>Name</div>
-          <Field className='form-input' placeholder='CV name' type='text' name='name' />
-          <ErrorMessage name='name' component='div' />
-          <div className='form-label'>Github</div>
-          <Field className='form-input' placeholder='Github url' type='text' name='github'/>
-          <ErrorMessage name='github' component='div' />
-          <div className='form-label'>Techlist</div>
-          <Field className='form-input' placeholder='Java, CSS, Python, ...' type='text' name='techlist'/>
-          <ErrorMessage name='techlist' component='div' />
+          
         </FormPanel>
       </div>
         

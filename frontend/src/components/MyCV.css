@@ -217,6 +217,10 @@
   grid-column-end: -1;
 }
 
+.form-input-error-message:empty {
+  display:none
+}
+
 .form-input-language {
   grid-column-start: 1;
   grid-column-end: 2;

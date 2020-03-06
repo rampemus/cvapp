@@ -203,13 +203,15 @@
 }
 
 .form-input-error-message {
-  position:relative;
+  position: relative;
 
+  font-size: small;
+  text-align: center;
   background-color: rgba(255, 161, 161, 0.637);
   background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  padding: 7px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: 3px;
   margin-top: -1px;
   margin-bottom: 2px;
 

@@ -9,7 +9,17 @@ import MyCVFormDateSelector from './MyCVFormDateSelector'
 import MyCVFormLanguageLevelSelector, { ILevel } from './MyCVFormLanguageLevelSelector'
 import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
-import { ExperienceSchema, IDetails, CommunicationSchema, InfoSchema, ProjectSchema, ContactSchema, ProfileSchema, IFormattedJoiError, CVSchema } from '../../utils/validators'
+import { 
+  ExperienceSchema,
+  IDetails,
+  CommunicationSchema,
+  InfoSchema,
+  ProjectSchema,
+  ContactSchema,
+  ProfileSchema,
+  IFormattedJoiError,
+  CVSchema
+} from '../../utils/validators'
 
 interface OwnProps {
   formValues?: Object,
@@ -39,7 +49,42 @@ const arrayToString = (data:string[]) => {
   return data.join('\n')
 }
 const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoiError | any, values: any, setValues: Function, field:string) => {
-  console.log(field)
+  if (field === 'experience' || field === 'education') return([
+    <div key={id + 'namelabel'} className='form-label'>Name</div>,
+    <Field key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />,
+    <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors && errors.field === 'name' && errors.id === id
+      ? errors.message : ''}</div>,
+    <div key={id + 'durationlabel'} className='form-label'>Time duration</div>,
+    <div key={id + 'timeframecontainer'} className='timeFrameContainer'>
+      <div>
+        <MyCVFormDateSelector date={values.timeFrame.startDate} handleChange={(newDate) => {
+          setValues({
+            ...values, timeFrame: {
+              startDate: newDate,
+              endDate: values.timeFrame.endDate,
+            }
+          })
+        }} />
+      </div>
+      <div className='time-divider'>-</div>
+      <div>
+        <MyCVFormDateSelector date={values.timeFrame.endDate} handleChange={(newDate) => {
+          setValues({
+            ...values, timeFrame: {
+              startDate: values.timeFrame.startDate,
+              endDate: newDate,
+            }
+          })
+        }} />
+      </div>
+    </div>,
+    <div key={id + 'timeframeerrormessage'} className='form-input-error-message'>{errors && errors.field === 'timeFrame' && errors.id === id
+      ? errors.message : ''}</div>,
+    <div key={id + 'descriptionlabel'} className='form-label'>Description</div>,
+    <Field key={id + 'descriptionfield'} className='form-textarea' placeholder='Content' as='textarea' type='text' name='description' disabled={isSubmitting} />,
+    <div key={id + 'descriptionerrormessage'} className='form-input-error-message'>{errors && errors.field === 'description' && errors.id === id
+      ? errors.message : ''}</div> 
+  ])
   if (field === 'info' || field === 'attachments' || field === 'skills') return ([
     <div key={id + 'namelabel'} className='form-label'>Name</div>,
     <Field key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' />,
@@ -129,7 +174,6 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
       <FieldArray key={id + 'languagesfieldarray'} name="languages" render={() => (
         <div className='language-panel' key={values.id + 'languagepanel'}>
           {values.languages && values.languages.map((language: any, index: number) => {
-            console.log(values)
             return (<div className='language-pair' key={index + 'language-pair'}>
               <Field className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
               <MyCVFormLanguageLevelSelector
@@ -142,7 +186,7 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
                   }
                   setValues(newValues)
                 }
-                } />
+              }/>
               <button className='form-button' onClick={(event) => {
                 event.preventDefault()
                 const newValues = {
@@ -166,8 +210,8 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
               setValues(newValues)
             }}
           >
-            add language
-                  </button>
+          add language
+          </button>
         </div>
       )} />,
       <div key={id + 'languageerrormessage'} className='form-input-error-message'>{errors && errors.field === 'languages' && errors.id === id
@@ -214,161 +258,11 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
     field: string,
     id: string
   }
-
-  if (formValues && ( field === 'experience' || field === 'education')) { 
-    const clearActionValues = { description: '', name: '', timeFrame: { startDate: new Date(), endDate: new Date() } }
-    const experience = formValues
-    return (
-      <Formik
-        initialValues={{ ...experience }}
-        validate={(values) => {
-          const validationResult = ExperienceSchema.validate(values)
-          const errorArray: [IDetails] = validationResult.error && validationResult.error.details
-          if (errorArray && errorArray.length > 0) return {
-            message: errorArray[0].message.includes('fails to match the required pattern')
-            ? '"' + errorArray[0].context.key + '" has forbidden characters'
-            : errorArray[0].message,
-            field: errorArray[0].context.key,
-            id: experience.id
-          }
-          return {}
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          if (values.id.includes('temp')) {
-            const path = location.pathname
-            const id = path.substring('/myCV/'.length)
-            cvService.createObject(serviceType, values, id, props.user, field).then(response => {
-              props.updateCVs(props.user)
-              setSubmitting(false)
-            })
-          } else {
-            const changes = Object.fromEntries(Object.entries(values).filter(([key, value]) => formValues[key] !== value))
-            cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
-              props.updateCVs(props.user)
-              setSubmitting(false)
-            })
-          }
-        }}
-      >
-        {({ errors, isSubmitting, values, setValues }) => {
-          return <Form className='form-component'>
-            {showPanelId && values.id}
-
-            <div className='form-label'>Name</div>
-            <Field className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
-            <div className='form-input-error-message'>{errors && errors.field === 'name' && errors.id === experience.id
-              ? errors.message : ''}</div>
-            <div className='form-label'>Time duration</div>
-            <div className='timeFrameContainer'>
-              <div>
-                <MyCVFormDateSelector date={values.timeFrame.startDate} handleChange={(newDate) => {
-                  setValues({
-                    ...values, timeFrame: {
-                      startDate: newDate,
-                      endDate: values.timeFrame.endDate,
-                    }
-                  })
-                }} />
-              </div>
-              <div className='time-divider'>-</div>
-              <div>
-                <MyCVFormDateSelector date={values.timeFrame.endDate} handleChange={(newDate) => {
-                  setValues({
-                    ...values, timeFrame: {
-                      startDate: values.timeFrame.startDate,
-                      endDate: newDate,
-                    }
-                  })
-                }} />
-              </div>
-            </div>
-            <div className='form-input-error-message'>{errors && errors.field === 'timeFrame' && errors.id === experience.id
-              ? errors.message : ''}</div>
-            <div className='form-label'>Description</div>
-            <Field className='form-textarea' placeholder='Content' as='textarea' type='text' name='description' disabled={isSubmitting} />
-            <div className='form-input-error-message'>{errors && errors.field === 'description' && errors.id === experience.id
-              ? errors.message : ''}</div>
-
-            <DeleteButton isSubmitting={isSubmitting} handleDelete={(event: any) => {
-              event.preventDefault()
-              if (values.id.includes('temp')) {
-                const path = location.pathname
-                const CVid = path.substring('/myCV/'.length)
-                props.removeTempCVObject(CVid, field, values.id)
-              } else {
-                cvService.deleteObject(serviceType, values.id, props.user)
-              }
-            }} />
-            <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
-            <CancelButton isSubmitting={isSubmitting} setValues={setValues} formValues={experience} />
-            <SaveButton isSubmitting={isSubmitting} />
-          </Form>
-        }}
-      </Formik>
-    )
-  } else if (formValues && field === 'communication') {
-    const clearActionValues = { name: '', languages: [{ language: '', level: '' }], content: [''] }
-    const communication = formValues
-
-    return (
-      <Formik
-        initialValues={{ ...communication }}
-        validate={(values) => {
-          const validationResult = CommunicationSchema.validate(values)
-          console.log(validationResult)
-          const errorArray: [IDetails] = validationResult.error && validationResult.error.details
-          if (errorArray && errorArray.length > 0) return {
-            message: errorArray[0].message.includes('fails to match the required pattern')
-              ? '"' + errorArray[0].context.key + '" has forbidden characters'
-              : errorArray[0].message,
-            field: errorArray[0].context.key,
-            id: communication.id
-          }
-          return {}
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          if (values.id.includes('temp')) {
-            const path = location.pathname
-            const id = path.substring('/myCV/'.length)
-            cvService.createObject(serviceType, values, id, props.user, field).then(response => {
-              props.updateCVs(props.user)
-              setSubmitting(false)
-            })
-          } else {
-            const changes = Object.fromEntries(Object.entries(values).filter(([key, value]) => formValues[key] !== value))
-            cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
-              props.updateCVs(props.user)
-              setSubmitting(false)
-            })
-          }
-        }}
-      >
-        {({ values, errors, isSubmitting, setValues }) => (
-          <Form className='form-component'>
-            {showPanelId && values.id}
-
-            {renderChildren(communication.id, isSubmitting, errors, values, setValues, props.field)} 
-
-            <DeleteButton isSubmitting={isSubmitting} handleDelete={(event: any) => {
-              event.preventDefault()
-              if (values.id.includes('temp')) {
-                const path = location.pathname
-                const CVid = path.substring('/myCV/'.length)
-                props.removeTempCVObject(CVid, field, values.id)
-              } else {
-                cvService.deleteObject(serviceType, values.id, props.user)
-              }
-            }} />
-            <ClearButton isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
-            <CancelButton isSubmitting={isSubmitting} setValues={setValues} formValues={communication} />
-            <SaveButton isSubmitting={isSubmitting} />
-          </Form>
-        )}
-      </Formik>)
-  } else if (formValues) {
+  
+  if (formValues) {
     const clearActionValues = props.formValues
-      ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, ''])) 
-      : null
+    ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, ''])) 
+    : null
     
     return(
       <Formik
@@ -408,11 +302,23 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
               validationResult = ProfileSchema.validate(values)
               break
             }
+            case 'communication': {
+              validationResult = CommunicationSchema.validate(values)
+              break
+            }
+            case 'experience': {
+              validationResult = ExperienceSchema.validate(values)
+              break
+            }
+            case 'education': {
+              validationResult = ExperienceSchema.validate(values)
+              break
+            }
             default: {
               validationResult = CVSchema.validate(values)
+              break
             }
           }
-          console.log(validationResult)
           const errorArray: [IDetails] = validationResult && validationResult.error && validationResult.error.details
           if (errorArray && errorArray.length > 0) return {
           message: errorArray[0].message.includes('fails to match the required pattern')
@@ -423,7 +329,6 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
           return {}
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log('onSubmit', values)
           if ( values.id.includes('temp')) {
             const path = location.pathname
             const id = path.substring('/myCV/'.length)
@@ -476,15 +381,15 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
     )
   } else { return (
     <div
-      className='form-component-empty'
-      key={props.field+'-empty'}
-      onClick={()=>{
-        const path = location.pathname
-        const CVid = path.substring('/myCV/'.length)
-        props.addEmptyCVObject(CVid, field)
-      }}>
-        <img src='plus.svg' width='100px' height='100px' alt='add' />
-      </div>
+    className='form-component-empty'
+    key={props.field+'-empty'}
+    onClick={()=>{
+      const path = location.pathname
+      const CVid = path.substring('/myCV/'.length)
+      props.addEmptyCVObject(CVid, field)
+    }}>
+      <img src='plus.svg' width='100px' height='100px' alt='add' />
+    </div>
   )}
 }
 

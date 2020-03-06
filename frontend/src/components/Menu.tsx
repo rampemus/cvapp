@@ -54,20 +54,27 @@ const Menu: React.FC<Props> = (props) => {
                 </div>
                 <div className='menu-items'>
                     <Link to='/' >
-                        <div className={location.pathname === '/' ? 'menu-item selected' : 'menu-item'}>Curriculum Vitae</div>
+                        <div className={location.pathname === '/'
+                        ? 'menu-item selected'
+                        : 'menu-item'}>Curriculum Vitae</div>
                     </Link>
                     <Link to='/users'>
-                        <div className={location.pathname === '/users' ? 'menu-item selected' : 'menu-item'}>Users</div>
+                        <div className={location.pathname === '/users'
+                        ? 'menu-item selected'
+                        : 'menu-item'}>Users</div>
                     </Link>
                     <Link to={`/mycv${props.lastOpenedCV.length > 1 ? '/' + props.lastOpenedCV : ''}`}>
-                        <div className={location.pathname.includes('/mycv') ? 'menu-item selected' : 'menu-item'}>MyCV</div>
+                        <div className={location.pathname.includes('/mycv')
+                        ? 'menu-item selected'
+                        : 'menu-item'}>MyCV</div>
                     </Link>
                     <Link to='/about'>
-                        <div className={location.pathname === '/about' ? 'menu-item selected' : 'menu-item'}>About</div>
+                        <div className={location.pathname === '/about'
+                        ? 'menu-item selected'
+                        : 'menu-item'}>About</div>
                     </Link>
                 </div>
                 <div className='settings'>
-                    {/* <div className='setting-item'>language</div> */}
                     {renderLogout()}
                 </div>
             </div>

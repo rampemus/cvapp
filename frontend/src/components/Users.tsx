@@ -48,12 +48,10 @@ const Users: React.FC<Props> = (props) => {
   const handleUserDelete = (id: string) => {
     const user:IUser | undefined = users.find(user => user.id === id)
     if ( user ) {
-      usersService.deleteUser(id, props.user).then(
-        response => {
-          setUsers(users.filter(user => user.id !== id))
-          props.showNotification(`User ${user.name} was deleted`, Type.SUCCESS, 3)
-        }
-      ).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
+      usersService.deleteUser(id, props.user).then( response => {
+        setUsers(users.filter(user => user.id !== id))
+        props.showNotification(`User ${user.name} was deleted`, Type.SUCCESS, 3)
+      }).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
     } else {
       props.showNotification('User does not exist', Type.ERROR, 5)
     }
@@ -62,7 +60,10 @@ const Users: React.FC<Props> = (props) => {
   const handleAddRandomUser = () => {
     usersService.createUser(props.user).then(
       response => {
-        props.showNotification(`User ${response.data.name} created. Username/password is ${response.data.username}/${response.data.password}`, Type.SUCCESS)
+        props.showNotification(
+          `User ${response.data.name} created. Username/password is ${response.data.username}/${response.data.password}`,
+          Type.SUCCESS
+        )
         updateUsers()
       }
     ).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
@@ -93,15 +94,13 @@ const Users: React.FC<Props> = (props) => {
             <th>Status</th>
             <th></th>
           </tr>
-          {users.map(user => {
-            return (
-              <UsersRow
-                key={'usersrow' + user.id}
-                user={user}
-                handleUserDelete={()=>handleUserDelete(user.id)}
-              />
-            )
-          })}
+          {users.map(user => (
+            <UsersRow
+              key={'usersrow' + user.id}
+              user={user}
+              handleUserDelete={()=>handleUserDelete(user.id)}
+            />
+          ))}
         </tbody>
       </table>
     </div>

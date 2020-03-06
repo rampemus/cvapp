@@ -34,7 +34,7 @@ const MyCVFormLanguageLevelSelector: React.FC<OwnProps> = (props) => {
     return(
         <div>
             <select onChange={handleLevelChange} value={level} className='language-level-selector'>
-                    {levels.map(level => <option key={level} value={level}>{level}</option>)}
+                {levels.map(level => <option key={level} value={level}>{level}</option>)}
             </select>
         </div>
     )

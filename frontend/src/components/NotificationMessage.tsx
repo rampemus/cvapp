@@ -46,8 +46,14 @@ const NotificationMessage: React.FC<Props> = (props) => {
                 transform: 'scale(-1,1) rotate(-135deg)'
             }}  r={r/2} className="close-circle" />
         </g>
-            <rect x="0.81" y="9.29" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 24.1421 10)" width="18.38" height="1.41"/>
-            <rect x="0.66" y="9.4" transform="matrix(0.7071 0.7071 -0.7071 0.7071 10.038 -4.0285)" width="18.44" height="1.41"/>
+            <rect 
+                x="0.81" y="9.29"
+                transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 24.1421 10)"
+                width="18.38" height="1.41"/>
+            <rect 
+                x="0.66" y="9.4"
+                transform="matrix(0.7071 0.7071 -0.7071 0.7071 10.038 -4.0285)"
+                width="18.44" height="1.41"/>
         </svg>
     )} 
 

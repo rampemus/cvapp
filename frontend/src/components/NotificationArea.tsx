@@ -26,9 +26,14 @@ const NotificationArea: React.FC<Props> = (props) => {
     const [messages, setMessages] = useState(props.messages)
 
     useEffect(()=>{
-        const newMessages = props.messages.filter(propsmessage => messages.findIndex(message => message.id === propsmessage.id) === -1)
-        setMessages(messages.map(message => props.messages.findIndex(propsmessage => propsmessage.id === message.id) > -1 ? message : { ...message, id: message.id.substr(0, 8) + 'deleted'})
-            .concat(newMessages))
+        const newMessages = props.messages.filter(
+            propsmessage =>messages.findIndex(message => message.id === propsmessage.id) === -1
+        )
+        setMessages(messages.map( message => 
+            props.messages.findIndex(propsmessage => propsmessage.id === message.id) > -1 
+            ? message 
+            : { ...message, id: message.id.substr(0, 8) + 'deleted'}
+         ).concat(newMessages))
         // adding messages to useEffect dependencies will crash the app
         // eslint-disable-next-line
     },[props.messages])
@@ -37,7 +42,13 @@ const NotificationArea: React.FC<Props> = (props) => {
         return (
             <div className='notificationContainer' style={{opacity: messages.length > 0 ? 1 : 0}}>
                 {messages.map( message => {
-                    return (<NotificationMessage key={message.id.substr(0,8)} message={message} deleteNotification={() => props.deleteNotification(message.id)} duration={message.duration}></NotificationMessage>)
+                    return (<NotificationMessage
+                        key={message.id.substr(0,8)}
+                        message={message}
+                        deleteNotification={() =>
+                            props.deleteNotification(message.id)}
+                        duration={message.duration}>
+                    </NotificationMessage>)
                 })}
             </div>
         )

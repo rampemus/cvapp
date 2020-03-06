@@ -16,7 +16,12 @@ const UsersRow: React.FC<Props> = (props) => {
             <td>{name}</td>
             <td>{created.toString().substring(0, 10)} / {expires ? expires.toString().substring(0, 10) : '-never-'}</td>
             <td>{username === 'rampemus' ? 'Admin' : 'User'}</td>
-            <td><button onClick={() => props.handleUserDelete()}><img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />Delete</button></td>
+            <td>
+                <button onClick={() => props.handleUserDelete()}>
+                    <img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />
+                    Delete
+                </button>
+            </td>
         </tr>
     )
 }

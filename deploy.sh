@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 cd ../heroku-cvapp
 heroku login
 rm -rf build
@@ -25,5 +25,6 @@ cd ..
 
 cd ../heroku-cvapp
 git add .
-git commit -am $1
+git commit -am '$1'
+git push heroku master
 cd ../cvapp

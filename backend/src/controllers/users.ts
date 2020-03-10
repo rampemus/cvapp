@@ -1,6 +1,6 @@
+import Joi from '@hapi/joi'
 import bcrypt from 'bcrypt'
 import { Request, Response, Router } from 'express'
-import Joi from 'joi'
 import CurriculumVitae from '../models/cv/cv'
 import User from '../models/user'
 import { IRequestWithIdentity } from '../utils/middleware'
@@ -10,7 +10,7 @@ import {
     randomUserName,
     userIsRootUser,
 } from '../utils/userHelper'
-import { IJoiError } from './login'
+import { IDetails } from '../utils/validators'
 
 const usersRouter = Router()
 
@@ -33,6 +33,17 @@ const NewUserRequestSchema = Joi.object().keys({
     username: Joi.string().alphanum().min(4).max(30).required()
 })
 
+const validationErrors = (response: Response, validationResult: any) => {
+    const errorArray: [IDetails] = validationResult && validationResult.error && validationResult.error.details
+    if (errorArray && errorArray.length > 0) {
+        response.status(400).send({
+            error: errorArray[0].message
+        }).end()
+        return true
+    }
+    return false
+}
+
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
 
     const makeRandomUser = !request.body.name && !request.body.username && !request.body.password
@@ -44,53 +55,45 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
         username: randomUserName(),
     } : request.body
 
-    Joi.validate(body, NewUserRequestSchema, async (error: IJoiError) => {
-        if (error) {
-            response.status(400).send({
-                error: error.details[0].path[0] === 'password'
-                    && error.details[0].message.search(/regex/) > -1
-                ? 'Password can only hold characters that are numbers, letters special characters such as !, #, % or &'
-                : error.details[0].path[0] === 'name' && error.details[0].message.search(/regex/) > -1
-                ? 'Name has forbidden special characters'
-                : error.details[0].message
-            }).end()
+    const validationResult = NewUserRequestSchema.validate(body)
+    if (!validationErrors(response, validationResult)) {
+        const saltRounds = 10
+        const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+        const owner = await User.findOne({ _id: request.userid })
+
+        if (!owner) {
+            response.status(404).json({ error: 'Invalid token' }).end()
+        }
+
+        let expires = null // prevent created user to live longer than it's owner
+        if (owner.expires && body.expires) {
+            expires = ( owner.expires > body.expires ) ? body.expires : owner.expires
         } else {
-            const saltRounds = 10
-            const passwordHash = await bcrypt.hash(body.password, saltRounds)
+            expires = owner.expires ? owner.expires : body.expires
+        }
 
-            const owner = await User.findOne({ _id: request.userid })
+        const user = new User({
+            created: new Date(),
+            expires,
+            name: body.name,
+            owner,
+            passwordHash,
+            username: body.username,
+        })
 
-            if (!owner) {
-                response.status(404).json({ error: 'Invalid token' }).end()
-            }
-
-            let expires = null // prevent created user to live longer than it's owner
-            if (owner.expires && body.expires) {
-                expires = ( owner.expires > body.expires ) ? body.expires : owner.expires
-            } else {
-                expires = owner.expires ? owner.expires : body.expires
-            }
-
-            const user = new User({
-                created: new Date(),
-                expires,
-                name: body.name,
-                owner,
-                passwordHash,
-                username: body.username,
+        const savedUser = await user.save()
+            .catch((error) => {
+                // const errorResponse = { error: error.message.search(/expected `username` to be unique./) > -1
+                //     ? 'Username ' + body.username + ' is already taken'
+                //     : error.message }
+                const errorResponse = error.message
+                return response.status(400).json({
+                    errorResponse
+                }).end()
             })
 
-            const savedUser = await user.save()
-                // .catch((error) => {
-                //     // const errorResponse = { error: error.message.search(/expected `username` to be unique./) > -1
-                //     //     ? 'Username ' + body.username + ' is already taken'
-                //     //     : error.message }
-                //     const errorResponse = error.message
-                //     response.status(400).json({
-                //         errorResponse
-                //     }).end()
-                // })
-
+        if (savedUser) {
             await CurriculumVitae.updateOne({ default: owner.id }, { $push: { default: savedUser } })
 
             return response.status(201).json(makeRandomUser ? {
@@ -100,7 +103,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
                 username: user.username,
             } : savedUser).end()
         }
-    })
+    }
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {

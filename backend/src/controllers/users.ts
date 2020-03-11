@@ -1,4 +1,3 @@
-import Joi from '@hapi/joi'
 import bcrypt from 'bcrypt'
 import { Request, Response, Router } from 'express'
 import CurriculumVitae from '../models/cv/cv'
@@ -10,7 +9,7 @@ import {
     randomUserName,
     userIsRootUser,
 } from '../utils/userHelper'
-import { validationErrorSend } from '../utils/validators'
+import { NewUserRequestSchema, validationErrorSend } from '../utils/validators'
 
 const usersRouter = Router()
 
@@ -25,13 +24,6 @@ interface INewUserBody {
     password: string,
     expires: Date | null
 }
-
-const NewUserRequestSchema = Joi.object().keys({
-    expires: Joi.date(),
-    name: Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).min(2).max(100).required(),
-    password: Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64).required(),
-    username: Joi.string().alphanum().min(4).max(30).required()
-})
 
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
 
@@ -78,7 +70,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
                 //     : error.message }
                 const errorResponse = error.message
                 return response.status(400).json({
-                    errorResponse
+                    error: errorResponse
                 }).end()
             })
 

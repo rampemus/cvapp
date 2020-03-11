@@ -95,12 +95,19 @@ const ChangesSchema = Joi.object().keys({
     id: objectId
 })
 
+const NewUserRequestSchema = Joi.object().keys({
+    expires: Joi.date(),
+    name: Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).min(2).max(100).required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64).required(),
+    username: Joi.string().alphanum().min(4).max(30).required()
+})
+
 const validationErrorSend = (response: Response, validationResult: any) => {
     const errorArray: [IDetails] = validationResult && validationResult.error && validationResult.error.details
     if (errorArray && errorArray.length > 0) {
         response.status(400).send({
             error: errorArray[0].message
-        }).end()
+        })
         return true
     }
     return false
@@ -135,5 +142,6 @@ export {
     ChangesSchema,
     validationErrorSend,
     SetDefaultCVSchema,
-    validationResponse
+    validationResponse,
+    NewUserRequestSchema
 }

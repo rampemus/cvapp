@@ -8,6 +8,8 @@ import Toolbar from '../Toolbar'
 import UsersForm from './UsersForm'
 import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
+import { useLocation, Route } from 'react-router-dom'
+import User from './User'
 
 interface OwnProps { }
 export interface StateProps {
@@ -70,7 +72,14 @@ const Users: React.FC<Props> = (props) => {
   }
 
   const [showAddUser, setShowAddUser] = useState(false) 
+  const location = useLocation()
+  const userSelected = location.pathname.includes('/users/') ? true : false
 
+  if (userSelected) {
+    return <Route exact path="/users/:username" render={({ match }) => 
+      <User user={users.find(user => user.username === match.params.username)}/>
+    }/>
+  }
   return(
     <div>
       <Toolbar>

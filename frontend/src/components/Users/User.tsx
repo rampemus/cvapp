@@ -1,10 +1,28 @@
 import React from 'react'
+import Toolbar from '../Toolbar'
+import { IUser } from '../../services/usersService'
 
-const User: React.FC = (props) => {
+interface OwnProps {
+    user?: IUser
+}
 
+const User: React.FC<OwnProps> = (props) => {
+    const user = props.user
 
+    if (!user) {
+        return <div>User not found</div>
+    }
     return(
-        <div>User.tsx</div>
+        <div>
+            <Toolbar>
+                <div>
+                    <button className='toolbar-button'>
+                        Edit user
+                    </button>
+                </div>
+            </Toolbar>
+            <h1>{user.username}</h1>
+        </div>
     )
 }
 

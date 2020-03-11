@@ -41,7 +41,7 @@ const NotificationArea: React.FC<Props> = (props) => {
                     const newMessages = props.messages.filter(message => message.id !== tempId )
                     setMessages(newMessages)
                     clearTimeout(removeAfterDeathAnimation)
-                }, 1000)
+                }, message.duration ? 300 : 0)
                 return { ...message, id: tempId }
             }
             return message 

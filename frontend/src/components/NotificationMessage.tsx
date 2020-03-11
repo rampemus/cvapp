@@ -11,6 +11,7 @@ const NotificationMessage: React.FC<Props> = (props) => {
     const message = props.message
     const duration = props.duration
     const [alive, setAlive] = useState(1)
+    const [animation, setAnimation] = useState(true)
 
     useEffect(()=>{
         if (duration) {
@@ -71,6 +72,7 @@ const NotificationMessage: React.FC<Props> = (props) => {
                 marginTop: deleted ? '0' : '5px',
                 marginBottom: deleted ? '0' : '4px',
                 overflow: deleted ? 'hidden' : 'auto',
+                display: animation ? 'grid' : 'none',
             }}
         >
             <div className='notification-text'
@@ -85,7 +87,10 @@ const NotificationMessage: React.FC<Props> = (props) => {
                     opacity: deleted ? '0' : '1'
                 }}
                 className='notification-close-button'
-                onClick={() => props.deleteNotification()}
+                onClick={() => {
+                    props.deleteNotification()
+                    setAnimation(false)
+                }}
             >{closeButton()}</div>
         </div>
     )

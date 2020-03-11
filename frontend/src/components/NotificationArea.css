@@ -12,7 +12,7 @@
     /* margin: 5px 4px 0px 0px; */
     padding: 10px;
     border-radius: 10px;
-    display: grid;
+    /* display: grid;*/ /* display is controlled in NotificationMessage */
     grid-template-columns: auto 20px;
 }
 

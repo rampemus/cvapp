@@ -110,7 +110,6 @@ const validationError = (response: Response, validationResult: any) => {
 const validationResponse = (response: Response, validationResult: any) => {
     const errorArray: [IDetails] = validationResult && validationResult.error && validationResult.error.details
     if (errorArray && errorArray.length > 0) {
-        console.log(errorArray)
         return response.status(400).send({
             error: errorArray[0].message
         })

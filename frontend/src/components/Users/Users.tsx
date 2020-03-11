@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import './Users.css'
 import UsersRow from './UsersRow'
-import usersService, { IUser, usersError } from '../services/usersService'
-import { showNotification, Type } from '../reducers/notificationReducer'
+import usersService, { IUser, usersError } from '../../services/usersService'
+import { showNotification, Type } from '../../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import Toolbar from './Toolbar'
+import Toolbar from '../Toolbar'
 import UsersForm from './UsersForm'
-import { UserState } from '../reducers/userReducer'
-import { AppState } from '..'
+import { UserState } from '../../reducers/userReducer'
+import { AppState } from '../..'
 
 interface OwnProps { }
 export interface StateProps {

@@ -1,7 +1,7 @@
 import React from 'react'
-import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../services/cvService'
-import FormPanel from './MyCVForm/MyCVFormPanel'
-import { ServiceType } from '../services/cvService'
+import { ICV, IProfile, ICommunication, IInfo, IContact, IProject, IExperience } from '../../services/cvService'
+import FormPanel from './MyCVFormPanel'
+import { ServiceType } from '../../services/cvService'
 
 interface OwnProps {
   cv: ICV | undefined

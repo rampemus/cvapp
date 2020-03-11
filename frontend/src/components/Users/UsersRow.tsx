@@ -1,5 +1,5 @@
 import React from 'react'
-import { IUser } from '../services/usersService'
+import { IUser } from '../../services/usersService'
 import { Link } from 'react-router-dom'
 
 interface Props {

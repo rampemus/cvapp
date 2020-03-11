@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { showNotification, Type } from '../reducers/notificationReducer'
+import { showNotification, Type } from '../../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import usersService, { usersError } from '../services/usersService'
-import { UserState } from '../reducers/userReducer'
-import { AppState } from '..'
+import usersService, { usersError } from '../../services/usersService'
+import { UserState } from '../../reducers/userReducer'
+import { AppState } from '../..'
 
 interface OwnProps {
   closeForm: Function,

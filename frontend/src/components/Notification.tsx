@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './NotificationArea.css'
+import './Notification.css'
 import { connect } from 'react-redux'
 import { Message, deleteNotification } from '../reducers/notificationReducer'
 import NotificationMessage from './NotificationMessage'

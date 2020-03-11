@@ -29,6 +29,11 @@ export interface usersError {
     }
 }
 
+const getOwner = (id:string, user: UserState) => {
+    const request = axios.post(baseUrl + '/owner', { id }, getConfigHeader(user))
+    return request.then((response: createUsersResponse) => response.data)
+}
+
 const getAll = (user: UserState) => {
     const request = axios.get(baseUrl, getConfigHeader(user))
     return request.then((response: getAllUsersResponse) => response.data)
@@ -40,9 +45,14 @@ const createUser = (user: UserState, username?: string, name?: string, password?
     return request.then((response: createUsersResponse) => response)
 }
 
+const modifyUser = (user: UserState, oldPassword: string, changes: any) => {
+    const request = axios.put(baseUrl, changes, getConfigHeader(user))
+    return request.then((response: createUsersResponse) => response)
+}
+
 const deleteUser = (id:string, user: UserState) => {
     const request = axios.delete(`${baseUrl}/${id}`, getConfigHeader(user))
     return request.then( response => response)
 }
 
-export default { getAll, createUser, deleteUser }
+export default { getAll, createUser, deleteUser, getOwner, modifyUser }

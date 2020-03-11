@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { Request, Response, Router } from 'express'
 import CurriculumVitae from '../models/cv/cv'
 import User from '../models/user'
+import { ROOT_USERNAME } from '../utils/config'
 import { IRequestWithIdentity } from '../utils/middleware'
 import {
     ownerId,
@@ -9,13 +10,27 @@ import {
     randomUserName,
     userIsRootUser,
 } from '../utils/userHelper'
-import { NewUserRequestSchema, validationErrorSend } from '../utils/validators'
+import { NewUserRequestSchema, objectId, validationErrorSend } from '../utils/validators'
 
 const usersRouter = Router()
 
 usersRouter.get('/', async (request: Request, response: Response) => {
     const users = await User.find({})
     response.json(users)
+})
+
+// TODO: write test for POST /owner
+usersRouter.post('/owner', async (request: IRequestWithIdentity, response: Response) => {
+    const id: string = request.body.id
+    validationErrorSend(response, objectId.validate(id))
+
+    const user = await User.findOne({ _id: id })
+    if (user.username === ROOT_USERNAME) {
+        return response.status(200).json(user).end()
+    }
+    const owner = await User.findOne({ _id: user.owner + '' })
+
+    return response.status(200).json(owner).end()
 })
 
 interface INewUserBody {
@@ -85,6 +100,24 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
             } : savedUser).end()
         }
     }
+})
+
+interface IUserChanges {
+    name: string,
+    username: string,
+    password: string,
+    newPassword: string
+}
+
+// TODO: write test for POST PUT /
+usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
+    const body: IUserChanges = request.body
+
+    return response.status(202).json({
+        created: new Date(),
+        name: body.name,
+        username: body.username
+    })
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {

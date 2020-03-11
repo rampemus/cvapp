@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
 import { showNotification, Type } from '../../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import usersService, { usersError } from '../../services/usersService'
+import usersService, { usersError, IUser } from '../../services/usersService'
 import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
 
 interface OwnProps {
   closeForm: Function,
-  reloadUsers: Function
+  reloadUsers: Function,
+  newUser: boolean,
+  formValues?: {
+    name: string,
+    username: string,
+  } 
 }
 export interface StateProps {
   user: UserState
@@ -29,9 +34,10 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 type Props = OwnProps & StateProps & DispatchProps
 
 const UsersForm: React.FC<Props> = (props) => {
-  const [name, setName] = useState('')
-  const [username, setUsername] = useState('')
+  const [name, setName] = useState(props.formValues ? props.formValues.name : '')
+  const [username, setUsername] = useState(props.formValues ? props.formValues.username : '')
   const [expires, setExpires] = useState<Date | null>(null)
+  const [oldPassword, setOldPassword] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   
@@ -58,6 +64,27 @@ const UsersForm: React.FC<Props> = (props) => {
       props.showNotification('Password and password confirmation does not match', Type.WARNING, 4)
     }
   }
+
+  const handleModifyUser = (event: any) => {
+    event.preventDefault()
+
+    const changes = {
+      name: props.formValues && props.formValues.name !== name ? name : undefined,
+      username: props.formValues && props.formValues.username !== username ? username : undefined,
+      password: oldPassword,
+      newPassword: passwordConfirm.length > 0 && passwordConfirm === password ? passwordConfirm : undefined
+    }
+
+    usersService.modifyUser(props.user, oldPassword, changes).then((response) => {
+      setOldPassword('')
+      setPassword('')
+      setPasswordConfirm('')
+      props.reloadUsers()
+      props.closeForm()
+    }).catch((error: usersError) => {
+      props.showNotification(error.response.data.error, Type.ERROR, 5) 
+    })
+  }
   
   const [passwordMatch, setPasswordMatch] = useState(true)
   
@@ -66,8 +93,8 @@ const UsersForm: React.FC<Props> = (props) => {
   }
   
   return(
-    <form onSubmit={handleCreateUser} autoComplete='off'>
-      Create new custom user
+    <form onSubmit={props.newUser ? handleCreateUser : handleModifyUser} autoComplete='off'>
+      {props.newUser ? 'Create new custom user' : 'Edit user information'}
       <p>Full name</p> 
       <input
         type='text'
@@ -86,13 +113,25 @@ const UsersForm: React.FC<Props> = (props) => {
         }
         className='user-form-input'
       />
-      <p>User is valid</p>
+      {props.newUser ? <p>User is valid</p> : <p>User is valid after update</p>}
       <div>
         <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDate.TWO_WEEKS))}/> a fortnight
         <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDate.ONE_MONTH))} /> a month
         <input type="radio" name="expires" onClick={() => setExpires(null)} /> forever
       </div>
-      <p>Password for new user</p> 
+      {!props.newUser && [<p>Re-enter old password</p>,
+      <input
+        type='password'
+        value={oldPassword}
+        onChange={
+          ({ target }) => {
+            setOldPassword(target.value)
+          }
+        }
+        style={{ backgroundColor: oldPassword.length > 8 ? 'white' : 'rgb(255, 161, 161)'}}
+      />]
+      }
+      {props.newUser ? <p>Password for new user</p> : <p>New password</p>}
       <input
         type='password'
         value={password}
@@ -106,7 +145,7 @@ const UsersForm: React.FC<Props> = (props) => {
         }
         style={{ backgroundColor: passwordMatch ? 'white' : 'yellow' }}
       />
-      <p>Confirm password</p>
+      {props.newUser ? <p>Confirm password</p> : <p>Confirm new password</p>}
       <input
         type='password'
         value={passwordConfirm}
@@ -122,7 +161,7 @@ const UsersForm: React.FC<Props> = (props) => {
           event.preventDefault()
           props.closeForm()
         }}>Cancel</button>
-        <button className='toolbar-button' type='submit'>Create user</button>                
+        <button className='toolbar-button' type='submit'>{props.newUser ? 'Create user' : 'Update user'}</button>                
       </div>
     </form>
   )

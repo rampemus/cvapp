@@ -77,7 +77,11 @@ const Users: React.FC<Props> = (props) => {
 
   if (userSelected) {
     return <Route exact path="/users/:username" render={({ match }) => 
-      <User user={users.find(user => user.username === match.params.username)}/>
+      <User
+        user={users.find(user => user.username === match.params.username)}
+        userForHeaders={props.user}
+        updateUser={()=>updateUsers()}
+      />
     }/>
   }
   return(
@@ -88,9 +92,10 @@ const Users: React.FC<Props> = (props) => {
           <button className='toolbar-button' onClick={()=>{
             setShowAddUser(!showAddUser)
           }}>add user...</button>
+          <button disabled className='toolbar-button'>edit user...</button>
         </div>
         <div className='formContainer' style={{ display: showAddUser ? 'block' : 'none' }}>
-          <UsersForm closeForm={()=>setShowAddUser(false)} reloadUsers={()=>updateUsers()}/>
+          <UsersForm newUser closeForm={()=>setShowAddUser(false)} reloadUsers={()=>updateUsers()}/>
         </div>
       </Toolbar>
       <h1>Users</h1>

@@ -1,29 +1,102 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Toolbar from '../Toolbar'
-import { IUser } from '../../services/usersService'
+import usersService, { IUser } from '../../services/usersService'
+import { AppState } from '../..'
+import { connect } from 'react-redux'
+import { UserState } from '../../reducers/userReducer'
+import UsersForm from './UsersForm'
 
 interface OwnProps {
-    user?: IUser
+  user?: IUser,
+  updateUser: Function
 }
+export interface StateProps {
+  userForHeaders: UserState
+}
+export interface DispatchProps {}
 
-const User: React.FC<OwnProps> = (props) => {
-    const user = props.user
-
-    if (!user) {
-        return <div>User not found</div>
+const mapStateToProps = (state: AppState, props: OwnProps) => {
+    return {
+        userForHeaders: state.user
     }
-    return(
-        <div>
-            <Toolbar>
-                <div>
-                    <button className='toolbar-button'>
-                        Edit user
-                    </button>
-                </div>
-            </Toolbar>
-            <h1>{user.username}</h1>
-        </div>
-    )
 }
 
-export default User
+// const mapDispatchToProps: DispatchProps = {
+//     functionName
+// }
+
+type Props = OwnProps & StateProps & DispatchProps
+
+
+const User: React.FC<Props> = (props) => {
+  const user = props.user
+
+  const [owner, setOwner] = useState<IUser | null>(null)
+  const [showEditUser, setShowEditUser] = useState(false)
+
+  useEffect(() => {
+    if (user && user.id) {
+      usersService.getOwner(user.id, props.userForHeaders).then(response => {
+        setOwner(response)
+      })
+    }
+    // .catch((error: usersError) => {
+    // })
+    // eslint-disable-next-line
+  }, [user])
+
+  if (!user) {
+    return <div>User not found</div>
+  } else {
+    const timeleftMillisecs:number = user.expires ? (new Date(user.expires).valueOf() - Date.now().valueOf()) : 0
+    const expires = user.expires
+    ? (timeleftMillisecs > 0
+      ? 'User expires after '
+      + Math.floor(timeleftMillisecs / (1000 * 60 * 60 * 24))
+      + ' days '
+      + Math.floor(timeleftMillisecs % (1000 * 60 * 60 * 24) / (1000 * 60 * 60))
+      + ' hours'
+      : 'User is expired')
+    : 'User never expires'
+
+    const created = owner ? new Date(owner.created) : new Date()
+
+    return(
+      <div>
+        <Toolbar>
+          <div>
+            <button disabled className='toolbar-button'>add random user</button>
+            <button disabled className='toolbar-button'>add user...</button>
+            <button className='toolbar-button' onClick={() => {
+              setShowEditUser(!showEditUser)
+            }}>
+              edit user...
+            </button>
+            <div className='formContainer' style={{ display: showEditUser ? 'block' : 'none' }}>
+              <UsersForm
+              newUser={false}
+                formValues={{ name: props.user ? props.user.name : '', username: props.user ? props.user.username : ''}}
+              closeForm={() => setShowEditUser(false)}
+              reloadUsers={() => {props.updateUser()}}
+            />
+            </div>
+          </div>
+        </Toolbar>
+        <h1>{user.username}</h1>
+        <h3>Information</h3>
+        <p>{user.name}</p>
+        <p>{owner
+          ? 'User created by '
+            + owner.username + ' '
+            + created.getFullYear() + '-'
+            + created.getMonth() + '-'
+            + created.getDay() 
+          : 'User has no owner'}</p>
+        <p>{expires}</p>
+        <h3>Change password</h3>
+      </div>
+    )
+  }
+}
+
+export default connect(mapStateToProps, null)(User)

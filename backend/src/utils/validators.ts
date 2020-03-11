@@ -95,7 +95,7 @@ const ChangesSchema = Joi.object().keys({
     id: objectId
 })
 
-const validationError = (response: Response, validationResult: any) => {
+const validationErrorSend = (response: Response, validationResult: any) => {
     const errorArray: [IDetails] = validationResult && validationResult.error && validationResult.error.details
     if (errorArray && errorArray.length > 0) {
         response.status(400).send({
@@ -133,7 +133,7 @@ export {
     NewContactSchema,
     NewCVSchema,
     ChangesSchema,
-    validationError,
+    validationErrorSend,
     SetDefaultCVSchema,
     validationResponse
 }

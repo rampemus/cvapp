@@ -4,7 +4,7 @@ import { Request, Response, Router } from 'express'
 import jwt from 'jsonwebtoken'
 import User from '../models/user'
 import config = require('../utils/config')
-import { LoginRequestSchema, validationError } from '../utils/validators'
+import { LoginRequestSchema, validationErrorSend } from '../utils/validators'
 
 const loginRouter = Router()
 
@@ -48,7 +48,7 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
     const body = request.body
     const validationResult = LoginRequestSchema.validate(body)
 
-    if (!validationError(response, validationResult)) {
+    if (!validationErrorSend(response, validationResult)) {
         const index = incorrectLogins.findIndex((login: IIncorrectLogin) =>
             login.usernameBeginning === body.username.substr(0, usernameDetail))
         if (index > -1 && incorrectLogins[index].expires.valueOf() > Date.now().valueOf()) {

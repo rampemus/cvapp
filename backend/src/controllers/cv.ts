@@ -1,4 +1,3 @@
-import Joi from '@hapi/joi'
 import { Response, Router } from 'express'
 import Communication from '../models/cv/communication'
 import Contact from '../models/cv/contact'
@@ -21,7 +20,7 @@ import {
     NewProjectSchema,
     objectId,
     SetDefaultCVSchema,
-    validationError,
+    validationErrorSend,
     validationResponse,
 } from '../utils/validators'
 
@@ -156,7 +155,7 @@ cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => 
     const owner = await User.findOne({ _id: request.userid })
 
     const CVValidationResult: any = NewCVSchema.validate(cvBody)
-    if (!validationError(response, CVValidationResult)) {
+    if (!validationErrorSend(response, CVValidationResult)) {
 
         const contactIsSaved = cvBody.contact && cvBody.contact.id
 
@@ -199,7 +198,7 @@ export interface ISetDefaultCV {
 cvRouter.post('/default', async (request: IRequestWithIdentity, response: Response) => {
     if (request.userGroup !== 'admin') {
         response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
-    } else if (!validationError(response, SetDefaultCVSchema.validate(request.body))) {
+    } else if (!validationErrorSend(response, SetDefaultCVSchema.validate(request.body))) {
         const requestBody: ISetDefaultCV = request.body
         if (!requestBody.cvid) {
             response.status(400).json({ error: 'CV id is empty' })
@@ -220,7 +219,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
     switch (request.params.type) {
         case 'contact':
             const contactBody: INewContactBody = request.body
-            if (validationError(response, NewContactSchema.validate(contactBody))) { break }
+            if (validationErrorSend(response, NewContactSchema.validate(contactBody))) { break }
             const contact = new Contact({
                 ...contactBody, owner
             })
@@ -235,7 +234,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'profile':
             const profileBody: INewProfileBody = request.body
-            if (validationError(response, NewProfileSchema.validate(profileBody))) { break }
+            if (validationErrorSend(response, NewProfileSchema.validate(profileBody))) { break }
             const profile = new Profile({
                 ...profileBody, owner,
             })
@@ -250,7 +249,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'experience':
             const experienceBody: INewExperienceBody = request.body
-            if (validationError(response, NewExperienceSchema.validate(experienceBody))) { break }
+            if (validationErrorSend(response, NewExperienceSchema.validate(experienceBody))) { break }
             const experience = new Experience({
                 ...experienceBody, owner
             })
@@ -266,7 +265,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'communication':
             const communicationBody: INewCommunicationBody = request.body
-            if (validationError(response, NewCommunicationSchema.validate(communicationBody))) { break }
+            if (validationErrorSend(response, NewCommunicationSchema.validate(communicationBody))) { break }
             const communication = new Communication({
                 ...communicationBody, owner
             })
@@ -285,7 +284,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'info':
             const infoBody: INewProfileBody = request.body
-            if (validationError(response, NewInfoSchema.validate(infoBody))) { break }
+            if (validationErrorSend(response, NewInfoSchema.validate(infoBody))) { break }
             const info = new Info({
                 ...infoBody, owner
             })
@@ -301,7 +300,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
             break
         case 'project':
             const projectBody: INewProjectBody = request.body
-            if (validationError(response, NewProjectSchema.validate(projectBody))) { break }
+            if (validationErrorSend(response, NewProjectSchema.validate(projectBody))) { break }
             const project = new Project({
                 ...projectBody, owner
             })
@@ -322,7 +321,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
 
 cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
     const body: IChanges = request.body
-    const validBody = !validationError(response, NewCVSchema.validate(body.changes))
+    const validBody = !validationErrorSend(response, NewCVSchema.validate(body.changes))
 
     if ( validBody
         && request.userid + '' === (await CurriculumVitae.findOne({ _id: body.id })).owner + ''
@@ -336,10 +335,10 @@ cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
 
 cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response) => {
     const body: IChanges = request.body
-    if (!validationError(response, ChangesSchema.validate(body))) {
+    if (!validationErrorSend(response, ChangesSchema.validate(body))) {
         switch (request.params.type) {
             case 'contact':
-                if (validationError(response, NewContactSchema.validate(body.changes))) { break }
+                if (validationErrorSend(response, NewContactSchema.validate(body.changes))) { break }
                 const newContact = await Contact.updateOne(
                     { _id: body.id, owner: request.userid },
                     body.changes
@@ -347,7 +346,7 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
                 response.status(201).json(newContact)
                 break
             case 'profile':
-                if (validationError(response, NewProfileSchema.validate(body.changes))) { break }
+                if (validationErrorSend(response, NewProfileSchema.validate(body.changes))) { break }
                 const newProfile = await Profile.updateOne(
                     { _id: body.id, owner: request.userid },
                     body.changes
@@ -355,7 +354,7 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
                 response.status(201).json(newProfile)
                 break
             case 'experience':
-                if (validationError(response, NewExperienceSchema.validate(body.changes))) { break }
+                if (validationErrorSend(response, NewExperienceSchema.validate(body.changes))) { break }
                 const newExperience = await Experience.updateOne(
                     { _id: body.id, owner: request.userid },
                     body.changes
@@ -363,7 +362,7 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
                 response.status(201).json(newExperience)
                 break
             case 'communication':
-                if (validationError(response, NewCommunicationSchema.validate(body.changes))) { break }
+                if (validationErrorSend(response, NewCommunicationSchema.validate(body.changes))) { break }
                 const newCommunication = await Communication.updateOne(
                     { _id: body.id, owner: request.userid },
                     body.changes
@@ -371,7 +370,7 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
                 response.status(201).json(newCommunication)
                 break
             case 'info':
-                if (validationError(response, NewInfoSchema.validate(body.changes))) { break }
+                if (validationErrorSend(response, NewInfoSchema.validate(body.changes))) { break }
                 const newInfo = await Info.updateOne(
                     { _id: body.id, owner: request.userid },
                     body.changes
@@ -379,7 +378,7 @@ cvRouter.put('/:type', async (request: IRequestWithIdentity, response: Response)
                 response.status(201).json(newInfo)
                 break
             case 'project':
-                if (validationError(response, NewProjectSchema.validate(body.changes))) { break }
+                if (validationErrorSend(response, NewProjectSchema.validate(body.changes))) { break }
                 const newProject = await Project.updateOne(
                     { _id: body.id, owner: request.userid },
                     body.changes
@@ -397,9 +396,9 @@ cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response
     const id = request.params.id
 
     const validationResult = objectId.validate(id)
-    const validId = !validationError(response, validationResult)
+    const validId = !validationErrorSend(response, validationResult)
     if (!validId) {
-        return validationResponse(response, validationResult)
+        return validationResponse(response, validationResult).end()
     }
 
     const cv: any = await CurriculumVitae.findOne({ _id: id })
@@ -448,9 +447,9 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
     const id = request.params.id
 
     const validationResult = objectId.validate(id)
-    const validId = !validationError(response, validationResult)
+    const validId = !validationErrorSend(response, validationResult)
     if (!validId) {
-        return validationResponse(response, validationResult)
+        return validationResponse(response, validationResult).end()
     }
 
     switch (request.params.type) {

@@ -10,7 +10,7 @@ import {
     randomUserName,
     userIsRootUser,
 } from '../utils/userHelper'
-import { IDetails } from '../utils/validators'
+import { validationErrorSend } from '../utils/validators'
 
 const usersRouter = Router()
 
@@ -33,17 +33,6 @@ const NewUserRequestSchema = Joi.object().keys({
     username: Joi.string().alphanum().min(4).max(30).required()
 })
 
-const validationErrors = (response: Response, validationResult: any) => {
-    const errorArray: [IDetails] = validationResult && validationResult.error && validationResult.error.details
-    if (errorArray && errorArray.length > 0) {
-        response.status(400).send({
-            error: errorArray[0].message
-        }).end()
-        return true
-    }
-    return false
-}
-
 usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) => {
 
     const makeRandomUser = !request.body.name && !request.body.username && !request.body.password
@@ -56,7 +45,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
     } : request.body
 
     const validationResult = NewUserRequestSchema.validate(body)
-    if (!validationErrors(response, validationResult)) {
+    if (!validationErrorSend(response, validationResult)) {
         const saltRounds = 10
         const passwordHash = await bcrypt.hash(body.password, saltRounds)
 

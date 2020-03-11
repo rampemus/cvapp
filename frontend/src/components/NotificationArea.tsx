@@ -29,23 +29,22 @@ const NotificationArea: React.FC<Props> = (props) => {
         const newMessages = props.messages.filter(
             propsmessage => messages.findIndex(message => message.id === propsmessage.id) === -1
         )
-        setMessages(messages.map( message => {
+        const newMessagesAndTaggedDeleted = messages.map(message => {
             const propsMessageIndex = props.messages.findIndex(propsmessage => propsmessage.id === message.id)
             if (propsMessageIndex === -1) {
                 const tempId = message.id.substr(0, 8) + 'deleted'
-                const messageAlive = props.messages.findIndex(propsmessage => propsmessage.id === message.id) > -1
-                if (messageAlive) {
-                    return message
-                }
-                const removeAfterDeathAnimation = setTimeout(() => {
-                    const newMessages = props.messages.filter(message => message.id !== tempId )
-                    setMessages(newMessages)
-                    clearTimeout(removeAfterDeathAnimation)
-                }, message.duration ? 300 : 0)
                 return { ...message, id: tempId }
             }
-            return message 
-        }).concat(newMessages))
+            return message
+        }).concat(newMessages)
+
+        if (newMessagesAndTaggedDeleted.find(message => {
+            return message.id.substr(8, 15) !== 'deleted'
+        })) {
+            setMessages(newMessagesAndTaggedDeleted)
+        } else {
+            setMessages([])
+        }
         // adding messages to useEffect dependencies will crash the app
         // eslint-disable-next-line
     },[props.messages])

@@ -8,7 +8,7 @@ import {
     ownerId,
     randomPassword,
     randomUserName,
-    userIsRootUser,
+    userIsRootUser
 } from '../utils/userHelper'
 import { NewUserRequestSchema, objectId, validationErrorSend } from '../utils/validators'
 
@@ -103,21 +103,51 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 })
 
 interface IUserChanges {
-    name: string,
-    username: string,
-    password: string,
-    newPassword: string
+    id: string,
+    changes: {
+        name?: string,
+        username?: string,
+        password: string,
+        newPassword?: string
+    }
 }
 
 // TODO: write test for POST PUT /
 usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
-    const body: IUserChanges = request.body
+    const id = request.body.id
 
-    return response.status(202).json({
-        created: new Date(),
-        name: body.name,
-        username: body.username
-    })
+    console.log('users/put id', id)
+
+    const body: IUserChanges['changes'] = request.body.changes
+
+    const user = await User.findOne({ _id: id }).populate('owner')
+
+    console.log('users/put user', user)
+
+    if (!(
+        request.userGroup === 'admin'
+        || id === user._id
+        || request.username === user.owner.username
+    )) {
+        return response.status(401).send({
+            error: 'Admin authorization needed'
+        }).end()
+    }
+
+    // const passwordCorrect = !body.newPassword || !(body.password.length > 8) || user
+    //     ? await bcrypt.compare(body.password, user.passwordHash)
+    //     : await bcrypt.hash(body.password, 10)
+
+    // if (user && !passwordCorrect) {
+    //     return response.status(401).send({
+    //         error: 'Invalid username or password',
+    //     }).end()
+    // }
+    console.log('writing database: _id:', user._id, ' changes: ', body)
+    const updatedUser = await User.findOneAndUpdate({ _id: user._id }, body)
+        .catch((error)=> console.log('error: ', error))
+    console.log('users put success: ', updatedUser)
+    response.status(201).json(updatedUser)
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {

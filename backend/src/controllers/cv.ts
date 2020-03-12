@@ -325,7 +325,7 @@ cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
 
     if ( validBody
         && request.userid + '' === (await CurriculumVitae.findOne({ _id: body.id })).owner + ''
-        || request.userGroup === 'Admin') {
+        || request.userGroup === 'admin') {
         const newCV = await CurriculumVitae.findOneAndUpdate({ _id: body.id }, body.changes)
         response.status(201).json(newCV)
     } else if (validBody) {
@@ -407,7 +407,7 @@ cvRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response
     }
 
     if (request.userid + '' === cv.owner + ''
-        || request.userGroup === 'Admin') {
+        || request.userGroup === 'admin') {
 
         await CurriculumVitae.deleteOne({ _id: id })
         if (cv.contact) { Contact.deleteOne({ _id: cv.contact + '' }) }

@@ -74,11 +74,11 @@ const User: React.FC<Props> = (props) => {
             </button>
             <div className='formContainer' style={{ display: showEditUser ? 'block' : 'none' }}>
               <UsersForm
-              newUser={false}
-                formValues={{ name: props.user ? props.user.name : '', username: props.user ? props.user.username : ''}}
-              closeForm={() => setShowEditUser(false)}
-              reloadUsers={() => {props.updateUser()}}
-            />
+                newUser={false}
+                formValues={{ id: props.user ? props.user.id : '', name: props.user ? props.user.name : '', username: props.user ? props.user.username : '', expires: props.user && props.user.expires ? new Date(props.user.expires) : null }}
+                closeForm={() => setShowEditUser(false)}
+                reloadUsers={() => {props.updateUser()}}
+              />
             </div>
           </div>
         </Toolbar>
@@ -93,7 +93,6 @@ const User: React.FC<Props> = (props) => {
             + created.getDay() 
           : 'User has no owner'}</p>
         <p>{expires}</p>
-        <h3>Change password</h3>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { showNotification, Type } from '../../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import usersService, { usersError, IUser } from '../../services/usersService'
+import usersService, { usersError } from '../../services/usersService'
 import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
 
@@ -10,8 +10,10 @@ interface OwnProps {
   reloadUsers: Function,
   newUser: boolean,
   formValues?: {
+    id: string,
     name: string,
     username: string,
+    expires: Date | null
   } 
 }
 export interface StateProps {
@@ -71,11 +73,16 @@ const UsersForm: React.FC<Props> = (props) => {
     const changes = {
       name: props.formValues && props.formValues.name !== name ? name : undefined,
       username: props.formValues && props.formValues.username !== username ? username : undefined,
-      password: oldPassword,
-      newPassword: passwordConfirm.length > 0 && passwordConfirm === password ? passwordConfirm : undefined
+      password: oldPassword.length > 8 ? oldPassword : undefined,
+      newPassword: passwordConfirm.length > 0 && passwordConfirm === password ? passwordConfirm : undefined,
+      expires: props.formValues && props.formValues.expires && props.formValues.expires !== expires ? expires : undefined
     }
 
-    usersService.modifyUser(props.user, oldPassword, changes).then((response) => {
+    usersService.modifyUser(
+      props.user,
+      props.formValues ? props.formValues.id : '',
+      changes
+    ).then((response) => {
       setOldPassword('')
       setPassword('')
       setPasswordConfirm('')
@@ -119,8 +126,9 @@ const UsersForm: React.FC<Props> = (props) => {
         <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDate.ONE_MONTH))} /> a month
         <input type="radio" name="expires" onClick={() => setExpires(null)} /> forever
       </div>
-      {!props.newUser && [<p>Re-enter old password</p>,
+      {!props.newUser && [<p key='olduserparagraph'>Re-enter old password</p>,
       <input
+        key='olduserinputfield'
         type='password'
         value={oldPassword}
         onChange={

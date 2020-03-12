@@ -136,7 +136,6 @@ const MyCV: React.FC<Props> = (props) => {
                   event.preventDefault()
                   cvService.deleteObject(ServiceType.CV, cv.id, props.user)
                   .then((response) => {
-                    console.log(response)
                     props.updateCVs(props.user)
                     props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
                   })

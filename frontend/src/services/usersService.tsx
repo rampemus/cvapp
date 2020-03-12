@@ -45,8 +45,8 @@ const createUser = (user: UserState, username?: string, name?: string, password?
     return request.then((response: createUsersResponse) => response)
 }
 
-const modifyUser = (user: UserState, oldPassword: string, changes: any) => {
-    const request = axios.put(baseUrl, changes, getConfigHeader(user))
+const modifyUser = (user: UserState, id:string, changes: any) => {
+    const request = axios.put(baseUrl, { changes, id }, getConfigHeader(user))
     return request.then((response: createUsersResponse) => response)
 }
 

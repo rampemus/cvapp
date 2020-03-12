@@ -526,7 +526,6 @@ export const clearCVS = () => {
     type: 'UPDATE_CVS',
     data: { cvs: initState }
   }
-  console.log('clearCVS happening')
   return action
 }
 

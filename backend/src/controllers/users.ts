@@ -90,7 +90,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
             })
 
         if (savedUser) {
-            await CurriculumVitae.updateOne({ default: owner.id }, { $push: { default: savedUser } })
+            await CurriculumVitae.updateOne({ default: owner._id }, { $push: { default: savedUser } })
 
             return response.status(201).json(makeRandomUser ? {
                 created: user.created,
@@ -126,7 +126,7 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
 
     if (!(
         request.userGroup === 'admin'
-        || id === user._id
+        || id === user._id + ''
         || request.username === user.owner.username
     )) {
         return response.status(401).send({

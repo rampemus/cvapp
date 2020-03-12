@@ -117,13 +117,9 @@ interface IUserChanges {
 usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
     const id = request.body.id
 
-    console.log('users/put id', id)
-
     const body: IUserChanges['changes'] = request.body.changes
 
     const user = await User.findOne({ _id: id }).populate('owner')
-
-    console.log('users/put user', user)
 
     if (!(
         request.userGroup === 'admin'
@@ -151,11 +147,11 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
         }).end()
     }
 
-    console.log('writing database: _id:', user._id, ' changes: ', body)
     const updatedUser = await User.findOneAndUpdate({ _id: user._id }, body)
-        .catch((error)=> console.log('error: ', error))
-    console.log('users put success: ', updatedUser)
-    response.status(201).json(updatedUser)
+        .catch((error) => {
+            return response.status(400).send({ error: error.message }).end()
+        })
+    return response.status(201).json(updatedUser)
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {

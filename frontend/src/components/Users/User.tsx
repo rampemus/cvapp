@@ -75,7 +75,12 @@ const User: React.FC<Props> = (props) => {
             <div className='formContainer' style={{ display: showEditUser ? 'block' : 'none' }}>
               <UsersForm
                 newUser={false}
-                formValues={{ id: props.user ? props.user.id : '', name: props.user ? props.user.name : '', username: props.user ? props.user.username : '', expires: props.user && props.user.expires ? new Date(props.user.expires) : null }}
+                formValues={{
+                  id: props.user ? props.user.id : '',
+                  name: props.user ? props.user.name : '',
+                  username: props.user ? props.user.username : '',
+                  expires: props.user && props.user.expires ? new Date(props.user.expires) : undefined
+                }}
                 closeForm={() => setShowEditUser(false)}
                 reloadUsers={() => {props.updateUser()}}
               />

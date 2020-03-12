@@ -13,7 +13,7 @@ interface OwnProps {
     id: string,
     name: string,
     username: string,
-    expires: Date | null
+    expires?: Date | null
   } 
 }
 export interface StateProps {
@@ -38,7 +38,7 @@ type Props = OwnProps & StateProps & DispatchProps
 const UsersForm: React.FC<Props> = (props) => {
   const [name, setName] = useState(props.formValues ? props.formValues.name : '')
   const [username, setUsername] = useState(props.formValues ? props.formValues.username : '')
-  const [expires, setExpires] = useState<Date | null>(null)
+  const [expires, setExpires] = useState<Date | undefined | null>(undefined)
   const [oldPassword, setOldPassword] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -55,7 +55,7 @@ const UsersForm: React.FC<Props> = (props) => {
       usersService.createUser(props.user, username, name, password, expires).then( response => {
         setName('')
         setUsername('')
-        setExpires(null)
+        setExpires(undefined)
         setPassword('')
         setPasswordConfirm('')
         props.showNotification(`User ${response.data.name} was created`, Type.SUCCESS, 4)
@@ -120,7 +120,7 @@ const UsersForm: React.FC<Props> = (props) => {
         }
         className='user-form-input'
       />
-      {props.newUser ? <p>User is valid</p> : <p>User is valid after update</p>}
+      {props.newUser ? <p>User is valid</p> : <p>User is valid after update (admin only)</p>}
       <div>
         <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDate.TWO_WEEKS))}/> a fortnight
         <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDate.ONE_MONTH))} /> a month
@@ -136,7 +136,8 @@ const UsersForm: React.FC<Props> = (props) => {
             setOldPassword(target.value)
           }
         }
-        style={{ backgroundColor: oldPassword.length > 8 ? 'white' : 'rgb(255, 161, 161)'}}
+        className='user-form-input'
+        style={{ backgroundColor: oldPassword.length > 8 || (password.length + passwordConfirm.length) === 0 ? 'white' : 'rgb(255, 161, 161)'}}
       />]
       }
       {props.newUser ? <p>Password for new user</p> : <p>New password</p>}
@@ -151,6 +152,7 @@ const UsersForm: React.FC<Props> = (props) => {
             }
           }
         }
+        className='user-form-input'
         style={{ backgroundColor: passwordMatch ? 'white' : 'yellow' }}
       />
       {props.newUser ? <p>Confirm password</p> : <p>Confirm new password</p>}

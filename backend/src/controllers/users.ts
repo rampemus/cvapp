@@ -108,7 +108,8 @@ interface IUserChanges {
         name?: string,
         username?: string,
         password: string,
-        newPassword?: string
+        newPassword?: string,
+        expires?: Date | null
     }
 }
 
@@ -134,15 +135,22 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
         }).end()
     }
 
-    // const passwordCorrect = !body.newPassword || !(body.password.length > 8) || user
-    //     ? await bcrypt.compare(body.password, user.passwordHash)
-    //     : await bcrypt.hash(body.password, 10)
+    if (body.expires !== undefined && request.userGroup !== 'admin') {
+        return response.status(401).send({
+            error: 'Admin authorization needed for changing expire date'
+        }).end()
+    }
 
-    // if (user && !passwordCorrect) {
-    //     return response.status(401).send({
-    //         error: 'Invalid username or password',
-    //     }).end()
-    // }
+    const passwordCorrect = !body.newPassword || user
+        ? await bcrypt.compare(body.password, user.passwordHash)
+        : await bcrypt.hash(body.password + '', 10)
+
+    if (user && !passwordCorrect) {
+        return response.status(401).send({
+            error: 'Invalid old password',
+        }).end()
+    }
+
     console.log('writing database: _id:', user._id, ' changes: ', body)
     const updatedUser = await User.findOneAndUpdate({ _id: user._id }, body)
         .catch((error)=> console.log('error: ', error))

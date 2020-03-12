@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt'
-import { config } from 'dotenv/types'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../app'
@@ -120,6 +119,27 @@ describe('/api/users POST', () => {
         })
     })
 
+})
+
+describe('/api/users/owner POST', () => {
+    test('new random user is owned by root_user', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const randomUser = (await User.find({}))[1]
+
+        const response: any = await api
+            .post('/api/users/owner')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send({ id: randomUser._id + '' })
+            .expect(200)
+
+        const owner = response.body
+
+        const realOwner = await User.findOne({})
+
+        expect(realOwner.username).toBe(owner.username)
+    })
 })
 
 describe('/api/users DELETE', () => {

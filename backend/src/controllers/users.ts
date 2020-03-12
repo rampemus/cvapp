@@ -19,12 +19,15 @@ usersRouter.get('/', async (request: Request, response: Response) => {
     response.json(users)
 })
 
-// TODO: write test for POST /owner
 usersRouter.post('/owner', async (request: IRequestWithIdentity, response: Response) => {
     const id: string = request.body.id
     validationErrorSend(response, objectId.validate(id))
 
     const user = await User.findOne({ _id: id })
+    if (!user) {
+        return response.status(404).send({ error: 'User not found' }).end()
+    }
+
     if (user.username === ROOT_USERNAME) {
         return response.status(200).json(user).end()
     }

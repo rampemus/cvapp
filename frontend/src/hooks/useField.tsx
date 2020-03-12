@@ -12,11 +12,6 @@ const useField = (type: FieldType) => {
         setValue(event.currentTarget.value)
     }
 
-    // const reset = ():string => {
-    //     setValue('')
-    //     return 'null'
-    // }
-
     return {
         type,
         value,

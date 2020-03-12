@@ -63,7 +63,7 @@ export interface IProject {
 
 export interface ICV extends ICVEmpty {
     owner: IUser,
-    contact: IContact, // single
+    contact: IContact,
     id: string,
 }
 
@@ -83,16 +83,16 @@ interface ICVEmpty {
     name: string,
     github?: string,
     techlist?: string,
-    contact: IContactEmpty, // single
-    profile?: IProfile, // single
+    contact: IContactEmpty,
+    profile?: IProfile,
     projects?: IProject[],
     reference?: IContact[],
     experience?: IExperience[],
     education?: IExperience[],
-    communication?: ICommunication, // single
-    skills?: IInfo, // single
-    info?: IInfo, // single
-    attachments?: IInfo, // single
+    communication?: ICommunication,
+    skills?: IInfo,
+    info?: IInfo,
+    attachments?: IInfo,
 }
 
 export enum ServiceType {
@@ -107,7 +107,6 @@ export enum ServiceType {
 
 interface getAllCVResponse extends AxiosResponse {
     data: ICV[]
-    // | IContact[] | IProfile[] | IExperience[] | ICommunication[] | IInfo[]  
 }
 
 const createEmptyCV = (user: UserState) => {
@@ -318,11 +317,8 @@ const setCVDefault = (cv: string, user: UserState) => {
 }
 
 const getAllCV = (user: UserState) => {
-    // TODO: prevent request if there is no Authorization
     const request = axios.get(baseUrl, getConfigHeader(user))
     return request.then((response: getAllCVResponse) => {
-        // console.log('formatted data will be handling this:',response.data)
-        // format data to match ICV interface (mongoose wiggles the non required values to arrays)
         const formattedData = response.data.map((cv:any) => {
             return { ...cv,
                 communication: cv.communication ? cv.communication[0] : null,

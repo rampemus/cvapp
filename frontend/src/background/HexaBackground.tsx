@@ -1,6 +1,5 @@
 import React from 'react'
 import './HexaBackground.css'
-// import useWindowDimensions from '../hooks/useWindowDimensions'
 
 interface Props {
     height: number,
@@ -19,8 +18,6 @@ enum Color {
 }
 
 const Background: React.FC<Props> = (props: Props) => {
-
-    // const { height } = props
 
     const hexaSize = 46
     const spacing = 7

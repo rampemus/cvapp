@@ -178,20 +178,24 @@ const createRootUser = async () => {
     return await rootUser.save()
 }
 
-const createTestUser = async () => {
-    const saltRounds = 10
-
+const iterateUnusedTestUser = async () => {
     let i = 1
     let username = TESTUSER_NAME
     let password = TESTUSER_PASSWORD
     let name = TESTUSER_NAME
-
-    while ( await userExists(username) ) { // iterates unused username
+    while (await userExists(username)) {
         username = TESTUSER_NAME + '' + i
         password = TESTUSER_PASSWORD + '' + i
         name = TESTUSER_NAME + '' + i
         i++
     }
+    return {username, password, name}
+}
+
+const createTestUser = async () => {
+    const saltRounds = 10
+
+    const { username, password, name } = await iterateUnusedTestUser()
 
     const passwordHash = await bcrypt.hash(password, saltRounds)
 

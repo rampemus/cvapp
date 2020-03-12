@@ -80,9 +80,6 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
         const savedUser = await user.save()
             .catch((error) => {
-                // const errorResponse = { error: error.message.search(/expected `username` to be unique./) > -1
-                //     ? 'Username ' + body.username + ' is already taken'
-                //     : error.message }
                 const errorResponse = error.message
                 return response.status(400).json({
                     error: errorResponse

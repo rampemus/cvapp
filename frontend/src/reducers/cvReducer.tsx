@@ -447,7 +447,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
             })
           }
         case 'contact':
-          return state // cannot delete contact field
+          return state // cannot delete required contact field
         case 'communication':
           return {
             lastOpened: state.lastOpened, 
@@ -496,17 +496,6 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return state
       }
     }
-    // case 'UPDATE_CV': {
-    //   const id = action.data.id
-    //   const changes = action.data.changes
-    //   const newState = { cvs: state.cvs.map( (cv: ICV) => {
-    //     if (cv.id === id) {
-    //       return { ...cv, ...changes }
-    //     } else {
-    //       return cv
-    //     }
-    //   }) }
-    // }
     default: return state
   }
 }
@@ -552,13 +541,5 @@ export const setPreviousCV = (id:string) => {
   }
   return action
 }
-
-// export const modifyCV = (id:string, changes:any) => {
-//   const action: CVAction = {
-//     type: 'UPDATE_CV',
-//     data: { id, changes }
-//   }
-//   return action
-// }
 
 export default cvReducer

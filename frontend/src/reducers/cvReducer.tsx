@@ -175,8 +175,6 @@ const initState: cvState = {
   lastOpened: ''
 }
 
-// TODO: save last visited cv and open it automaticly for the CV selector
-
 const cvReducer = (state: cvState = initState, action: CVAction) => {
   switch (action.type) {
     case 'UPDATE_CVS': {

@@ -165,7 +165,7 @@ describe('/api/users/owner POST', () => {
 })
 
 describe('/api/users PUT', () => {
-    test('new random user is owned by root_user', async () => {
+    test('random user can be changed by root_user', async () => {
         const token = 'bearer ' + rootLogin.body.token
 
         const customUser = {

@@ -21,6 +21,9 @@ const nameString = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëė
 const objectId = Joi.string().regex(/^[a-f\d]{24}$/i)
 const fieldString = Joi.string().valid('communication', 'projects', 'attachments', 'education', 'experience',
     'info', 'reference', 'skills', 'contact', 'profile')
+const username = Joi.string().alphanum().min(4).max(30)
+const password = Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64)
+const name = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).min(2).max(100)
 
 const CVConnectSchema = Joi.object().keys({
     field: fieldString,
@@ -92,14 +95,25 @@ const NewCVSchema = Joi.object().keys({
 
 const ChangesSchema = Joi.object().keys({
     changes: Joi.object(),
+    id: objectId,
+})
+
+const UserChangesSchema = Joi.object().keys({
+    changes: {
+        expires: Joi.date(),
+        name,
+        newPassword: password,
+        password,
+        username,
+    },
     id: objectId
 })
 
 const NewUserRequestSchema = Joi.object().keys({
     expires: Joi.date(),
-    name: Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).min(2).max(100).required(),
-    password: Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64).required(),
-    username: Joi.string().alphanum().min(4).max(30).required()
+    name: name.required(),
+    password: password.required(),
+    username: username.required()
 })
 
 const validationErrorSend = (response: Response, validationResult: any) => {
@@ -143,5 +157,6 @@ export {
     validationErrorSend,
     SetDefaultCVSchema,
     validationResponse,
-    NewUserRequestSchema
+    NewUserRequestSchema,
+    UserChangesSchema
 }

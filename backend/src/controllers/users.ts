@@ -10,7 +10,7 @@ import {
     randomUserName,
     userIsRootUser
 } from '../utils/userHelper'
-import { NewUserRequestSchema, objectId, validationErrorSend } from '../utils/validators'
+import { NewUserRequestSchema, objectId, UserChangesSchema, validationErrorSend } from '../utils/validators'
 
 const usersRouter = Router()
 
@@ -113,49 +113,54 @@ export interface IUserChanges {
     }
 }
 
-// TODO: write test for POST PUT /
 usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
-    const id = request.body.id
+    const validationResult = UserChangesSchema.validate(request.body)
+    if (!validationErrorSend(response, validationResult)) {
 
-    const body: IUserChanges['changes'] = request.body.changes
+        const id = request.body.id
 
-    const user = await User.findOne({ _id: id }).populate('owner')
+        const body: IUserChanges['changes'] = request.body.changes
 
-    if (!(
-        request.userGroup === 'admin'
-        || id === user._id + ''
-        || request.username === user.owner.username
-    )) {
-        return response.status(401).send({
-            error: 'Admin authorization needed'
-        }).end()
+        const user = await User.findOne({ _id: id }).populate('owner')
+
+        if (!(
+            request.userGroup === 'admin'
+            || id === user._id + ''
+            || request.username === user.owner.username
+        )) {
+            return response.status(401).send({
+                error: 'Admin authorization needed'
+            }).end()
+        }
+
+        if (body.expires !== undefined && request.userGroup !== 'admin') {
+            return response.status(401).send({
+                error: 'Admin authorization needed for changing expire date'
+            }).end()
+        }
+
+        const passwordCorrect = !body.newPassword ? true : user // password needed only for newPassword
+            ? await bcrypt.compare(body.password, user.passwordHash)
+            : await bcrypt.hash(body.password + '', 10)
+
+        if (user && !passwordCorrect) {
+            return response.status(401).send({
+                error: 'Invalid old password',
+            }).end()
+        }
+
+        const updatedUser = await User.findOneAndUpdate({ _id: user._id + '' }, body)
+            .catch((error) => {
+                return response.status(400).send({ error: error.message }).end()
+            })
+
+        return response.status(200).json(updatedUser)
     }
-
-    if (body.expires !== undefined && request.userGroup !== 'admin') {
-        return response.status(401).send({
-            error: 'Admin authorization needed for changing expire date'
-        }).end()
-    }
-
-    const passwordCorrect = !body.newPassword ? true : user // password needed only for newPassword
-        ? await bcrypt.compare(body.password, user.passwordHash)
-        : await bcrypt.hash(body.password + '', 10)
-
-    if (user && !passwordCorrect) {
-        return response.status(401).send({
-            error: 'Invalid old password',
-        }).end()
-    }
-
-    const updatedUser = await User.findOneAndUpdate({ _id: user._id + '' }, body)
-        .catch((error) => {
-            return response.status(400).send({ error: error.message }).end()
-        })
-
-    return response.status(200).json(updatedUser)
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {
+
+    validationErrorSend(response, objectId.validate(request.params.id))
 
     const userHasPermission = request.userGroup === 'admin'     // allowed to admin
         || request.userid === request.params.id                 // allowed to delete themselves

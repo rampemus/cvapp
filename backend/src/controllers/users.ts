@@ -102,12 +102,12 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
     }
 })
 
-interface IUserChanges {
+export interface IUserChanges {
     id: string,
     changes: {
         name?: string,
         username?: string,
-        password: string,
+        password?: string,
         newPassword?: string,
         expires?: Date | null
     }
@@ -137,7 +137,7 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
         }).end()
     }
 
-    const passwordCorrect = !body.newPassword || user
+    const passwordCorrect = !body.newPassword ? true : user // password needed only for newPassword
         ? await bcrypt.compare(body.password, user.passwordHash)
         : await bcrypt.hash(body.password + '', 10)
 
@@ -147,11 +147,12 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
         }).end()
     }
 
-    const updatedUser = await User.findOneAndUpdate({ _id: user._id }, body)
+    const updatedUser = await User.findOneAndUpdate({ _id: user._id + '' }, body)
         .catch((error) => {
             return response.status(400).send({ error: error.message }).end()
         })
-    return response.status(201).json(updatedUser)
+
+    return response.status(200).json(updatedUser)
 })
 
 usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {

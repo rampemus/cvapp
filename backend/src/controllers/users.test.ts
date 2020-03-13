@@ -5,6 +5,7 @@ import app from '../app'
 import User from '../models/user'
 import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD, TESTUSER_USERNAME } from '../utils/config'
 import { createRootUser, deleteAllUsers, randomPassword, randomUserName } from '../utils/userHelper'
+import { IUserChanges } from './users'
 
 const api = supertest(app)
 
@@ -160,6 +161,48 @@ describe('/api/users/owner POST', () => {
         const realOwner = await User.findOne({})
 
         expect(realOwner.username).toBe(owner.username)
+    })
+})
+
+describe('/api/users PUT', () => {
+    test('new random user is owned by root_user', async () => {
+        const token = 'bearer ' + rootLogin.body.token
+
+        const customUser = {
+            name: 'not modified name',
+            password: 'secretpassword',
+            username: 'notmodifiedusername'
+        }
+
+        const beforeUser = (await api
+            .post('/api/users')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(customUser)
+            .expect(201)).body
+
+        const changes: IUserChanges = {
+            changes: {
+                name: 'modified name',
+                username: 'modifiedusername'
+            },
+            id: beforeUser.id
+        }
+
+        await api
+            .put('/api/users')
+            .set('Content-Type', 'application/json')
+            .set('Authorization', token)
+            .send(changes)
+            .expect(200)
+
+        const after = await User.findOne({ _id: beforeUser.id })
+
+        expect(beforeUser.username).not.toBe(after.username)
+        expect(beforeUser.name).not.toBe(after.name)
+
+        expect(after.username).toBe(changes.changes.username)
+        expect(after.name).toBe(changes.changes.name)
     })
 })
 

@@ -35,7 +35,7 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-enum CalcDate {
+enum CalcDateAfter {
   TWO_WEEKS = Date.now() + 1000 * 60 * 60 * 24 * 14,
   ONE_MONTH = Date.now() + 1000 * 60 * 60 * 24 * 30
 }
@@ -107,8 +107,8 @@ const UsersForm: React.FC<Props> = (props) => {
           <Field key={'usernamefield'} className='user-form-input' placeholder='Username' type='text' name='username' disabled={isSubmitting} />
           {props.newUser ? <p>User is valid</p> : <p>User is valid after changes (admin only)</p>}
           <div>
-            <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDate.TWO_WEEKS))} /> a fortnight
-            <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDate.ONE_MONTH))} /> a month
+            <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDateAfter.TWO_WEEKS))} /> a fortnight
+            <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDateAfter.ONE_MONTH))} /> a month
             <input type="radio" name="expires" onClick={() => setExpires(null)} /> forever
           </div>
           {!props.newUser && <p key='olduserparagraph'>Re-enter old password</p>}

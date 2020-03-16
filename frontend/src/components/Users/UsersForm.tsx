@@ -5,6 +5,7 @@ import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
 import { Formik, Form, Field } from 'formik'
 import usersService from '../../services/usersService'
+import { UserSchema, IDetails } from '../../utils/validators'
 
 interface OwnProps {
   closeForm: Function,
@@ -55,6 +56,23 @@ const UsersForm: React.FC<Props> = (props) => {
         oldPassword: ''
       }}
       enableReinitialize
+      validate={(values) => {
+        const validationResult = UserSchema.validate(values, true)
+        if (!validationResult.error) return {}
+        const errorArray: [IDetails] = validationResult.error?.details.map((detail: IDetails) => { return {
+          ...detail,
+          message: detail.message.includes('fails to match the required pattern')
+          ? '"name" has forbidden characters'
+          : detail.message
+        }})
+        return {
+          name: errorArray.find((error) => error.context.key === 'name')?.message,
+          username: errorArray.find((error) => error.context.key === 'username')?.message,
+          password: errorArray.find((error) => error.context.key === 'password')?.message,
+          passwordConfirm: errorArray.find((error) => error.context.key === 'passwordConfirm')?.message,
+          oldPassword: errorArray.find((error) => error.context.key === 'oldPassword')?.message,
+        }
+      }} 
       onSubmit={(values, { setSubmitting, setValues }) => {
         if (props.newUser) {
           if (values.password === values.passwordConfirm) {
@@ -103,8 +121,10 @@ const UsersForm: React.FC<Props> = (props) => {
           {props.newUser ? 'Create new user' : 'Modify user ' + props.formValues?.username + ':'}
           <p>Full name</p>
           <Field key={'namefield'} className='user-form-input' placeholder='Full Name' type='text' name='name' disabled={isSubmitting} />
+          <div key={'nameerrormessage'} className='form-input-error-message'>{errors?.name}</div>
           <p>Username</p>
           <Field key={'usernamefield'} className='user-form-input' placeholder='Username' type='text' name='username' disabled={isSubmitting} />
+          <div key={'usernameerrormessage'} className='form-input-error-message'>{errors?.username}</div>
           {props.newUser ? <p>User is valid</p> : <p>User is valid after changes (admin only)</p>}
           <div>
             <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDateAfter.TWO_WEEKS))} /> a fortnight
@@ -113,10 +133,13 @@ const UsersForm: React.FC<Props> = (props) => {
           </div>
           {!props.newUser && <p key='olduserparagraph'>Re-enter old password</p>}
           {!props.newUser && <Field key='oldpasswordfield' className='user-form-input' type='password' name='oldPassword' disabled={isSubmitting} />}
+          <div key={'oldpassworderrormessage'} className='form-input-error-message'>{errors?.oldPassword}</div>
           {props.newUser ? <p>Password for new user</p> : <p>New password</p>}
           <Field key='passwordfield' className='user-form-input' type='password' name='password' disabled={isSubmitting} />
+          <div key={'passworderrormessage'} className='form-input-error-message'>{errors?.password}</div>
           {props.newUser ? <p>Confirm password</p> : <p>Confirm new password</p>}
           <Field key='confirmpasswordfield' className='user-form-input' type='password' name='passwordConfirm' disabled={isSubmitting} />
+          <div key={'passwordconfirmationerrormessage'} className='form-input-error-message'>{errors?.passwordConfirm}</div>
           <div style={{ textAlign: 'right', marginTop: '10px' }}>
           <button className='toolbar-button' onClick={(event) => {
             event.preventDefault()

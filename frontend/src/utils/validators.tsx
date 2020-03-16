@@ -39,8 +39,11 @@ const contentLength = 1000
 const contentString = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.()!?"#€$%&@£§|{}'-\\$\n]*$/).max(contentLength).empty('')
 const nameLenth = 300
 const nameString = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.()!"#€$%&@£§|{}'-]*$/).max(nameLenth)
+const username = Joi.string().alphanum().min(4).max(30)
+const password = Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64)
+const name = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$/).max(100)
 
-const CVSchema = Joi.object().keys({
+export const CVSchema = Joi.object().keys({
     id: Joi.any(),
     github: Joi.string().uri().empty(''),
     name: nameString,
@@ -57,33 +60,33 @@ const CVSchema = Joi.object().keys({
     attachments: Joi.any(),
 })
 
-const InfoSchema = Joi.object().keys({
+export const InfoSchema = Joi.object().keys({
     id: Joi.any(),
     content: contentString,
     name: nameString,
 })
 
-const CommunicationSchema = Joi.object().keys({
+export const CommunicationSchema = Joi.object().keys({
     id: Joi.any(), 
     content: contentString,
     languages: Joi.array().items(Joi.object()),
     name: nameString,
 })
 
-const ExperienceSchema = Joi.object().keys({
+export const ExperienceSchema = Joi.object().keys({
     id: Joi.any(), 
     description: contentString,
     name: nameString,
     timeFrame: Joi.object()
 })
 
-const ProfileSchema = Joi.object().keys({
+export const ProfileSchema = Joi.object().keys({
     id: Joi.any(), 
     content: contentString,
     name: nameString,
 })
 
-const ProjectSchema = Joi.object().keys({
+export const ProjectSchema = Joi.object().keys({
     id: Joi.any(), 
     description: contentString,
     githubUrl: Joi.string().uri().empty(''),
@@ -92,7 +95,7 @@ const ProjectSchema = Joi.object().keys({
     thumbnailUrl: Joi.string().uri().empty('')
 })
 
-const ContactSchema = Joi.object().keys({
+export const ContactSchema = Joi.object().keys({
     id: Joi.any(), 
     address: nameString.empty(''),
     company: nameString.empty(''),
@@ -105,4 +108,11 @@ const ContactSchema = Joi.object().keys({
     pictureUrl: Joi.string().uri().empty(''),
 })
 
-export { Joi, contentString, nameString, InfoSchema, CommunicationSchema, ContactSchema, ProjectSchema, ExperienceSchema, ProfileSchema, CVSchema }
+export const UserSchema = Joi.object().keys({
+    expires: Joi.any(),
+    name: name.empty(''),
+    password: password.empty(''),
+    oldPassword: password.empty(''),
+    passwordConfirm: password.empty(''),
+    username: username.empty(''),
+})

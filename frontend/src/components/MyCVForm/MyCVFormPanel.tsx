@@ -319,7 +319,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
               break
             }
           }
-          const errorArray: [IDetails] = validationResult && validationResult.error && validationResult.error.details
+          const errorArray: [IDetails] = validationResult?.error?.details
           if (errorArray && errorArray.length > 0) return {
           message: errorArray[0].message.includes('fails to match the required pattern')
           ? '"' + errorArray[0].context.key + '" has forbidden characters'

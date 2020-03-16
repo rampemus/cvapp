@@ -116,7 +116,7 @@ const UsersForm: React.FC<Props> = (props) => {
         props.closeForm()
       }}
     >
-      {({ isSubmitting, isValid, errors, values, setValues }) => (
+      {({ isSubmitting, isValid, errors }) => (
         <Form>
           {props.newUser ? 'Create new user' : 'Modify user ' + props.formValues?.username + ':'}
           <p>Full name</p>
@@ -141,10 +141,10 @@ const UsersForm: React.FC<Props> = (props) => {
           <Field key='confirmpasswordfield' className='user-form-input' type='password' name='passwordConfirm' disabled={isSubmitting} />
           <div key={'passwordconfirmationerrormessage'} className='form-input-error-message'>{errors?.passwordConfirm}</div>
           <div style={{ textAlign: 'right', marginTop: '10px' }}>
-          <button className='toolbar-button' onClick={(event) => {
-            event.preventDefault()
-            props.closeForm()
-          }}>Cancel</button>
+            <button className='toolbar-button' onClick={(event) => {
+              event.preventDefault()
+              props.closeForm()
+            }}>Cancel</button>
             <button className='toolbar-button' type='submit' disabled={isSubmitting || !isValid}>
               {props.newUser ? 'Submit' : 'Submit changes'}
             </button>

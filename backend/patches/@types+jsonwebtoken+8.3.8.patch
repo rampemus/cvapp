@@ -1,0 +1,13 @@
+diff --git a/node_modules/@types/jsonwebtoken/index.d.ts b/node_modules/@types/jsonwebtoken/index.d.ts
+index a5ab4d6..16098f2 100644
+--- a/node_modules/@types/jsonwebtoken/index.d.ts
++++ b/node_modules/@types/jsonwebtoken/index.d.ts
+@@ -169,7 +169,7 @@ export function sign(
+  * [options] - Options for the verification
+  * returns - The decoded token.
+  */
+-export function verify(token: string, secretOrPublicKey: Secret, options?: VerifyOptions): object | string;
++export function verify(token: string, secretOrPublicKey: Secret, options?: VerifyOptions): any;
+ 
+ /**
+  * Asynchronously verify given token using a secret or a public key to get a decoded token

@@ -31,8 +31,7 @@ const TokenExtractor = ( request: IRequestWithToken, response: Response, next: a
 const AuthenticateUser = async (request: IRequestWithIdentity, response: Response, next: any) => {
     const token = request.token
 
-    // TODO: update jsonwebtoken with ncu and remove any
-    const decodedToken: IUserToken | any = jwt.verify(token, JWT_SALT)
+    const decodedToken: IUserToken = jwt.verify(token, JWT_SALT)
 
     if (!token || !decodedToken.id) {
         return response.status(401).json({ error: 'token missing or invalid'}).end()

@@ -25,10 +25,16 @@ const store = createStore(
     )
 )
 
+declare var window: any
+window.appStatus = false
+const updateStatus = () => {
+    window.appStatus = true
+}
+
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={store}>
-            <App />
+            <App updateStatus={updateStatus}/>
         </Provider>,
         document.getElementById('root')
     )

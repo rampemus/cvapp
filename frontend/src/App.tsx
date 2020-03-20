@@ -16,7 +16,9 @@ import { UserState } from './reducers/userReducer'
 import { updateCVs } from './reducers/cvReducer'
 import Home from './components/Home'
 
-interface OwnProps { }
+interface OwnProps {
+  updateStatus: Function
+}
 export interface StateProps { user: UserState }
 export interface DispatchProps {
   updateCVs: (user: UserState) => void
@@ -51,6 +53,7 @@ const App: React.FC<Props> = (props) => {
   },[])
 
   const content = () => {
+    props.updateStatus()
     if (!hideLogin) {
       return (
         <div className='content'>

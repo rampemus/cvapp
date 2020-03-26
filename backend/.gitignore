@@ -1,5 +1,14 @@
-dist
-node_modules
+# dependencies
+
+/dist
+/node_modules
 package-lock.json
+
+# env variables
 .env
 env.robot
+
+# test results
+
+/results/*
+/results

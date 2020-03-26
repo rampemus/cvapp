@@ -10,17 +10,20 @@ import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
 import { useLocation, Route } from 'react-router-dom'
 import User from './User'
+import { setLoading } from '../../reducers/loadingReducer'
 
 interface OwnProps { }
 export interface StateProps {
   user: UserState
 }
 export interface DispatchProps {
-  showNotification: Function
+  showNotification: Function,
+  setLoading: Function
 }
 
 const mapDispatchToProps: DispatchProps = {
-  showNotification
+  showNotification,
+  setLoading
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -33,7 +36,7 @@ type Props = OwnProps & StateProps & DispatchProps
 
 const Users: React.FC<Props> = (props) => {
   const [users, setUsers] = useState<IUser[]>([])
-  
+
   useEffect(()=>{
     updateUsers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,6 +45,7 @@ const Users: React.FC<Props> = (props) => {
   const updateUsers = () => {
     usersService.getAll(props.user).then(response => {
       setUsers(response)
+      props.setLoading(false)
     }).catch((error: usersError) => {
       props.showNotification('Request for retrieving users was denied. ' + error.response.data.error, Type.ERROR, 4)
     })
@@ -60,6 +64,7 @@ const Users: React.FC<Props> = (props) => {
   }
 
   const handleAddRandomUser = () => {
+    props.setLoading(true)
     usersService.createUser(props.user).then(
       response => {
         props.showNotification(
@@ -88,8 +93,8 @@ const Users: React.FC<Props> = (props) => {
     <div>
       <Toolbar>
         <div>
-          <button className='toolbar-button' onClick={()=>handleAddRandomUser()}>add random user</button>
-          <button className='toolbar-button' onClick={()=>{
+          <button id='AddRandomUser' className='toolbar-button' onClick={()=>handleAddRandomUser()}>add random user</button>
+          <button id='AddUser' className='toolbar-button' onClick={()=>{
             setShowAddUser(!showAddUser)
           }}>add user...</button>
           <button disabled className='toolbar-button'>edit user...</button>

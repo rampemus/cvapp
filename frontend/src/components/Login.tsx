@@ -46,6 +46,7 @@ const Login: React.FC<Props> = (props) => {
                     props.showNotification('Login successful', Type.SUCCESS, 5)
                     props.updateCVs(user)
                     props.setLoading(false)
+                    props.setLoading(true)
                 }).catch((error:loginError) => {
                     if (error.response.data.error) {
                         const cooldown = error.response.data.cooldownEnd && error.response.data.cooldownEnd / 1000
@@ -81,7 +82,7 @@ const Login: React.FC<Props> = (props) => {
             </div>
             <div className='rememberme'>
                 Remember me
-                <input type='checkbox'
+                <input id='RememberMeCheckbox' type='checkbox'
                     defaultChecked={remember}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setRemember(!remember)

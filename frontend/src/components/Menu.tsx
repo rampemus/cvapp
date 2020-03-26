@@ -58,7 +58,7 @@ const Menu: React.FC<Props> = (props) => {
                         ? 'menu-item selected'
                         : 'menu-item'}>Curriculum Vitae</div>
                     </Link>
-                    <Link to='/users'>
+                    <Link to='/users' id='Users'>
                         <div className={location.pathname.includes('/users')
                         ? 'menu-item selected'
                         : 'menu-item'}>Users</div>

@@ -1,4 +1,4 @@
 cvapp.code-workspace
 .DS_Store
-frontend/results/*
-frontend/results
+backend/results/*
+backend/results

@@ -83,7 +83,7 @@ const Login: React.FC<Props> = (props) => {
                     }}
                 />
             </div>
-            <button type='submit' disabled={submitLock} className='login-button'>
+            <button id='login' type='submit' disabled={submitLock} className='login-button'>
                 Login
             </button>
         </form>

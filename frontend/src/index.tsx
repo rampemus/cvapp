@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
@@ -10,11 +10,13 @@ import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
 import thunk from 'redux-thunk'
 import cvReducer from './reducers/cvReducer';
+import loadingReducer from './reducers/loadingReducer';
 
 export const rootReducer = combineReducers({
     notification: notificationReducer,
     user: userReducer,
-    cv: cvReducer
+    cv: cvReducer,
+    loader: loadingReducer
 })
 
 export type AppState = ReturnType<typeof rootReducer>
@@ -27,6 +29,7 @@ const store = createStore(
 
 declare var window: any
 window.appStatus = false
+window.appStore = store
 const updateStatus = () => {
     window.appStatus = true
 }

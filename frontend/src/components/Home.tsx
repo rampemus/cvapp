@@ -3,6 +3,7 @@ import './Preview.css'
 import { connect } from 'react-redux'
 import { AppState } from '..'
 import { ICV, IContact, IExperience, ICommunication } from '../services/cvService'
+import { setLoading } from '../reducers/loadingReducer'
 
 const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
   const { startDate, endDate } = timeFrame
@@ -30,7 +31,9 @@ interface OwnProps {
 export interface StateProps {
   cv?: ICV,
 }
-export interface DispatchProps { }
+export interface DispatchProps {
+  setLoading: Function
+}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -38,7 +41,9 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-// const mapDispatchToProps: DispatchProps = { functionName }
+const mapDispatchToProps: DispatchProps = {
+  setLoading
+}
 
 type Props = OwnProps & StateProps & DispatchProps
 
@@ -47,6 +52,9 @@ const Home: React.FC<Props> = (props) => {
   if (!cv) {
     return <div>No default cv</div>
   } 
+
+  props.setLoading(false)
+
   const contact = cv.contact
   const reference: IContact[] | undefined = cv.reference
   const experience: IExperience[] | undefined = cv.experience
@@ -183,5 +191,5 @@ const Home: React.FC<Props> = (props) => {
   )
 }
 
-export default connect(mapStateToProps, null)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
 

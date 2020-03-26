@@ -6,16 +6,18 @@ import { setUser } from '../reducers/userReducer'
 import { showNotification, Type } from '../reducers/notificationReducer'
 import { updateCVs } from '../reducers/cvReducer'
 import { connect } from 'react-redux'
+import { setLoading } from '../reducers/loadingReducer'
 
 interface OwnProps {}
 interface StateProps {}
-interface DispatchProps { showNotification: Function, setUser: Function, updateCVs: Function }
+interface DispatchProps { showNotification: Function, setUser: Function, updateCVs: Function, setLoading: Function }
 
 // const mapStateToProps = {}
 const mapDispatchToProps: DispatchProps = {
     showNotification,
     setUser,
-    updateCVs
+    updateCVs,
+    setLoading
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -32,6 +34,8 @@ const Login: React.FC<Props> = (props) => {
         event.persist()
         event.preventDefault()
 
+        props.setLoading(true)
+
         if (!submitLock) {
             loginService.login(username.value, password.value)
                 .then(user => {
@@ -41,6 +45,7 @@ const Login: React.FC<Props> = (props) => {
                     )
                     props.showNotification('Login successful', Type.SUCCESS, 5)
                     props.updateCVs(user)
+                    props.setLoading(false)
                 }).catch((error:loginError) => {
                     if (error.response.data.error) {
                         const cooldown = error.response.data.cooldownEnd && error.response.data.cooldownEnd / 1000

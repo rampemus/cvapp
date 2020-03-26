@@ -37,6 +37,8 @@ Scenario: Login page accepts Username and Password
   Input Text  username  ${USERNAME}
   Input Text  password  ${PASSWORD}
   Click Element  login
+  Wait for react  reducer=loader
+  Page should contain  Curriculum Vitae
 
 *** Keywords ***
 
@@ -47,7 +49,5 @@ Start React and Open Browser
   Set Window Size  1280  1024
 
 Stop React and Close Browser
-  # stop react
-
   Stop Webpack
   Close Browser

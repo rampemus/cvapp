@@ -78,7 +78,7 @@ const Users: React.FC<Props> = (props) => {
 
   const [showAddUser, setShowAddUser] = useState(false) 
   const location = useLocation()
-  const userSelected = location.pathname.includes('/users/') ? true : false
+  const userSelected = location.pathname.includes('/users') && location.pathname.length > '/users/'.length ? true : false
 
   if (userSelected) {
     return <Route exact path="/users/:username" render={({ match }) => 

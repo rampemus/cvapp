@@ -46,9 +46,7 @@ Scenario: Login page accepts Username and Password
 #   Page should contain  Username/password is
 
 Scenario: Create test user
-  Go to  ${SERVER}
-  Wait for react  reducer=loader
-  Click Element  Users
+  Go to  ${SERVER}/users/
   Wait for react  reducer=loader
   Click Element  AddUser
   Wait for react  reducer=loader
@@ -60,6 +58,12 @@ Scenario: Create test user
   Click Element  SubmitUserForm
   Wait for react  reducer=loader
   Page should contain  User ${TEST_USERNAME} was created
+
+Scenario: Login with created test user
+  Click Element  Logout
+  Login with Test User
+  Wait for react  reducer=loader
+  Page should contain  Logged in as ${TEST_USERNAME}
 
 Scenario: Remove test user
   Go to  ${SERVER}/users/
@@ -86,5 +90,13 @@ Login with Root User
   Wait for react
   Input Text  username  ${USERNAME}
   Input Text  password  ${PASSWORD}
+  Click Element  RememberMeCheckbox
+  Click Element  login
+
+Login with Test User
+  Go to  ${SERVER}
+  Wait for react
+  Input Text  username  ${TEST_USERNAME}
+  Input Text  password  ${TEST_PASSWORD}
   Click Element  RememberMeCheckbox
   Click Element  login

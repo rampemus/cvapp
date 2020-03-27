@@ -33,7 +33,7 @@ const Menu: React.FC<Props> = (props) => {
     const showLogout = props.user && props.user.token.length > 2
     const renderLogout = () => {
         if (showLogout) {
-            return (<Link to='/'><button className='setting-item logout-button' onClick={() => {
+            return (<Link to='/'><button id='Logout' className='setting-item logout-button' onClick={() => {
                 props.logoutUser()
                 props.clearCVS()
             }}>
@@ -53,22 +53,22 @@ const Menu: React.FC<Props> = (props) => {
                     <img src='./logo.svg' width='38px' height='38px' alt='logo'/>
                 </div>
                 <div className='menu-items'>
-                    <Link to='/' >
+                    <Link id='CurriculumVitae' to='/'>
                         <div className={location.pathname === '/'
                         ? 'menu-item selected'
                         : 'menu-item'}>Curriculum Vitae</div>
                     </Link>
-                    <Link to='/users' id='Users'>
+                    <Link id='Users' to='/users'>
                         <div className={location.pathname.includes('/users')
                         ? 'menu-item selected'
                         : 'menu-item'}>Users</div>
                     </Link>
-                    <Link to={`/mycv${props.lastOpenedCV.length > 1 ? '/' + props.lastOpenedCV : ''}`}>
+                    <Link id='MyCV' to={`/mycv${props.lastOpenedCV.length > 1 ? '/' + props.lastOpenedCV : ''}`}>
                         <div className={location.pathname.includes('/mycv')
                         ? 'menu-item selected'
                         : 'menu-item'}>MyCV</div>
                     </Link>
-                    <Link to='/about'>
+                    <Link id='About' to='/about'>
                         <div className={location.pathname === '/about'
                         ? 'menu-item selected'
                         : 'menu-item'}>About</div>

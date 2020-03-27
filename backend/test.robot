@@ -8,7 +8,7 @@ ${SERVER}               http://${HOST}:${PORT}
 
 *** Settings ***
 
-Documentation   Login page
+Documentation   Login and user handling
 Library         SeleniumLibrary  timeout=5  implicit_wait=0
 Library         ReactLibrary
 Library         DebugLibrary
@@ -36,17 +36,16 @@ Scenario: Login page accepts Username and Password
   Wait for react  reducer=loader
   Page should contain  Curriculum Vitae
 
-Scenario: Login and create random user
-  Go to  ${SERVER}
-  Wait for react  reducer=loader
-  Click Element  Users
-  Wait for react  reducer=loader
-  Click Element  AddRandomUser
-  Wait for react  reducer=loader
-  Wait for react  reducer=loader
-  Page should contain  Username/password is
+# Scenario: Create random user
+#   Go to  ${SERVER}
+#   Wait for react  reducer=loader
+#   Click Element  Users
+#   Wait for react  reducer=loader
+#   Click Element  AddRandomUser
+#   Wait for react  reducer=loader
+#   Page should contain  Username/password is
 
-Scenario: Login and create test user
+Scenario: Create test user
   Go to  ${SERVER}
   Wait for react  reducer=loader
   Click Element  Users
@@ -61,6 +60,14 @@ Scenario: Login and create test user
   Click Element  SubmitUserForm
   Wait for react  reducer=loader
   Page should contain  User ${TEST_USERNAME} was created
+
+Scenario: Remove test user
+  Go to  ${SERVER}/users/
+  Wait for react  reducer=loader
+  Mouse Over  LinkTo${TEST_USERNAME}
+  Click Element  Delete${TEST_USERNAME}
+  Wait for react  reducer=loader
+  Page should contain  User ${TEST_USERNAME} was deleted
 
 *** Keywords ***
 

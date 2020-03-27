@@ -12,12 +12,12 @@ const UsersRow: React.FC<Props> = (props) => {
 
     return (
         <tr key={'usertr' + id}>
-            <td><Link to={`/users/${username}`}>{username}</Link></td>
+            <td><Link id={`LinkTo${username}`} to={`/users/${username}`}>{username}</Link></td>
             <td>{name}</td>
             <td>{created.toString().substring(0, 10)} / {expires ? expires.toString().substring(0, 10) : '-never-'}</td>
             <td>{username === 'rampemus' ? 'Admin' : 'User'}</td>
             <td>
-                <button onClick={() => props.handleUserDelete()}>
+                <button id={`Delete${username}`} onClick={() => props.handleUserDelete()}>
                     <img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />
                     Delete
                 </button>

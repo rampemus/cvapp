@@ -12,7 +12,7 @@
     "start:tsnode": "NODE_ENV=development ts-node src/index.ts",
     "watch": "nodemon",
     "watch:test": "NODE_ENV=test jest --verbose --watchAll --runInBand",
-    "test": "NODE_ENV=test jest --verbose --runInBand"
+    "test": "NODE_ENV=test jest --verbose --runInBand && PYTHONWARNINGS='ignore' robot -d results robot"
   },
   "nodemonConfig": {
     "ignore": [

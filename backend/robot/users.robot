@@ -24,21 +24,31 @@ Create test user
   Click Element  AddUser
   Wait for react  reducer=loader
   Page should contain  Create new user
-  Input Text  NewUserFullName  ${TEST_USERNAME}
+  Input Text  NewUserFullName  ${TEST_USERFULLNAME}
   Input Text  NewUserName  ${TEST_USERNAME}
   Input Text  NewPassword  ${TEST_PASSWORD}
   Input Text  NewPasswordConfirm  ${TEST_PASSWORD}
   Click Element  SubmitUserForm
   Wait for react  reducer=loader
-  Page should contain  User ${TEST_USERNAME} was created
+  Page should contain  User ${TEST_USERFULLNAME} was created
 
 Login with created test user
   Click Element  Logout
   Login with Test User
   Wait for react  reducer=loader
-  Page should contain  Logged in as ${TEST_USERNAME}
+  Page should contain  Logged in as ${TEST_USERFULLNAME}
 
-# TODO: Test user editing tools
+User can change name
+  Go to  ${SERVER}/users/
+  Click Element  LinkTo${TEST_USERNAME}
+  Wait for react  reducer=loader
+  Click Element  EditUser
+  Input Text  NewUserFullName  Edited
+  Click Element  SubmitUserForm
+  Wait for react  reducer=loader
+  Page should contain  ${TEST_USERFULLNAME}Edited
+
+# TODO: test editing password
 
 Remove test user
   Go to  ${SERVER}/users/
@@ -46,5 +56,5 @@ Remove test user
   Mouse Over  LinkTo${TEST_USERNAME}
   Click Element  Delete${TEST_USERNAME}
   Wait for react  reducer=loader
-  Page should contain  User ${TEST_USERNAME} was deleted
+  Page should contain  User ${TEST_USERFULLNAME}Edited was deleted
 

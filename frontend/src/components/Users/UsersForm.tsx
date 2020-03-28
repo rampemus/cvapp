@@ -113,6 +113,7 @@ const UsersForm: React.FC<Props> = (props) => {
             props.reloadUsers()
             props.closeForm()
             props.showNotification('User modifications updated successfully', Type.SUCCESS, 5)
+            props.setLoading(false)
           }).catch((error) => {
             props.showNotification(error.response.data.error, Type.ERROR, 5) 
           })

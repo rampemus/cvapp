@@ -67,7 +67,7 @@ const User: React.FC<Props> = (props) => {
           <div>
             <button disabled className='toolbar-button'>add random user</button>
             <button disabled className='toolbar-button'>add user...</button>
-            <button className='toolbar-button' onClick={() => {
+            <button id='EditUser' className='toolbar-button' onClick={() => {
               setShowEditUser(!showEditUser)
             }}>
               edit user...

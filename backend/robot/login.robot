@@ -7,11 +7,11 @@ Library         DebugLibrary
 Library         OperatingSystem
 Library         WebpackLibrary
 
-Suite Setup     Start React and open browser
-Suite Teardown  Stop React and close browser
-
 Resource        ${CURDIR}/env.robot
 Resource        ${CURDIR}/common.robot
+
+Suite Setup     Start React and open browser
+Suite Teardown  Stop React and close browser
 
 
 *** Test Cases ***
@@ -29,14 +29,13 @@ Login page accepts Username and Password
   Wait for react  reducer=loader
   Page should contain  Curriculum Vitae
 
-*** Keywords ***
-
-Start React and Open Browser
-  Start Webpack  npm run start:tsnode --scripts-prepend-node-path  check=Server running on port 3004
-  Set environment variable  BROWSER  none
-  Open Browser  ${SERVER}  ${BROWSER}
-  Set Window Size  1280  1024
-
-Stop React and Close Browser
-  Stop Webpack
-  Close Browser
+After login Users MyCV and About are accessible
+  Click Element  Users
+  Wait for react  reducer=loader
+  Page should contain  Created/Expires
+  Click Element  MyCV
+  Wait for react  reducer=loader
+  Page should contain  My CV's
+  Click Element  About
+  Wait for react  reducer=loader
+  Page should contain  Version

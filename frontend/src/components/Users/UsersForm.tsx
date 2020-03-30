@@ -137,8 +137,8 @@ const UsersForm: React.FC<Props> = (props) => {
             <input type="radio" name="expires" onClick={() => setExpires(new Date(CalcDateAfter.ONE_MONTH))} /> a month
             <input type="radio" name="expires" onClick={() => setExpires(null)} /> forever
           </div>
-          {!props.newUser && <p id='OldPassword' key='olduserparagraph'>Re-enter old password</p>}
-          {!props.newUser && <Field key='oldpasswordfield' className='user-form-input' type='password' name='oldPassword' disabled={isSubmitting} />}
+          {!props.newUser && <p key='olduserparagraph'>Re-enter old password</p>}
+          {!props.newUser && <Field id='OldPassword' key='oldpasswordfield' className='user-form-input' type='password' name='oldPassword' disabled={isSubmitting} />}
           <div key={'oldpassworderrormessage'} className='form-input-error-message'>{errors?.oldPassword}</div>
           {props.newUser ? <p>Password for new user</p> : <p>New password</p>}
           <Field id='NewPassword' key='passwordfield' className='user-form-input' type='password' name='password' disabled={isSubmitting} />

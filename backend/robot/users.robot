@@ -40,6 +40,7 @@ Login with created test user
 
 User can change name
   Go to  ${SERVER}/users/
+  Wait for react  reducer=loader
   Click Element  LinkTo${TEST_USERNAME}
   Wait for react  reducer=loader
   Click Element  EditUser
@@ -48,10 +49,32 @@ User can change name
   Wait for react  reducer=loader
   Page should contain  ${TEST_USERFULLNAME}Edited
 
-# TODO: test editing password
+User can change password
+  Go to  ${SERVER}/users/
+  Wait for react  reducer=loader
+  Click Element  LinkTo${TEST_USERNAME}
+  Wait for react  reducer=loader
+  Click Element  EditUser
+  Input Text  OldPassword  ${TEST_PASSWORD}
+  Input Text  NewPassword  ${TEST_PASSWORD}Edited
+  Input Text  NewPasswordConfirm  ${TEST_PASSWORD}Edited
+  Click Element  SubmitUserForm
+  Wait for react  reducer=loader
+  Page should contain  ${TEST_USERFULLNAME}Edited
+  Click Element  Logout
+  Go to  ${SERVER}
+  Wait for react
+  Input Text  username  ${TEST_USERNAME}
+  Input Text  password  ${TEST_PASSWORD}Edited
+  Click Element  RememberMeCheckbox
+  Click Element  login
+  Wait for react  reducer=loader
+  Page should contain  Logged in as ${TEST_USERFULLNAME}Edited
 
 Remove test user
-  Go to  ${SERVER}/users/
+  Go to  ${SERVER}
+  Wait for react  reducer=loader
+  Click Element  Users
   Wait for react  reducer=loader
   Mouse Over  LinkTo${TEST_USERNAME}
   Click Element  Delete${TEST_USERNAME}

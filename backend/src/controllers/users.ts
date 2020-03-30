@@ -149,14 +149,18 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
         }
 
         const passwordCorrect = !body.newPassword ? true : user // password needed only for newPassword
-            ? await bcrypt.compare(body.password, user.passwordHash)
-            : await bcrypt.hash(body.password + '', 10)
+        ? await bcrypt.compare(body.password + '', user.passwordHash)
+        : await bcrypt.hash(body.password + '', 10)
 
         if (user && !passwordCorrect) {
             return response.status(401).send({
                 error: 'Invalid old password',
             }).end()
         }
+
+        if (!body.passwordHash) { delete body.passwordHash }
+        delete body.newPassword
+        delete body.password
 
         const updatedUser = await User.findOneAndUpdate({ _id: user._id + '' }, body)
             .catch((error) => {

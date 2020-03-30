@@ -109,7 +109,8 @@ export interface IUserChanges {
         username?: string,
         password?: string,
         newPassword?: string,
-        expires?: Date | null
+        expires?: Date | null,
+        passwordHash?: string
     }
 }
 
@@ -119,7 +120,15 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
 
         const id = request.body.id
 
-        const body: IUserChanges['changes'] = request.body.changes
+        const saltRounds = 10
+        const body: IUserChanges['changes'] = {
+            ...request.body.changes,
+            passwordHash: request.body.changes.newPassword
+            ? await bcrypt.hash(request.body.changes.newPassword + '', saltRounds)
+            : undefined
+        }
+
+        console.log('user changes body', body)
 
         const user = await User.findOne({ _id: id }).populate('owner')
 

@@ -128,8 +128,6 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
             : undefined
         }
 
-        console.log('user changes body', body)
-
         const user = await User.findOne({ _id: id }).populate('owner')
 
         if (!(

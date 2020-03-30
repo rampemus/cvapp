@@ -71,13 +71,32 @@ User can change password
   Wait for react  reducer=loader
   Page should contain  Logged in as ${TEST_USERFULLNAME}Edited
 
+User can change username
+  Go to  ${SERVER}/users/
+  Wait for react  reducer=loader
+  Click Element  LinkTo${TEST_USERNAME}
+  Wait for react  reducer=loader
+  Click Element  EditUser
+  Input Text  NewUserName  Edited
+  Click Element  SubmitUserForm
+  Wait for react  reducer=loader
+  Click Element  Logout
+  Go to  ${SERVER}
+  Wait for react
+  Input Text  username  ${TEST_USERNAME}Edited
+  Input Text  password  ${TEST_PASSWORD}Edited
+  Click Element  RememberMeCheckbox
+  Click Element  login
+  Wait for react  reducer=loader
+  Page should contain  Logged in as ${TEST_USERFULLNAME}Edited
+
 Remove test user
   Go to  ${SERVER}
   Wait for react  reducer=loader
   Click Element  Users
   Wait for react  reducer=loader
-  Mouse Over  LinkTo${TEST_USERNAME}
-  Click Element  Delete${TEST_USERNAME}
+  Mouse Over  LinkTo${TEST_USERNAME}Edited
+  Click Element  Delete${TEST_USERNAME}Edited
   Wait for react  reducer=loader
   Page should contain  User ${TEST_USERFULLNAME}Edited was deleted
 

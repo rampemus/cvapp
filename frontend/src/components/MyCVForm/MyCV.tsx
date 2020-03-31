@@ -1,15 +1,15 @@
 import React from 'react'
-import Toolbar from './Toolbar'
-import { AppState } from '..'
+import Toolbar from '../Toolbar'
+import { AppState } from '../..'
 import { connect } from 'react-redux'
 import './MyCV.css'
-import cvService, { ICV, ServiceType } from '../services/cvService'
+import cvService, { ICV, ServiceType } from '../../services/cvService'
 import { Link, Route, useLocation } from 'react-router-dom'
-import MyCVForm from './MyCVForm/MyCVForm'
-import { UserState } from '../reducers/userReducer'
-import { updateCVs, setPreviousCV } from '../reducers/cvReducer'
-import Home from './Home'
-import { showNotification, Type } from '../reducers/notificationReducer'
+import MyCVForm from './MyCVForm'
+import { UserState } from '../../reducers/userReducer'
+import { updateCVs, setPreviousCV } from '../../reducers/cvReducer'
+import Home from '../Home'
+import { showNotification, Type } from '../../reducers/notificationReducer'
 
 interface OwnProps {}
 export interface StateProps { user: UserState, cvs?: ICV[] }

@@ -17,7 +17,7 @@ import { updateCVs } from './reducers/cvReducer'
 import Home from './components/Home'
 
 interface OwnProps {
-  updateStatus: Function
+  updateStatus?: Function
 }
 export interface StateProps { user: UserState }
 export interface DispatchProps {
@@ -53,7 +53,7 @@ const App: React.FC<Props> = (props) => {
   },[])
 
   const content = () => {
-    props.updateStatus()
+    props.updateStatus && props.updateStatus()
     if (!hideLogin) {
       return (
         <div className='content'>
@@ -87,6 +87,5 @@ const App: React.FC<Props> = (props) => {
     </div>
   )
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

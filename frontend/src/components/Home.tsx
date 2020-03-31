@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Preview.css'
 import { connect } from 'react-redux'
 import { AppState } from '..'
@@ -53,7 +53,11 @@ const Home: React.FC<Props> = (props) => {
     return <div>No default cv</div>
   } 
 
-  props.setLoading(false)
+  // for preventing using componentDidUpdate
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(()=>{
+    props.setLoading(false)
+  },[props])
 
   const contact = cv.contact
   const reference: IContact[] | undefined = cv.reference
@@ -61,7 +65,7 @@ const Home: React.FC<Props> = (props) => {
   const education: IExperience[] | undefined = cv.education
   const communication: ICommunication | undefined = cv.communication
 
-  return(
+  return (
     <div className='cv-container'>
       <div className='cv-container-item contact-container'>
         <div>

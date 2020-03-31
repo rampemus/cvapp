@@ -3,12 +3,13 @@ import React from 'react'
 interface DeleteProps {
   isSubmitting: boolean,
   handleDelete(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void,
+  id: string
 }
 
 const DeleteButton: React.FC<DeleteProps> = (props) => {
-  const { isSubmitting } = props
+  const { id, isSubmitting } = props
   return(
-    <button className='form-delete-button form-button' type='submit' onClick={props.handleDelete} disabled={isSubmitting}>
+    <button id={id} className='form-delete-button form-button' type='submit' onClick={props.handleDelete} disabled={isSubmitting}>
       Delete
     </button>
   )
@@ -19,12 +20,14 @@ interface ClearProps {
   values: any,
   clearActionValues: any,
   setValues(values: any): void,
+  id: string
 }
 
 const ClearButton: React.FC<ClearProps> = (props) => {
-  const { isSubmitting, values, clearActionValues, setValues } = props
+  const { id, isSubmitting, values, clearActionValues, setValues } = props
   return(
     <button
+      id={id}
       className='form-clear-button form-button'
       type='submit'
       disabled={isSubmitting}
@@ -42,12 +45,14 @@ interface CancelProps {
   isSubmitting: boolean,
   setValues(values: any): void,
   formValues: any,
+  id: string
 }
 
 const CancelButton: React.FC<CancelProps> = (props) => {
-  const { isSubmitting, setValues, formValues } = props
+  const { id, isSubmitting, setValues, formValues } = props
   return(
     <button
+      id={id}
       className='form-cancel-button form-button'
       type='submit'
       disabled={isSubmitting}
@@ -63,12 +68,14 @@ const CancelButton: React.FC<CancelProps> = (props) => {
 
 interface SaveProps {
   isSubmitting: boolean,
+  id: string
 }
 
 const SaveButton: React.FC<SaveProps> = (props) => {
-  const { isSubmitting } = props
+  const { id, isSubmitting } = props
   return(
     <button
+      id={id}
       className='form-save-button form-button'
       type='submit' disabled={isSubmitting}
     >

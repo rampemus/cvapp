@@ -55,7 +55,7 @@ const MyCV: React.FC<Props> = (props) => {
           <Toolbar>
             <div>
             <Link to={`/mycv/${match.params.id}`}>
-              <button className='toolbar-button'>
+              <button id='ReturnToEditor' className='toolbar-button'>
                 Return to editor
               </button>
             </Link>
@@ -68,8 +68,7 @@ const MyCV: React.FC<Props> = (props) => {
         <div>
           <Toolbar>
             <div>
-              <button className='toolbar-button' disabled={formActive}>Clear CV</button>
-              <button className='toolbar-button' onClick={(event) => {
+              <button id='DuplicateDefault' className='toolbar-button' onClick={(event) => {
                 event.preventDefault()
                 myCVs[0] && cvService.duplicateCV(myCVs[0], props.user, props.showNotification)
                   .then((response) => {
@@ -83,6 +82,7 @@ const MyCV: React.FC<Props> = (props) => {
               }}>Duplicate Default</button>
               <Route exact path="/mycv/:id" render={({ match }) => [
                 <button
+                  id='SetAsDefaultCV'
                   key={'toolbarbutton' + match.params.id}
                   className='toolbar-button'
                   disabled={formActive}
@@ -100,7 +100,7 @@ const MyCV: React.FC<Props> = (props) => {
                   })}}
                 >Set As Default CV</button>,
                 <Link key={'toolbarlink' + match.params.id} to={`/preview/${match.params.id}`}>
-                  <button className='toolbar-button'>Preview</button>
+                  <button id='Preview' className='toolbar-button'>Preview</button>
                 </Link>
               ]}/> 
               <Route exact path="/mycv" render={({ match }) => [
@@ -123,7 +123,7 @@ const MyCV: React.FC<Props> = (props) => {
                   marginBottom: selected ? '2px' : '10px'
                 }}
               >
-              <Link to={`/mycv/${cv.id}`} onClick={()=>{props.setPreviousCV(cv.id)}}>
+              <Link id={'Select' + cv.id} to={`/mycv/${cv.id}`} onClick={()=>{props.setPreviousCV(cv.id)}}>
                 <img src='emptycv.svg' width='150px' height='180px' alt='document'/>
                   {index === 0 && <div className='default-label'>default</div>}
                 <div style={{zIndex: 1}}>
@@ -132,6 +132,7 @@ const MyCV: React.FC<Props> = (props) => {
                 </div>
               </Link> 
               <button
+                id={'Delete' + cv.id}
                 onClick={(event) => {
                   event.preventDefault()
                   cvService.deleteObject(ServiceType.CV, cv.id, props.user)
@@ -141,11 +142,12 @@ const MyCV: React.FC<Props> = (props) => {
                   })
                 }}
               >
-              <img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />
+                <img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />
               </button>
               </div>
             })}
             <img
+              id='CreateEmptyCV'
               src='emptycvplus.svg'
               width='150px'
               height='180px'

@@ -25,7 +25,7 @@ Login page loads
   Page should contain button  Login
 
 Login page accepts Username and Password
-  Login with Root User
+  Login  ${USERNAME}  ${PASSWORD}
   Wait for react  reducer=loader
   Page should contain  Curriculum Vitae
 

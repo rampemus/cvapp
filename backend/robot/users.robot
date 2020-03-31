@@ -17,7 +17,7 @@ Suite Teardown  Stop React and close browser
 *** Test Cases ***
 
 Create test user
-  Login with Root User
+  Login  ${USERNAME}  ${PASSWORD}
   Wait for react  reducer=loader
   Go to  ${SERVER}/users/
   Wait for react  reducer=loader
@@ -34,27 +34,19 @@ Create test user
 
 Login with created test user
   Click Element  Logout
-  Login with Test User
+  Login  ${TEST_USERNAME}  ${TEST_PASSWORD}
   Wait for react  reducer=loader
   Page should contain  Logged in as ${TEST_USERFULLNAME}
 
 User can change name
-  Go to  ${SERVER}/users/
-  Wait for react  reducer=loader
-  Click Element  LinkTo${TEST_USERNAME}
-  Wait for react  reducer=loader
-  Click Element  EditUser
+  Navigate to user editor  ${TEST_USERNAME}
   Input Text  NewUserFullName  Edited
   Click Element  SubmitUserForm
   Wait for react  reducer=loader
   Page should contain  ${TEST_USERFULLNAME}Edited
 
 User can change password
-  Go to  ${SERVER}/users/
-  Wait for react  reducer=loader
-  Click Element  LinkTo${TEST_USERNAME}
-  Wait for react  reducer=loader
-  Click Element  EditUser
+  Navigate to user editor  ${TEST_USERNAME}
   Input Text  OldPassword  ${TEST_PASSWORD}
   Input Text  NewPassword  ${TEST_PASSWORD}Edited
   Input Text  NewPasswordConfirm  ${TEST_PASSWORD}Edited
@@ -62,31 +54,17 @@ User can change password
   Wait for react  reducer=loader
   Page should contain  ${TEST_USERFULLNAME}Edited
   Click Element  Logout
-  Go to  ${SERVER}
-  Wait for react
-  Input Text  username  ${TEST_USERNAME}
-  Input Text  password  ${TEST_PASSWORD}Edited
-  Click Element  RememberMeCheckbox
-  Click Element  login
+  Login  ${TEST_USERNAME}  ${TEST_PASSWORD}Edited
   Wait for react  reducer=loader
   Page should contain  Logged in as ${TEST_USERFULLNAME}Edited
 
 User can change username
-  Go to  ${SERVER}/users/
-  Wait for react  reducer=loader
-  Click Element  LinkTo${TEST_USERNAME}
-  Wait for react  reducer=loader
-  Click Element  EditUser
+  Navigate to user editor  ${TEST_USERNAME}
   Input Text  NewUserName  Edited
   Click Element  SubmitUserForm
   Wait for react  reducer=loader
   Click Element  Logout
-  Go to  ${SERVER}
-  Wait for react
-  Input Text  username  ${TEST_USERNAME}Edited
-  Input Text  password  ${TEST_PASSWORD}Edited
-  Click Element  RememberMeCheckbox
-  Click Element  login
+  Login  ${TEST_USERNAME}Edited  ${TEST_PASSWORD}Edited
   Wait for react  reducer=loader
   Page should contain  Logged in as ${TEST_USERFULLNAME}Edited
 

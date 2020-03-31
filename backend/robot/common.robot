@@ -17,18 +17,19 @@ Stop React and Close Browser
   Run Keyword If  '${PORT}' == '3004'  Run Keyword And Ignore Error  Stop Webpack
   Close Browser
 
-Login with Root User
+Login
+  [Arguments]  ${LOGIN_USERNAME}  ${LOGIN_PASSWORD}
   Go to  ${SERVER}
   Wait for react
-  Input Text  username  ${USERNAME}
-  Input Text  password  ${PASSWORD}
+  Input Text  username  ${LOGIN_USERNAME}
+  Input Text  password  ${LOGIN_PASSWORD}
   Click Element  RememberMeCheckbox
-  Click Element  login
+  Click Element  login 
 
-Login with Test User
-  Go to  ${SERVER}
-  Wait for react
-  Input Text  username  ${TEST_USERNAME}
-  Input Text  password  ${TEST_PASSWORD}
-  Click Element  RememberMeCheckbox
-  Click Element  login
+Navigate to user editor
+  [Arguments]  ${NAVIGATE_USERNAME}
+  Go to  ${SERVER}/users/
+  Wait for react  reducer=loader
+  Click Element  LinkTo${NAVIGATE_USERNAME}
+  Wait for react  reducer=loader
+  Click Element  EditUser

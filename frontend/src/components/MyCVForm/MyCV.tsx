@@ -10,13 +10,15 @@ import { UserState } from '../../reducers/userReducer'
 import { updateCVs, setPreviousCV } from '../../reducers/cvReducer'
 import Home from '../Home'
 import { showNotification, Type } from '../../reducers/notificationReducer'
+import { setLoading } from '../../reducers/loadingReducer'
 
 interface OwnProps {}
 export interface StateProps { user: UserState, cvs?: ICV[] }
 export interface DispatchProps {
   updateCVs: (user: UserState) => void,
   setPreviousCV: (id: string) => void,
-  showNotification: (message: string, type: Type, lifeTime?: number) => void
+  showNotification: (message: string, type: Type, lifeTime?: number) => void,
+  setLoading: Function
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -29,7 +31,8 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
 const mapDispatchToProps: DispatchProps = {
   updateCVs,
   setPreviousCV,
-  showNotification
+  showNotification,
+  setLoading
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -70,10 +73,12 @@ const MyCV: React.FC<Props> = (props) => {
             <div>
               <button id='DuplicateDefault' className='toolbar-button' onClick={(event) => {
                 event.preventDefault()
+                props.setLoading(true)
                 myCVs[0] && cvService.duplicateCV(myCVs[0], props.user, props.showNotification)
                   .then((response) => {
                     props.updateCVs(props.user)
                     props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
+                    props.setLoading(false)
                   }).catch((error) => {
                     if (error.response.data.error) {
                       props.showNotification(error.response.data.error, Type.ERROR, 12)
@@ -88,10 +93,12 @@ const MyCV: React.FC<Props> = (props) => {
                   disabled={formActive}
                   onClick={(event) => {
                       event.preventDefault()
+                      props.setLoading(true)
                       cvService.setCVDefault(match.params.id, props.user)
                     .then(() => {
                       props.updateCVs(props.user)
                       props.showNotification('Default CV updated', Type.SUCCESS, 4)
+                      props.setLoading(false)
                     })
                     .catch((error) => {
                       if (error.response.data.error) {
@@ -123,7 +130,7 @@ const MyCV: React.FC<Props> = (props) => {
                   marginBottom: selected ? '2px' : '10px'
                 }}
               >
-              <Link id={'Select' + cv.id} to={`/mycv/${cv.id}`} onClick={()=>{props.setPreviousCV(cv.id)}}>
+              <Link id={'Select' + cv.id} className='cv-selector-item' to={`/mycv/${cv.id}`} onClick={()=>{props.setPreviousCV(cv.id)}}>
                 <img src='emptycv.svg' width='150px' height='180px' alt='document'/>
                   {index === 0 && <div className='default-label'>default</div>}
                 <div style={{zIndex: 1}}>
@@ -135,10 +142,12 @@ const MyCV: React.FC<Props> = (props) => {
                 id={'Delete' + cv.id}
                 onClick={(event) => {
                   event.preventDefault()
+                  props.setLoading(true)
                   cvService.deleteObject(ServiceType.CV, cv.id, props.user)
                   .then((response) => {
                     props.updateCVs(props.user)
                     props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
+                    props.setLoading(false)
                   })
                 }}
               >
@@ -154,9 +163,11 @@ const MyCV: React.FC<Props> = (props) => {
               alt='document'
               onClick={(event)=>{
                 event.preventDefault()
+                props.setLoading(true)
                 cvService.createEmptyCV(props.user).then(response => {
                   props.updateCVs(props.user)
                   props.showNotification('Empty CV created', Type.SUCCESS, 4)
+                  props.setLoading(false)
                 })
               }}
             /> 

@@ -14,8 +14,8 @@
     "watch:jest": "NODE_ENV=test jest --verbose --watchAll --runInBand",
     "test": "NODE_ENV=test jest --verbose --runInBand && npm run test:robot",
     "test:jest": "NODE_ENV=test jest --verbose --runInBand",
-    "test:robot": "PYTHONWARNINGS='ignore' robot -d results robot",
-    "test:robot:dev": "PYTHONWARNINGS='ignore' robot --variable PORT:3000 -d results robot"
+    "test:robot": "PYTHONWARNINGS='ignore' robot -d results tests",
+    "test:robot:dev": "PYTHONWARNINGS='ignore' robot --variable PORT:3000 -d results tests"
   },
   "nodemonConfig": {
     "ignore": [

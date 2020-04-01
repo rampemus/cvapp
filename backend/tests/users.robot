@@ -1,14 +1,14 @@
 *** Settings ***
 
-Documentation   Login and user handling
+Documentation   Users
 Library         SeleniumLibrary  timeout=5  implicit_wait=0
 Library         ReactLibrary
 Library         DebugLibrary
 Library         OperatingSystem
 Library         WebpackLibrary
 
-Resource        ${CURDIR}/env.robot
-Resource        ${CURDIR}/common.robot
+Resource        ${CURDIR}/resources/env.robot
+Resource        ${CURDIR}/resources/common.robot
 
 Suite Setup     Start React and open browser
 Suite Teardown  Stop React and close browser

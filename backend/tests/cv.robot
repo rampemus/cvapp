@@ -6,6 +6,7 @@ Library         ReactLibrary
 Library         DebugLibrary
 Library         OperatingSystem
 Library         WebpackLibrary
+Library         BuiltIn
 
 Resource        ${CURDIR}/resources/env.robot
 Resource        ${CURDIR}/resources/common.robot
@@ -26,15 +27,16 @@ Create test CV
   Page should contain  Empty CV created
 
 Select empty CV
+  Sleep  500ms
   ${TEST_CV_SELECT}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[1].id
   Click Element  ${TEST_CV_SELECT}
   Wait for react  reducer=loader
 
 Edit CV fields name, github and techlist
-  ${NAME_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[0].getElementsByTagName('input')[0].id
-  ${GITHUB_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[0].getElementsByTagName('input')[1].id
-  ${TECHLIST_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[0].getElementsByTagName('input')[2].id
-  ${SAVE_BUTTON}=  Execute JavaScript  return document.getElementsByClassName('form-component')[0].getElementsByTagName('button')[3].id
+  ${NAME_FIELD}=        Find form  0  input  0
+  ${GITHUB_FIELD}=      Find form  0  input  1
+  ${TECHLIST_FIELD}=    Find form  0  input  2
+  ${SAVE_BUTTON}=       Find form  0  button  3
   Input Text  ${NAME_FIELD}  -edited
   Input Text  ${GITHUB_FIELD}  https://github.com/edited
   Input Text  ${TECHLIST_FIELD}  JavaScript Java Edited
@@ -51,16 +53,16 @@ Edit CV fields name, github and techlist
 
 Edit contact fields firstname, lastname, email, linkedin, phone, available, address, company and picture
   Click Element  ReturnToEditor
-  ${FIRSTNAME_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[0].id
-  ${LASTNAME_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[1].id
-  ${EMAIL_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[2].id
-  ${LINKEDIN_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[3].id
-  ${PHONE_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[4].id
-  ${AVAILABLE_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[5].id
-  ${ADDRESS_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[6].id
-  ${COMPANY_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[7].id
-  ${PICTURE_FIELD}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('input')[8].id
-  ${SAVE_BUTTON}=  Execute JavaScript  return document.getElementsByClassName('form-component')[1].getElementsByTagName('button')[3].id
+  ${FIRSTNAME_FIELD}=   Find form  1  input  0
+  ${LASTNAME_FIELD}=    Find form  1  input  1
+  ${EMAIL_FIELD}=       Find form  1  input  2
+  ${LINKEDIN_FIELD}=    Find form  1  input  3
+  ${PHONE_FIELD}=       Find form  1  input  4
+  ${AVAILABLE_FIELD}=   Find form  1  input  5
+  ${ADDRESS_FIELD}=     Find form  1  input  6
+  ${COMPANY_FIELD}=     Find form  1  input  7
+  ${PICTURE_FIELD}=     Find form  1  input  8
+  ${SAVE_BUTTON}=       Find form  1  button  3
   Input Text  ${FIRSTNAME_FIELD}  -edited
   Input Text  ${LASTNAME_FIELD}  -edited
   Input Text  ${EMAIL_FIELD}  edited@mail.com
@@ -72,7 +74,6 @@ Edit contact fields firstname, lastname, email, linkedin, phone, available, addr
   Input Text  ${PICTURE_FIELD}  http://localhost:3004/kasvokuva.jpg
   Click Element  ${SAVE_BUTTON}
   Wait for react  reducer=loader
-  Reload Page
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
@@ -85,6 +86,23 @@ Edit contact fields firstname, lastname, email, linkedin, phone, available, addr
   Page should contain  Testaajankatu 9, Helsinki 00100
   Page should not contain  Test Company OY
   Page should contain image  ContactPicture  src=http://localhost:3004/kasvokuva.jpg
+
+Edit profile fields name and content
+  Click Element  ReturnToEditor
+  Click Element  profileAdd
+  ${NAME_FIELD}=        Find form  2  input  0
+  ${CONTENT_FIELD}=     Find form  2  textarea  0
+  ${SAVE_BUTTON}=       Find form  2  button  3
+  Input Text  ${NAME_FIELD}  Edited profile name
+  Input Text  ${CONTENT_FIELD}  Edited profile content
+  Mouse Over  projectsAdd
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Page should not contain  Edited profile name
+  Page should contain  Edited profile content
 
 Delete test CV and test user
   Click Element  ReturnToEditor

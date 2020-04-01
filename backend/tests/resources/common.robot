@@ -51,6 +51,11 @@ Create test user with root user
   Click Element  SubmitUserForm
   Wait for react  reducer=loader
 
+Find form
+  [Arguments]  ${FORM_COMPONENT}  ${TAG_TYPE}  ${FIELD}
+  ${ELEMENT_ID}=  Execute JavaScript  return document.getElementsByClassName('form-component')[${FORM_COMPONENT}].getElementsByTagName('${TAG_TYPE}')[${FIELD}].id
+  [return]  ${ELEMENT_ID}
+
 Logout and login with test user
   Click Element  Logout
   Login  ${TEST_USERNAME}  ${TEST_PASSWORD}

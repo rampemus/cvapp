@@ -33,3 +33,9 @@ Navigate to user editor
   Click Element  LinkTo${NAVIGATE_USERNAME}
   Wait for react  reducer=loader
   Click Element  EditUser
+
+Navigate to user creator
+  Go to  ${SERVER}/users/
+  Wait for react  reducer=loader
+  Click Element  AddUser
+  Wait for react  reducer=loader

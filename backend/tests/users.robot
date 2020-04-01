@@ -19,10 +19,7 @@ Suite Teardown  Stop React and close browser
 Create test user
   Login  ${USERNAME}  ${PASSWORD}
   Wait for react  reducer=loader
-  Go to  ${SERVER}/users/
-  Wait for react  reducer=loader
-  Click Element  AddUser
-  Wait for react  reducer=loader
+  Navigate to user creator
   Page should contain  Create new user
   Input Text  NewUserFullName  ${TEST_USERFULLNAME}
   Input Text  NewUserName  ${TEST_USERNAME}

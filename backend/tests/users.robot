@@ -1,6 +1,6 @@
 *** Settings ***
 
-Documentation   Users
+Documentation   Creating, editing and deleting
 Library         SeleniumLibrary  timeout=5  implicit_wait=0
 Library         ReactLibrary
 Library         DebugLibrary
@@ -17,22 +17,11 @@ Suite Teardown  Stop React and close browser
 *** Test Cases ***
 
 Create test user
-  Login  ${USERNAME}  ${PASSWORD}
-  Wait for react  reducer=loader
-  Navigate to user creator
-  Page should contain  Create new user
-  Input Text  NewUserFullName  ${TEST_USERFULLNAME}
-  Input Text  NewUserName  ${TEST_USERNAME}
-  Input Text  NewPassword  ${TEST_PASSWORD}
-  Input Text  NewPasswordConfirm  ${TEST_PASSWORD}
-  Click Element  SubmitUserForm
-  Wait for react  reducer=loader
+  Create test user with root user
   Page should contain  User ${TEST_USERFULLNAME} was created
 
 Login with created test user
-  Click Element  Logout
-  Login  ${TEST_USERNAME}  ${TEST_PASSWORD}
-  Wait for react  reducer=loader
+  Logout and login with test user
   Page should contain  Logged in as ${TEST_USERFULLNAME}
 
 User can change name
@@ -68,10 +57,6 @@ User can change username
 Remove test user
   Go to  ${SERVER}
   Wait for react  reducer=loader
-  Click Element  Users
-  Wait for react  reducer=loader
-  Mouse Over  LinkTo${TEST_USERNAME}Edited
-  Click Element  Delete${TEST_USERNAME}Edited
-  Wait for react  reducer=loader
+  Delete user  ${TEST_USERNAME}Edited
   Page should contain  User ${TEST_USERFULLNAME}Edited was deleted
 

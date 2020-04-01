@@ -5,7 +5,6 @@ ${PORT}                 3004
 ${BROWSER}              headlesschrome
 ${SERVER}               http://${HOST}:${PORT}
 
-
 *** Keywords ***
 
 Start React and Open Browser
@@ -38,4 +37,29 @@ Navigate to user creator
   Go to  ${SERVER}/users/
   Wait for react  reducer=loader
   Click Element  AddUser
+  Wait for react  reducer=loader
+
+Create test user with root user
+  Login  ${USERNAME}  ${PASSWORD}
+  Wait for react  reducer=loader
+  Navigate to user creator
+  Page should contain  Create new user
+  Input Text  NewUserFullName  ${TEST_USERFULLNAME}
+  Input Text  NewUserName  ${TEST_USERNAME}
+  Input Text  NewPassword  ${TEST_PASSWORD}
+  Input Text  NewPasswordConfirm  ${TEST_PASSWORD}
+  Click Element  SubmitUserForm
+  Wait for react  reducer=loader
+
+Logout and login with test user
+  Click Element  Logout
+  Login  ${TEST_USERNAME}  ${TEST_PASSWORD}
+  Wait for react  reducer=loader
+
+Delete user
+  [Arguments]  ${DELETE_USERNAME}
+  Click Element  Users
+  Wait for react  reducer=loader
+  Mouse Over  LinkTo${DELETE_USERNAME}
+  Click Element  Delete${DELETE_USERNAME}
   Wait for react  reducer=loader

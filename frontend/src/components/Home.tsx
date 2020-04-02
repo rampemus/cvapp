@@ -69,7 +69,7 @@ const Home: React.FC<Props> = (props) => {
     <div className='cv-container'>
       <div className='cv-container-item contact-container'>
         <div>
-          <p>{contact.firstname} {contact.lastname}</p>
+          <p id='NameInfo'>{contact.firstname} {contact.lastname}</p>
           {contact.address && <p>{contact.address}</p>}
           {contact.phone && <p>Phone num. {contact.phone}</p>}
           {contact.email && <p>{contact.email}</p>}

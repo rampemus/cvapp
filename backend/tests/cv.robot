@@ -41,9 +41,9 @@ Edit CV fields name, github and techlist
   Input Text  ${GITHUB_FIELD}  https://github.com/edited
   Input Text  ${TECHLIST_FIELD}  JavaScript Java Edited
   Click Element  ${SAVE_BUTTON}
-  Wait for react  reducer=loader
   Wait for react
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should contain  name-required-edited
   Click Element  Preview
   Wait for react
@@ -76,6 +76,7 @@ Edit contact fields firstname, lastname, email, linkedin, phone, available, addr
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
+  Mouse Over  NameInfo
   Page should contain  firstname-required-edited
   Page should contain  lastname-required-edited
   Page should contain  edited@mail.com
@@ -123,6 +124,7 @@ Edit project fields name and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should contain  Edited project name
   Page should contain  Edited project content
   ${PROJECT_GITHUB}=  Project card  0  a  0
@@ -131,6 +133,43 @@ Edit project fields name and content
   Page should contain link  ${PROJECT_GITHUB}  https://github.com/rampemus/cvapp
   Page should contain link  ${PROJECT_SHOWCASE}  http://localhost:3000
   Page should contain image  ${THUMBNAIL_FIELD}  src=http://localhost:3004/project3.png
+
+Edit reference fields firstname, lastname, email, linkedin, phone, available, address, company and picture
+  Click Element  ReturnToEditor
+  Click Element  referenceAdd
+  ${FIRSTNAME_FIELD}=   Find form  4  input  0
+  ${LASTNAME_FIELD}=    Find form  4  input  1
+  ${EMAIL_FIELD}=       Find form  4  input  2
+  ${LINKEDIN_FIELD}=    Find form  4  input  3
+  ${PHONE_FIELD}=       Find form  4  input  4
+  ${AVAILABLE_FIELD}=   Find form  4  input  5
+  ${ADDRESS_FIELD}=     Find form  4  input  6
+  ${COMPANY_FIELD}=     Find form  4  input  7
+  ${PICTURE_FIELD}=     Find form  4  input  8
+  ${SAVE_BUTTON}=       Find form  4  button  3
+  Input Text  ${FIRSTNAME_FIELD}  firstname-reference
+  Input Text  ${LASTNAME_FIELD}  lastname-reference-edited
+  Input Text  ${EMAIL_FIELD}  editedreference@mail.com
+  Input Text  ${LINKEDIN_FIELD}  https://www.linkedin.com/in/edite-d-linkedinfield-reference/
+  Input Text  ${PHONE_FIELD}  050-0000001
+  Input Text  ${AVAILABLE_FIELD}  1pm - 4pm
+  Input Text  ${ADDRESS_FIELD}  Testaajankatu 10, Helsinki 00100
+  Input Text  ${COMPANY_FIELD}  Test Company 2 OY
+  Input Text  ${PICTURE_FIELD}  http://localhost:3004/kasvokuva2.jpg
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Page should contain  firstname-reference
+  Page should contain  lastname-reference
+  Page should contain  editedreference@mail.com
+  # Page should not contain link  LinkedinProfile  href=https://www.linkedin.com/in/edite-d-linkedinfield-reference/
+  Page should contain  050-0000001
+  Page should contain  1pm - 4pm
+  Page should not contain  Testaajankatu 10, Helsinki 00100
+  Page should contain  Test Company 2 OY
+  # Page should not contain image  ContactPicture  src=http://localhost:3004/kasvokuva2.jpg
 
 Delete test CV and test user
   Go to  ${SERVER}/mycv/

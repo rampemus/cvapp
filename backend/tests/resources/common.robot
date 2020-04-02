@@ -66,6 +66,11 @@ Selector delete
   ${ELEMENT_ID}=  Execute JavaScript  return document.getElementsByClassName('cv-item')[${CV}].getElementsByTagName('button')[0].id
   [Return]  ${ELEMENT_ID} 
 
+Project card
+  [Arguments]  ${PROJECT}  ${TAG}  ${ELEMENT}
+  ${ELEMENT_ID}=  Execute JavaScript  return document.getElementsByClassName('project-card')[${PROJECT}].getElementsByTagName('${TAG}')[${ELEMENT}].id
+  [Return]  ${ELEMENT_ID}
+
 Logout and login with test user
   Click Element  Logout
   Login  ${TEST_USERNAME}  ${TEST_PASSWORD}

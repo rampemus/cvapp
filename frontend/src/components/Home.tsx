@@ -100,13 +100,13 @@ const Home: React.FC<Props> = (props) => {
                 width: '140px',
                 marginRight: '10px'
               }}>
-                <img src={project.thumbnailUrl} width="100%" alt='mypicture' />
+                <img id={'thumbnailImage' + project.id} src={project.thumbnailUrl} width="100%" alt='mypicture' />
               </div>
               <div>
                 <h4>{project.name}</h4>
                 <p>{project.description}</p>
                 <p className='project-card-links'>
-                  <a href={project.githubUrl}>github</a>- <a href={project.showcaseUrl}>showcase</a>
+                  <a id={'githubLink' + project.id} href={project.githubUrl}>github</a>- <a id={'showcaseLink' + project.id} href={project.showcaseUrl}>showcase</a>
                 </p>
               </div>
             </div>

@@ -42,7 +42,6 @@ Edit CV fields name, github and techlist
   Input Text  ${TECHLIST_FIELD}  JavaScript Java Edited
   Click Element  ${SAVE_BUTTON}
   Wait for react  reducer=loader
-  Reload Page
   Wait for react
   Wait for react  reducer=loader
   Page should contain  name-required-edited
@@ -104,8 +103,43 @@ Edit profile fields name and content
   Page should not contain  Edited profile name
   Page should contain  Edited profile content
 
-Delete test CV and test user
+Edit project fields name and content
   Click Element  ReturnToEditor
+  Click Element  projectsAdd
+  ${NAME_FIELD}=        Find form  3  input  0
+  ${CONTENT_FIELD}=     Find form  3  textarea  0
+  ${GITHUB_FIELD}=      Find form  3  input  1
+  ${SHOWCASE_FIELD}=    Find form  3  input  2
+  ${THUMBNAIL_FIELD}=   Find form  3  input  3
+  ${SAVE_BUTTON}=       Find form  3  button  3
+  Input Text  ${NAME_FIELD}  Edited project name
+  Input Text  ${CONTENT_FIELD}  Edited project content
+  Input Text  ${GITHUB_FIELD}  https://github.com/rampemus/cvapp
+  Input Text  ${SHOWCASE_FIELD}  http://localhost:3000
+  Input Text  ${THUMBNAIL_FIELD}  http://localhost:3004/project3.png
+  Mouse Over  projectsAdd
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Page should contain  Edited project name
+  Page should contain  Edited project content
+  ${PROJECT_GITHUB}=  Project card  0  a  0
+  ${PROJECT_SHOWCASE}=  Project card  0  a  1
+  ${THUMBNAIL_FIELD}=  Project card  0  img  0
+  Page should contain link  ${PROJECT_GITHUB}  https://github.com/rampemus/cvapp
+  Page should contain link  ${PROJECT_SHOWCASE}  http://localhost:3000
+  Page should contain image  ${THUMBNAIL_FIELD}  src=http://localhost:3004/project3.png
+
+Delete test CV and test user
+  Go to  ${SERVER}/mycv/
+  Wait for react
+  Wait for react  reducer=loader
+  Sleep  100ms
+  ${TEST_CV_SELECT}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[1].id
+  Click Element  ${TEST_CV_SELECT}
+  Wait for react  reducer=loader
   ${TEST_CV_SELECT}=  Selector item  1
   Mouse Over  ${TEST_CV_SELECT}
   ${TEST_CV_DELETE}=  Selector delete  1

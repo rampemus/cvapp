@@ -173,7 +173,7 @@ Edit reference fields firstname, lastname, email, linkedin, phone, available, ad
   Page should contain  Test Company 2 OY
   # Page should not contain image  ContactPicture  src=http://localhost:3004/kasvokuva2.jpg
 
-Edit experience fields
+Edit experience fields with long timeFrame
   Click Element  ReturnToEditor
   Click Element  experienceAdd
   ${NAME_FIELD}=            Find form  5  input  0
@@ -204,7 +204,38 @@ Edit experience fields
   Page should contain  2012
   Page should contain  Edited experience description
 
-# TODO: Education, Communications, Other skills, Info, Attachments
+Edit education fields with short timeFrame
+  Click Element  ReturnToEditor
+  Click Element  educationAdd
+  ${NAME_FIELD}=            Find form  6  input  0
+  ${DESCRIPTION_FIELD}=     Find form  6  textarea  0
+  ${START_YEAR_SELECT}=     Find form  6  select  0
+  ${START_MONTH_SELECT}=    Find form  6  select  1
+  ${START_DAY_SELECT}=      Find form  6  select  2
+  ${END_YEAR_SELECT}=       Find form  6  select  3
+  ${END_MONTH_SELECT}=      Find form  6  select  4
+  ${END_DAY_SELECT}=        Find form  6  select  5
+  ${SAVE_BUTTON}=           Find form  6  button  3
+  Input Text  ${NAME_FIELD}  Edited education name
+  Select From List By Value  ${START_YEAR_SELECT}  2013
+  Select From List By Value  ${START_MONTH_SELECT}  2
+  Select From List By Value  ${START_DAY_SELECT}  20
+  Select From List By Value  ${END_YEAR_SELECT}  2013
+  Select From List By Value  ${END_MONTH_SELECT}  3
+  Select From List By Value  ${END_DAY_SELECT}  25
+  Input Text  ${DESCRIPTION_FIELD}  Edited education description
+  Mouse Over  communicationAdd
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Page should not contain  Edited education name
+  Page should contain  2013/3
+  Page should contain  2013/4
+  Page should contain  Edited education description
+
+# TODO: Communications, Other skills, Info, Attachments
 
 Delete test CV and test user
   Go to  ${SERVER}/mycv/

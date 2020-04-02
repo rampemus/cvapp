@@ -54,7 +54,17 @@ Create test user with root user
 Find form
   [Arguments]  ${FORM_COMPONENT}  ${TAG_TYPE}  ${FIELD}
   ${ELEMENT_ID}=  Execute JavaScript  return document.getElementsByClassName('form-component')[${FORM_COMPONENT}].getElementsByTagName('${TAG_TYPE}')[${FIELD}].id
-  [return]  ${ELEMENT_ID}
+  [Return]  ${ELEMENT_ID}
+
+Selector item
+  [Arguments]  ${CV}
+  ${ELEMENT_ID}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[${CV}].id
+  [Return]  ${ELEMENT_ID} 
+
+Selector delete
+  [Arguments]  ${CV}
+  ${ELEMENT_ID}=  Execute JavaScript  return document.getElementsByClassName('cv-item')[${CV}].getElementsByTagName('button')[0].id
+  [Return]  ${ELEMENT_ID} 
 
 Logout and login with test user
   Click Element  Logout
@@ -65,6 +75,7 @@ Delete user
   [Arguments]  ${DELETE_USERNAME}
   Click Element  Users
   Wait for react  reducer=loader
+  Sleep  100ms
   Mouse Over  LinkTo${DELETE_USERNAME}
   Click Element  Delete${DELETE_USERNAME}
   Wait for react  reducer=loader

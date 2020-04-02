@@ -106,9 +106,9 @@ Edit profile fields name and content
 
 Delete test CV and test user
   Click Element  ReturnToEditor
-  ${TEST_CV_SELECT}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[1].id
+  ${TEST_CV_SELECT}=  Selector item  1
   Mouse Over  ${TEST_CV_SELECT}
-  ${TEST_CV_DELETE}=  Execute JavaScript  return document.getElementsByClassName('cv-item')[1].getElementsByTagName('button')[0].id
+  ${TEST_CV_DELETE}=  Selector delete  1
   Click Element  ${TEST_CV_DELETE}
   Wait for react  reducer=loader
   Page should contain  CV name-required-edited deleted

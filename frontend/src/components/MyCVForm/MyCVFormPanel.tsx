@@ -57,7 +57,7 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
     <div key={id + 'durationlabel'} className='form-label'>Time duration</div>,
     <div key={id + 'timeframecontainer'} className='timeFrameContainer'>
       <div>
-        <MyCVFormDateSelector date={values.timeFrame.startDate} handleChange={(newDate) => {
+        <MyCVFormDateSelector id={'StartTime'+id} date={values.timeFrame.startDate} handleChange={(newDate) => {
           setValues({
             ...values, timeFrame: {
               startDate: newDate,
@@ -68,7 +68,7 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
       </div>
       <div className='time-divider'>-</div>
       <div>
-        <MyCVFormDateSelector date={values.timeFrame.endDate} handleChange={(newDate) => {
+        <MyCVFormDateSelector id={'EndTime' + id} date={values.timeFrame.endDate} handleChange={(newDate) => {
           setValues({
             ...values, timeFrame: {
               startDate: values.timeFrame.startDate,

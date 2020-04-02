@@ -156,11 +156,13 @@ Edit reference fields firstname, lastname, email, linkedin, phone, available, ad
   Input Text  ${ADDRESS_FIELD}  Testaajankatu 10, Helsinki 00100
   Input Text  ${COMPANY_FIELD}  Test Company 2 OY
   Input Text  ${PICTURE_FIELD}  http://localhost:3004/kasvokuva2.jpg
+  Mouse Over  experienceAdd
   Click Element  ${SAVE_BUTTON}
   Wait for react  reducer=loader
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should contain  firstname-reference
   Page should contain  lastname-reference
   Page should contain  editedreference@mail.com
@@ -170,6 +172,39 @@ Edit reference fields firstname, lastname, email, linkedin, phone, available, ad
   Page should not contain  Testaajankatu 10, Helsinki 00100
   Page should contain  Test Company 2 OY
   # Page should not contain image  ContactPicture  src=http://localhost:3004/kasvokuva2.jpg
+
+Edit experience fields
+  Click Element  ReturnToEditor
+  Click Element  experienceAdd
+  ${NAME_FIELD}=            Find form  5  input  0
+  ${DESCRIPTION_FIELD}=     Find form  5  textarea  0
+  ${START_YEAR_SELECT}=     Find form  5  select  0
+  ${START_MONTH_SELECT}=    Find form  5  select  1
+  ${START_DAY_SELECT}=      Find form  5  select  2
+  ${END_YEAR_SELECT}=       Find form  5  select  3
+  ${END_MONTH_SELECT}=      Find form  5  select  4
+  ${END_DAY_SELECT}=        Find form  5  select  5
+  ${SAVE_BUTTON}=           Find form  5  button  3
+  Input Text  ${NAME_FIELD}  Edited experience name
+  Select From List By Value  ${START_YEAR_SELECT}  2007
+  Select From List By Value  ${START_MONTH_SELECT}  11
+  Select From List By Value  ${START_DAY_SELECT}  20
+  Select From List By Value  ${END_YEAR_SELECT}  2012
+  Select From List By Value  ${END_MONTH_SELECT}  4
+  Select From List By Value  ${END_DAY_SELECT}  25
+  Input Text  ${DESCRIPTION_FIELD}  Edited experience description
+  Mouse Over  educationAdd
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Page should not contain  Edited experience name
+  Page should contain  2007
+  Page should contain  2012
+  Page should contain  Edited experience description
+
+# TODO: Education, Communications, Other skills, Info, Attachments
 
 Delete test CV and test user
   Go to  ${SERVER}/mycv/

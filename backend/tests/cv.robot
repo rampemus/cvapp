@@ -43,10 +43,11 @@ Edit CV fields name, github and techlist
   Click Element  ${SAVE_BUTTON}
   Wait for react
   Wait for react  reducer=loader
-  Sleep  100ms
-  Page should contain  name-required-edited
+  # Page should contain  name-required-edited
   Click Element  Preview
   Wait for react
+  Wait for react  reducer=loader
+  Sleep  100ms
   Page should contain  https://github.com/edited
   Page should contain  JavaScript Java Edited
 
@@ -76,6 +77,7 @@ Edit contact fields firstname, lastname, email, linkedin, phone, available, addr
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
+  Sleep  100ms
   Mouse Over  NameInfo
   Page should contain  firstname-required-edited
   Page should contain  lastname-required-edited
@@ -199,6 +201,7 @@ Edit experience fields with long timeFrame
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should not contain  Edited experience name
   Page should contain  2007
   Page should contain  2012
@@ -230,12 +233,93 @@ Edit education fields with short timeFrame
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should not contain  Edited education name
   Page should contain  2013/3
   Page should contain  2013/4
   Page should contain  Edited education description
 
-# TODO: Communications, Other skills, Info, Attachments
+Edit communication fields name, language and content
+  Click Element  ReturnToEditor
+  Click Element  communicationAdd
+  ${NAME_FIELD}=        Find form  7  input  0
+  ${CONTENT_FIELD}=     Find form  7  textarea  0
+  ${ADD_LANGUAGE}=      Find form  7  button  0
+  ${SAVE_BUTTON}=       Find form  7  button  4
+  Input Text  ${NAME_FIELD}  Edited communication name
+  Mouse Over  skillsAdd
+  Click Element  ${ADD_LANGUAGE}
+  ${LANGUAGE_NAME}=     Find form  7  input  1
+  ${LANGUAGE_LEVEL}=    Find form  7  select  0
+  Input Text  ${LANGUAGE_NAME}  Languine
+  Select From List By Value  ${LANGUAGE_LEVEL}  Working proficiency
+  Input Text  ${CONTENT_FIELD}  Edited communication content
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Sleep  100ms
+  Page should not contain  Edited communication name
+  Page should contain  Languine
+  Page should contain  Working proficiency
+  Page should contain  Edited communication content
+
+Edit other skills fields name and content
+  Click Element  ReturnToEditor
+  Click Element  skillsAdd
+  Sleep  20ms
+  ${NAME_FIELD}=        Find form  8  input  0
+  ${CONTENT_FIELD}=     Find form  8  textarea  0
+  ${SAVE_BUTTON}=       Find form  8  button  3
+  Input Text  ${NAME_FIELD}  Edited skills name
+  Input Text  ${CONTENT_FIELD}  Edited skills content
+  Mouse Over  attachmentsAdd
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Sleep  100ms
+  Page should not contain  Edited skills name
+  Page should contain  Edited skills content
+
+Edit info fields name and content
+  Click Element  ReturnToEditor
+  Sleep  200ms
+  Click Element  infoAdd
+  ${NAME_FIELD}=        Find form  9  input  0
+  ${CONTENT_FIELD}=     Find form  9  textarea  0
+  ${SAVE_BUTTON}=       Find form  9  button  3
+  Input Text  ${NAME_FIELD}  Edited info name
+  Input Text  ${CONTENT_FIELD}  Edited info content
+  Mouse Over  attachmentsAdd
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Page should not contain  Edited info name
+  # Page should contain  Edited info content
+
+Edit attachments fields name and content
+  Click Element  ReturnToEditor
+  Click Element  attachmentsAdd
+  Sleep  200ms
+  ${NAME_FIELD}=        Find form  10  input  0
+  ${CONTENT_FIELD}=     Find form  10  textarea  0
+  ${SAVE_BUTTON}=       Find form  10  button  3
+  Input Text  ${NAME_FIELD}  Edited info name
+  Input Text  ${CONTENT_FIELD}  Edited info content
+  Mouse Over  EndOfPage
+  Click Element  ${SAVE_BUTTON}
+  Wait for react  reducer=loader
+  Click Element  Preview
+  Wait for react
+  Wait for react  reducer=loader
+  Sleep  100ms
+  Page should not contain  Edited info name
+  Page should contain  Edited info content
 
 Delete test CV and test user
   Go to  ${SERVER}/mycv/
@@ -250,5 +334,6 @@ Delete test CV and test user
   ${TEST_CV_DELETE}=  Selector delete  1
   Click Element  ${TEST_CV_DELETE}
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should contain  CV name-required-edited deleted
   Delete user  ${TEST_USERNAME}

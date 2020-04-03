@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 interface OwnProps {
     initLevel: string,
     handleChange(newLevel: string): void,
+    id: string
 }
 
 export enum ILevel {
@@ -33,7 +34,7 @@ const MyCVFormLanguageLevelSelector: React.FC<OwnProps> = (props) => {
 
     return(
         <div>
-            <select onChange={handleLevelChange} value={level} className='language-level-selector'>
+            <select id={props.id} onChange={handleLevelChange} value={level} className='language-level-selector'>
                 {levels.map(level => <option key={level} value={level}>{level}</option>)}
             </select>
         </div>

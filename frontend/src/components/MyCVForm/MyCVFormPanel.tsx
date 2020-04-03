@@ -175,8 +175,9 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
       <div className='language-panel' key={values.id + 'languagepanel'}>
         {values.languages && values.languages.map((language: any, index: number) => {
           return (<div className='language-pair' key={index + 'language-pair'}>
-            <Field className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
+            <Field id={'LanguageNameField' + id + index} className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
             <MyCVFormLanguageLevelSelector
+              id={'LanguageLevelSelector' + id + index}
               initLevel={language.level}
               handleChange={(newLevel) => {
                 const newValues = {
@@ -199,6 +200,7 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
           </div>)
         })}
         <button
+          id={'AddLanguage' + id}
           className='add-language-button form-button'
           disabled={isSubmitting}
           onClick={(event) => {

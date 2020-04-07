@@ -47,7 +47,7 @@ Edit CV fields name, github and techlist
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  Sleep  100ms
+  Sleep  200ms
   Page should contain  https://github.com/edited
   Page should contain  JavaScript Java Edited
 

@@ -76,6 +76,11 @@ Logout and login with test user
   Login  ${TEST_USERNAME}  ${TEST_PASSWORD}
   Wait for react  reducer=loader
 
+Logout and login with root user
+  Click Element  Logout
+  Login  ${USERNAME}  ${PASSWORD}
+  Wait for react  reducer=loader
+
 Delete user
   [Arguments]  ${DELETE_USERNAME}
   Click Element  Users

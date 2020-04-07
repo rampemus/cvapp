@@ -32,11 +32,11 @@ Default empty CV
   Click Element  ${TEST_CV_SELECT}
   Click Element  SetAsDefaultCV
 
-Default shows with test user
+Default shows for test user
   Logout and login with test user
   Wait for react  reducer=loader
 
-Return main as default
+Reselect main as default
   Logout and login with root user
   Go to  ${SERVER}/mycv/
   Wait for react

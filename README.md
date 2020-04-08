@@ -52,7 +52,7 @@ Jest tests can be run from backend-folder:
 
 And end-to-end tests with current UI build will run also from backend-folder:
 
-`robot -d results test.robot`
+`robot -d results tests`
 
 Requirements for robotframework need to be installed manually for now:
 

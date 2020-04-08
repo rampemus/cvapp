@@ -22,6 +22,7 @@ Create test CV
   Click Element  MyCV
   Wait for react  reducer=loader
   Click Element  CreateEmptyCV
+  Wait for react  reducer=loader
   Page should contain  Empty CV created
 
 Default empty CV

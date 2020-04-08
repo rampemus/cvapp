@@ -22,6 +22,7 @@ Create test CV
   Logout and login with test user
   Click Element  MyCV
   Wait for react  reducer=loader
+  Sleep  100ms
   Click Element  CreateEmptyCV
   Wait for react  reducer=loader
   Page should contain  Empty CV created

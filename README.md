@@ -48,7 +48,7 @@ in the backend-folder.
 
 Jest tests can be run from backend-folder:
 
-`yarn test`
+`yarn test:jest`
 
 And end-to-end tests with current UI build will run also from backend-folder:
 

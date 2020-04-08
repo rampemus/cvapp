@@ -79,7 +79,7 @@ const NewContactSchema = Joi.object().keys({
     firstname: nameString,
     id: objectId,
     lastname: nameString,
-    linkedin: Joi.string().uri(),
+    linkedin: Joi.string().uri().empty(),
     phone: nameString, // TODO: create phone regex
     phoneAvailable: nameString,
     pictureUrl: Joi.string().uri(),

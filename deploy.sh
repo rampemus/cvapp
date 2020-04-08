@@ -16,11 +16,11 @@ cp -r build ../backend/build
 cd ..
 
 cd backend
-npm run test
+npm run test || exit 0
 npm run build
 cp -r build ../../heroku-cvapp/build
 cp -r dist ../../heroku-cvapp/dist
-sed '7,9d' package.json > ../../heroku-cvapp/package.json 
+sed '7,10d' package.json > ../../heroku-cvapp/package.json 
 cd ..
 
 cd ../heroku-cvapp

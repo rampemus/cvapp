@@ -68,7 +68,13 @@ const Background: React.FC<Props> = (props: Props) => {
     const drawHexaGrid = (numberGrid: number[][]) => {
         const dy = hexaSize * 2 * cos30 + spacing
         return (
-            <svg height='100%' width='100%' viewBox='0 0 1200 1200' preserveAspectRatio={props.bottom ? "xMidYMin slice" : "xMidYMin slice"} className={props.bottom ? 'bottom-hexa' : 'top-hexa'}>
+            <svg 
+                height='100%'
+                width='100%'
+                viewBox='0 0 1200 1200'
+                preserveAspectRatio={props.bottom ? "xMidYMin slice" : "xMidYMin slice"}
+                className={props.bottom ? 'bottom-hexa' : 'top-hexa'}
+            >
                 {numberGrid.map( (numbers:number[], index) => {
                         if ( index%2 === 0 ) {
                             return hexaRow( 0, 0 + dy * index/2, hexaSize, spacing, transformToColorArray(numbers), index)

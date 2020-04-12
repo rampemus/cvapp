@@ -89,7 +89,7 @@ const Background: React.FC<Props> = (props: Props) => {
     } 
 
     if (props.bottom) {
-        return <div>
+        return <div className='background-bottom'>
             {drawHexaGrid(
                 [
                     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -107,7 +107,7 @@ const Background: React.FC<Props> = (props: Props) => {
             )
         }</div>
     } else {
-        return <div>
+        return <div className='background-top'>
             {drawHexaGrid(
                 [
                     [3, 2, 3, 2, 3, 3, 3, 2, 3],

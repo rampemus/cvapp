@@ -227,7 +227,9 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         .catch((error) => {
           response.status(400).json({ error: error.message }).end()
         })
-      if (contactBody.cv && savedContact && (contactBody.cv.field === 'contact' || contactBody.cv.field === 'reference') ) {
+      if (contactBody.cv
+        && savedContact
+        && (contactBody.cv.field === 'contact' || contactBody.cv.field === 'reference') ) {
         await connectObjectToCVField(contactBody.cv.id, contactBody.cv.field, savedContact._id)
       }
       response.status(201).json(savedContact)

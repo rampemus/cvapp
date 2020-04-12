@@ -394,7 +394,11 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
             lastOpened: state.lastOpened, 
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
-                return { ...cv, experience: cv.experience ? cv.experience.filter((experience: IExperience) => experience.id !== action.data.objectId) : [] }
+                return {
+                  ...cv, experience: cv.experience
+                  ? cv.experience.filter((experience: IExperience) => experience.id !== action.data.objectId)
+                  : []
+                }
               } else {
                 return cvObject
               }

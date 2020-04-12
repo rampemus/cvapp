@@ -15,16 +15,16 @@ app.use(cors())
 app.use(bodyParser.json())
 
 if (process.env.NODE_ENV !== 'test') {
-    mongoose.set('useCreateIndex', true)
-    mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+  mongoose.set('useCreateIndex', true)
+  mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 }
 
 if (process.env.NODE_ENV !== 'test') {
-    initializeRootUserAndCV()
+  initializeRootUserAndCV()
 }
 
 if (process.env.NODE_ENV === 'production') {
-    app.use('/showcase', express.static('opetussivusto'))
+  app.use('/showcase', express.static('opetussivusto'))
 }
 
 const build = express.static('build')
@@ -41,7 +41,7 @@ app.use('/api/login', loginRouter)
 app.use(TokenExtractor)
 app.use(AuthenticateUser)
 if (process.env.NODE_ENV !== 'test') {
-    app.use(RequestLogger)
+  app.use(RequestLogger)
 }
 
 app.use('/api/users', usersRouter)

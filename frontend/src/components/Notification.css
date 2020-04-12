@@ -8,43 +8,43 @@
 }
 
 .notification {
-    align-self: right;
-    /* margin: 5px 4px 0px 0px; */
-    padding: 10px;
-    border-radius: 10px;
-    /* display: grid;*/ /* display is controlled in NotificationMessage */
-    grid-template-columns: auto 20px;
+  align-self: right;
+  /* margin: 5px 4px 0px 0px; */
+  padding: 10px;
+  border-radius: 10px;
+  /* display: grid;*/ /* display is controlled in NotificationMessage */
+  grid-template-columns: auto 20px;
 }
 
 .notification-close-button {
-    grid-column-start: -2;
-    grid-column-end: span -1;
+  grid-column-start: -2;
+  grid-column-end: span -1;
 }
 
 .notification .notification-close-button {
-    align-self: center;
+  align-self: center;
 }
 
 .notification .notification-close-button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .notification .notification-close-button .close-circle {
-    stroke: black;
+  stroke: black;
 }
 
 .error {
-    background-color: rgba(255, 161, 161, 0.637);
-    background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));
+  background-color: rgba(255, 161, 161, 0.637);
+  background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));
 }
 
 .warning {
-    background-color: rgba(255, 253, 161, 0.637);
-    background: linear-gradient(rgba(255, 253, 161, 0.637), rgba(255, 240, 152, 0.95));
+  background-color: rgba(255, 253, 161, 0.637);
+  background: linear-gradient(rgba(255, 253, 161, 0.637), rgba(255, 240, 152, 0.95));
 }
 
 .success {
-    background-color: rgba(177, 255, 161, 0.637);
-    background: linear-gradient(rgba(169, 255, 161, 0.637), rgba(190, 255, 171, 0.95));
+  background-color: rgba(177, 255, 161, 0.637);
+  background: linear-gradient(rgba(169, 255, 161, 0.637), rgba(190, 255, 171, 0.95));
 }
 /* TODO: style notification-close button */

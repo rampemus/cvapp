@@ -9,25 +9,24 @@ export interface StateProps { user?: UserState }
 export interface DispatchProps {}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
-    return {
-        user: state.user
-    }
+  return {
+    user: state.user
+  }
 }
 
 type Props = OwnProps & StateProps & DispatchProps
 
 const Footer: React.FC<Props> = (props) => {
-    const showUserInfo = props.user && props.user.name.length > 2
+  const showUserInfo = props.user && props.user.name.length > 2
 
-    if (showUserInfo && props.user) {
-        return (
-            <div className='Footer'>Logged in as {props.user.name}</div>
-        )
-    }
+  if (showUserInfo && props.user) {
     return (
-        <div className='Footer'>You are not logged in</div> 
+      <div className='Footer'>Logged in as {props.user.name}</div>
     )
-    
+  }
+  return (
+    <div className='Footer'>You are not logged in</div> 
+  )
 }
 
 export default connect(mapStateToProps,null)(Footer)

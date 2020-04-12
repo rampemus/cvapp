@@ -1,14 +1,14 @@
 import { UserState } from "../reducers/userReducer"
 
 const getConfigHeader = (user: UserState) => {
-    const userToken = user.token
-    const config = {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + userToken
-        }
+  const userToken = user.token
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'bearer ' + userToken
     }
-    return config
+  }
+  return config
 }
 
 export { getConfigHeader }

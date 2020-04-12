@@ -13,34 +13,34 @@ import cvReducer from './reducers/cvReducer';
 import loadingReducer from './reducers/loadingReducer';
 
 export const rootReducer = combineReducers({
-    notification: notificationReducer,
-    user: userReducer,
-    cv: cvReducer,
-    loader: loadingReducer
+  notification: notificationReducer,
+  user: userReducer,
+  cv: cvReducer,
+  loader: loadingReducer
 })
 
 export type AppState = ReturnType<typeof rootReducer>
 
 const store = createStore(
-    rootReducer, composeWithDevTools(
-        applyMiddleware(thunk)
-    )
+  rootReducer, composeWithDevTools(
+    applyMiddleware(thunk)
+  )
 )
 
 declare var window: any
 window.appStatus = false
 window.appStore = store
 const updateStatus = () => {
-    window.appStatus = true
+  window.appStatus = true
 }
 
 const renderApp = () => {
-    ReactDOM.render(
-        <Provider store={store}>
-            <App updateStatus={updateStatus}/>
-        </Provider>,
-        document.getElementById('root')
-    )
+  ReactDOM.render(
+    <Provider store={store}>
+      <App updateStatus={updateStatus}/>
+    </Provider>,
+    document.getElementById('root')
+  )
 }
 
 renderApp()

@@ -3,37 +3,37 @@ import uniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../user'
 
 export interface IExperience extends Document {
-    description: string,
-    name: string,
-    owner: IUser,
-    timeFrame: {
-        startDate: Date,
-        endDate: Date,
-    },
-    id: string,
+  description: string,
+  name: string,
+  owner: IUser,
+  timeFrame: {
+    startDate: Date,
+    endDate: Date,
+  },
+  id: string,
 }
 
 const experienceSchema: Schema = new Schema({
-    description: { type: String, minlength: 3, required: true },
-    name: { type: String, minlength: 3, required: true },
-    owner: {
-        ref: 'User',
-        required: true,
-        type: Schema.Types.ObjectId,
-    },
-    timeFrame: {
-        endDate: Date,
-        startDate: Date,
-    },
+  description: { type: String, minlength: 3, required: true },
+  name: { type: String, minlength: 3, required: true },
+  owner: {
+    ref: 'User',
+    required: true,
+    type: Schema.Types.ObjectId,
+  },
+  timeFrame: {
+    endDate: Date,
+    startDate: Date,
+  },
 })
 
 experienceSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
-        return returnedObject
-    }
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+    return returnedObject
+  }
 })
 
 experienceSchema.plugin(uniqueValidator)

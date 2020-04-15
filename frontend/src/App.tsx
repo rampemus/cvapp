@@ -41,6 +41,8 @@ const App: React.FC<Props> = (props) => {
   const hideLogin = user && user.token.length > 2
   const [ height, setHeight ] = useState(800)
 
+  console.log('running in',process.env.NODE_ENV)
+
   useEffect(()=>{
     const content = document.getElementById('content')
     if ( content ) {

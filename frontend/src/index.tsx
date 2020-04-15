@@ -21,11 +21,9 @@ export const rootReducer = combineReducers({
 
 export type AppState = ReturnType<typeof rootReducer>
 
-const store = createStore(
-  rootReducer, composeWithDevTools(
-    applyMiddleware(thunk)
-  )
-)
+const store = process.env.NODE_ENV === 'production'
+? createStore( rootReducer, applyMiddleware(thunk))
+: createStore( rootReducer, composeWithDevTools( applyMiddleware(thunk)))
 
 declare var window: any
 window.appStatus = false

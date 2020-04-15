@@ -17,6 +17,8 @@
 }
 
 .notification-close-button {
+  align-self: center;
+  margin-top: -20px;
   grid-column-start: -2;
   grid-column-end: span -1;
 }

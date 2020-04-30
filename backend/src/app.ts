@@ -1,6 +1,9 @@
 import bodyParser from 'body-parser'
+import compression from 'compression'
 import cors from 'cors'
 import express from 'express'
+// tslint:disable-next-line: no-var-requires
+const expressSanitizer = require('express-sanitizer')
 import mongoose from 'mongoose'
 import cvRouter from './controllers/cv'
 import loginRouter from './controllers/login'
@@ -13,6 +16,8 @@ const app = express()
 
 app.use(cors())
 app.use(bodyParser.json())
+app.use(compression())
+app.use(expressSanitizer())
 
 if (process.env.NODE_ENV !== 'test') {
   mongoose.set('useCreateIndex', true)

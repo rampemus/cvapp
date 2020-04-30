@@ -22,7 +22,8 @@ interface ILoginRequest extends Request {
   body: {
     username: string,
     password: string,
-  }
+  },
+  sanitize(value: string): () => string
 }
 
 export interface IUserToken extends Object {
@@ -45,7 +46,10 @@ export interface IJoiError extends Joi.ValidationError {
 }
 
 loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
-  const body = request.body
+  const body = {
+    password: request.sanitize(request.body.password).toString(),
+    username: request.sanitize(request.body.username).toString()
+  }
   const validationResult = LoginRequestSchema.validate(body)
 
   if (!validationErrorSend(response, validationResult)) {
@@ -60,9 +64,9 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
 
     const user = await User.findOne({ username: body.username })
 
-    const passwordCorrect = user ? // always await for bcrypt even if user is not correct
-      await bcrypt.compare(body.password, user.passwordHash) :
-      await bcrypt.hash(body.password, 10)
+    const passwordCorrect = user // always await for bcrypt even if user is not correct
+    ? await bcrypt.compare(body.password, user.passwordHash)
+    : await bcrypt.hash(body.password, 10)
 
     if (!user || !passwordCorrect) {
       if (index === -1) {
@@ -101,9 +105,7 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
 
     const responseData = { token, username: user.username, name: user.name }
 
-    return response
-      .status(200)
-      .send(responseData)
+    return response.status(200).send(responseData)
   }
 })
 

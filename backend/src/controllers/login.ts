@@ -55,7 +55,10 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
   if (!validationErrorSend(response, validationResult)) {
     const index = incorrectLogins.findIndex((login: IIncorrectLogin) =>
       login.usernameBeginning === body.username.substr(0, usernameDetail))
-    if (index > -1 && incorrectLogins[index].expires.valueOf() > Date.now().valueOf()) {
+    if (
+      process.env.NODE_ENV !== 'test'
+      && index > -1 && incorrectLogins[index].expires.valueOf() > Date.now().valueOf()
+    ) {
       return response.status(429).send({
         cooldownEnd: incorrectLogins[index].expires.valueOf() - Date.now().valueOf(),
         error: 'Resubmitting automatically after cooldown',

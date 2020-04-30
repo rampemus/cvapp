@@ -3,7 +3,6 @@
 Documentation   Access to the site with root user
 Library         SeleniumLibrary  timeout=5  implicit_wait=0
 Library         ReactLibrary
-Library         DebugLibrary
 Library         OperatingSystem
 Library         WebpackLibrary
 

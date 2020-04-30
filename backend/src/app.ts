@@ -4,6 +4,7 @@ import cors from 'cors'
 import express from 'express'
 // tslint:disable-next-line: no-var-requires
 const expressSanitizer = require('express-sanitizer')
+import helmet from 'helmet'
 import mongoose from 'mongoose'
 import cvRouter from './controllers/cv'
 import loginRouter from './controllers/login'
@@ -14,10 +15,13 @@ import { AuthenticateUser, RequestLogger, TokenExtractor } from './utils/middlew
 
 const app = express()
 
-app.use(cors())
+if (process.env.Node_ENV !== 'production') {
+  app.use(cors())
+}
 app.use(bodyParser.json())
 app.use(compression())
 app.use(expressSanitizer())
+app.use(helmet())
 
 if (process.env.NODE_ENV !== 'test') {
   mongoose.set('useCreateIndex', true)

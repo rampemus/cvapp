@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 interface Props {
     user: IUser,
-    handleUserDelete: Function
+    handleUserDelete: () => void
 }
 
 const UsersRow: React.FC<Props> = (props) => {

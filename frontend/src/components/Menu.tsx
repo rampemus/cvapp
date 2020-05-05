@@ -10,7 +10,10 @@ interface OwnProps {
     showRoutes: boolean
 }
 export interface StateProps { user: UserState, lastOpenedCV: string }
-export interface DispatchProps { logoutUser: Function, clearCVS: Function }
+export interface DispatchProps {
+    logoutUser: () => void,
+    clearCVS: () => void
+}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Login.css'
 import useField, { FieldType } from '../hooks/useField'
 import loginService, { loginError } from '../services/loginService'
-import { setUser } from '../reducers/userReducer'
+import { setUser, UserState } from '../reducers/userReducer'
 import { showNotification, Type } from '../reducers/notificationReducer'
 import { updateCVs } from '../reducers/cvReducer'
 import { connect } from 'react-redux'
@@ -10,7 +10,12 @@ import { setLoading } from '../reducers/loadingReducer'
 
 interface OwnProps {}
 interface StateProps {}
-interface DispatchProps { showNotification: Function, setUser: Function, updateCVs: Function, setLoading: Function }
+interface DispatchProps {
+  showNotification: (message: string, type: Type, lifeTime?: number | undefined) => void,
+  setUser: (user: UserState) => void,
+  updateCVs: (user: UserState) => void,
+  setLoading: (loading: boolean) => void
+}
 
 // const mapStateToProps = {}
 const mapDispatchToProps: DispatchProps = {

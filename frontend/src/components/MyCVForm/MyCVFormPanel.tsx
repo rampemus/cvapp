@@ -32,8 +32,8 @@ export interface StateProps {
 }
 export interface DispatchProps {
   updateCVs: (user: UserState) => any,
-  addEmptyCVObject(id: string, field: string): CVAction,
-  removeTempCVObject(id: string, field: string, objectId: string): CVAction
+  addEmptyCVObject: (id: string, field: string) => CVAction,
+  removeTempCVObject: (id: string, field: string, objectId: string) => CVAction
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {

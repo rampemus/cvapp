@@ -32,7 +32,7 @@ export interface StateProps {
   cv?: ICV,
 }
 export interface DispatchProps {
-  setLoading: Function
+  setLoading: (loading: boolean) => void
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {

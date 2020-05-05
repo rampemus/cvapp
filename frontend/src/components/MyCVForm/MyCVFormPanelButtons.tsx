@@ -2,7 +2,7 @@ import React from 'react'
 
 interface DeleteProps {
   isSubmitting: boolean,
-  handleDelete(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void,
+  handleDelete: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
   id: string
 }
 

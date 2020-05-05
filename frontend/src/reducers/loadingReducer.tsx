@@ -1,6 +1,6 @@
 export const SET_LOADING = 'SET_LOADING'
 
-interface loadingReducerState {
+export interface loadingReducerState {
   isFetching: boolean
 }
 
@@ -22,10 +22,12 @@ const loadingReducer = (state: loadingReducerState = initState, action: loadingR
   }
 }
 
-export const setLoading = (loading: loadingReducerState) => {
+export const setLoading = (loading: boolean) => {
   const action:loadingReducerAction = {
     type: SET_LOADING,
-    data: loading
+    data: {
+      isFetching: loading
+    }
   }
   return action
 }

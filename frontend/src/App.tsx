@@ -17,7 +17,7 @@ import { updateCVs } from './reducers/cvReducer'
 import Home from './components/Home'
 
 interface OwnProps {
-  updateStatus?: Function
+  updateStatus?: () => void
 }
 export interface StateProps { user: UserState }
 export interface DispatchProps {

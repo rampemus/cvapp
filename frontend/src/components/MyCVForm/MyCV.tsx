@@ -18,7 +18,7 @@ export interface DispatchProps {
   updateCVs: (user: UserState) => void,
   setPreviousCV: (id: string) => void,
   showNotification: (message: string, type: Type, lifeTime?: number) => void,
-  setLoading: Function
+  setLoading: (loading: boolean) => void
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {

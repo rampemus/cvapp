@@ -24,8 +24,8 @@ export interface StateProps {
   user: UserState
 }
 export interface DispatchProps {
-  showNotification: Function,
-  setLoading: Function
+  showNotification: (message: string, type: Type, lifeTime?: number | undefined) => void,
+  setLoading: (loading: boolean) => void
 }
 
 const mapDispatchToProps: DispatchProps = {

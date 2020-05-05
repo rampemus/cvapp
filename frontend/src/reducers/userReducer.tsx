@@ -1,3 +1,6 @@
+const SET_USER = 'SET_USER'
+const LOGOUT_USER = 'LOGOUT_USER'
+
 export interface UserState {
   token: string,
   username: string,
@@ -14,10 +17,10 @@ const user:UserState = loggedUserJSON ? JSON.parse(loggedUserJSON) : { token: ''
 
 const userReducer = (state: UserState | undefined = user, action: SetUserAction ) => {
   switch (action.type) {
-    case 'SET_USER': {
+    case SET_USER: {
       return action.data
     }
-    case 'LOGOUT_USER': {
+    case LOGOUT_USER: {
       window.localStorage.removeItem('loggedUser')
       return { token: '', username: '', name: '' }
     }
@@ -27,7 +30,7 @@ const userReducer = (state: UserState | undefined = user, action: SetUserAction 
 
 export const setUser = (user: UserState) => {
   const action:SetUserAction = {
-    type: 'SET_USER',
+    type: SET_USER,
     data: user
   }
   return action
@@ -35,7 +38,7 @@ export const setUser = (user: UserState) => {
 
 export const logoutUser = () => {
   const action = {
-    type: 'LOGOUT_USER',
+    type: LOGOUT_USER,
   }
   return action
 }

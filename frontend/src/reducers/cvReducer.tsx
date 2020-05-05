@@ -1,6 +1,11 @@
 import cvService, { ICV, IExperience, IContact, IProject, IProfile, ICommunication, IInfo } from "../services/cvService"
 import { UserState } from "./userReducer"
 
+export const UPDATE_CVS = 'UPDATE_CVS'
+export const ADD_EMPTY_OBJECT = 'ADD_EMPTY_OBJECT'
+export const SET_PREVIOUS_CV = 'SET_PREVIOUS_CV'
+export const REMOVE_TEMP_OBJECT = 'REMOVE_TEMP_OBJECT'
+
 interface cvState {
   cvs: ICV[],
   lastOpened: string
@@ -177,13 +182,13 @@ const initState: cvState = {
 
 const cvReducer = (state: cvState = initState, action: CVAction) => {
   switch (action.type) {
-    case 'UPDATE_CVS': {
+    case UPDATE_CVS: {
       return { cvs:action.data.cvs, lastOpened: action.data.cvs.length > 1 ? action.data.cvs.includes((cv:ICV) => cv.id === state.lastOpened) ? state.lastOpened : '' : ''}
     }
-    case 'SET_PREVIOUS_CV': {
+    case SET_PREVIOUS_CV: {
       return { cvs: state.cvs, lastOpened: action.data.id }
     }
-    case 'ADD_EMPTY_OBJECT': {
+    case ADD_EMPTY_OBJECT: {
       const cv = state.cvs.find((cv:ICV) => cv.id === action.data.id )
       if (!cv) return state
 
@@ -384,7 +389,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
           return state
       }
     }
-    case 'REMOVE_TEMP_OBJECT': {
+    case REMOVE_TEMP_OBJECT: {
       const cv = state.cvs.find((cv: ICV) => cv.id === action.data.id)
       if (!cv) return state
 
@@ -505,7 +510,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
 export const updateCVs = (user: UserState) => {
   return async (dispatch:any) => {
     const action: CVAction = {
-      type: 'UPDATE_CVS',
+      type: UPDATE_CVS,
       data: { cvs: await cvService.getAllCV(user) }
     }
     dispatch(action)
@@ -514,7 +519,7 @@ export const updateCVs = (user: UserState) => {
 
 export const clearCVS = () => {
   const action: CVAction = {
-    type: 'UPDATE_CVS',
+    type: UPDATE_CVS,
     data: { cvs: initState }
   }
   return action
@@ -522,7 +527,7 @@ export const clearCVS = () => {
 
 export const addEmptyCVObject = (id:string, field:string) => {
   const action: CVAction = {
-    type: 'ADD_EMPTY_OBJECT',
+    type: ADD_EMPTY_OBJECT,
     data: { id, field }
   }
   return action
@@ -530,7 +535,7 @@ export const addEmptyCVObject = (id:string, field:string) => {
 
 export const removeTempCVObject = (id:string, field:string, objectId: string) => {
   const action: CVAction = {
-    type: 'REMOVE_TEMP_OBJECT',
+    type: REMOVE_TEMP_OBJECT,
     data: {id, field, objectId}
   }
   return action
@@ -538,7 +543,7 @@ export const removeTempCVObject = (id:string, field:string, objectId: string) =>
 
 export const setPreviousCV = (id:string) => {
   const action: CVAction = {
-    type: 'SET_PREVIOUS_CV',
+    type: SET_PREVIOUS_CV,
     data: {id}
   }
   return action

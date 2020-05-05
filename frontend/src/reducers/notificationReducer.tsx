@@ -1,3 +1,6 @@
+const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION'
+const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION'
+
 export enum Type {
   ERROR = 'error',
   SUCCESS = 'success',
@@ -37,7 +40,7 @@ const initState: NotificationState = {
 
 const notificationReducer = (state: NotificationState = initState, action: NotificationAction) => {
   switch (action.type) {
-    case 'SHOW_NOTIFICATION': {
+    case SHOW_NOTIFICATION: {
       const newMessages = state.messages.concat(action.data)
       const newState = {
         visible: true,
@@ -45,7 +48,7 @@ const notificationReducer = (state: NotificationState = initState, action: Notif
       }
       return newState
     }
-    case 'DELETE_NOTIFICATION': {
+    case DELETE_NOTIFICATION: {
       const newMessages:Message[] = state.messages.filter(message => message.id !== action.id)
       const newState = {
         visible: (newMessages.length > 0),
@@ -62,14 +65,14 @@ export const showNotification = (message:string, type:Type, lifeTime?:number ) =
   return async (dispatch:any) => {
     const id = guidGenerator()
     const action: NotificationAction = {
-      type: 'SHOW_NOTIFICATION',
+      type: SHOW_NOTIFICATION,
       data: [{ text: message, id: id, type: type, duration: lifeTime }]
     }
     dispatch(action)
     if ( lifeTime ) {
       setTimeout(() => {
         const deleteAfterTimeoutAction: NotificationAction = {
-          type: 'DELETE_NOTIFICATION',
+          type: DELETE_NOTIFICATION,
           id: id,
           data: []
         }
@@ -77,12 +80,11 @@ export const showNotification = (message:string, type:Type, lifeTime?:number ) =
       }, lifeTime * 1000 + 700)
     }
   }
-  
 }
 
 export const deleteNotification = (id: string) => {
   const action:NotificationAction = {
-    type: 'DELETE_NOTIFICATION',
+    type: DELETE_NOTIFICATION,
     id: id,
     data: []
   }

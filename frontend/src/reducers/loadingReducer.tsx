@@ -1,3 +1,5 @@
+export const SET_LOADING = 'SET_LOADING'
+
 interface loadingReducerState {
   isFetching: boolean
 }
@@ -13,7 +15,7 @@ const initState: loadingReducerState = {
 
 const loadingReducer = (state: loadingReducerState = initState, action: loadingReducerAction) => {
   switch (action.type) {
-  case 'SET_LOADING': {
+  case SET_LOADING: {
     return { isFetching: action.data }
   }
   default: return state
@@ -22,7 +24,7 @@ const loadingReducer = (state: loadingReducerState = initState, action: loadingR
 
 export const setLoading = (loading: loadingReducerState) => {
   const action:loadingReducerAction = {
-    type: 'SET_LOADING',
+    type: SET_LOADING,
     data: loading
   }
   return action

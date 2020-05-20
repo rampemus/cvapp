@@ -103,6 +103,7 @@ Edit profile fields name and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should not contain  Edited profile name
   Page should contain  Edited profile content
 

@@ -37,15 +37,18 @@ const NotificationMessage: React.FC<Props> = (props) => {
       viewBox="0 0 20 20"
       >
     <g transform="translate(10,10)">
-      <circle style={{
-        fill: 'none',
-        backgroundColor: 'none',
-        opacity: duration ? '.25' : '0', 
-        strokeWidth: r,
-        strokeDasharray: alive * r * 3.14 + ' ' + r * 3.14,
-        transition: 'stroke-dasharray ' + duration + 's linear',
-        transform: 'scale(-1,1) rotate(-135deg)'
-      }}  r={r/2} className="close-circle" />
+      <circle
+        className="close-circle"
+        style={{
+          fill: 'none',
+          backgroundColor: 'none',
+          opacity: duration ? '.25' : '0', 
+          strokeWidth: r,
+          strokeDasharray: alive * r * 3.14 + ' ' + r * 3.14,
+          transition: 'stroke-dasharray ' + duration + 's linear',
+          transform: 'scale(-1,1) rotate(-135deg)'
+        }}  r={r/2}
+      />
     </g>
       <rect 
         x="0.81" y="9.29"
@@ -82,11 +85,14 @@ const NotificationMessage: React.FC<Props> = (props) => {
         }}
       >{message.text}</div>
       <div   
-        style={{
-          transition: 'all 0.4s ease',
-          opacity: deleted ? '0' : '1'
-        }}
         className='notification-close-button'
+        style={{
+          // transition: 'all 0.4s ease',
+          opacity: deleted ? '0' : '1',
+          marginTop: '2px',
+          minHeight: '20px',
+          minWidth: '20px'
+        }}
         onClick={() => {
           props.deleteNotification()
           setAnimation(false)

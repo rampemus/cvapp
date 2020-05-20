@@ -5,14 +5,16 @@ table {
 }
 
 th {
-    text-align: left;
-    font-weight: 250;
+  text-align: left;
+  font-weight: 250;
 }
 
 td {
   background-color: rgb(255, 255, 255);
   border: 1px solid black;
   padding: 8px;
+  min-height: 37px;
+  min-width: 73px;
 }
 
 tr button {
@@ -43,6 +45,12 @@ tr button img {
 
 tr:hover button {
   visibility: visible;
+}
+
+@-moz-document url-prefix() {
+  tr button {
+    visibility: visible;
+  }
 }
 
 tr button:hover {

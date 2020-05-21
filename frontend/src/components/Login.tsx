@@ -87,7 +87,9 @@ const Login: React.FC<Props> = (props) => {
       </div>
       <div className='rememberme'>
         Remember me
-        <input id='RememberMeCheckbox' type='checkbox'
+        <input
+          id='RememberMeCheckbox'
+          type='checkbox'
           defaultChecked={remember}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setRemember(!remember)

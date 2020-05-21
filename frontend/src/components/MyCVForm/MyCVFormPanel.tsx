@@ -170,7 +170,7 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
     <Field id={field + 'Name' + id} key={id + 'namefield'}className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />,
     <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
       ? errors.name : ''}</div>,
-    <div key={id + 'languagesfield'} className='form-label'>Languages</div>,
+    <div key={id + 'languagesfield'} className='form-label language-label'>Languages</div>,
     <FieldArray key={id + 'languagesfieldarray'} name="languages" render={() => (
       <div className='language-panel' key={values.id + 'languagepanel'}>
         {values.languages && values.languages.map((language: any, index: number) => {

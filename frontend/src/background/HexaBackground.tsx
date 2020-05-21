@@ -40,7 +40,7 @@ const Background: React.FC<Props> = (props: Props) => {
 
     const hexaRow = (x: number, y: number, hexaSize: number, spacing: number, colors: Color[], rowIndex:number) => {
         const dx = hexaSize * 3 + spacing * 2 * cos30
-        const transform = `rotate(-15) translate(${props.bottom ? '-80,180' : '-100,0'})`
+        const transform = `rotate(-15) translate(${props.bottom ? '-100,220' : '-100,0'})`
         return <g
                     key={`hexaRow${rowIndex}`}
                     transform={transform}

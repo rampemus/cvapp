@@ -49,4 +49,33 @@
   background-color: rgba(177, 255, 161, 0.637);
   background: linear-gradient(rgba(169, 255, 161, 0.637), rgba(190, 255, 171, 0.95));
 }
-/* TODO: style notification-close button */
+
+@media only screen and (max-width: 600px) {
+  .notificationContainer {
+      margin-left: -150px;
+      width: 300px;
+  }
+
+  .error {
+      background-color: rgba(255, 161, 161);
+      background: linear-gradient(rgba(255, 161, 161), rgba(255, 152, 152));
+  }
+
+  .warning {
+      background-color: rgba(255, 253, 161);
+      background: linear-gradient(rgba(255, 253, 161), rgba(255, 240, 152));
+  }
+
+  .success {
+      background-color: rgba(177, 255, 161);
+      background: linear-gradient(rgba(169, 255, 161), rgba(190, 255, 171));
+  }
+
+  .notification-close-button {
+      align-self: center;
+      margin-top: -40px;
+      /* grid-column-start: -2; */
+      /* grid-column-end: span -1; */
+      z-index: 5;
+  }
+}

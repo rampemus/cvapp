@@ -156,17 +156,17 @@
 }
 
 .form-component-empty {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 538px;
-  border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 538px;
+    border-radius: 10px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid 2px white;
-  opacity: 0.5;
-  z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px white;
+    opacity: 0.5;
+    z-index: 0;
 }
 
 .form-component-empty:hover {
@@ -302,4 +302,31 @@
 }
 .form-component button:hover {
   cursor: pointer;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .form-component {
+    width: 522px;
+
+    display: grid;
+    grid-template-columns: 60px auto auto 20px auto auto
+  }
+
+  .form-component-empty {
+    width: 337px;
+  }
+
+  .language-panel {
+    max-width: 220px;
+  }
+
+  .language-label {
+    display: none;
+  }
+
+  .language-pair .form-button {
+      visibility: visible;
+      padding: 3px;
+  }
 }

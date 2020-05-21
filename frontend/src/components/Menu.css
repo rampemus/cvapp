@@ -19,6 +19,8 @@
   }
 }
 
+
+
 .menu-items > a:link {
   color: white;
   text-decoration: none;
@@ -101,4 +103,28 @@
 
 .selected {
   background-color: rgb(115, 119, 131);
+}
+
+@media only screen and (max-width: 600px) {
+  .Menu {
+    height: 60px;
+    display: flex;
+    align-items: flex-start;
+    justify-items: stretch;
+    grid-template-columns: [menu-items] auto 50px [settings];
+  }
+
+  .cv-app-logo {
+    display:none;
+  }
+
+  .settings {
+    position: absolute;
+    margin-top: 62px;
+  }
+
+  .menu-item {
+      height: 32px;
+  }
+
 }

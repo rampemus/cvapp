@@ -161,3 +161,30 @@
 .cv-container-item p {
   font-weight: 500;
 }
+
+@media only screen and (max-width: 600px) {
+  .cv-container h1 {
+    margin-top: 20px;
+  }
+  .cv-container {
+    width: 100%;
+    display: grid;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .cv-container-item {
+    max-width: 500px;
+  }
+  .cv-container h3 img {
+      position: relative;
+      right: 5px;
+      top: 15px;
+      margin-top: -27px;
+  }
+  .cv-container h3 {
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 4px;
+      margin-left: -10px;
+  }
+}

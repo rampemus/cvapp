@@ -13,7 +13,7 @@ input {
 .content {
   z-index: 1;
   margin-top: 90px;
-  padding-bottom: 100px;
+  padding-bottom: 10vh;
   margin-right: auto;
   margin-left: auto;
   min-height: 55vh;

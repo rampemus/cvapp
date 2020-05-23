@@ -165,7 +165,7 @@ Edit reference fields firstname, lastname, email, linkedin, phone, available, ad
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  Sleep  100ms
+  Sleep  200ms
   Page should contain  firstname-reference
   Page should contain  lastname-reference
   Page should contain  editedreference@mail.com

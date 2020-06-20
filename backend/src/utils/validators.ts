@@ -74,14 +74,14 @@ const NewContactSchema = Joi.object().keys({
     address: nameString,
     company: nameString,
     cv: CVConnectSchema,
-    email: Joi.string().email(),
+    email: Joi.string().email().empty(),
     firstname: nameString,
     id: objectId,
     lastname: nameString,
     linkedin: Joi.string().uri().empty(),
     phone: nameString, // TODO: create phone regex
     phoneAvailable: nameString,
-    pictureUrl: Joi.string().uri(),
+    pictureUrl: Joi.string().uri().empty(),
 })
 
 const NewCVSchema = Joi.object().keys({

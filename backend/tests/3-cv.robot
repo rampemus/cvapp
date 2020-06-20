@@ -326,7 +326,7 @@ Delete test CV and test user
   Go to  ${SERVER}/mycv/
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   ${TEST_CV_SELECT}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[1].id
   Click Element  ${TEST_CV_SELECT}
   Wait for react  reducer=loader
@@ -335,6 +335,6 @@ Delete test CV and test user
   ${TEST_CV_DELETE}=  Selector delete  1
   Click Element  ${TEST_CV_DELETE}
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should contain  CV name-required-edited deleted
   Delete user  ${TEST_USERNAME}

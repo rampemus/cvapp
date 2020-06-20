@@ -21,13 +21,13 @@ Create test CV
   Logout and login with test user
   Click Element  MyCV
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Click Element  CreateEmptyCV
   Wait for react  reducer=loader
   Page should contain  Empty CV created
 
 Select empty CV
-  # Sleep  500ms
+  Sleep  500ms
   ${TEST_CV_SELECT}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[1].id
   Click Element  ${TEST_CV_SELECT}
   Wait for react  reducer=loader
@@ -103,7 +103,7 @@ Edit profile fields name and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should not contain  Edited profile name
   Page should contain  Edited profile content
 
@@ -318,7 +318,7 @@ Edit attachments fields name and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should not contain  Edited info name
   Page should contain  Edited info content
 

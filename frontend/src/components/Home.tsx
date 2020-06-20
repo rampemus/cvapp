@@ -36,8 +36,8 @@ const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
         {endDate.getFullYear()}/{endDate.getMonth()+1}
       </p>
   return ongoing 
-    ? <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>
-    : <p>{startDate.getFullYear()} – </p>
+    ? <p>{startDate.getFullYear()} – </p>
+    : <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>
 }
 
 interface OwnProps {

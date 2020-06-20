@@ -82,9 +82,9 @@ const Menu: React.FC<Props> = (props) => {
                         : 'menu-item'}>About</div>
                     </Link>
                 </div>
-                <div className='loader'>
+                {/* <div className='loader'>
                     {props.loading ? 'loading' : ''}
-                </div>
+                </div> */}
                 <div className='settings'>
                     {renderLogout()}
                 </div>

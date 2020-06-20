@@ -1,5 +1,6 @@
 import cvService, { ICV, IExperience, IContact, IProject, IProfile, ICommunication, IInfo } from "../services/cvService"
 import { UserState } from "./userReducer"
+import { loadingReducerAction, SET_LOADING } from "./loadingReducer"
 
 export const UPDATE_CVS = 'UPDATE_CVS'
 export const ADD_EMPTY_OBJECT = 'ADD_EMPTY_OBJECT'
@@ -514,6 +515,12 @@ export const updateCVs = (user: UserState) => {
       data: { cvs: await cvService.getAllCV(user) }
     }
     dispatch(action)
+    const loaderAction: loadingReducerAction = {
+      type: SET_LOADING,
+      data: false
+    }
+    console.log('Setting loader false! from cvReducer')
+    dispatch(loaderAction)
   }
 }
 

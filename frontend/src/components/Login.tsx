@@ -50,8 +50,6 @@ const Login: React.FC<Props> = (props) => {
           )
           props.showNotification('Login successful', Type.SUCCESS, 5)
           props.updateCVs(user)
-          props.setLoading(false)
-          props.setLoading(true)
         }).catch((error:loginError) => {
           if (error.response.data.error) {
             const cooldown = error.response.data.cooldownEnd && error.response.data.cooldownEnd / 1000
@@ -77,12 +75,12 @@ const Login: React.FC<Props> = (props) => {
     <form onSubmit={handleLogin} className='loginBox'>
       <div>
         Username:
-        <input disabled={submitLock} className='login-input' id='username' name='username' value='' {...username}>
+        <input disabled={submitLock} className='login-input' id='username' name='username' {...username}>
         </input>
       </div>
       <div>
         Password:
-        <input disabled={submitLock} className='login-input' id='password' name='password' value='' {...password}>
+        <input disabled={submitLock} className='login-input' id='password' name='password' {...password}>
         </input>
       </div>
       <div className='rememberme'>

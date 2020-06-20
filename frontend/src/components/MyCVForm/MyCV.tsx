@@ -78,7 +78,6 @@ const MyCV: React.FC<Props> = (props) => {
                   .then((response) => {
                     props.updateCVs(props.user)
                     props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
-                    props.setLoading(false)
                   }).catch((error) => {
                     if (error.response.data.error) {
                       props.showNotification(error.response.data.error, Type.ERROR, 12)
@@ -98,7 +97,6 @@ const MyCV: React.FC<Props> = (props) => {
                     .then(() => {
                       props.updateCVs(props.user)
                       props.showNotification('Default CV updated', Type.SUCCESS, 4)
-                      props.setLoading(false)
                     })
                     .catch((error) => {
                       if (error.response.data.error) {
@@ -147,7 +145,6 @@ const MyCV: React.FC<Props> = (props) => {
                   .then((response) => {
                     props.updateCVs(props.user)
                     props.showNotification('CV ' + cv.name + ' deleted', Type.SUCCESS, 4)
-                    props.setLoading(false)
                   })
                 }}
               >
@@ -167,7 +164,6 @@ const MyCV: React.FC<Props> = (props) => {
                 cvService.createEmptyCV(props.user).then(response => {
                   props.updateCVs(props.user)
                   props.showNotification('Empty CV created', Type.SUCCESS, 4)
-                  props.setLoading(false)
                 })
               }}
             /> 

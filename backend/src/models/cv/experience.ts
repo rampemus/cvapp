@@ -1,5 +1,4 @@
 import { Document, model, Schema } from 'mongoose'
-import uniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../user'
 
 export interface IExperience extends Document {
@@ -35,8 +34,6 @@ experienceSchema.set('toJSON', {
     return returnedObject
   }
 })
-
-experienceSchema.plugin(uniqueValidator)
 
 const Experience = model<IExperience>('Experience', experienceSchema)
 

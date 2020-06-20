@@ -1,5 +1,4 @@
 import { Document, model, Schema } from 'mongoose'
-import uniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../user'
 
 export interface IContact extends Document {
@@ -41,8 +40,6 @@ contactSchema.set('toJSON', {
     return returnedObject
   }
 })
-
-contactSchema.plugin(uniqueValidator)
 
 const Contact = model<IContact>('Contact', contactSchema)
 

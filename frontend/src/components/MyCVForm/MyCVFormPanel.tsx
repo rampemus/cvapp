@@ -340,7 +340,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
             )
             cvService.createObject(serviceType, newValues, id, props.user, field).then(response => {
               props.updateCVs(props.user)
-              setSubmitting(false)
+              // setSubmitting(false)
             })
           } else {
             const changes = Object.fromEntries(

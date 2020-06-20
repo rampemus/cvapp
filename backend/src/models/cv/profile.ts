@@ -1,5 +1,4 @@
 import { Document, model, Schema } from 'mongoose'
-import uniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../user'
 
 export interface IProfile extends Document {
@@ -15,7 +14,7 @@ const profileSchema: Schema = new Schema({
   owner: {
     ref: 'User',
     required: true,
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId
   },
 })
 
@@ -27,8 +26,6 @@ profileSchema.set('toJSON', {
     return returnedObject
   }
 })
-
-profileSchema.plugin(uniqueValidator)
 
 const Profile = model<IProfile>('Profile', profileSchema)
 

@@ -1,5 +1,4 @@
 import { Document, model, Schema } from 'mongoose'
-import uniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../user'
 import { ICommunication } from './communication'
 import { IContact } from './contact'
@@ -93,8 +92,6 @@ cvSchema.set('toJSON', {
     return returnedObject
   }
 })
-
-cvSchema.plugin(uniqueValidator)
 
 const CurriculumVitae = model<ICurriculumVitae>('CurriculumVitae', cvSchema)
 

@@ -1,5 +1,4 @@
 import { Document, model, Schema } from 'mongoose'
-import uniqueValidator from 'mongoose-unique-validator'
 import { IUser } from '../user'
 
 export interface IProject extends Document {
@@ -33,8 +32,6 @@ projectSchema.set('toJSON', {
     return returnedObject
   }
 })
-
-projectSchema.plugin(uniqueValidator)
 
 const Project = model<IProject>('Project', projectSchema)
 

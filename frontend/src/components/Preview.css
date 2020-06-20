@@ -50,7 +50,7 @@
 
 .key-value-container {
   display: grid;
-  grid-template-columns: 180px 20px auto;
+  grid-template-columns: 160px 20px auto;
 }
 
 .key-value-container-left {
@@ -98,6 +98,11 @@
 }
 
 @media (min-width: 1000px) {
+  .key-value-container {
+      display: grid;
+      grid-template-columns: 180px 20px auto;
+  }
+
   .cv-container-item-left {
     grid-column-start: 1;
     grid-column-end: 2;

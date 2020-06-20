@@ -164,7 +164,7 @@ const Home: React.FC<Props> = (props) => {
         </div>}
       {communication &&
         <div className='cv-container-item'>
-          <h3><img src='communication.svg' width='45px' height='45px' alt='icon'/>Communication</h3>
+          <h3><img src='communication.svg' width='45px' height='45px' alt='icon' />Language skills</h3>
           <hr />
           <div className='language-container'>
             {communication.languages.map((language,index) =>

@@ -145,7 +145,7 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
         {cv.education && cv.education.map((edu) => renderExperienceForm(edu, 'education'))}
         <FormPanel serviceType={ServiceType.EXPERIENCE} field='education'/>
       </div>
-      <h3>Communication</h3>
+      <h3>Language skills</h3>
       <div className='form-component-container'>
         {cv.communication 
         ? renderCommunicationForm(cv.communication, 'communication') 

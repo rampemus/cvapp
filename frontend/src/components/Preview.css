@@ -24,11 +24,6 @@
   grid-column-end: -1;
 }
 
-@media print {
-  .cv-container-item {
-    page-break-inside: avoid;
-  }
-}
 
 .cv-container-item-left {
   grid-column-start: 1;
@@ -196,5 +191,38 @@
       font-weight: 500;
       margin-bottom: 4px;
       margin-left: -10px;
+  }
+}
+
+@media print {
+  .cv-container-item h3 {
+    page-break-inside: avoid;
+  }
+
+  .cv-container-item img {
+    page-break-inside: avoid;
+  }
+  .key-value-container {
+    page-break-inside: avoid;
+  }
+
+  body {
+      zoom: 75%;
+      /*or whatever percentage you need, play around with this number*/
+  }
+
+  .key-value-container {
+      display: grid;
+      grid-template-columns: 180px 20px auto;
+  }
+
+  .cv-container-item-left {
+      grid-column-start: 1;
+      grid-column-end: 2;
+  }
+
+  .cv-container-item-right {
+      grid-column-start: -2;
+      grid-column-end: -1;
   }
 }

@@ -8,7 +8,7 @@
   background-color: rgb(51, 57, 66);
   color: rgb(255, 255, 255);
   display: grid;
-  grid-template-columns: [logo] 50px [menu-items] auto 50px [settings];
+  grid-template-columns: [logo] 50px [menu-items] auto [loader] 50px [settings];
   align-items: flex-end;
   z-index: 1;
 }
@@ -80,6 +80,14 @@
 }
 
 .menu-item {
+  padding: 10px;
+  margin: 4px;
+  height: 24px;
+  font-weight: 600;
+}
+
+.loader {
+  grid-area: loader;
   padding: 10px;
   margin: 4px;
   height: 24px;

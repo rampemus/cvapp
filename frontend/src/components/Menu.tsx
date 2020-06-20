@@ -9,7 +9,11 @@ import { connect } from 'react-redux'
 interface OwnProps {
     showRoutes: boolean
 }
-export interface StateProps { user: UserState, lastOpenedCV: string }
+export interface StateProps {
+    user: UserState,
+    lastOpenedCV: string,
+    loading: boolean
+}
 export interface DispatchProps {
     logoutUser: () => void,
     clearCVS: () => void
@@ -18,7 +22,8 @@ export interface DispatchProps {
 const mapStateToProps = (state: AppState, props: OwnProps) => {
     return {
         user: state.user,
-        lastOpenedCV: state.cv.lastOpened
+        lastOpenedCV: state.cv.lastOpened,
+        loading: state.loader.isFetching
     }
 }
 
@@ -76,6 +81,9 @@ const Menu: React.FC<Props> = (props) => {
                         ? 'menu-item selected'
                         : 'menu-item'}>About</div>
                     </Link>
+                </div>
+                <div className='loader'>
+                    {props.loading ? 'loading' : ''}
                 </div>
                 <div className='settings'>
                     {renderLogout()}

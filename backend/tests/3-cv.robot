@@ -47,7 +47,7 @@ Edit CV fields name, github and techlist
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  200ms
+  Sleep  200ms
   Page should contain  https://github.com/edited
   Page should contain  JavaScript Java Edited
 
@@ -77,7 +77,7 @@ Edit contact fields firstname, lastname, email, linkedin, phone, available, addr
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Mouse Over  NameInfo
   Page should contain  firstname-required-edited
   Page should contain  lastname-required-edited
@@ -127,7 +127,7 @@ Edit project fields name and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should contain  Edited project name
   Page should contain  Edited project content
   ${PROJECT_GITHUB}=  Project card  0  a  0
@@ -165,7 +165,7 @@ Edit reference fields firstname, lastname, email, linkedin, phone, available, ad
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  200ms
+  Sleep  200ms
   Page should contain  firstname-reference
   Page should contain  lastname-reference
   Page should contain  editedreference@mail.com
@@ -202,7 +202,7 @@ Edit experience fields with long timeFrame
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should not contain  Edited experience name
   Page should contain  2007
   Page should contain  2012
@@ -234,7 +234,7 @@ Edit education fields with short timeFrame
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should not contain  Edited education name
   Page should contain  2013/3
   Page should contain  2013/4
@@ -260,7 +260,7 @@ Edit communication fields name, language and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should not contain  Edited communication name
   Page should contain  Languine
   Page should contain  Working proficiency
@@ -269,7 +269,7 @@ Edit communication fields name, language and content
 Edit other skills fields name and content
   Click Element  ReturnToEditor
   Click Element  skillsAdd
-  # Sleep  20ms
+  Sleep  20ms
   ${NAME_FIELD}=        Find form  8  input  0
   ${CONTENT_FIELD}=     Find form  8  textarea  0
   ${SAVE_BUTTON}=       Find form  8  button  3
@@ -281,13 +281,13 @@ Edit other skills fields name and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  # Sleep  100ms
+  Sleep  100ms
   Page should not contain  Edited skills name
   Page should contain  Edited skills content
 
 Edit info fields name and content
   Click Element  ReturnToEditor
-  # Sleep  200ms
+  Sleep  200ms
   Click Element  infoAdd
   ${NAME_FIELD}=        Find form  9  input  0
   ${CONTENT_FIELD}=     Find form  9  textarea  0
@@ -306,7 +306,7 @@ Edit info fields name and content
 Edit attachments fields name and content
   Click Element  ReturnToEditor
   Click Element  attachmentsAdd
-  # Sleep  200ms
+  Sleep  200ms
   ${NAME_FIELD}=        Find form  10  input  0
   ${CONTENT_FIELD}=     Find form  10  textarea  0
   ${SAVE_BUTTON}=       Find form  10  button  3

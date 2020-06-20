@@ -50,7 +50,7 @@
 
 .key-value-container {
   display: grid;
-  grid-template-columns: 170px 20px auto;
+  grid-template-columns: 180px 20px auto;
 }
 
 .key-value-container-left {

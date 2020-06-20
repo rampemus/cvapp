@@ -6,23 +6,38 @@ import { ICV, IContact, IExperience, ICommunication } from '../services/cvServic
 import { setLoading } from '../reducers/loadingReducer'
 
 const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
-  const { startDate, endDate } = timeFrame
+  const ongoing = timeFrame.endDate.valueOf() - new Date().valueOf() > 0
+  const startDate = timeFrame.startDate
+  const endDate = ongoing ? new Date() : timeFrame.endDate
   const duration = endDate.valueOf() - startDate.valueOf()
   const month = 1000 * 60 * 60 * 24 * 30
   const year = 1000 * 60 * 60 * 24 * 365
-  if (duration < month) 
-    return <p>
-      {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate()+1}
-      –
-      {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate()+1}
-      </p>
+  if (duration < month) {
+    return ongoing 
+      ? <p>
+          {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
+          &nbsp;–&nbsp;
+        </p>
+      : <p>
+          {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
+          &nbsp;–&nbsp;
+          {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate() + 1}
+        </p>
+  }
   if (duration < year) 
-    return <p>
+    return ongoing
+      ? <p>
+        {startDate.getFullYear()}/{startDate.getMonth() + 1}
+        &nbsp;–&nbsp;
+      </p>
+      : <p>
         {startDate.getFullYear()}/{startDate.getMonth()+1}
-        –
+        &nbsp;–&nbsp;
         {endDate.getFullYear()}/{endDate.getMonth()+1}
       </p>
-  return <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>
+  return ongoing 
+    ? <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>
+    : <p>{startDate.getFullYear()} – </p>
 }
 
 interface OwnProps {

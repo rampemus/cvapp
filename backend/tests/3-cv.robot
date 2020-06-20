@@ -202,7 +202,7 @@ Edit experience fields with long timeFrame
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  Sleep  100ms
+  Sleep  200ms
   Page should not contain  Edited experience name
   Page should contain  2007
   Page should contain  2012

@@ -197,6 +197,7 @@
 @media print {
   .cv-container-item h3 {
     page-break-inside: avoid;
+    padding-top: 10px;
   }
 
   .cv-container-item img {
@@ -224,5 +225,10 @@
   .cv-container-item-right {
       grid-column-start: -2;
       grid-column-end: -1;
+  }
+
+  .pagebreak {
+    clear: both;
+    page-break-after: always;
   }
 }

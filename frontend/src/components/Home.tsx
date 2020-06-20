@@ -127,22 +127,6 @@ const Home: React.FC<Props> = (props) => {
             </div>
           )}
         </div>}
-      {reference && reference.length > 0 &&
-        <div className='cv-container-item'>
-          <h3><img src='reference.svg' width='40px' height='40px' alt='icon'/>References</h3>
-          <hr />
-          <div className='key-value-container'>
-            {reference.map((ref: IContact, index) => [
-              <div className='key-value-container-left' key={index+'-reference-left'}>
-                <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p> 
-              </div>,
-              <div className='key-value-container-right' key={index+'-reference-right'}>
-                <p>Phone num. {ref.phone} ({ref.phoneAvailable})</p>
-                <p>{ref.email}</p>  
-              </div>
-            ])}
-          </div>
-        </div>}
       {experience && experience.length > 0 &&
         <div className='cv-container-item'>
           <h3><img src='work.svg' width='55px' height='55px' alt='icon'/>Work Experience</h3>
@@ -176,7 +160,8 @@ const Home: React.FC<Props> = (props) => {
               </div>
             ])}
           </div>
-        </div>}
+        </div>} 
+      <div className='pagebreak'></div>
       {communication &&
         <div className='cv-container-item'>
           <h3><img src='communication.svg' width='45px' height='45px' alt='icon' />Language skills</h3>
@@ -197,6 +182,22 @@ const Home: React.FC<Props> = (props) => {
           {cv.skills.content.map((skill, index) =>
             <p key={index + 'skill'}>{skill}</p>
           )}
+        </div>}
+      {reference && reference.length > 0 &&
+        <div className='cv-container-item'>
+          <h3><img src='reference.svg' width='40px' height='40px' alt='icon'/>References</h3>
+          <hr />
+          <div className='key-value-container'>
+            {reference.map((ref: IContact, index) => [
+              <div className='key-value-container-left' key={index+'-reference-left'}>
+                <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p> 
+              </div>,
+              <div className='key-value-container-right' key={index+'-reference-right'}>
+                <p>Phone num. {ref.phone} ({ref.phoneAvailable})</p>
+                <p>{ref.email}</p>  
+              </div>
+            ])}
+          </div>
         </div>}
       {cv.attachments &&
         <div className='cv-container-item'>

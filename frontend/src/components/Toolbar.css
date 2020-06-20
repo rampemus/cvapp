@@ -53,3 +53,9 @@
   margin-top: 4px;
   width: stretch;
 }
+
+@media print {
+  .toolbar {
+    display: none;
+  }
+}

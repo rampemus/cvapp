@@ -85,7 +85,7 @@ Delete user
   [Arguments]  ${DELETE_USERNAME}
   Click Element  Users
   Wait for react  reducer=loader
-  Sleep  200ms
+  # Sleep  200ms
   Mouse Over  LinkTo${DELETE_USERNAME}
   Click Element  Delete${DELETE_USERNAME}
   Wait for react  reducer=loader

@@ -51,7 +51,7 @@ User can change username
   Click Element  Logout
   Login  ${TEST_USERNAME}Edited  ${TEST_PASSWORD}Edited
   Wait for react  reducer=loader
-  Sleep  100ms
+  # Sleep  100ms
   Page should contain  Logged in as ${TEST_USERFULLNAME}Edited
 
 Remove test user

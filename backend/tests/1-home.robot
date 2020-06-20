@@ -27,7 +27,7 @@ Create test CV
 Default empty CV
   Click Element  MyCV
   Wait for react  reducer=loader
-  Sleep  500ms
+  # Sleep  500ms
   ${TEST_CV_SELECT}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[1].id
   Click Element  ${TEST_CV_SELECT}
   Click Element  SetAsDefaultCV
@@ -41,7 +41,7 @@ Reselect main as default
   Go to  ${SERVER}/mycv/
   Wait for react
   Wait for react  reducer=loader
-  Sleep  100ms
+  # Sleep  100ms
   ${TEST_CV_SELECT}=  Execute JavaScript  return document.getElementsByClassName('cv-selector-item')[1].id
   Click Element  ${TEST_CV_SELECT}
   Wait for react  reducer=loader
@@ -54,6 +54,6 @@ Delete test CV and test user
   ${TEST_CV_DELETE}=  Selector delete  1
   Click Element  ${TEST_CV_DELETE}
   Wait for react  reducer=loader
-  Sleep  300ms
+  # Sleep  300ms
   Page should contain  CV name-required deleted
   Delete user  ${TEST_USERNAME}

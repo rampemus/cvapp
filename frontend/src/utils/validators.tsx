@@ -99,7 +99,7 @@ export const ContactSchema = Joi.object().keys({
   id: Joi.any(), 
   address: nameString.empty(''),
   company: nameString.empty(''),
-  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fi'] } }).empty(),
+  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fi'] } }).empty(''),
   firstname: nameString,
   lastname: nameString,
   linkedin: Joi.string().uri().empty(''),

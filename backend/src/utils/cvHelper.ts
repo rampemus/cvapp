@@ -226,7 +226,7 @@ const generateTestCV = async (username: string) => {
         name: 'CV project',
         owner,
         showcaseUrl: 'http://localhost:3000/',
-        thumbnailUrl: 'logo.svg',
+        thumbnailUrl: 'http://localhost:3004/logo.svg',
     })
     const savedProject = await project.save()
 

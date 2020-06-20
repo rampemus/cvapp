@@ -65,7 +65,9 @@
 
 .project-card img {
   margin-right: 10px;
-  object-fit: contain;
+  margin-left: -5px;
+  object-fit: contain; 
+  min-width: 140px;
 }
 
 .project-card h4 {

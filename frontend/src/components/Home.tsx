@@ -121,7 +121,7 @@ const Home: React.FC<Props> = (props) => {
                 <h4>{project.name}</h4>
                 <p>{project.description}</p>
                 <p className='project-card-links'>
-                  <a id={'githubLink' + project.id} href={project.githubUrl}>github</a>- <a id={'showcaseLink' + project.id} href={project.showcaseUrl}>showcase</a>
+                  <a id={'githubLink' + project.id} href={project.githubUrl}>github</a> - <a id={'showcaseLink' + project.id} href={project.showcaseUrl}>showcase</a>
                 </p>
               </div>
             </div>

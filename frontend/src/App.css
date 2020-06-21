@@ -29,8 +29,8 @@ input {
 @media only screen and (max-width: 600px) {
   .content {
     max-width: 580px;
-    margin-left: 25px;
-    padding-top: 10px;
+    /* margin-left: 25px; */
+    padding-top: 0px;
   }
 } 
 

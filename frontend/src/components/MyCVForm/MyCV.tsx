@@ -103,13 +103,13 @@ const MyCV: React.FC<Props> = (props) => {
                         props.showNotification(error.response.data.error, Type.ERROR, 12)
                       }
                   })}}
-                >Set As Default CV</button>,
+                >Set As Default</button>,
                 <Link key={'toolbarlink' + match.params.id} to={`/preview/${match.params.id}`}>
                   <button id='Preview' className='toolbar-button'>Preview</button>
                 </Link>
               ]}/> 
               <Route exact path="/mycv" render={({ match }) => [
-                <button key='toolbar-button-1' className='toolbar-button' disabled> Set As Default CV</button>,
+                <button key='toolbar-button-1' className='toolbar-button' disabled> Set As Default</button>,
                 <button key='toolbar-button-2' className='toolbar-button' disabled>Preview</button>
               ]} /> 
             </div>

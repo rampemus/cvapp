@@ -3,6 +3,7 @@
   top: 60px;
   right: 0px;
   text-align: right;
+  flex: none;
   flex-wrap: nowrap;
   margin-right: 10px;
   padding: 3px;
@@ -57,5 +58,15 @@
 @media print {
   .toolbar {
     display: none;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .toolbar {
+    top: 46px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .toolbar {
+    margin-right: 90px;
   }
 }

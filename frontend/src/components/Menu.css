@@ -115,24 +115,56 @@
 
 @media only screen and (max-width: 600px) {
   .Menu {
-    height: 60px;
+    height: 45px;
     display: flex;
     align-items: flex-start;
     justify-items: stretch;
-    grid-template-columns: [menu-items] auto 50px [settings];
+    grid-template-columns: auto [menu-items] auto ;
   }
 
   .cv-app-logo {
-    display:none;
+    position: fixed;
+    margin-top: -4px;
+    margin-left: 0px;
+    padding-left: 2px;
   }
 
-  .settings {
-    position: absolute;
-    margin-top: 62px;
+
+  .menu-item {
+    height: 32px;
+    background-color: rgb(51, 57, 66);
+  }
+  .selected {
+    background-color: rgb(115, 119, 131);
   }
 
   .menu-item {
-      height: 32px;
+    padding: 7px;
+    margin: 4px;
+    height: 24px;
+    font-weight: 600;
   }
 
+  .Menu {
+    text-align: center;
+    display: grid;
+    grid-template-columns: auto [menu-items] auto;
+  }
+
+  .settings {
+    margin-left: -110px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .settings {
+    position: absolute;
+    margin-top: 46px;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .cv-app-logo {
+    display: none;
+  }
 }

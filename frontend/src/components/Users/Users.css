@@ -70,3 +70,36 @@ table td:last-child {
   border-color: lightgrey;
   padding: 4px;
 }
+
+@media only screen and (max-width: 600px) {
+  table {
+    display: flex;
+    min-width: 50px;
+    margin-left: 4px;
+    max-width: 100%;
+  } 
+
+  th {
+    text-align: left;
+    font-weight: 250;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 20vw;
+  }
+
+  td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    min-height: none;
+    min-width: none;
+    max-width: 20vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  table td:last-child {
+    display: none;
+  }
+}

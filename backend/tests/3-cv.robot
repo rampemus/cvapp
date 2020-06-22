@@ -281,7 +281,7 @@ Edit other skills fields name and content
   Click Element  Preview
   Wait for react
   Wait for react  reducer=loader
-  Sleep  100ms
+  Sleep  140ms
   Page should not contain  Edited skills name
   Page should contain  Edited skills content
 

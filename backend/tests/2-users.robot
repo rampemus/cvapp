@@ -28,6 +28,7 @@ User can change name
   Input Text  NewUserFullName  Edited
   Click Element  SubmitUserForm
   Wait for react  reducer=loader
+  Sleep  100ms
   Page should contain  ${TEST_USERFULLNAME}Edited
 
 User can change password

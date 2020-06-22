@@ -226,7 +226,6 @@
 .form-input-language {
   grid-column-start: 1;
   grid-column-end: 2;
-  background-color:red;
 }
 
 .form-input-level{

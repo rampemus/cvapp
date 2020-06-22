@@ -94,12 +94,12 @@
   margin-left: 10px;
 }
 
-@media (min-width: 1000px) {
-  .key-value-container {
-      display: grid;
-      grid-template-columns: 180px 20px auto;
-  }
+.key-value-container {
+    display: grid;
+    grid-template-columns: 180px 20px auto;
+}
 
+@media (min-width: 1000px) {
   .cv-container-item-left {
     grid-column-start: 1;
     grid-column-end: 2;
@@ -170,14 +170,7 @@
 @media only screen and (max-width: 600px) {
   .cv-container h1 {
     margin-top: 20px;
-  }
-  .cv-container {
-    display: grid;
-    /* margin-left: 10px;
-    margin-right: 10px; */
-  }
-  .key-value-container {
-    background-color: red;
+    margin-left: 7px;
   }
   .cv-container-item {
     max-width: 500px;
@@ -188,6 +181,17 @@
       top: 15px;
       margin-top: -27px;
   }
+  .cv-container {
+    display: block;
+    margin-left: 0px;
+    margin-right: 0px;
+    max-width: 95vw;
+  }
+  .cv-container p {
+    display: block;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
   .content h1 {
     margin-left: 9px;
   }
@@ -195,7 +199,21 @@
     text-transform: uppercase;
     font-weight: 500;
     margin-bottom: 4px;
-    margin-left: 5px;
+    margin-left: 8px;
+  }
+  .cv-container hr {
+    margin-left: 36px;
+  }
+  .project-card {
+    margin-left: 15px;
+  }
+
+  .key-value-container {
+    display: grid;
+    grid-template-columns: 100px 10px auto;
+  }
+  .cv-container-item-left p {
+    font-size: smaller;
   }
 }
 
@@ -235,5 +253,9 @@
   .pagebreak {
     clear: both;
     page-break-after: always;
+  }
+
+  .image-after-pagebreak {
+    padding-top: 150px;
   }
 }

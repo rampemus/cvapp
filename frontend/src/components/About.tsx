@@ -1,9 +1,10 @@
 import React from 'react'
+import './About.css'
 
 const About: React.FC = (props) => {
 
   return(
-    <div>
+    <div className='about-container'>
       <h1>About this site</h1>
       <p>This single-page-app will show my CV information and also deliver a simple graphical UI for creating and modifying CV data.</p>
       <p>Almost everything in this site is crafted from scratch (all the way from user authentication to datePicker-components). 

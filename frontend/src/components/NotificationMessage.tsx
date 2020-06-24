@@ -88,7 +88,7 @@ const NotificationMessage: React.FC<Props> = (props) => {
         }}
       >
         {message.text}
-        {messageTextAfterLink && <span><a href='https://rampemus-cvapp.herokuapp.com'>CV app</a>{messageTextAfterLink}</span>}
+        {messageTextAfterLink && <span><a href='https://rampemus-cvapp.herokuapp.com' style={{textDecoration: 'underline'}}>CV app</a>{messageTextAfterLink}</span>}
       </div>
       <div   
         className='notification-close-button'

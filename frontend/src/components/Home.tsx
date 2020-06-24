@@ -161,10 +161,9 @@ const Home: React.FC<Props> = (props) => {
             ])}
           </div>
         </div>} 
-      <div className='pagebreak'></div>
       {communication &&
         <div className='cv-container-item'>
-          <h3><img className='image-after-pagebreak' src='communication.svg' width='45px' height='45px' alt='icon' />Language skills</h3>
+          <h3><img src='communication.svg' width='45px' height='45px' alt='icon' />Language skills</h3>
           <hr />
           <div className='language-container'>
             {communication.languages.map((language,index) =>
@@ -175,9 +174,10 @@ const Home: React.FC<Props> = (props) => {
             <p key={index + 'skill'}>{skill}</p>
           )}
         </div>}
+      <div className='pagebreak'></div>
       {cv.skills &&
         <div className='cv-container-item'>
-          <h3><img src='skills.svg' width='45px' height='45px' alt='icon'/>Other Skills</h3>
+          <h3><img className='image-after-pagebreak' src='skills.svg' width='45px' height='45px' alt='icon'/>Other Skills</h3>
           <hr />
           {cv.skills.content.map((skill, index) =>
             <p key={index + 'skill'}>{skill}</p>

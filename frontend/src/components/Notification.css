@@ -82,6 +82,21 @@
 
 @media print {
   .notificationContainer {
+    position: absolute;
+    top: 128vh;
+    width: 600px;
+    margin-left: -300px;
+  }
+  .success {
+    background-color: white;
+    background: none;
+    font-size: smaller;
+    text-align: center;
+  }
+  .success svg {
+    visibility: hidden;
+  }
+  .notification-close-button {
     display: none;
   }
 }

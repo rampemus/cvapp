@@ -70,7 +70,7 @@ const Users: React.FC<Props> = (props) => {
     usersService.createUser(props.user).then(
       response => {
         props.showNotification(
-          `User ${response.data.name} created. Username/password is ${response.data.username}/${response.data.password}`,
+          `To view this CV in electronic format, please login to my https://rampemus-cvapp.herokuapp.com using username: ${response.data.username} and password: ${response.data.password}`,
           Type.SUCCESS
         )
         updateUsers()

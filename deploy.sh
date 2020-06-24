@@ -16,7 +16,7 @@ cp -r build ../backend/build
 cd ..
 
 cd backend
-# npm run test || exit 0
+npm run test || exit 0
 npm run build
 cp -r build ../../heroku-cvapp/build
 cp -r dist ../../heroku-cvapp/dist

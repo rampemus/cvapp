@@ -72,7 +72,7 @@ const NotificationMessage: React.FC<Props> = (props) => {
       className={`notification ${message.type}`}
       style={{
         transition: 'all 0.4s ease',
-        maxHeight: deleted ? '0' : '50px',
+        maxHeight: deleted ? '0' : '100px',
         paddingTop: deleted ? '0' : '10px',
         paddingBottom: deleted ? '0' : '10px',
         marginTop: deleted ? '0' : '5px',

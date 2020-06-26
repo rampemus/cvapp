@@ -27,14 +27,14 @@ const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
   if (duration < year) 
     return ongoing
       ? <p>
-        {startDate.getFullYear()}/{startDate.getMonth() + 1}
-        &nbsp;–&nbsp;
-      </p>
+          {startDate.getFullYear()}/{startDate.getMonth() + 1}
+          &nbsp;–&nbsp;
+        </p>
       : <p>
-        {startDate.getFullYear()}/{startDate.getMonth()+1}
-        &nbsp;–&nbsp;
-        {endDate.getFullYear()}/{endDate.getMonth()+1}
-      </p>
+          {startDate.getFullYear()}/{startDate.getMonth()+1}
+          &nbsp;–&nbsp;
+          {endDate.getFullYear()}/{endDate.getMonth()+1}
+        </p>
   return ongoing 
     ? <p>{startDate.getFullYear()} – </p>
     : <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>

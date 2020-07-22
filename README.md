@@ -40,7 +40,7 @@ Local mongoDB-server for newest iOS works by simply creating "data" folder in yo
 
 Once mongoDB is up and running the development servers start up for frontend according to [these](https://github.com/rampemus/cvapp/tree/master/frontend) instructions and backend nodemon starts watching the changes by running:
 
-`yarn watch`
+`npm run start:tsnode`
 
 in the backend-folder.
 
@@ -57,3 +57,5 @@ And end-to-end tests with current UI build will run also from backend-folder:
 Requirements for robotframework need to be installed manually for now:
 
 `pip3 install robotframework robotframework-debuglibrary robotframework-react robotframework-seleniumlibrary robotframework-webpack`
+
+Test can be run only if development environment is up.

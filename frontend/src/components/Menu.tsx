@@ -1,5 +1,5 @@
 import React from 'react'
-import './Menu.css'
+import './Menu.scss'
 import { clearCVS } from '../reducers/cvReducer'
 import { Link, useLocation } from 'react-router-dom'
 import { UserState, logoutUser } from '../reducers/userReducer'

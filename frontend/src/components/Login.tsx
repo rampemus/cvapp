@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './Login.css'
+import './Login.scss'
 import useField, { FieldType } from '../hooks/useField'
 import loginService, { loginError } from '../services/loginService'
 import { setUser, UserState } from '../reducers/userReducer'

@@ -30,14 +30,14 @@
   margin-bottom: 0px;
   border:solid 3px #ccc;
   border-radius: 10px;
-}
+    
+  &:hover:not:disabled {
+    border: solid 3px rgb(225, 228, 233);
+  }
 
-.login-input:hover:not:disabled {
-  border: solid 3px rgb(225, 228, 233);
-}
-
-.login-input:focus {
-  border:solid 3px #ffffff;
+  &:focus {
+    border: solid 3px #ffffff;
+  }
 }
 
 .login-button {
@@ -50,17 +50,17 @@
   border-radius: 10px;
   margin: 10px;
   background-color: rgb(255, 255, 255);
-}
+  
+  &:hover:not:disabled {
+    border: solid 3px rgb(225, 228, 233);
+  }
 
-.login-button:hover:not:disabled {
-  border: solid 3px rgb(225, 228, 233);
-}
+  &:focus {
+    border:solid 3px #ffffff
+  }
 
-.login-button:focus {
-  border:solid 3px #ffffff
-}
-
-.login-button:active {
-  background-color: #ccc;
-  color: #000;
+  &:active {
+    background-color: #ccc;
+    color: #000;
+  }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import './Footer.css'
+import './Footer.scss'
 import { connect } from 'react-redux'
 import { UserState } from '../reducers/userReducer'
 import { AppState } from '..'

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import './Preview.css'
+import './Preview.scss'
 import { connect } from 'react-redux'
 import { AppState } from '..'
 import { ICV, IContact, IExperience, ICommunication } from '../services/cvService'

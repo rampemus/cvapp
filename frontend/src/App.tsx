@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './App.css'
+import './App.scss'
 import Background from './background/HexaBackground'
 import Menu from './components/Menu'
 import Login from './components/Login'

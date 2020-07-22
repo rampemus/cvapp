@@ -15,14 +15,7 @@ body {
   }
 }
 
-@page {
-    margin-top: 0cm;
-    margin-bottom: 2cm;
-    margin-left: 0cm;
-    margin-right: 0cm;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
 }

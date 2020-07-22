@@ -1,5 +1,5 @@
 import React from 'react'
-import './Toolbar.css'
+import './Toolbar.scss'
 
 const Toolbar: React.FC = (props) => {
   return(

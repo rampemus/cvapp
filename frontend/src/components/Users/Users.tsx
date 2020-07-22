@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './Users.scss'
 import './Users.css'
 import UsersRow from './UsersRow'
 import usersService, { IUser, usersError } from '../../services/usersService'

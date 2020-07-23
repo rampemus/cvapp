@@ -12,32 +12,32 @@
   border-bottom-right-radius: 14px;
   background-color:rgb(235, 235, 235);
   z-index: 1;
-}
-
-.toolbar-input:focus {
-  border:solid 3px #ffffff;
-}
-
-.toolbar-button {
-  text-align: center;
-  font-size: 12px;
-  font-weight:500;
-  padding: 4px;
-  min-width: 30px;
-  border: solid 3px #ccc;
-  border-radius: 10px;
-  margin-top: 5px;
-  margin: 1px 3px 1px 3px;
-  background-color: rgb(255, 255, 255);
   
-  &:enabled:hover {
-    border: solid 3px rgb(225, 228, 233);
-    cursor: pointer;
+  .toolbar-input:focus {
+    border:solid 3px #ffffff;
   }
   
-  &:enabled:active {
-    border: solid 3px rgb(183, 193, 209); 
-    color: #000;
+  .toolbar-button {
+    text-align: center;
+    font-size: 12px;
+    font-weight:500;
+    padding: 4px;
+    min-width: 30px;
+    border: solid 3px #ccc;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin: 1px 3px 1px 3px;
+    background-color: rgb(255, 255, 255);
+    
+    &:enabled:hover {
+      border: solid 3px rgb(225, 228, 233);
+      cursor: pointer;
+    }
+    
+    &:enabled:active {
+      border: solid 3px rgb(183, 193, 209); 
+      color: #000;
+    }
   }
 }
   

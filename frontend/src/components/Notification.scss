@@ -1,0 +1,113 @@
+.notificationContainer {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  margin-left: -200px;
+  width: 400px;
+  z-index: 3;
+
+  .error {
+    background-color: rgba(255, 161, 161, 0.637);
+    background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));
+  }
+
+  .warning {
+    background-color: rgba(255, 253, 161, 0.637);
+    background: linear-gradient(rgba(255, 253, 161, 0.637), rgba(255, 240, 152, 0.95));
+  }
+
+  .success {
+    background-color: rgba(177, 255, 161, 0.637);
+    background: linear-gradient(rgba(169, 255, 161, 0.637), rgba(190, 255, 171, 0.95));
+  }
+
+  
+  .notification {
+    align-self: right;
+    padding: 10px;
+    border-radius: 10px;
+    grid-template-columns: auto 20px;
+    
+    .notification-close-button {
+      align-self: center;
+      margin-top: -20px;
+      grid-column-start: -2;
+      grid-column-end: span -1;
+      z-index: 5;
+    }
+
+    .notification-close-button {
+      align-self: center;
+    }
+
+    .notification-close-button:hover {
+      cursor: pointer;
+    }
+
+    .notification-close-button .close-circle {
+      z-index: 4;
+      stroke: black;
+    }
+  }
+}
+
+// TODO: use mixin for gradients for all browser support
+// source: http://blog.vicreative.nl/2016/09/sass-mixin-for-transparent-gradient/
+// @mixin linear-gradient($top-color, $bottom-color, $opacity) {
+//     background: -moz-linear-gradient(top, rgba($top-color, $opacity) 0%, rgba($bottom-color, $opacity) 100%); /* FF3.6-15 */
+//     background: -webkit-linear-gradient(top, rgba($top-color, $opacity) 0%, rgba($bottom-color, $opacity) 100%); /* Chrome10-25,Safari5.1-6 */
+//     background: linear-gradient(to bottom, rgba($top-color, $opacity) 0%, rgba($bottom-color, $opacity) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+//     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{ie-hex-str(rgba($top-color, $opacity))}', endColorstr='#{ie-hex-str(rgba($bottom-color, $opacity))}',GradientType=0 ); /* IE6-9 */
+// }
+
+@media only screen and (max-width: 600px) {
+  .notificationContainer {
+    margin-left: -150px;
+    width: 300px;
+    opacity: 0.5;
+      
+    .error {
+      background-color: rgb(255, 161, 161);
+      background: linear-gradient(rgb(255, 161, 161), rgb(255, 152, 152));
+    }
+    
+    .warning {
+      background-color: rgb(255, 253, 161);
+      background: linear-gradient(rgb(255, 253, 161), rgb(255, 240, 152));
+    }
+      
+    .success {
+      background-color: rgb(177, 255, 161);
+      background: linear-gradient(rgb(169, 255, 161), rgb(190, 255, 171));
+    }
+      
+    .notification-close-button {
+      align-self: center;
+      margin-top: -40px;
+    }
+  }
+}
+
+@media print {
+  .notificationContainer {
+    position: absolute;
+    top: 128vh;
+    width: 550px;
+    margin-left: -300px;
+
+    .success {
+      background-color: white;
+      background: none;
+      font-size: smaller;
+      text-align: center;
+      
+      svg {
+        visibility: hidden;
+      }
+    }
+
+    .notification-close-button {
+      display: none;
+    }
+  }
+}

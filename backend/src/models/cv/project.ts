@@ -2,7 +2,7 @@ import { Document, model, Schema } from 'mongoose'
 import { IUser } from '../user'
 
 export interface IProject extends Document {
-  description: string,
+  content: string[],
   githubUrl: string,
   name: string,
   owner: IUser,
@@ -12,7 +12,7 @@ export interface IProject extends Document {
 }
 
 const projectSchema: Schema = new Schema({
-  description: { type: String, minlength: 3, required: true},
+  content: [String],
   githubUrl: String,
   name: { type: String, minlength: 3, required: true },
   owner: {

@@ -2,7 +2,7 @@ import { Document, model, Schema } from 'mongoose'
 import { IUser } from '../user'
 
 export interface IExperience extends Document {
-  description: string,
+  content: string[],
   name: string,
   owner: IUser,
   timeFrame: {
@@ -13,7 +13,7 @@ export interface IExperience extends Document {
 }
 
 const experienceSchema: Schema = new Schema({
-  description: { type: String, minlength: 3, required: true },
+  content: [String],
   name: { type: String, minlength: 3, required: true },
   owner: {
     ref: 'User',

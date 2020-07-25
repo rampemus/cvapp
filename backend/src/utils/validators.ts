@@ -44,15 +44,15 @@ const NewCommunicationSchema = Joi.object().keys({
 })
 
 const NewExperienceSchema = Joi.object().keys({
+    content: Joi.array().items(contentString),
     cv: CVConnectSchema,
-    description: contentString,
     name: nameString,
     timeFrame: Joi.object()
 })
 
 const NewProjectSchema = Joi.object().keys({
+    content: Joi.array().items(contentString),
     cv: CVConnectSchema,
-    description: contentString,
     githubUrl: Joi.string().uri(),
     name: nameString,
     showcaseUrl: Joi.string().uri(),

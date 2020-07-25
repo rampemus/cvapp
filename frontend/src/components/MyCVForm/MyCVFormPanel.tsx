@@ -81,9 +81,9 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
     <div key={id + 'timeframeerrormessage'} className='form-input-error-message'>{errors.id === id
       ? errors.timeFrame : ''}</div>,
     <div key={id + 'descriptionlabel'} className='form-label'>Description</div>,
-    <Field id={field + 'Descritpion' + id} key={id + 'descriptionfield'} className='form-textarea' placeholder='Content' as='textarea' type='text' name='description' disabled={isSubmitting} />,
+    <Field id={field + 'Descritpion' + id} key={id + 'descriptionfield'} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />,
     <div key={id + 'descriptionerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.description : ''}</div> 
+      ? errors.content : ''}</div> 
   ])
   if (field === 'info' || field === 'attachments' || field === 'skills') return ([
     <div key={id + 'namelabel'} className='form-label'>Name</div>,
@@ -101,9 +101,9 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
     <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
       ? errors.name : ''}</div>,
     <div key={id + 'descriptionlabel'} className='form-label'>Description</div>,
-    <Field id={field + 'Description' + id} key={id + 'descriptiontextarea'} className='form-textarea' placeholder='Description' as='textarea' type='text' name='description' />,
+    <Field id={field + 'Description' + id} key={id + 'descriptiontextarea'} className='form-textarea' placeholder='Description' as='textarea' type='text' name='content' />,
     <div key={id + 'descriptionerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.description : ''}</div>,
+      ? errors.content : ''}</div>,
     <div key={id + 'githublabel'} className='form-label'>Github</div>, 
     <Field id={field + 'GithubUrl' + id} key={id + 'githubinput'} className='form-input' placeholder='Github url' type='text' name='githubUrl' />,
     <div key={id + 'githuberrormessage'} className='form-input-error-message'>{errors.id === id

@@ -119,7 +119,9 @@ const Home: React.FC<Props> = (props) => {
               </div>
               <div>
                 <h4>{project.name}</h4>
-                <p>{project.description}</p>
+                {project.content.map((projectRow, index) =>
+                  <p key={index + 'project' + project.id}>{projectRow}</p>
+                )}
                 <p className='project-card-links'>
                   <a id={'githubLink' + project.id} href={project.githubUrl}>github</a> - <a id={'showcaseLink' + project.id} href={project.showcaseUrl}>showcase</a>
                 </p>
@@ -139,7 +141,10 @@ const Home: React.FC<Props> = (props) => {
                 {renderTimeFrame(exp.timeFrame)}
               </div>,
               <div className='key-value-container-right' key={index + '-experience-right'}>
-                <p>{exp.description}</p>
+                {/* <p>{exp.description}</p> */}
+                {exp.content.map((expRow, index) =>
+                  <p key={index + 'exp' + exp.id}>{expRow}</p>
+                )}
               </div>
             ])}
           </div>
@@ -156,7 +161,10 @@ const Home: React.FC<Props> = (props) => {
                 {renderTimeFrame(edu.timeFrame)}
               </div>,
               <div className='key-value-container-right' key={index + '-education-right'}>
-                <p>{edu.description}</p>
+                {/* <p>{edu.description}</p> */}
+                {edu.content.map((eduRow, index) =>
+                  <p key={index + 'edu' + edu.id}>{eduRow}</p>
+                )}
               </div>
             ])}
           </div>

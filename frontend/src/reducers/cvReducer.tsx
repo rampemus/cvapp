@@ -64,7 +64,11 @@ const initState: cvState = {
             endDate: new Date('2020-01-14T12:34:33.498Z'),
             startDate: new Date('2020-01-14T12:34:33.498Z')
           },
-          description: '...',
+          content: [
+            '...',
+            '...',
+            '...'
+          ],
           name: '...',
           owner: {
             created: new Date('2020-01-13T13:18:58.111Z'),
@@ -80,7 +84,11 @@ const initState: cvState = {
           endDate: new Date('2020-01-14T12:34:33.498Z'),
           startDate: new Date('2020-01-14T12:34:33.498Z')
         },
-        description: '...',
+        content: [
+          '...',
+          '...',
+          '...'
+        ],
         name: '...',
         owner: {
           created: new Date('2020-01-13T13:18:58.111Z'),
@@ -106,7 +114,11 @@ const initState: cvState = {
       },
       projects: [
         {
-          description: '...',
+          content: [
+            '...',
+            '...',
+            '...'
+          ],
           githubUrl: '',
           name: '...',
           owner: {
@@ -197,7 +209,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
         case 'experience':
           return { lastOpened: state.lastOpened, cvs: state.cvs.map((cvObject: ICV) => {
             const emptyExperience: IExperience = {
-              description: '',
+              content: [''],
               name: '',
               owner: cv.owner,
               timeFrame: {
@@ -218,7 +230,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyExperience: IExperience = {
-                  description: '',
+                  content: [''],
                   name: '',
                   owner: cv.owner,
                   timeFrame: {
@@ -263,7 +275,7 @@ const cvReducer = (state: cvState = initState, action: CVAction) => {
             cvs: state.cvs.map((cvObject: ICV) => {
               if (cvObject.id === cv.id) {
                 const emptyProject: IProject = {
-                  description: '',
+                  content: [''],
                   githubUrl: '',
                   name: '',
                   owner: cv.owner,

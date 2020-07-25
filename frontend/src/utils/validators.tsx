@@ -75,7 +75,7 @@ export const CommunicationSchema = Joi.object().keys({
 
 export const ExperienceSchema = Joi.object().keys({
   id: Joi.any(), 
-  description: contentString,
+  content: contentString,
   name: nameString,
   timeFrame: Joi.object()
 })
@@ -88,7 +88,7 @@ export const ProfileSchema = Joi.object().keys({
 
 export const ProjectSchema = Joi.object().keys({
   id: Joi.any(), 
-  description: contentString,
+  content: contentString,
   githubUrl: Joi.string().uri().empty(''),
   name: nameString,
   showcaseUrl: Joi.string().uri().empty(''),

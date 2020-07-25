@@ -161,7 +161,7 @@ const generateTestCV = async (username: string) => {
     const savedProfile = await profile.save()
 
     const experience = new Experience({
-        description: 'Many job done',
+        content: ['Many job done'],
         name: 'The average job',
         owner,
         timeFrame: {
@@ -172,7 +172,7 @@ const generateTestCV = async (username: string) => {
     const savedExperience = await experience.save()
 
     const education = new Experience({
-        description: 'Many studies done',
+        content: ['Many studies done'],
         name: 'The basic degree',
         owner,
         timeFrame: {
@@ -221,7 +221,7 @@ const generateTestCV = async (username: string) => {
     const savedAttachments = await attachments.save()
 
     const project = new Project({
-        description: 'Project that will be soon finished',
+        content: ['Project that will be soon finished'],
         githubUrl: 'https://github.com/rampemus/cvapp',
         name: 'CV project',
         owner,

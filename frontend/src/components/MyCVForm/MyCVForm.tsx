@@ -71,7 +71,7 @@ const renderProjectForm = (project: IProject, field: string) => (
   <FormPanel
     formValues={{
       id: project.id,
-      description: project.description,
+      content: project.content,
       githubUrl: project.githubUrl,
       name: project.name,
       showcaseUrl: project.showcaseUrl,
@@ -87,7 +87,7 @@ const renderExperienceForm = (experience: IExperience, field: string) => (
   <FormPanel
     formValues={{
       id: experience.id,
-      description: experience.description,
+      content: experience.content,
       name: experience.name,
       timeFrame: experience.timeFrame,
     }}

@@ -20,7 +20,7 @@ export interface IContact {
 }
 
 export interface IExperience {
-  description: string,
+  content: string[],
   name: string,
   owner: IUser,
   timeFrame: {
@@ -52,7 +52,7 @@ export interface IProfile {
 }
 
 export interface IProject {
-  description: string,
+  content: string[],
   githubUrl: string,
   name: string,
   owner: IUser,
@@ -143,7 +143,8 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
 
   const duplicateProjects: any = cv.projects ?
     cv.projects.map((project) => { return {
-      description: project.description,
+      // description: project.description,
+      content: project.content,
       githubUrl: project.githubUrl,
       name: project.name + ' duplicate',
       showcaseUrl: project.showcaseUrl,
@@ -167,7 +168,7 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
   const duplicateExperience: any = cv.experience ?
     cv.experience.map((experience: any) => {
       return {
-        description: experience.description,
+        content: experience.content,
         name: experience.name + ' duplicate',
         timeFrame: {
           startDate: experience.timeFrame.startDate,
@@ -179,7 +180,7 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
   const duplicateEducation: any = cv.education ?
     cv.education.map((experience: any) => {
       return {
-        description: experience.description,
+        content: experience.content,
         name: experience.name + ' duplicate',
         timeFrame: {
           startDate: experience.timeFrame.startDate,
@@ -285,7 +286,7 @@ const deleteObject = (type: ServiceType, id: string, user: UserState) => {
 }
 
 interface IExperienceNoDate {
-  description: string,
+  content: string[],
   name: string,
   timeFrame: {
     startDate: string,

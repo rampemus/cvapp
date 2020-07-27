@@ -3,6 +3,7 @@ import { IUser } from '../user'
 
 export interface IExperience extends Document {
   content: string[],
+  description: string | null,
   name: string,
   owner: IUser,
   timeFrame: {

@@ -171,7 +171,7 @@ describe('/api/cv/:type GET', () => {
 
     const myProject = projects.body[0]
 
-    expect(myProject).toHaveProperty('description')
+    expect(myProject).toHaveProperty('content')
     expect(myProject).toHaveProperty('githubUrl')
     expect(myProject).toHaveProperty('name')
     expect(myProject).toHaveProperty('owner')
@@ -190,7 +190,7 @@ describe('/api/cv/:type GET', () => {
 
     const myJobExperience = experiences.body[0]
 
-    expect(myJobExperience).toHaveProperty('description')
+    expect(myJobExperience).toHaveProperty('content')
     expect(myJobExperience).toHaveProperty('name')
     expect(myJobExperience).toHaveProperty('owner')
     expect(myJobExperience).toHaveProperty('timeFrame')
@@ -364,8 +364,8 @@ describe('/api/cv/:type POST', () => {
     const token = 'bearer ' + rootLogin.body.token
 
     const newProject: INewProjectBody = {
+      content: ['new description'],
       cv: { field: 'projects', id: emptyTestCV.body.id },
-      description: 'new description',
       githubUrl: 'https://github.com/rampemus/cvapp',
       name: 'new name',
       showcaseUrl: 'http://localhost:3004/',
@@ -381,7 +381,7 @@ describe('/api/cv/:type POST', () => {
 
     const cvAfter = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id }).populate('projects')
 
-    expect(savedProject.body.description).toEqual(cvAfter.projects[0].description)
+    expect(savedProject.body.content[0]).toEqual(cvAfter.projects[0].content[0])
     expect(savedProject.body.githubUrl).toEqual(cvAfter.projects[0].githubUrl)
     expect(savedProject.body.name).toEqual(cvAfter.projects[0].name)
     expect(savedProject.body.showcaseUrl).toEqual(cvAfter.projects[0].showcaseUrl)
@@ -391,8 +391,8 @@ describe('/api/cv/:type POST', () => {
     const token = 'bearer ' + rootLogin.body.token
 
     const newExperience: INewExperienceBody = {
+      content: ['new description'],
       cv: { field: 'experience', id: emptyTestCV.body.id },
-      description: 'new description',
       name: 'new name',
       timeFrame: {
         endDate: new Date(),
@@ -420,10 +420,10 @@ describe('/api/cv/:type POST', () => {
     const cvAfter = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id })
       .populate(['experience', 'education'])
 
-    expect(savedExperience.body.description).toEqual(cvAfter.experience[0].description)
+    expect(savedExperience.body.content[0]).toEqual(cvAfter.experience[0].content[0])
     expect(savedExperience.body.name).toEqual(cvAfter.experience[0].name)
 
-    expect(savedEducation.body.description).toEqual(cvAfter.education[0].description)
+    expect(savedEducation.body.content[0]).toEqual(cvAfter.education[0].content[0])
     expect(savedEducation.body.name).toEqual(cvAfter.education[0].name)
   })
   test('communication', async () => {
@@ -677,7 +677,7 @@ describe('/api/cv/:type PUT', () => {
 
     const modifications = {
       changes: {
-        description: 'Modified description',
+        content: ['Modified description'],
         githubUrl: 'https://github.com/rampemus/modified',
         name: 'Modified name',
         showcaseUrl: 'http://localhost:3004',
@@ -697,8 +697,8 @@ describe('/api/cv/:type PUT', () => {
 
     const after = await Project.findOne({ _id: cv.projects[0] })
 
-    expect(before.description).not.toEqual(after.description)
-    expect(after.description).toEqual(modifications.changes.description)
+    expect(before.content[0]).not.toEqual(after.content[0])
+    expect(after.content[0]).toEqual(modifications.changes.content[0])
 
     expect(before.githubUrl).not.toEqual(after.githubUrl)
     expect(after.githubUrl).toEqual(modifications.changes.githubUrl)
@@ -719,7 +719,7 @@ describe('/api/cv/:type PUT', () => {
 
     const modifications = {
       changes: {
-        description: 'Modified description',
+        content: ['Modified description'],
         name: 'Modified name',
         timeFrame: {
           endDate: new Date(),
@@ -740,8 +740,8 @@ describe('/api/cv/:type PUT', () => {
 
     const after = await Experience.findOne({ _id: cv.experience[0] })
 
-    expect(before.description).not.toEqual(after.description)
-    expect(after.description).toEqual(modifications.changes.description)
+    expect(before.content[0]).not.toEqual(after.content[0])
+    expect(after.content[0]).toEqual(modifications.changes.content[0])
 
     expect(before.name).not.toEqual(after.name)
     expect(after.name).toEqual(modifications.changes.name)

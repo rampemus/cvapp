@@ -90,7 +90,7 @@ export interface INewCommunicationBody extends INewInfoBody {
 }
 
 export interface INewExperienceBody {
-  description: string,
+  content: string[],
   name: string,
   timeFrame?: {
     endDate: Date,
@@ -106,7 +106,7 @@ export interface INewProfileBody {
 }
 
 export interface INewProjectBody {
-  description: string,
+  content: string[],
   githubUrl?: string,
   name: string,
   showcaseUrl?: string,

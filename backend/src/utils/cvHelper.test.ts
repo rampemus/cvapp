@@ -30,7 +30,7 @@ test('deleteAllCVs', async () => {
 
     expect(await CurriculumVitae.find({})).toHaveLength(0)
     const repeat = 3
-    for ( let i = 0; i < repeat; i++ ) {
+    for (let i = 0; i < repeat; i++) {
         await new CurriculumVitae({
             contact: await new Contact({
                 firstname: 'This will',
@@ -78,7 +78,7 @@ test('deleteAllCVObjects', async () => {
     expect(await Profile.find({})).toHaveLength(0)
 
     await new Experience({
-        description: 'be deleted',
+        content: ['be deleted'],
         name: 'This will',
         owner
     }).save()
@@ -95,7 +95,7 @@ test('deleteAllCVObjects', async () => {
     expect(await Communication.find({})).toHaveLength(0)
 
     await new Project({
-        description: 'be deleted',
+        content: ['be deleted'],
         name: 'This will',
         owner
     }).save()
@@ -170,7 +170,7 @@ test('connectObjectToCVField', async () => {
     expect(await CurriculumVitae.find({ profile })).toHaveLength(1)
 
     const experience = await new Experience({
-        description: 'be deleted',
+        content: ['be deleted'],
         name: 'This will',
         owner
     }).save()
@@ -191,7 +191,7 @@ test('connectObjectToCVField', async () => {
     expect(await CurriculumVitae.find({ communication })).toHaveLength(1)
 
     const project = await new Project({
-        description: 'be deleted',
+        content: ['be deleted'],
         name: 'This will',
         owner
     }).save()
@@ -204,7 +204,7 @@ test('disconnectObjectFromCVField', async () => {
     const cv = await CurriculumVitae.findOne({})
 
     expect(await CurriculumVitae.find({ reference: cv.reference[0] + '' })).toHaveLength(1)
-    await disconnectObjectFromCVField( cv._id, 'reference', cv.reference[0] + '')
+    await disconnectObjectFromCVField(cv._id, 'reference', cv.reference[0] + '')
     expect(await CurriculumVitae.find({ reference: cv.reference[0] + '' })).toHaveLength(0)
 
     expect(await CurriculumVitae.find({ info: cv.info + '' })).toHaveLength(1)

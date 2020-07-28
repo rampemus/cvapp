@@ -3,7 +3,6 @@ import { IUser } from '../user'
 
 export interface IExperience extends Document {
   content: string[],
-  description: string | null,
   name: string,
   owner: IUser,
   timeFrame: {
@@ -15,6 +14,7 @@ export interface IExperience extends Document {
 
 const experienceSchema: Schema = new Schema({
   content: [String],
+  description: String,
   name: { type: String, minlength: 3, required: true },
   owner: {
     ref: 'User',

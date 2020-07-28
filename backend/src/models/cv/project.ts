@@ -13,6 +13,7 @@ export interface IProject extends Document {
 
 const projectSchema: Schema = new Schema({
   content: [String],
+  description: String,
   githubUrl: String,
   name: { type: String, minlength: 3, required: true },
   owner: {

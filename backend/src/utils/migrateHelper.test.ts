@@ -25,15 +25,17 @@ beforeAll(async () => {
 
   await deleteAllCVs()
   await deleteAllCVObjects()
+
 })
 
 describe('Migrate old descriptions', () => {
   test('from old experiences', async () => {
     const db = await mongodb.MongoClient.connect(MONGODB_URI, { useUnifiedTopology: true })
+
     const oldTypeExperience = {
       description: 'Old type description',
       name: 'Old experience',
-      owner: await User.findOne({}),
+      owner: await (await User.findOne({}))._id,
       timeFrame: {
         endDate: new Date(),
         startDate: new Date()
@@ -49,6 +51,31 @@ describe('Migrate old descriptions', () => {
     const after = await db.db().collection('experiences').findOne({ name: oldTypeExperience.name })
 
     expect(after.content[0]).toBe(oldTypeExperience.description)
+
+    db.close()
+  })
+
+  test('from old projects', async () => {
+    const db = await mongodb.MongoClient.connect(MONGODB_URI, { useUnifiedTopology: true })
+
+    const oldTypeProject = {
+      description: 'Old description',
+      githubUrl: 'some github url',
+      name: 'Old project',
+      owner: await (await User.findOne({}))._id,
+      showcaseUrl: 'some url to some showcase',
+      thumbnailUrl: 'some url to some thumbnail',
+    }
+
+    const before = await db.db().collection('projects').insertOne(oldTypeProject)
+    expect(before.result.n).toBe(1)
+    expect(before.result.ok).toBe(1)
+
+    await migrateProjectDescriptionsToContent()
+
+    const after = await db.db().collection('projects').findOne({ name: oldTypeProject.name })
+
+    expect(after.content[0]).toBe(oldTypeProject.description)
 
     db.close()
   })

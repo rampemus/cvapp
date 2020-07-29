@@ -4,11 +4,11 @@ CV application to show CV data
 
 ## Installation
 
-Make sure you have yarn/node installed and follow the instructions for installing [frontend](https://github.com/rampemus/cvapp/tree/master/frontend).
+Make sure you have yarn/npm installed and follow the instructions for installing [frontend](https://github.com/rampemus/cvapp/tree/master/frontend).
 
 Backend can be installed the same way running:
 
-`yarn install`
+`npm install`
 
 Define required environmental variables:
 
@@ -32,7 +32,7 @@ For local mongoDB follow instructions from [here](https://docs.mongodb.com/manua
 
 `brew install mongodb-community`
 
-Local mongoDB-server for newest iOS works by simply creating "data" folder in your users folder. Starting up the db will then work just by running:
+Local mongoDB-server for newest iOS works using "data" folder in your users folder (make sure data folder exists before running db). Starting up the db will then work just by running:
 
 `mongod --dbpath=/Users/<your_username>/data/`
 
@@ -42,17 +42,21 @@ Once mongoDB is up and running the development servers start up for frontend acc
 
 `npm run start:tsnode`
 
-in the backend-folder.
+in the backend-folder. Backend also serves last built frontend from the dist-folder.
 
 ## Running tests
 
-Jest tests can be run from backend-folder:
+Jest tests can be executed from backend-folder:
 
 `npm run test:jest`
 
-And end-to-end tests with current UI build will run also from backend-folder:
+And end-to-end tests with current UI build (or from running frontend) can be executed with the script:
 
 `npm run test:robot`
+
+All tests will execute running:
+
+`npm run test`
 
 Robot tests can be run using global installation:
 

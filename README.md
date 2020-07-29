@@ -48,14 +48,28 @@ in the backend-folder.
 
 Jest tests can be run from backend-folder:
 
-`yarn test:jest`
+`npm run test:jest`
 
 And end-to-end tests with current UI build will run also from backend-folder:
 
-`robot -d results tests`
+`npm run test:robot`
+
+Robot tests can be run using global installation:
+
+```
+robot -d results tests
+
+# execute test suite by filepath
+robot -d results tests/0-login.robot
+
+# execute test cases separately
+robot -d results --test "Login page loads" tests
+```
+
+## Test requirements
 
 Requirements for robotframework need to be installed manually for now:
 
-`pip3 install robotframework robotframework-debuglibrary robotframework-react robotframework-seleniumlibrary robotframework-webpack`
-
-Test can be run only if development environment is up.
+```
+pip3 install robotframework robotframework-debuglibrary robotframework-react robotframework-seleniumlibrary robotframework-webpack
+```

@@ -36,7 +36,7 @@ const guidGenerator = () => {
 const initState: NotificationState = {
   visible: true,
   messages: []
-} 
+}
 
 const notificationReducer = (state: NotificationState = initState, action: NotificationAction) => {
   switch (action.type) {
@@ -49,7 +49,7 @@ const notificationReducer = (state: NotificationState = initState, action: Notif
       return newState
     }
     case DELETE_NOTIFICATION: {
-      const newMessages:Message[] = state.messages.filter(message => message.id !== action.id)
+      const newMessages: Message[] = state.messages.filter(message => message.id !== action.id)
       const newState = {
         visible: (newMessages.length > 0),
         messages: newMessages
@@ -61,15 +61,15 @@ const notificationReducer = (state: NotificationState = initState, action: Notif
 }
 
 
-export const showNotification = (message:string, type:Type, lifeTime?:number ) => {
-  return async (dispatch:any) => {
+export const showNotification = (message: string, type: Type, lifeTime?: number) => {
+  return async (dispatch: any) => {
     const id = guidGenerator()
     const action: NotificationAction = {
       type: SHOW_NOTIFICATION,
       data: [{ text: message, id: id, type: type, duration: lifeTime }]
     }
     dispatch(action)
-    if ( lifeTime ) {
+    if (lifeTime) {
       setTimeout(() => {
         const deleteAfterTimeoutAction: NotificationAction = {
           type: DELETE_NOTIFICATION,
@@ -83,7 +83,7 @@ export const showNotification = (message:string, type:Type, lifeTime?:number ) =
 }
 
 export const deleteNotification = (id: string) => {
-  const action:NotificationAction = {
+  const action: NotificationAction = {
     type: DELETE_NOTIFICATION,
     id: id,
     data: []

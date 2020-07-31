@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { UserState } from '../reducers/userReducer'
 import { AppState } from '..'
 
-interface OwnProps {}
+interface OwnProps { }
 export interface StateProps { user?: UserState }
-export interface DispatchProps {}
+export interface DispatchProps { }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -25,8 +25,8 @@ const Footer: React.FC<Props> = (props) => {
     )
   }
   return (
-    <div className='Footer'>You are not logged in</div> 
+    <div className='Footer'>You are not logged in</div>
   )
 }
 
-export default connect(mapStateToProps,null)(Footer)
+export default connect(mapStateToProps, null)(Footer)

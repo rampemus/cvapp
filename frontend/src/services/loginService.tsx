@@ -12,15 +12,15 @@ interface loginResponse extends AxiosResponse {
 export interface loginError {
   status: number,
   response: {
-    data:{
+    data: {
       error: string,
       cooldownEnd?: number
     }
   }
 }
 
-const login = (username:string, password:string) => {
-  const credentials = { 'username':username, 'password':password }
+const login = (username: string, password: string) => {
+  const credentials = { 'username': username, 'password': password }
   const request = axios.post(baseUrl, credentials)
   return request.then((response: loginResponse) => response.data)
 }

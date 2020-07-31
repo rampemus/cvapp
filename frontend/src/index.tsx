@@ -9,8 +9,8 @@ import * as serviceWorker from './serviceWorker'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
 import thunk from 'redux-thunk'
-import cvReducer from './reducers/cvReducer';
-import loadingReducer from './reducers/loadingReducer';
+import cvReducer from './reducers/cvReducer'
+import loadingReducer from './reducers/loadingReducer'
 
 export const rootReducer = combineReducers({
   notification: notificationReducer,
@@ -22,8 +22,8 @@ export const rootReducer = combineReducers({
 export type AppState = ReturnType<typeof rootReducer>
 
 const store = process.env.NODE_ENV === 'production'
-? createStore(rootReducer, applyMiddleware(thunk))
-: createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
+  ? createStore(rootReducer, applyMiddleware(thunk))
+  : createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
 declare var window: any
 window.appStatus = false
@@ -35,7 +35,7 @@ const updateStatus = () => {
 const renderApp = () => {
   ReactDOM.render(
     <Provider store={store}>
-      <App updateStatus={updateStatus}/>
+      <App updateStatus={updateStatus} />
     </Provider>,
     document.getElementById('root')
   )

@@ -23,7 +23,7 @@ const loadingReducer = (state: ILoaderState = initState, action: loadingReducerA
 }
 
 export const setLoading = (loading: boolean) => {
-  const action:loadingReducerAction = {
+  const action: loadingReducerAction = {
     type: SET_LOADING,
     data: loading
   }

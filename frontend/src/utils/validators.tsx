@@ -67,27 +67,27 @@ export const InfoSchema = Joi.object().keys({
 })
 
 export const CommunicationSchema = Joi.object().keys({
-  id: Joi.any(), 
+  id: Joi.any(),
   content: contentString,
   languages: Joi.array().items(Joi.object()),
   name: nameString,
 })
 
 export const ExperienceSchema = Joi.object().keys({
-  id: Joi.any(), 
+  id: Joi.any(),
   content: contentString,
   name: nameString,
   timeFrame: Joi.object()
 })
 
 export const ProfileSchema = Joi.object().keys({
-  id: Joi.any(), 
+  id: Joi.any(),
   content: contentString,
   name: nameString,
 })
 
 export const ProjectSchema = Joi.object().keys({
-  id: Joi.any(), 
+  id: Joi.any(),
   content: contentString,
   githubUrl: Joi.string().uri().empty(''),
   name: nameString,
@@ -96,7 +96,7 @@ export const ProjectSchema = Joi.object().keys({
 })
 
 export const ContactSchema = Joi.object().keys({
-  id: Joi.any(), 
+  id: Joi.any(),
   address: nameString.empty(''),
   company: nameString.empty(''),
   email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fi'] } }).empty(''),

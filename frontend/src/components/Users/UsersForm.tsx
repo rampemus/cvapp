@@ -48,10 +48,10 @@ type Props = OwnProps & StateProps & DispatchProps
 
 const UsersForm: React.FC<Props> = (props) => {
   const [expires, setExpires] = useState<Date | undefined | null>(undefined)
-  
+
   return (
     <Formik
-      initialValues={ {
+      initialValues={{
         name: props.formValues?.name || '',
         username: props.formValues?.username || '',
         password: '',
@@ -62,12 +62,14 @@ const UsersForm: React.FC<Props> = (props) => {
       validate={(values) => {
         const validationResult = UserSchema.validate(values, true)
         if (!validationResult.error) return {}
-        const errorArray: [IDetails] = validationResult.error?.details.map((detail: IDetails) => { return {
-          ...detail,
-          message: detail.message.includes('fails to match the required pattern')
-          ? '"name" has forbidden characters'
-          : detail.message
-        }})
+        const errorArray: [IDetails] = validationResult.error?.details.map((detail: IDetails) => {
+          return {
+            ...detail,
+            message: detail.message.includes('fails to match the required pattern')
+              ? '"name" has forbidden characters'
+              : detail.message
+          }
+        })
         return {
           name: errorArray.find((error) => error.context.key === 'name')?.message,
           username: errorArray.find((error) => error.context.key === 'username')?.message,
@@ -75,7 +77,7 @@ const UsersForm: React.FC<Props> = (props) => {
           passwordConfirm: errorArray.find((error) => error.context.key === 'passwordConfirm')?.message,
           oldPassword: errorArray.find((error) => error.context.key === 'oldPassword')?.message,
         }
-      }} 
+      }}
       onSubmit={(values, { setSubmitting, setValues }) => {
         props.setLoading(true)
         if (props.newUser) {
@@ -115,7 +117,7 @@ const UsersForm: React.FC<Props> = (props) => {
             props.showNotification('User modifications updated successfully', Type.SUCCESS, 5)
             props.setLoading(false)
           }).catch((error) => {
-            props.showNotification(error.response.data.error, Type.ERROR, 5) 
+            props.showNotification(error.response.data.error, Type.ERROR, 5)
           })
         }
         setSubmitting(false)
@@ -159,5 +161,5 @@ const UsersForm: React.FC<Props> = (props) => {
     </Formik>
   )
 }
-    
-export default connect(mapStateToProps,mapDispatchToProps)(UsersForm)
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsersForm)

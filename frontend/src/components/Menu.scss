@@ -11,7 +11,7 @@
   grid-template-columns: [logo] 50px [menu-items] auto [loader] 50px [settings];
   align-items: flex-end;
   z-index: 1;
-  
+
   @media print {
     visibility: hidden;
   }
@@ -23,11 +23,11 @@
     text-decoration: none;
     transform: scaleY(1.1);
   }
-  
+
   & > a:visited {
     color: white;
   }
-  
+
   & > a:link:hover {
     text-decoration: underline;
   }
@@ -47,7 +47,7 @@
   color: white;
   white-space: nowrap;
   overflow: hidden;
-  
+
   img {
     opacity: 1;
     width: 15px;
@@ -55,7 +55,7 @@
     top: 3px;
     padding-right: 4px;
   }
-  
+
   &:hover {
     background-color: rgb(118, 118, 118);
     border: solid 3px rgb(23, 23, 23);
@@ -117,7 +117,7 @@
     display: flex;
     align-items: flex-start;
     justify-items: stretch;
-    grid-template-columns: auto [menu-items] auto ;
+    grid-template-columns: auto [menu-items] auto;
   }
 
   .cv-app-logo {
@@ -126,7 +126,6 @@
     margin-left: 0px;
     padding-left: 2px;
   }
-
 
   .menu-item {
     height: 32px;

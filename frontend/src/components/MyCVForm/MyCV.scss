@@ -22,8 +22,8 @@
   margin-top: 7px;
   margin-left: 28px;
   padding: 1px;
-  padding-right:5px;
-  padding-left:5px;
+  padding-right: 5px;
+  padding-left: 5px;
   font-size: 12px;
   color: grey;
   width: auto;
@@ -36,7 +36,11 @@
   font-weight: 600;
 }
 
-.cv-item :focus, :hover, :visited, :link, :active {
+.cv-item :focus,
+:hover,
+:visited,
+:link,
+:active {
   text-decoration: none;
 }
 
@@ -142,7 +146,7 @@
 }
 
 .form-component-container {
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
 }
 
@@ -152,28 +156,28 @@
   width: 522px;
 
   display: grid;
-  grid-template-columns: 120px auto auto 20px auto auto
+  grid-template-columns: 120px auto auto 20px auto auto;
 }
 
 .form-component-empty {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: 538px;
-    border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 538px;
+  border-radius: 10px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 2px white;
-    opacity: 0.5;
-    z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 2px white;
+  opacity: 0.5;
+  z-index: 0;
 }
 
 .form-component-empty:hover {
   opacity: 1;
   border: solid 2px white;
   color: white;
-  fill:rgb(255, 255, 255);
+  fill: rgb(255, 255, 255);
   cursor: pointer;
 }
 
@@ -181,7 +185,7 @@
   position: relative;
   top: 2px;
   opacity: 0.5;
-  z-index: 0; 
+  z-index: 0;
 }
 
 .form-label {
@@ -208,7 +212,10 @@
   font-size: small;
   text-align: center;
   background-color: rgba(255, 161, 161, 0.637);
-  background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));
+  background: linear-gradient(
+    rgba(255, 161, 161, 0.637),
+    rgba(255, 152, 152, 0.979)
+  );
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
   padding: 3px;
@@ -220,7 +227,7 @@
 }
 
 .form-input-error-message:empty {
-  display:none
+  display: none;
 }
 
 .form-input-language {
@@ -228,7 +235,7 @@
   grid-column-end: 2;
 }
 
-.form-input-level{
+.form-input-level {
   grid-column-start: 5;
   grid-column-end: 7;
 }
@@ -309,7 +316,7 @@
     width: 522px;
 
     display: grid;
-    grid-template-columns: 60px auto auto 20px auto auto
+    grid-template-columns: 60px auto auto 20px auto auto;
   }
 
   .form-component-empty {
@@ -325,7 +332,7 @@
   }
 
   .language-pair .form-button {
-      visibility: visible;
-      padding: 3px;
+    visibility: visible;
+    padding: 3px;
   }
 }

@@ -21,10 +21,6 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
     }
 }
 
-// const mapDispatchToProps: DispatchProps = {
-//     functionName
-// }
-
 type Props = OwnProps & StateProps & DispatchProps
 
 
@@ -40,9 +36,6 @@ const User: React.FC<Props> = (props) => {
         setOwner(response)
       })
     }
-    // .catch((error: usersError) => {
-    // })
-    // eslint-disable-next-line
   }, [user])
 
   if (!user) {

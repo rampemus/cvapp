@@ -39,20 +39,20 @@ type Props = OwnProps & StateProps & DispatchProps
 const App: React.FC<Props> = (props) => {
   const { user } = props
   const hideLogin = user && user.token.length > 2
-  const [ height, setHeight ] = useState(800)
+  const [height, setHeight] = useState(800)
 
-  console.log('running in',process.env.NODE_ENV)
+  console.log('running in', process.env.NODE_ENV)
 
-  useEffect(()=>{
+  useEffect(() => {
     const content = document.getElementById('content')
-    if ( content ) {
+    if (content) {
       setHeight(content.clientHeight)
     }
     if (props.user && props.user.token.length > 0) {
       props.updateCVs(props.user)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  }, [])
 
   const content = () => {
     props.updateStatus && props.updateStatus()
@@ -68,23 +68,23 @@ const App: React.FC<Props> = (props) => {
         <Route exact path='/'><Home /></Route>
         <Route path='/users'><Users /></Route>
         <Route path='/mycv'><MyCV /></Route>
-        <Route path='/preview'><MyCV /></Route> 
+        <Route path='/preview'><MyCV /></Route>
         <Route exact path='/about'><About /></Route>
       </div>
     )
   }
 
-  return ( 
+  return (
     <div className="App" id="App">
       <Router>
-      <Menu showRoutes={!hideLogin}/>
-      <Background height={height}/>
+        <Menu showRoutes={!hideLogin} />
+        <Background height={height} />
         {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}
         {content()}
         {/* </ReactHeight> */}
-      <NotificationArea/>
-      <Footer/>
-      <Background height={height} bottom/>
+        <NotificationArea />
+        <Footer />
+        <Background height={height} bottom />
       </Router>
     </div>
   )

@@ -21,7 +21,7 @@ table {
       visibility: hidden;
       text-align: center;
       font-size: 12px;
-      font-weight:500;
+      font-weight: 500;
       padding: 4px;
       padding-bottom: 7px;
       min-width: 30px;
@@ -48,17 +48,16 @@ table {
     }
 
     button:hover {
-      background-color: rgb(255, 195, 195);;
+      background-color: rgb(255, 195, 195);
       cursor: pointer;
     }
   }
-  
+
   td:last-child {
     border: none;
     background-color: rgba(255, 255, 255, 0);
   }
 }
-
 
 .user-form-input {
   width: 100%;
@@ -98,5 +97,5 @@ table {
     & td:last-child {
       display: none;
     }
-  } 
+  }
 }

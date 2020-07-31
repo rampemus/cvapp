@@ -1,5 +1,5 @@
-import React from "react";
-import "./About.scss";
+import React from "react"
+import "./About.scss"
 
 const About: React.FC = (props) => {
   return (
@@ -50,7 +50,7 @@ const About: React.FC = (props) => {
         I wish you visit my github for changes.
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default About;
+export default About

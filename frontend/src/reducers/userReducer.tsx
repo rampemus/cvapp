@@ -13,9 +13,9 @@ interface SetUserAction {
 }
 
 const loggedUserJSON = window.localStorage.getItem('loggedUser') || null
-const user:UserState = loggedUserJSON ? JSON.parse(loggedUserJSON) : { token: '', username: '', name:'' }
+const user: UserState = loggedUserJSON ? JSON.parse(loggedUserJSON) : { token: '', username: '', name: '' }
 
-const userReducer = (state: UserState | undefined = user, action: SetUserAction ) => {
+const userReducer = (state: UserState | undefined = user, action: SetUserAction) => {
   switch (action.type) {
     case SET_USER: {
       return action.data
@@ -29,7 +29,7 @@ const userReducer = (state: UserState | undefined = user, action: SetUserAction 
 }
 
 export const setUser = (user: UserState) => {
-  const action:SetUserAction = {
+  const action: SetUserAction = {
     type: SET_USER,
     data: user
   }

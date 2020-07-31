@@ -13,7 +13,7 @@
   border-color: #bdc6dc;
   border-style: solid;
   padding: 20px;
-  border-radius: 15px
+  border-radius: 15px;
 }
 
 .rememberme {
@@ -28,9 +28,9 @@
   padding: 4px;
   margin: 10px;
   margin-bottom: 0px;
-  border:solid 3px #ccc;
+  border: solid 3px #ccc;
   border-radius: 10px;
-    
+
   &:hover:not:disabled {
     border: solid 3px rgb(225, 228, 233);
   }
@@ -43,20 +43,20 @@
 .login-button {
   text-align: center;
   font-size: 15px;
-  font-weight:500;
+  font-weight: 500;
   padding: 6px;
   min-width: 100px;
-  border:solid 3px #ccc;
+  border: solid 3px #ccc;
   border-radius: 10px;
   margin: 10px;
   background-color: rgb(255, 255, 255);
-  
+
   &:hover:not:disabled {
     border: solid 3px rgb(225, 228, 233);
   }
 
   &:focus {
-    border:solid 3px #ffffff
+    border: solid 3px #ffffff;
   }
 
   &:active {

@@ -8,26 +8,34 @@
 
   .error {
     background-color: rgba(255, 161, 161, 0.637);
-    background: linear-gradient(rgba(255, 161, 161, 0.637), rgba(255, 152, 152, 0.979));
+    background: linear-gradient(
+      rgba(255, 161, 161, 0.637),
+      rgba(255, 152, 152, 0.979)
+    );
   }
 
   .warning {
     background-color: rgba(255, 253, 161, 0.637);
-    background: linear-gradient(rgba(255, 253, 161, 0.637), rgba(255, 240, 152, 0.95));
+    background: linear-gradient(
+      rgba(255, 253, 161, 0.637),
+      rgba(255, 240, 152, 0.95)
+    );
   }
 
   .success {
     background-color: rgba(177, 255, 161, 0.637);
-    background: linear-gradient(rgba(169, 255, 161, 0.637), rgba(190, 255, 171, 0.95));
+    background: linear-gradient(
+      rgba(169, 255, 161, 0.637),
+      rgba(190, 255, 171, 0.95)
+    );
   }
 
-  
   .notification {
     align-self: right;
     padding: 10px;
     border-radius: 10px;
     grid-template-columns: auto 20px;
-    
+
     .notification-close-button {
       align-self: center;
       margin-top: -20px;
@@ -65,22 +73,22 @@
     margin-left: -150px;
     width: 300px;
     opacity: 0.5;
-      
+
     .error {
       background-color: rgb(255, 161, 161);
       background: linear-gradient(rgb(255, 161, 161), rgb(255, 152, 152));
     }
-    
+
     .warning {
       background-color: rgb(255, 253, 161);
       background: linear-gradient(rgb(255, 253, 161), rgb(255, 240, 152));
     }
-      
+
     .success {
       background-color: rgb(177, 255, 161);
       background: linear-gradient(rgb(169, 255, 161), rgb(190, 255, 171));
     }
-      
+
     .notification-close-button {
       align-self: center;
       margin-top: -40px;
@@ -100,7 +108,7 @@
       background: none;
       font-size: smaller;
       text-align: center;
-      
+
       svg {
         visibility: hidden;
       }

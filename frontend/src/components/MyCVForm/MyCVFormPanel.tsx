@@ -9,7 +9,7 @@ import MyCVFormDateSelector from './MyCVFormDateSelector'
 import MyCVFormLanguageLevelSelector, { ILevel } from './MyCVFormLanguageLevelSelector'
 import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
-import { 
+import {
   ExperienceSchema,
   IDetails,
   CommunicationSchema,
@@ -42,23 +42,23 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-const stringToArray = (data:string) => {
+const stringToArray = (data: string) => {
   return data.split('\n')
 }
-const arrayToString = (data:string[]) => {
+const arrayToString = (data: string[]) => {
   return data.join('\n')
 }
-const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoiError | any, values: any, setValues: Function, field:string) => {
-  if (field === 'experience' || field === 'education') return(
+const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoiError | any, values: any, setValues: Function, field: string) => {
+  if (field === 'experience' || field === 'education') return (
     <>
       <div className='form-label'>Name</div>
       <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>
+        ? errors.name : ''}</div>
       <div className='form-label'>Time duration</div>
       <div className='timeFrameContainer'>
         <div>
-          <MyCVFormDateSelector id={'StartTime'+id} date={values.timeFrame.startDate} handleChange={(newDate) => {
+          <MyCVFormDateSelector id={'StartTime' + id} date={values.timeFrame.startDate} handleChange={(newDate) => {
             setValues({
               ...values, timeFrame: {
                 startDate: newDate,
@@ -80,22 +80,22 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
         </div>
       </div>
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.timeFrame : ''}</div>
+        ? errors.timeFrame : ''}</div>
       <div className='form-label'>Description</div>
       <Field id={field + 'Descritpion' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.content : ''}</div> 
+        ? errors.content : ''}</div>
     </>
   )
   if (field === 'info' || field === 'attachments' || field === 'skills') return (
     <>
       <div className='form-label'>Name</div>
-        <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' />
-        <div className='form-input-error-message'>{errors.id === id
+      <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' />
+      <div className='form-input-error-message'>{errors.id === id
         ? errors.name : ''}</div>
-        <div className='form-label'>Content</div>
-        <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
-        <div className='form-input-error-message'>{errors.id === id
+      <div className='form-label'>Content</div>
+      <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
+      <div className='form-input-error-message'>{errors.id === id
         ? errors.content : ''}
       </div>
     </>
@@ -110,7 +110,7 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
       <Field id={field + 'Description' + id} className='form-textarea' placeholder='Description' as='textarea' type='text' name='content' />,
       <div className='form-input-error-message'>{errors.id === id
         ? errors.content : ''}</div>,
-      <div className='form-label'>Github</div>, 
+      <div className='form-label'>Github</div>,
       <Field id={field + 'GithubUrl' + id} className='form-input' placeholder='Github url' type='text' name='githubUrl' />,
       <div className='form-input-error-message'>{errors.id === id
         ? errors.githubUrl : ''}</div>,
@@ -129,50 +129,50 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
       <div className='form-label'>Firstname</div>
       <Field id={field + 'Firstname' + id} className='form-input' placeholder='Firstname' type='text' name='firstname' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.firstname : ''}</div>
+        ? errors.firstname : ''}</div>
       <div className='form-label'>Lastname</div>
       <Field id={field + 'Lastname' + id} className='form-input' placeholder='LastName' type='text' name='lastname' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.lastname : ''}</div>
+        ? errors.lastname : ''}</div>
       <div className='form-label'>E-mail</div>
       <Field id={field + 'Email' + id} className='form-input' placeholder='mailto@mail.com' type='text' name='email' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.email : ''}</div>
+        ? errors.email : ''}</div>
       <div className='form-label'>Linkedin</div>
       <Field id={field + 'Linkedin' + id} className='form-input' placeholder='www.linkedin.com/in/xxxxx-xxxxxx-XXXXXXXXX' type='text' name='linkedin' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.linkedin : ''}</div>
+        ? errors.linkedin : ''}</div>
       <div className='form-label'>Phone</div>
       <Field id={field + 'Phone' + id} className='form-input' placeholder='+358000000000' type='text' name='phone' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.phone : ''}</div>
+        ? errors.phone : ''}</div>
       <div className='form-label'>Available</div>
       <Field id={field + 'PhoneAvailable' + id} className='form-input' placeholder='Available during 9 am -  4 pm' type='text' name='phoneAvailable' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.phoneAvailable : ''}</div>
+        ? errors.phoneAvailable : ''}</div>
       <div className='form-label'>Address</div>
       <Field id={field + 'Address' + id} className='form-input' placeholder='Streetname 1 A 1, 00100 Cityname' type='text' name='address' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.address : ''}</div>
+        ? errors.address : ''}</div>
       <div className='form-label'>Company</div>
       <Field id={field + 'Company' + id} className='form-input' placeholder='Company name' type='text' name='company' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.company : ''}</div>
+        ? errors.company : ''}</div>
       <div className='form-label'>Picture</div>
       <Field id={field + 'PictureUrl' + id} className='form-input' placeholder='Picture Url' type='text' name='pictureUrl' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.pictureUrl : ''}</div>
+        ? errors.pictureUrl : ''}</div>
     </>
   )
   if (field === 'profile') return (
     <>
       <div className='form-label'>Name</div>
-        <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' />
-        <div className='form-input-error-message'>{errors.id === id
+      <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' />
+      <div className='form-input-error-message'>{errors.id === id
         ? errors.name : ''}</div>
-        <div className='form-label'>Content</div>
-        <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
-        <div className='form-input-error-message'>{errors.id === id
+      <div className='form-label'>Content</div>
+      <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
+      <div className='form-input-error-message'>{errors.id === id
         ? errors.content : ''}
       </div>
     </>
@@ -182,7 +182,7 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
       <div className='form-label'>Name</div>
       <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>
+        ? errors.name : ''}</div>
       <div className='form-label language-label'>Languages</div>
       <FieldArray name="languages" render={() => (
         <div className='language-panel'>
@@ -193,20 +193,20 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
                 id={'LanguageLevelSelector' + id + index}
                 initLevel={language.level}
                 handleChange={(newLevel) => {
-                const newValues = {
-                  ...values,
-                  languages: values.languages.map((entry: { language: string, level: string }) =>
-                    entry.language === language.language ? { language: entry.language, level: newLevel } : entry)
+                  const newValues = {
+                    ...values,
+                    languages: values.languages.map((entry: { language: string, level: string }) =>
+                      entry.language === language.language ? { language: entry.language, level: newLevel } : entry)
                   }
                   setValues(newValues)
                 }
-              }/>
+                } />
               <button className='form-button' onClick={(event) => {
                 event.preventDefault()
                 const newValues = {
                   ...values,
                   languages: values.languages.filter((entry: { language: string, level: string }) =>
-                  entry.language !== language.language)
+                    entry.language !== language.language)
                 }
                 setValues(newValues)
               }}>delete</button>
@@ -226,29 +226,29 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
             }}
           > add language </button>
         </div>
-      )}/>
+      )} />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.languages : ''}</div>
+        ? errors.languages : ''}</div>
       <div className='form-label'>Content</div>
       <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
-      <div className='form-input-error-message'>{errors.id === id 
-      ? errors.content : ''}</div>
+      <div className='form-input-error-message'>{errors.id === id
+        ? errors.content : ''}</div>
     </>
   )
-  return(
+  return (
     <>
       <div className='form-label'>Name</div>
       <Field id={field + 'Name' + id} className='form-input' placeholder='CV name' type='text' name='name' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>
+        ? errors.name : ''}</div>
       <div className='form-label'>Github</div>
       <Field id={field + 'Github' + id} className='form-input' placeholder='Github url' type='text' name='github' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.github : ''}</div>
+        ? errors.github : ''}</div>
       <div className='form-label'>Techlist</div>
       <Field id={field + 'Techlist' + id} className='form-input' placeholder='Java, CSS, Python, ...' type='text' name='techlist' />
       <div className='form-input-error-message'>{errors.id === id
-      ? errors.techlist : ''}</div>
+        ? errors.techlist : ''}</div>
     </>
   )
 }
@@ -262,19 +262,19 @@ type Props = OwnProps & StateProps & DispatchProps
 const MyCVFormPanel: React.FC<Props> = (props) => {
 
   const formValues = props.formValues ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => [key, value ? value : ''])) : null
-  
+
   const showPanelId = false
 
   const serviceType = props.serviceType
   const location = useLocation()
   const field = props.field
-  
+
   if (formValues) {
     const clearActionValues = props.formValues
-    ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, ''])) 
-    : null
-    
-    return(
+      ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, '']))
+      : null
+
+    return (
       <Formik
         initialValues={Object.fromEntries(
           Object.entries(formValues)
@@ -283,13 +283,13 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
         enableReinitialize
         validate={(values) => {
           let validationResult = null
-          switch(field) {
-            case 'info': { 
-              validationResult = InfoSchema.validate(values) 
-              break 
+          switch (field) {
+            case 'info': {
+              validationResult = InfoSchema.validate(values)
+              break
             }
             case 'projects': {
-              validationResult = ProjectSchema.validate(values) 
+              validationResult = ProjectSchema.validate(values)
               break
             }
             case 'attachments': {
@@ -343,7 +343,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
           return {}
         }}
         onSubmit={(values, { setSubmitting }) => {
-          if ( values.id.includes('temp')) {
+          if (values.id.includes('temp')) {
             const path = location.pathname
             const id = path.substring('/myCV/'.length)
             const newValues = Object.fromEntries(
@@ -359,7 +359,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
             const changes = Object.fromEntries(
               Object.entries(values)
                 .filter(([key, value]) => formValues[key] !== value)
-                .map(([key, value]) => key === 'content' ? [key,stringToArray(value)] : [key, value])
+                .map(([key, value]) => key === 'content' ? [key, stringToArray(value)] : [key, value])
             )
             cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
               props.updateCVs(props.user)
@@ -367,7 +367,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
             })
           }
         }}
-        key={formValues.id + field }
+        key={formValues.id + field}
       >
         {({ isSubmitting, isValid, errors, values, setValues }) => (
           <Form className='form-component'>
@@ -375,9 +375,9 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
 
             {renderChildren(formValues.id, isSubmitting, errors, values, setValues, props.field)}
 
-            <DeleteButton id={field + 'Delete' + formValues.id} isSubmitting={isSubmitting || field === 'contact' || field === ''} handleDelete={(event:any)=>{
+            <DeleteButton id={field + 'Delete' + formValues.id} isSubmitting={isSubmitting || field === 'contact' || field === ''} handleDelete={(event: any) => {
               event.preventDefault()
-              if ( values.id.includes('temp') ) {
+              if (values.id.includes('temp')) {
                 const path = location.pathname
                 const CVid = path.substring('/myCV/'.length)
                 props.removeTempCVObject(CVid, field, values.id)
@@ -385,27 +385,29 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
                 cvService.deleteObject(serviceType, values.id, props.user)
                 props.updateCVs(props.user)
               }
-            }}/>
-            <ClearButton id={field + 'Clear' + formValues.id} isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues}/>
-            <CancelButton id={field + 'Cancel' + formValues.id} isSubmitting={isSubmitting} setValues={setValues} formValues={formValues}/>
-            <SaveButton id={field + 'Save' + formValues.id} isSubmitting={isSubmitting || !isValid}/>
+            }} />
+            <ClearButton id={field + 'Clear' + formValues.id} isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
+            <CancelButton id={field + 'Cancel' + formValues.id} isSubmitting={isSubmitting} setValues={setValues} formValues={formValues} />
+            <SaveButton id={field + 'Save' + formValues.id} isSubmitting={isSubmitting || !isValid} />
           </Form>
         )}
       </Formik>
     )
-  } else { return (
-    <div
-      className='form-component-empty'
-      key={props.field+'-empty'}
-      onClick={()=>{
-        const path = location.pathname
-        const CVid = path.substring('/myCV/'.length)
-        props.addEmptyCVObject(CVid, field)
-      }}
-    >
-      <img id={props.field + 'Add'} src='plus.svg' width='100px' height='100px' alt='add' />
-    </div>
-  )}
+  } else {
+    return (
+      <div
+        className='form-component-empty'
+        key={props.field + '-empty'}
+        onClick={() => {
+          const path = location.pathname
+          const CVid = path.substring('/myCV/'.length)
+          props.addEmptyCVObject(CVid, field)
+        }}
+      >
+        <img id={props.field + 'Add'} src='plus.svg' width='100px' height='100px' alt='add' />
+      </div>
+    )
+  }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(MyCVFormPanel)
+export default connect(mapStateToProps, mapDispatchToProps)(MyCVFormPanel)

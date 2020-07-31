@@ -38,7 +38,7 @@ type Props = OwnProps & StateProps & DispatchProps
 const Users: React.FC<Props> = (props) => {
   const [users, setUsers] = useState<IUser[]>([])
 
-  useEffect(()=>{
+  useEffect(() => {
     updateUsers()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -54,9 +54,9 @@ const Users: React.FC<Props> = (props) => {
 
   const handleUserDelete = (id: string) => {
     props.setLoading(true)
-    const user:IUser | undefined = users.find(user => user.id === id)
-    if ( user ) {
-      usersService.deleteUser(id, props.user).then( response => {
+    const user: IUser | undefined = users.find(user => user.id === id)
+    if (user) {
+      usersService.deleteUser(id, props.user).then(response => {
         setUsers(users.filter(user => user.id !== id))
         props.showNotification(`User ${user.name} was deleted`, Type.SUCCESS, 3)
         props.setLoading(false)
@@ -79,31 +79,31 @@ const Users: React.FC<Props> = (props) => {
     ).catch((error) => props.showNotification(error.response.data.error, Type.ERROR, 5))
   }
 
-  const [showAddUser, setShowAddUser] = useState(false) 
+  const [showAddUser, setShowAddUser] = useState(false)
   const location = useLocation()
   const userSelected = location.pathname.includes('/users') && location.pathname.length > '/users/'.length ? true : false
 
   if (userSelected) {
-    return <Route exact path="/users/:username" render={({ match }) => 
+    return <Route exact path="/users/:username" render={({ match }) =>
       <User
         user={users.find(user => user.username === match.params.username)}
         userForHeaders={props.user}
-        updateUser={()=>updateUsers()}
+        updateUser={() => updateUsers()}
       />
-    }/>
+    } />
   }
-  return(
+  return (
     <div>
       <Toolbar>
         <div>
-          <button id='AddRandomUser' className='toolbar-button' onClick={()=>handleAddRandomUser()}>add random user</button>
-          <button id='AddUser' className='toolbar-button' onClick={()=>{
+          <button id='AddRandomUser' className='toolbar-button' onClick={() => handleAddRandomUser()}>add random user</button>
+          <button id='AddUser' className='toolbar-button' onClick={() => {
             setShowAddUser(!showAddUser)
           }}>add user...</button>
           <button disabled className='toolbar-button'>edit user...</button>
         </div>
         <div className='formContainer' style={{ display: showAddUser ? 'block' : 'none' }}>
-          <UsersForm newUser closeForm={()=>setShowAddUser(false)} reloadUsers={()=>updateUsers()}/>
+          <UsersForm newUser closeForm={() => setShowAddUser(false)} reloadUsers={() => updateUsers()} />
         </div>
       </Toolbar>
       <h1>Users</h1>
@@ -120,7 +120,7 @@ const Users: React.FC<Props> = (props) => {
             <UsersRow
               key={'usersrow' + user.id}
               user={user}
-              handleUserDelete={()=>handleUserDelete(user.id)}
+              handleUserDelete={() => handleUserDelete(user.id)}
             />
           ))}
         </tbody>
@@ -129,5 +129,5 @@ const Users: React.FC<Props> = (props) => {
   )
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Users)
+export default connect(mapStateToProps, mapDispatchToProps)(Users)
 

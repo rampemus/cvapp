@@ -8,7 +8,7 @@ export enum FieldType {
 const useField = (type: FieldType) => {
   const [value, setValue] = useState('')
 
-  const onChange = (event: React.FormEvent<HTMLInputElement> ):void => {
+  const onChange = (event: React.FormEvent<HTMLInputElement>): void => {
     setValue(event.currentTarget.value)
   }
 

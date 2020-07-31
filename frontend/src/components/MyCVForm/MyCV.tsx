@@ -12,7 +12,7 @@ import Home from "../Home"
 import { showNotification, Type } from "../../reducers/notificationReducer"
 import { setLoading } from "../../reducers/loadingReducer"
 
-interface OwnProps {}
+interface OwnProps { }
 export interface StateProps {
   user: UserState
   cvs?: ICV[]
@@ -48,10 +48,10 @@ const MyCV: React.FC<Props> = (props) => {
   const renderForm = (cvs: ICV[]) => {
     return (
       <Route exact path="/mycv/:id" render={({ match }) => (
-          <MyCVForm
-            cv={cvs.find((cv) => cv.id === match.params.id )}
-          />
-        )}
+        <MyCVForm
+          cv={cvs.find((cv) => cv.id === match.params.id)}
+        />
+      )}
       />
     )
   }
@@ -92,14 +92,14 @@ const MyCV: React.FC<Props> = (props) => {
                     props.setLoading(true)
                     myCVs[0] &&
                       cvService
-                        .duplicateCV( myCVs[0], props.user, props.showNotification)
+                        .duplicateCV(myCVs[0], props.user, props.showNotification)
                         .then((response) => {
                           props.updateCVs(props.user)
-                          props.showNotification( "Default CV duplicated", Type.SUCCESS, 6)
+                          props.showNotification("Default CV duplicated", Type.SUCCESS, 6)
                         })
                         .catch((error) => {
                           if (error.response.data.error) {
-                            props.showNotification( error.response.data.error, Type.ERROR, 12)
+                            props.showNotification(error.response.data.error, Type.ERROR, 12)
                           }
                         })
                   }}
@@ -121,11 +121,11 @@ const MyCV: React.FC<Props> = (props) => {
                             .setCVDefault(match.params.id, props.user)
                             .then(() => {
                               props.updateCVs(props.user)
-                              props.showNotification( "Default CV updated", Type.SUCCESS, 4)
+                              props.showNotification("Default CV updated", Type.SUCCESS, 4)
                             })
                             .catch((error) => {
                               if (error.response.data.error) {
-                                props.showNotification( error.response.data.error, Type.ERROR, 12)
+                                props.showNotification(error.response.data.error, Type.ERROR, 12)
                               }
                             })
                         }}
@@ -140,74 +140,74 @@ const MyCV: React.FC<Props> = (props) => {
                   )}
                 />
                 <Route exact path="/mycv" render={({ match }) => (
-                    <>
-                      <button key="toolbar-button-1" className="toolbar-button" disabled >
-                        {" "}
+                  <>
+                    <button key="toolbar-button-1" className="toolbar-button" disabled >
+                      {" "}
                         Set As Default
                       </button>
-                      <button
-                        key="toolbar-button-2"
-                        className="toolbar-button"
-                        disabled
-                      > Preview </button>
-                    </>
-                  )}
+                    <button
+                      key="toolbar-button-2"
+                      className="toolbar-button"
+                      disabled
+                    > Preview </button>
+                  </>
+                )}
                 />
               </div>
             </Toolbar>
             <h1>My CV's</h1>
             <div className="cv-selector">
               {myCVs && myCVs.length > 0 && myCVs.map((cv: ICV, index: number) => {
-                  const locationid = location.pathname.substr(
-                    location.pathname.length - cv.id.length
-                  )
-                  const selected = locationid === cv.id
-                  return (
-                    <div className="cv-item" key={cv.id}
-                      style={{
-                        transition:
-                          "margin-top 0.2s ease, margin-bottom 0.2s ease",
-                        marginTop: selected ? "10px" : "2px",
-                        marginBottom: selected ? "2px" : "10px",
+                const locationid = location.pathname.substr(
+                  location.pathname.length - cv.id.length
+                )
+                const selected = locationid === cv.id
+                return (
+                  <div className="cv-item" key={cv.id}
+                    style={{
+                      transition:
+                        "margin-top 0.2s ease, margin-bottom 0.2s ease",
+                      marginTop: selected ? "10px" : "2px",
+                      marginBottom: selected ? "2px" : "10px",
+                    }}
+                  >
+                    <Link
+                      id={"Select" + cv.id}
+                      className="cv-selector-item"
+                      to={`/mycv/${cv.id}`}
+                      onClick={() => {
+                        props.setPreviousCV(cv.id)
                       }}
                     >
-                      <Link
-                        id={"Select" + cv.id}
-                        className="cv-selector-item"
-                        to={`/mycv/${cv.id}`}
-                        onClick={() => {
-                          props.setPreviousCV(cv.id)
-                        }}
-                      >
-                        <img src="emptycv.svg" width="150px" height="180px" alt="document" />
-                        {index === 0 && (
-                          <div className="default-label">default</div>
+                      <img src="emptycv.svg" width="150px" height="180px" alt="document" />
+                      {index === 0 && (
+                        <div className="default-label">default</div>
+                      )}
+                      <div style={{ zIndex: 1 }}>
+                        {cv.name}
+                        {Object.entries(cv).map(([key, value]) =>
+                          value ? <p key={key}>{key + ": " + value}</p> : ""
                         )}
-                        <div style={{ zIndex: 1 }}>
-                          {cv.name}
-                          {Object.entries(cv).map(([key, value]) =>
-                            value ? <p key={key}>{key + ": " + value}</p> : ""
-                          )}
-                        </div>
-                      </Link>
-                      <button
-                        id={"Delete" + cv.id}
-                        onClick={(event) => {
-                          event.preventDefault()
-                          props.setLoading(true)
-                          cvService
-                            .deleteObject(ServiceType.CV, cv.id, props.user)
-                            .then((response) => {
-                              props.updateCVs(props.user)
-                              props.showNotification( "CV " + cv.name + " deleted", Type.SUCCESS, 4)
-                            })
-                        }}
-                      >
-                        <img className="icon" src="delete.svg" width="17px" height="15px" alt="delete" />
-                      </button>
-                    </div>
-                  )
-                })}
+                      </div>
+                    </Link>
+                    <button
+                      id={"Delete" + cv.id}
+                      onClick={(event) => {
+                        event.preventDefault()
+                        props.setLoading(true)
+                        cvService
+                          .deleteObject(ServiceType.CV, cv.id, props.user)
+                          .then((response) => {
+                            props.updateCVs(props.user)
+                            props.showNotification("CV " + cv.name + " deleted", Type.SUCCESS, 4)
+                          })
+                      }}
+                    >
+                      <img className="icon" src="delete.svg" width="17px" height="15px" alt="delete" />
+                    </button>
+                  </div>
+                )
+              })}
               <img
                 id="CreateEmptyCV"
                 src="emptycvplus.svg"

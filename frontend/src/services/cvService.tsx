@@ -118,12 +118,12 @@ const createEmptyCV = (user: UserState) => {
     }
   }
   const request = axios.post(baseUrl + ServiceType.CV, emptyCV, getConfigHeader(user))
-  return request.then((response:any) => {
+  return request.then((response: any) => {
     return response.data
   })
 }
 
-const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => {
+const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function) => {
   const duplicateContact: IContactEmpty = {
     address: cv.contact.address,
     company: cv.contact.company,
@@ -133,23 +133,25 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
     linkedin: cv.contact.linkedin,
     phone: cv.contact.phone,
     phoneAvailable: cv.contact.phoneAvailable,
-    pictureUrl: cv.contact.pictureUrl, 
+    pictureUrl: cv.contact.pictureUrl,
   }
 
   const duplicateProfile: any = cv.profile ? {
-      content: cv.profile.content,
-      name: cv.profile.name + ' duplicate'
-    } : null
+    content: cv.profile.content,
+    name: cv.profile.name + ' duplicate'
+  } : null
 
   const duplicateProjects: any = cv.projects ?
-    cv.projects.map((project) => { return {
-      // description: project.description,
-      content: project.content,
-      githubUrl: project.githubUrl,
-      name: project.name + ' duplicate',
-      showcaseUrl: project.showcaseUrl,
-      thumbnailUrl: project.thumbnailUrl,
-    }}) : null
+    cv.projects.map((project) => {
+      return {
+        // description: project.description,
+        content: project.content,
+        githubUrl: project.githubUrl,
+        name: project.name + ' duplicate',
+        showcaseUrl: project.showcaseUrl,
+        thumbnailUrl: project.thumbnailUrl,
+      }
+    }) : null
 
   const duplicateReference: any = cv.reference ?
     cv.reference.map((contact: any) => {
@@ -161,7 +163,7 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
         lastname: contact.lastname,
         phone: contact.phone,
         phoneAvailable: contact.phoneAvailable,
-        pictureUrl: contact.pictureUrl, 
+        pictureUrl: contact.pictureUrl,
       }
     }) : null
 
@@ -192,10 +194,12 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
   const duplicateCommunication: any = cv.communication ? {
     name: cv.communication.name + 'duplicate',
     content: cv.communication.content,
-    languages: cv.communication.languages.map( (language: any) => { return {
-      language: language.language,
-      level: language.level
-    }})
+    languages: cv.communication.languages.map((language: any) => {
+      return {
+        language: language.language,
+        level: language.level
+      }
+    })
   } : null
 
   const duplicateSkills: any = cv.skills ? {
@@ -221,29 +225,29 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
   }
 
   const request = axios.post(baseUrl + ServiceType.CV, duplicateCV, getConfigHeader(user))
-  return request.then( async (response: any) => {
+  return request.then(async (response: any) => {
     const cvId = response.data.id
 
     await createObject(ServiceType.PROFILE, duplicateProfile, cvId, user, 'profile')
 
-    duplicateProjects.map(async (project: any) => 
+    duplicateProjects.map(async (project: any) =>
       await createObject(ServiceType.PROJECT, project, cvId, user, 'projects')
     )
 
-    duplicateReference.map( async (reference: any) => {
+    duplicateReference.map(async (reference: any) => {
       await createObject(ServiceType.CONTACT, reference, cvId, user, 'reference')
     })
     showNotification && showNotification('Profile, projects and references duplicated', Type.SUCCESS, 4.2)
 
-    duplicateExperience.map( async (experience: any) => {
+    duplicateExperience.map(async (experience: any) => {
       await createObject(ServiceType.EXPERIENCE, experience, cvId, user, 'experience')
     })
 
-    duplicateEducation.map( async (experience: any) => {
+    duplicateEducation.map(async (experience: any) => {
       await createObject(ServiceType.EXPERIENCE, experience, cvId, user, 'education')
     })
     showNotification && showNotification('Experiences and education duplicated', Type.SUCCESS, 4.4)
-    
+
     await createObject(ServiceType.COMMUNICATION, duplicateCommunication, cvId, user, 'communication')
 
     await createObject(ServiceType.INFO, duplicateSkills, cvId, user, 'skills')
@@ -258,29 +262,29 @@ const duplicateCV = (cv: ICV, user: UserState, showNotification?: Function ) => 
 }
 
 const createObject = (type: ServiceType, object: any, id: string, user: UserState, field?: string) => {
-  const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== '') )
+  const newObjectWithoutIdAndOwner = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id' && key !== 'owner' && value !== ''))
   const request = axios.post(baseUrl + type, { ...newObjectWithoutIdAndOwner, cv: { id, field: field ? field : '' } }, getConfigHeader(user))
-  return request.then((response:any) => {
+  return request.then((response: any) => {
     return response.data
   }).catch(error => {
-   console.log('create object error:', error.response.data.error)
+    console.log('create object error:', error.response.data.error)
   })
 }
 
-const modifyObject = (type: ServiceType, id: string, object: any, user: UserState ) => {
+const modifyObject = (type: ServiceType, id: string, object: any, user: UserState) => {
   const changes = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id'))
   console.log(changes)
   const request = axios.put(baseUrl + type, { changes, id }, getConfigHeader(user))
-  return request.then((response:any) => {
+  return request.then((response: any) => {
     return response.data
   }).catch(error => {
-   console.log('modify object error:',error.response.data.error)
+    console.log('modify object error:', error.response.data.error)
   })
 }
 
 const deleteObject = (type: ServiceType, id: string, user: UserState) => {
   const request = axios.delete(baseUrl + type + '/' + id, getConfigHeader(user))
-  return request.then((response:any) => {
+  return request.then((response: any) => {
     return response.data
   })
 }
@@ -320,14 +324,15 @@ const setCVDefault = (cv: string, user: UserState) => {
 const getAllCV = (user: UserState) => {
   const request = axios.get(baseUrl, getConfigHeader(user))
   return request.then((response: getAllCVResponse) => {
-    const formattedData = response.data.map((cv:any) => {
-      return { ...cv,
+    const formattedData = response.data.map((cv: any) => {
+      return {
+        ...cv,
         communication: cv.communication ? cv.communication[0] : null,
         skills: cv.skills ? cv.skills[0] : null,
         info: cv.info ? cv.info[0] : null,
         attachments: cv.attachments ? cv.attachments[0] : null,
         experience: cv.experience.map((exp: IExperienceNoDate) => ({
-          ...exp, 
+          ...exp,
           timeFrame: {
             startDate: new Date(exp.timeFrame.startDate),
             endDate: new Date(exp.timeFrame.endDate)

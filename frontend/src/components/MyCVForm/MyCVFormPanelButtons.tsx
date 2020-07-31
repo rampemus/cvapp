@@ -8,7 +8,7 @@ interface DeleteProps {
 
 const DeleteButton: React.FC<DeleteProps> = (props) => {
   const { id, isSubmitting } = props
-  return(
+  return (
     <button id={id} className='form-delete-button form-button' type='submit' onClick={props.handleDelete} disabled={isSubmitting}>
       Delete
     </button>
@@ -25,7 +25,7 @@ interface ClearProps {
 
 const ClearButton: React.FC<ClearProps> = (props) => {
   const { id, isSubmitting, values, clearActionValues, setValues } = props
-  return(
+  return (
     <button
       id={id}
       className='form-clear-button form-button'
@@ -50,7 +50,7 @@ interface CancelProps {
 
 const CancelButton: React.FC<CancelProps> = (props) => {
   const { id, isSubmitting, setValues, formValues } = props
-  return(
+  return (
     <button
       id={id}
       className='form-cancel-button form-button'
@@ -73,7 +73,7 @@ interface SaveProps {
 
 const SaveButton: React.FC<SaveProps> = (props) => {
   const { id, isSubmitting } = props
-  return(
+  return (
     <button
       id={id}
       className='form-save-button form-button'
@@ -84,4 +84,4 @@ const SaveButton: React.FC<SaveProps> = (props) => {
   )
 }
 
-export { DeleteButton, ClearButton, CancelButton, SaveButton}
+export { DeleteButton, ClearButton, CancelButton, SaveButton }

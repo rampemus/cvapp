@@ -5,8 +5,8 @@ import { Message, deleteNotification } from '../reducers/notificationReducer'
 import NotificationMessage from './NotificationMessage'
 import { AppState } from '../index'
 
-interface OwnProps {}
-export interface StateProps {messages: Message[]}
+interface OwnProps { }
+export interface StateProps { messages: Message[] }
 export interface DispatchProps { deleteNotification: Function }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -15,7 +15,7 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-const mapDispatchToProps:DispatchProps = {
+const mapDispatchToProps: DispatchProps = {
   deleteNotification
 }
 
@@ -25,7 +25,7 @@ const NotificationArea: React.FC<Props> = (props) => {
 
   const [messages, setMessages] = useState(props.messages)
 
-  useEffect(()=>{
+  useEffect(() => {
     const newMessages = props.messages.filter(
       propsmessage => messages.findIndex(message => message.id === propsmessage.id) === -1
     )
@@ -47,14 +47,14 @@ const NotificationArea: React.FC<Props> = (props) => {
     }
     // adding messages to useEffect dependencies will crash the app
     // eslint-disable-next-line
-  },[props.messages])
+  }, [props.messages])
 
-  if ( messages ) {
+  if (messages) {
     return (
-      <div className='notificationContainer' style={{opacity: messages.length > 0 ? 1 : 0}}>
-        {messages.map( message => {
+      <div className='notificationContainer' style={{ opacity: messages.length > 0 ? 1 : 0 }}>
+        {messages.map(message => {
           return (<NotificationMessage
-            key={message.id.substr(0,8)}
+            key={message.id.substr(0, 8)}
             message={message}
             deleteNotification={() =>
               props.deleteNotification(message.id)}

@@ -5,7 +5,7 @@ import { AppState } from '..'
 import { ICV, IContact, IExperience, ICommunication } from '../services/cvService'
 import { setLoading } from '../reducers/loadingReducer'
 
-const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
+const renderTimeFrame = (timeFrame: { startDate: Date, endDate: Date }) => {
   const ongoing = timeFrame.endDate.valueOf() - new Date().valueOf() > 0
   const startDate = timeFrame.startDate
   const endDate = ongoing ? new Date() : timeFrame.endDate
@@ -13,29 +13,29 @@ const renderTimeFrame = (timeFrame: {startDate: Date, endDate: Date}) => {
   const month = 1000 * 60 * 60 * 24 * 30
   const year = 1000 * 60 * 60 * 24 * 365
   if (duration < month) {
-    return ongoing 
-      ? <p>
-          {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
-          &nbsp;–&nbsp;
-        </p>
-      : <p>
-          {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
-          &nbsp;–&nbsp;
-          {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate() + 1}
-        </p>
-  }
-  if (duration < year) 
     return ongoing
       ? <p>
-          {startDate.getFullYear()}/{startDate.getMonth() + 1}
+        {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
           &nbsp;–&nbsp;
         </p>
       : <p>
-          {startDate.getFullYear()}/{startDate.getMonth()+1}
+        {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
           &nbsp;–&nbsp;
-          {endDate.getFullYear()}/{endDate.getMonth()+1}
+          {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate() + 1}
+      </p>
+  }
+  if (duration < year)
+    return ongoing
+      ? <p>
+        {startDate.getFullYear()}/{startDate.getMonth() + 1}
+          &nbsp;–&nbsp;
         </p>
-  return ongoing 
+      : <p>
+        {startDate.getFullYear()}/{startDate.getMonth() + 1}
+          &nbsp;–&nbsp;
+          {endDate.getFullYear()}/{endDate.getMonth() + 1}
+      </p>
+  return ongoing
     ? <p>{startDate.getFullYear()} – </p>
     : <p>{startDate.getFullYear()} – {endDate.getFullYear()}</p>
 }
@@ -66,13 +66,13 @@ const Home: React.FC<Props> = (props) => {
   const cv = props.preview || props.cv
   if (!cv) {
     return <div>No default cv</div>
-  } 
+  }
 
   // for preventing using componentDidUpdate
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(()=>{
+  useEffect(() => {
     props.setLoading(false)
-  },[props])
+  }, [props])
 
   const contact = cv.contact
   const reference: IContact[] | undefined = cv.reference
@@ -99,17 +99,17 @@ const Home: React.FC<Props> = (props) => {
         {cv.github && <p>Github: <a href={cv.github}>{cv.github}</a></p>}
         {cv.techlist && <p>{cv.techlist}</p>}
       </div>
-      {cv.profile && 
+      {cv.profile &&
         <div className='cv-container-item cv-container-item-left'>
-          <h3><img src='profile.svg' width='45px' height='45px' alt='profileimage'/>Profile</h3>
+          <h3><img src='profile.svg' width='45px' height='45px' alt='profileimage' />Profile</h3>
           <hr />
           {cv.profile.content.map((paragraph, index) => <p key={`profile-p-${index}`} >{paragraph}</p>)}
         </div>}
       {cv.projects && cv.projects.length > 0 &&
         <div className='cv-container-item cv-container-item-right'>
-          <h3><img src='project.svg' width='45px' height='40px' alt='icon'/>Projects</h3>
+          <h3><img src='project.svg' width='45px' height='40px' alt='icon' />Projects</h3>
           <hr />
-          {cv.projects.map((project, index) => 
+          {cv.projects.map((project, index) =>
             <div className='project-card' key={index + 'project'}>
               <div style={{
                 width: '140px',
@@ -131,12 +131,12 @@ const Home: React.FC<Props> = (props) => {
         </div>}
       {experience && experience.length > 0 &&
         <div className='cv-container-item'>
-          <h3><img src='work.svg' width='55px' height='55px' alt='icon'/>Work Experience</h3>
+          <h3><img src='work.svg' width='55px' height='55px' alt='icon' />Work Experience</h3>
           <hr />
           <div className='key-value-container'>
             {experience.sort((a: IExperience, b: IExperience) =>
               b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()
-            ).map((exp:IExperience, index) => [
+            ).map((exp: IExperience, index) => [
               <div className='key-value-container-left' key={index + '-experience-left'}>
                 {renderTimeFrame(exp.timeFrame)}
               </div>,
@@ -151,8 +151,8 @@ const Home: React.FC<Props> = (props) => {
         </div>}
       {education && education.length > 0 &&
         <div className='cv-container-item'>
-          <h3><img src='education.svg' width='45px' height='45px' alt='icon'/>Education</h3>
-          <hr/>
+          <h3><img src='education.svg' width='45px' height='45px' alt='icon' />Education</h3>
+          <hr />
           <div className='key-value-container'>
             {education.sort((a: IExperience, b: IExperience) =>
               b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()
@@ -168,13 +168,13 @@ const Home: React.FC<Props> = (props) => {
               </div>
             ])}
           </div>
-        </div>} 
+        </div>}
       {communication &&
         <div className='cv-container-item'>
           <h3><img src='communication.svg' width='45px' height='45px' alt='icon' />Language skills</h3>
           <hr />
           <div className='language-container'>
-            {communication.languages.map((language,index) =>
+            {communication.languages.map((language, index) =>
               <div key={index + 'language-container'}><p>{language.language}</p><p>:</p><p>{language.level}</p></div>
             )}
           </div>
@@ -185,7 +185,7 @@ const Home: React.FC<Props> = (props) => {
       <div className='pagebreak'></div>
       {cv.skills &&
         <div className='cv-container-item'>
-          <h3><img className='image-after-pagebreak' src='skills.svg' width='45px' height='45px' alt='icon'/>Other Skills</h3>
+          <h3><img className='image-after-pagebreak' src='skills.svg' width='45px' height='45px' alt='icon' />Other Skills</h3>
           <hr />
           {cv.skills.content.map((skill, index) =>
             <p key={index + 'skill'}>{skill}</p>
@@ -193,23 +193,23 @@ const Home: React.FC<Props> = (props) => {
         </div>}
       {reference && reference.length > 0 &&
         <div className='cv-container-item'>
-          <h3><img src='reference.svg' width='40px' height='40px' alt='icon'/>References</h3>
+          <h3><img src='reference.svg' width='40px' height='40px' alt='icon' />References</h3>
           <hr />
           <div className='key-value-container'>
             {reference.map((ref: IContact, index) => [
-              <div className='key-value-container-left' key={index+'-reference-left'}>
-                <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p> 
+              <div className='key-value-container-left' key={index + '-reference-left'}>
+                <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p>
               </div>,
-              <div className='key-value-container-right' key={index+'-reference-right'}>
+              <div className='key-value-container-right' key={index + '-reference-right'}>
                 <p>Phone num. {ref.phone} ({ref.phoneAvailable})</p>
-                <p>{ref.email}</p>  
+                <p>{ref.email}</p>
               </div>
             ])}
           </div>
         </div>}
       {cv.attachments &&
         <div className='cv-container-item'>
-          <h3><img src='attachment.svg' width='55px' height='45px' alt='icon'/>Attachments</h3>
+          <h3><img src='attachment.svg' width='55px' height='45px' alt='icon' />Attachments</h3>
           <hr />
           {cv.attachments.content.map((attachment, index) =>
             <p key={index + 'attachment'}>{attachment}</p>

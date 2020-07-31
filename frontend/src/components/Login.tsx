@@ -8,8 +8,8 @@ import { updateCVs } from '../reducers/cvReducer'
 import { connect } from 'react-redux'
 import { setLoading } from '../reducers/loadingReducer'
 
-interface OwnProps {}
-interface StateProps {}
+interface OwnProps { }
+interface StateProps { }
 interface DispatchProps {
   showNotification: (message: string, type: Type, lifeTime?: number | undefined) => void,
   setUser: (user: UserState) => void,
@@ -29,9 +29,9 @@ type Props = OwnProps & StateProps & DispatchProps
 
 const Login: React.FC<Props> = (props) => {
 
-  const username = useField( FieldType.TEXT )
-  const password = useField( FieldType.PASSWORD )
-  
+  const username = useField(FieldType.TEXT)
+  const password = useField(FieldType.PASSWORD)
+
   const [remember, setRemember] = useState(false)
   const [submitLock, setSubmitLock] = useState(false)
 
@@ -50,7 +50,7 @@ const Login: React.FC<Props> = (props) => {
           )
           props.showNotification('Login successful', Type.SUCCESS, 5)
           props.updateCVs(user)
-        }).catch((error:loginError) => {
+        }).catch((error: loginError) => {
           if (error.response.data.error) {
             const cooldown = error.response.data.cooldownEnd && error.response.data.cooldownEnd / 1000
             if (cooldown) {
@@ -62,7 +62,7 @@ const Login: React.FC<Props> = (props) => {
                 handleLogin(event)
               }, cooldown * 1000 + 700)
             } else {
-              props.showNotification(`${error.response.data.error}`, Type.ERROR, 4) 
+              props.showNotification(`${error.response.data.error}`, Type.ERROR, 4)
             }
           } else {
             props.showNotification(`No response from the server`, Type.ERROR, 4)
@@ -71,7 +71,7 @@ const Login: React.FC<Props> = (props) => {
     }
   }
 
-  return(<div className='Login'>
+  return (<div className='Login'>
     <form onSubmit={handleLogin} className='loginBox'>
       <div>
         Username:

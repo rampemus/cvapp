@@ -36,6 +36,7 @@ const User: React.FC<Props> = (props) => {
         setOwner(response)
       })
     }
+    // eslint-disable-next-line
   }, [user])
 
   if (!user) {

@@ -369,7 +369,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
         }}
         key={formValues.id + field}
       >
-        {({ isSubmitting, isValid, errors, values, setValues }) => (
+        {({ isSubmitting, isValid, errors, values, setValues }) =>
           <Form className='form-component'>
             {showPanelId && values.id}
 
@@ -390,7 +390,7 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
             <CancelButton id={field + 'Cancel' + formValues.id} isSubmitting={isSubmitting} setValues={setValues} formValues={formValues} />
             <SaveButton id={field + 'Save' + formValues.id} isSubmitting={isSubmitting || !isValid} />
           </Form>
-        )}
+        }
       </Formik>
     )
   } else {

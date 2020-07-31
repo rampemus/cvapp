@@ -67,7 +67,7 @@ usersRouter.post('/', async (request: IRequestWithIdentity, response: Response) 
 
     let expires = null // prevent created user to live longer than it's owner
     if (owner.expires && body.expires) {
-      expires = ( owner.expires > body.expires ) ? body.expires : owner.expires
+      expires = (owner.expires > body.expires) ? body.expires : owner.expires
     } else {
       expires = owner.expires ? owner.expires : body.expires
     }
@@ -124,8 +124,8 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
     const body: IUserChanges['changes'] = {
       ...request.body.changes,
       passwordHash: request.body.changes.newPassword
-      ? await bcrypt.hash(request.body.changes.newPassword + '', saltRounds)
-      : undefined
+        ? await bcrypt.hash(request.body.changes.newPassword + '', saltRounds)
+        : undefined
     }
 
     const user = await User.findOne({ _id: id }).populate('owner')
@@ -147,8 +147,8 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
     }
 
     const passwordCorrect = !body.newPassword ? true : user // password needed only for newPassword
-    ? await bcrypt.compare(body.password + '', user.passwordHash)
-    : await bcrypt.hash(body.password + '', 10)
+      ? await bcrypt.compare(body.password + '', user.passwordHash)
+      : await bcrypt.hash(body.password + '', 10)
 
     if (user && !passwordCorrect) {
       return response.status(401).send({
@@ -169,7 +169,7 @@ usersRouter.put('/', async (request: IRequestWithIdentity, response: Response) =
   }
 })
 
-usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response ) => {
+usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Response) => {
 
   validationErrorSend(response, objectId.validate(request.params.id))
 

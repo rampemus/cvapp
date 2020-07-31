@@ -27,10 +27,12 @@ import {
 const cvRouter = Router()
 
 cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
-  const cvs = await CurriculumVitae.find({ $or: [
-    { default: request.userid },
-    { owner: request.userid }
-  ] }).populate([
+  const cvs = await CurriculumVitae.find({
+    $or: [
+      { default: request.userid },
+      { owner: request.userid }
+    ]
+  }).populate([
     'communication',
     'projects',
     'attachments',
@@ -42,7 +44,7 @@ cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
     'contact',
     'profile',
   ])
-  response.json(cvs.sort((a, b) => b.default.length - a.default.length ))
+  response.json(cvs.sort((a, b) => b.default.length - a.default.length))
 })
 
 cvRouter.get('/:type', async (request: IRequestWithIdentity, response: Response) => {
@@ -66,7 +68,7 @@ cvRouter.get('/:type', async (request: IRequestWithIdentity, response: Response)
       response.json(await Info.find({}))
       break
     default:
-      response.status(400).json({ error: '/cv/:type invalid'})
+      response.status(400).json({ error: '/cv/:type invalid' })
       break
   }
 })
@@ -169,7 +171,7 @@ cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => 
         })
       response.status(201).json(savedCV)
     } else {
-      const emptyContact = new Contact({ ...cvBody.contact, owner})
+      const emptyContact = new Contact({ ...cvBody.contact, owner })
       const savedContact = await emptyContact.save()
         .catch((error) => {
           response.status(400).json({ error: error.messages }).end()
@@ -229,7 +231,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         })
       if (contactBody.cv
         && savedContact
-        && (contactBody.cv.field === 'contact' || contactBody.cv.field === 'reference') ) {
+        && (contactBody.cv.field === 'contact' || contactBody.cv.field === 'reference')) {
         await connectObjectToCVField(contactBody.cv.id, contactBody.cv.field, savedContact._id)
       }
       response.status(201).json(savedContact)
@@ -260,7 +262,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
           response.status(400).json({ error: error.message }).end()
         })
       if (experienceBody.cv && savedExperience
-        && (experienceBody.cv.field === 'experience' || experienceBody.cv.field === 'education') ) {
+        && (experienceBody.cv.field === 'experience' || experienceBody.cv.field === 'education')) {
         await connectObjectToCVField(experienceBody.cv.id, experienceBody.cv.field, savedExperience._id)
       }
       response.status(201).json(savedExperience)
@@ -295,8 +297,8 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
           response.status(400).json({ error: error.message }).end()
         })
       if (infoBody.cv && savedInfo
-        && (infoBody.cv.field === 'skills' || infoBody.cv.field === 'info' || infoBody.cv.field === 'attachments') ) {
-          await connectObjectToCVField(infoBody.cv.id, infoBody.cv.field, savedInfo._id)
+        && (infoBody.cv.field === 'skills' || infoBody.cv.field === 'info' || infoBody.cv.field === 'attachments')) {
+        await connectObjectToCVField(infoBody.cv.id, infoBody.cv.field, savedInfo._id)
       }
       response.status(201).json(savedInfo)
       break
@@ -325,7 +327,7 @@ cvRouter.put('/', async (request: IRequestWithIdentity, response: Response) => {
   const body: IChanges = request.body
   const validBody = !validationErrorSend(response, NewCVSchema.validate(body.changes))
 
-  if ( validBody
+  if (validBody
     && request.userid + '' === (await CurriculumVitae.findOne({ _id: body.id })).owner + ''
     || request.userGroup === 'admin') {
     const newCV = await CurriculumVitae.findOneAndUpdate({ _id: body.id }, body.changes)
@@ -539,9 +541,9 @@ cvRouter.delete('/:type/:id', async (request: IRequestWithIdentity, response: Re
       break
     case 'project':
       await Project.findOneAndDelete({ _id: id, owner: request.userid })
-      const projectCVid = ( await CurriculumVitae.findOne({
-          owner: request.userid, projects: id
-        })).id
+      const projectCVid = (await CurriculumVitae.findOne({
+        owner: request.userid, projects: id
+      })).id
       await disconnectObjectFromCVField(
         projectCVid,
         'projects',

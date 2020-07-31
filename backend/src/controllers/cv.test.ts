@@ -635,7 +635,7 @@ describe('/api/cv/:type PUT', () => {
       .send(modificationsReference)
       .expect(201)
 
-    after = await Contact.findOne({ _id: cv.reference})
+    after = await Contact.findOne({ _id: cv.reference })
 
     expect(before.address).not.toEqual(after.address)
     expect(after.address).toEqual(modificationsContact.changes.address)
@@ -822,10 +822,10 @@ describe('/api/cv/:type PUT', () => {
     expect(before.content[0]).not.toEqual(after.content[0])
     expect(after.content[0]).toEqual(modifications.changes.content[0])
   })
-//   test('invalid type', async () => {
-//     // TODO: empty test
+  //   test('invalid type', async () => {
+  //     // TODO: empty test
 
-//   })
+  //   })
 })
 
 describe('/api/cv/:id DELETE', () => {
@@ -936,8 +936,8 @@ describe('/api/cv/:type/:id DELETE', () => {
     const token = 'bearer ' + rootLogin.body.token
 
     await api
-    .delete('/api/cv/info/' + testCV.info[0])
-    .set('Content-Type', 'application/json')
+      .delete('/api/cv/info/' + testCV.info[0])
+      .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .expect(204)
 

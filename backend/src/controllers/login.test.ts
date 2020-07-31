@@ -43,21 +43,21 @@ const repeat = 1
 describe('Incorrect credentials', () => {
   test('/api/login POST fails with wrong username', async () => {
     // for (let i = 0; i < repeat; i++) {
-      const response = await api
-        .post('/api/login')
-        .set('Content-Type', 'application/json')
-        .send({ username: randomUserName(), password: ROOT_PASSWORD })
-      expect(response.status).toBeGreaterThanOrEqual(400)
+    const response = await api
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({ username: randomUserName(), password: ROOT_PASSWORD })
+    expect(response.status).toBeGreaterThanOrEqual(400)
     // }
   })
   test('/api/login POST fails with wrong password', async () => {
     // start1 = new Date()
     // for (let i = 0; i < repeat; i++) {
-      const response = await api
-        .post('/api/login')
-        .set('Content-Type', 'application/json')
-        .send({ username: ROOT_USERNAME, password: randomPassword(ROOT_PASSWORD.length) })
-      expect(response.status).toBeGreaterThanOrEqual(400)
+    const response = await api
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({ username: ROOT_USERNAME, password: randomPassword(ROOT_PASSWORD.length) })
+    expect(response.status).toBeGreaterThanOrEqual(400)
     // }
     // end1 = new Date()
   })

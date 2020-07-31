@@ -83,7 +83,7 @@ describe('/api/users POST', () => {
       usernameWithForbiddenChar,
     ]
 
-    invalidUsernames.forEach( async (invalidUsername: string) => {
+    invalidUsernames.forEach(async (invalidUsername: string) => {
       const invalidUser = {
         name: 'no name',
         password: randomPassword(10),
@@ -104,7 +104,7 @@ describe('/api/users POST', () => {
     const tooLongPassword = 'passwordIsTooLongOver64lettersspasswordIsTooLongOver64lettersshere'
     const invalidPasswords = [passwordWithSpaces, passwordWithForbiddenChars, tooShortPassword, tooLongPassword]
 
-    invalidPasswords.forEach( async (invalidPassword: string) => {
+    invalidPasswords.forEach(async (invalidPassword: string) => {
       const invalidUser = {
         name: 'no name',
         password: invalidPassword,

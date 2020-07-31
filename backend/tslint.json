@@ -1,17 +1,30 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "quotemark": [
+      true,
+      "single"
     ],
-    "jsRules": {},
-    "rules": {
-        "quotemark": [ true, "single"], 
-        "trailing-comma": [true, "always"],
-        "indent": [ true, "spaces", 2 ],
-        "semicolon": [true, "never"],
-        "no-console": {
-            "severity": "warning"
-        }
-    },
-    "rulesDirectory": []
+    "trailing-comma": [
+      true,
+      "always"
+    ],
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "no-console": {
+      "severity": "warning"
+    }
+  },
+  "rulesDirectory": []
 }

@@ -68,8 +68,8 @@ loginRouter.post('/', async (request: ILoginRequest, response: Response) => {
     const user = await User.findOne({ username: body.username })
 
     const passwordCorrect = user // always await for bcrypt even if user is not correct
-    ? await bcrypt.compare(body.password, user.passwordHash)
-    : await bcrypt.hash(body.password, 10)
+      ? await bcrypt.compare(body.password, user.passwordHash)
+      : await bcrypt.hash(body.password, 10)
 
     if (!user || !passwordCorrect) {
       if (index === -1) {

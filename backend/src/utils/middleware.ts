@@ -62,12 +62,6 @@ const RequestLogger = (request: IRequestWithIdentity, response: Response, next: 
   next()
 }
 
-// TODO: private and public routes
-// make a file having routes
-// divide routers into two
-// TODO: create admin route
-// TODO: create user routes
-
 export {
   AuthenticateUser,
   RequestLogger,

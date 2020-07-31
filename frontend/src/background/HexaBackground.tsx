@@ -6,7 +6,6 @@ interface Props {
   bottom?: boolean
 }
 
-// TODO: move this to css
 enum Color {
   EMPTY = '',
   LIGHT = 'rgb(219, 223, 224)',
@@ -45,9 +44,7 @@ const Background: React.FC<Props> = (props: Props) => {
       key={`hexaRow${rowIndex}`}
       transform={transform}
     >
-      {colors.map((color, index) => {
-        return hexagon(x + dx * index, y, hexaSize, color, `r${rowIndex}h${index}`)
-      })}
+      {colors.map((color, index) => hexagon(x + dx * index, y, hexaSize, color, `r${rowIndex}h${index}`))}
     </g>
   }
 
@@ -87,7 +84,6 @@ const Background: React.FC<Props> = (props: Props) => {
               hexaSize, spacing, transformToColorArray(numbers), index)
           }
         })}
-        {/* <text x='4' y='50%'>{height}</text> */}
       </svg>
     )
   }

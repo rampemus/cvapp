@@ -49,195 +49,208 @@ const arrayToString = (data:string[]) => {
   return data.join('\n')
 }
 const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoiError | any, values: any, setValues: Function, field:string) => {
-  if (field === 'experience' || field === 'education') return([
-    <div key={id + 'namelabel'} className='form-label'>Name</div>,
-    <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />,
-    <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>,
-    <div key={id + 'durationlabel'} className='form-label'>Time duration</div>,
-    <div key={id + 'timeframecontainer'} className='timeFrameContainer'>
-      <div>
-        <MyCVFormDateSelector id={'StartTime'+id} date={values.timeFrame.startDate} handleChange={(newDate) => {
-          setValues({
-            ...values, timeFrame: {
-              startDate: newDate,
-              endDate: values.timeFrame.endDate,
-            }
-          })
-        }} />
+  if (field === 'experience' || field === 'education') return(
+    <>
+      <div className='form-label'>Name</div>
+      <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.name : ''}</div>
+      <div className='form-label'>Time duration</div>
+      <div className='timeFrameContainer'>
+        <div>
+          <MyCVFormDateSelector id={'StartTime'+id} date={values.timeFrame.startDate} handleChange={(newDate) => {
+            setValues({
+              ...values, timeFrame: {
+                startDate: newDate,
+                endDate: values.timeFrame.endDate,
+              }
+            })
+          }} />
+        </div>
+        <div className='time-divider'>-</div>
+        <div>
+          <MyCVFormDateSelector id={'EndTime' + id} date={values.timeFrame.endDate} handleChange={(newDate) => {
+            setValues({
+              ...values, timeFrame: {
+                startDate: values.timeFrame.startDate,
+                endDate: newDate,
+              }
+            })
+          }} />
+        </div>
       </div>
-      <div className='time-divider'>-</div>
-      <div>
-        <MyCVFormDateSelector id={'EndTime' + id} date={values.timeFrame.endDate} handleChange={(newDate) => {
-          setValues({
-            ...values, timeFrame: {
-              startDate: values.timeFrame.startDate,
-              endDate: newDate,
-            }
-          })
-        }} />
-      </div>
-    </div>,
-    <div key={id + 'timeframeerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.timeFrame : ''}</div>,
-    <div key={id + 'descriptionlabel'} className='form-label'>Description</div>,
-    <Field id={field + 'Descritpion' + id} key={id + 'descriptionfield'} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />,
-    <div key={id + 'descriptionerrormessage'} className='form-input-error-message'>{errors.id === id
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.timeFrame : ''}</div>
+      <div className='form-label'>Description</div>
+      <Field id={field + 'Descritpion' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
+      <div className='form-input-error-message'>{errors.id === id
       ? errors.content : ''}</div> 
-  ])
-  if (field === 'info' || field === 'attachments' || field === 'skills') return ([
-    <div key={id + 'namelabel'} className='form-label'>Name</div>,
-    <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' />,
-    <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>,
-    <div key={id + 'contentlabel'}className='form-label'>Content</div>,
-    <Field id={field + 'Content' + id} key={id + 'contentfield'} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />,
-    <div key={id + 'contenterrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.content : ''}</div>,
-  ])
-  if (field === 'projects') return ( [
-    <div key={id + 'namelabel'} className='form-label'>Name</div>,
-    <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' />,
-    <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>,
-    <div key={id + 'descriptionlabel'} className='form-label'>Description</div>,
-    <Field id={field + 'Description' + id} key={id + 'descriptiontextarea'} className='form-textarea' placeholder='Description' as='textarea' type='text' name='content' />,
-    <div key={id + 'descriptionerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.content : ''}</div>,
-    <div key={id + 'githublabel'} className='form-label'>Github</div>, 
-    <Field id={field + 'GithubUrl' + id} key={id + 'githubinput'} className='form-input' placeholder='Github url' type='text' name='githubUrl' />,
-    <div key={id + 'githuberrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.githubUrl : ''}</div>,
-    <div key={id + 'showcaselabel'} className='form-label'>Showcase</div>,
-    <Field id={field + 'ShowcaseUrl' + id} key={id + 'showcaseurlfield'} className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl' />,
-    <div key={id + 'showcaseerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.showcaseUrl : ''}</div>,
-    <div key={id + 'thumbnaillabel'} className='form-label'>Thumbnail</div>,
-    <Field id={field + 'ThumbnailUrl' + id} key={id + 'thumbnailurlfield'} className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' />,
-    <div key={id + 'thumbnailurlerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.thumbnailUrl : ''}</div>,
-  ])
-  if (field === 'contact' || field === 'reference') return ([
-    <div key={id + 'firstnamelabel'} className='form-label'>Firstname</div>,
-    <Field id={field + 'Firstname' + id} key={id + 'firstnameinput'} className='form-input' placeholder='Firstname' type='text' name='firstname' />,
-    <div key={id + 'firstnameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.firstname : ''}</div>,
-    <div key={id + 'lastnamelabel'} className='form-label'>Lastname</div>,
-    <Field id={field + 'Lastname' + id} key={id + 'lastnamefield'} className='form-input' placeholder='LastName' type='text' name='lastname' />,
-    <div key={id + 'lastnameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.lastname : ''}</div>,
-    <div key={id + 'emaillabel'} className='form-label'>E-mail</div>,
-    <Field id={field + 'Email' + id} key={id + 'emailfield'} className='form-input' placeholder='mailto@mail.com' type='text' name='email' />,
-    <div key={id + 'emailerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.email : ''}</div>,
-    <div key={id + 'linkedinlabel'} className='form-label'>Linkedin</div>,
-    <Field id={field + 'Linkedin' + id} key={id + 'linkedinfield'} className='form-input' placeholder='www.linkedin.com/in/xxxxx-xxxxxx-XXXXXXXXX' type='text' name='linkedin' />,
-    <div key={id + 'linkedinerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.linkedin : ''}</div>,
-    <div key={id + 'phonelabel'} className='form-label'>Phone</div>,
-    <Field id={field + 'Phone' + id} key={id + 'phonefield'} className='form-input' placeholder='+358000000000' type='text' name='phone' />,
-    <div key={id + 'phoneerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.phone : ''}</div>,
-    <div key={id + 'availablelabel'} className='form-label'>Available</div>,
-    <Field id={field + 'PhoneAvailable' + id} key={id + 'availablefield'} className='form-input' placeholder='Available during 9 am -  4 pm' type='text' name='phoneAvailable' />,
-    <div key={id + 'availableerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.phoneAvailable : ''}</div>,
-    <div key={id + 'addresslabel'} className='form-label'>Address</div>,
-    <Field id={field + 'Address' + id} key={id + 'addressfield'} className='form-input' placeholder='Streetname 1 A 1, 00100 Cityname' type='text' name='address' />,
-    <div key={id + 'addresserrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.address : ''}</div>,
-    <div key={id + 'companylabel'} className='form-label'>Company</div>,
-    <Field id={field + 'Company' + id} key={id + 'companyfield'} className='form-input' placeholder='Company name' type='text' name='company' />,
-    <div key={id + 'companyerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.company : ''}</div>,
-    <div key={id + 'picturelabel'} className='form-label'>Picture</div>,
-    <Field id={field + 'PictureUrl' + id} key={id + 'picturefield'} className='form-input' placeholder='Picture Url' type='text' name='pictureUrl' />,
-    <div key={id + 'pictureerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.pictureUrl : ''}</div>,
-  ])
-  if (field === 'profile') return ([
-    <div key={id + 'namelabel'} className='form-label'>Name</div>,
-    <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' />,
-    <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>,
-    <div key={id + 'contentlabel'} className='form-label'>Content</div>,
-    <Field id={field + 'Content' + id} key={id + 'contentfield'} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />,
-    <div key={id + 'contenterrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.content : ''}</div>,
-  ])
-  if (field === 'communication') return ([
-    <div key={id + 'namelabel'}  className='form-label'>Name</div>,
-    <Field id={field + 'Name' + id} key={id + 'namefield'}className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />,
-    <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>,
-    <div key={id + 'languagesfield'} className='form-label language-label'>Languages</div>,
-    <FieldArray key={id + 'languagesfieldarray'} name="languages" render={() => (
-      <div className='language-panel' key={values.id + 'languagepanel'}>
-        {values.languages && values.languages.map((language: any, index: number) => {
-          return (<div className='language-pair' key={index + 'language-pair'}>
-            <Field id={'LanguageNameField' + id + index} className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
-            <MyCVFormLanguageLevelSelector
-              id={'LanguageLevelSelector' + id + index}
-              initLevel={language.level}
-              handleChange={(newLevel) => {
+    </>
+  )
+  if (field === 'info' || field === 'attachments' || field === 'skills') return (
+    <>
+      <div className='form-label'>Name</div>
+        <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' />
+        <div className='form-input-error-message'>{errors.id === id
+        ? errors.name : ''}</div>
+        <div className='form-label'>Content</div>
+        <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
+        <div className='form-input-error-message'>{errors.id === id
+        ? errors.content : ''}
+      </div>
+    </>
+  )
+  if (field === 'projects') return (
+    <>
+      <div className='form-label'>Name</div>,
+      <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' />,
+      <div className='form-input-error-message'>{errors.id === id
+        ? errors.name : ''}</div>,
+      <div className='form-label'>Description</div>,
+      <Field id={field + 'Description' + id} className='form-textarea' placeholder='Description' as='textarea' type='text' name='content' />,
+      <div className='form-input-error-message'>{errors.id === id
+        ? errors.content : ''}</div>,
+      <div className='form-label'>Github</div>, 
+      <Field id={field + 'GithubUrl' + id} className='form-input' placeholder='Github url' type='text' name='githubUrl' />,
+      <div className='form-input-error-message'>{errors.id === id
+        ? errors.githubUrl : ''}</div>,
+      <div className='form-label'>Showcase</div>,
+      <Field id={field + 'ShowcaseUrl' + id} className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl' />,
+      <div className='form-input-error-message'>{errors.id === id
+        ? errors.showcaseUrl : ''}</div>,
+      <div className='form-label'>Thumbnail</div>,
+      <Field id={field + 'ThumbnailUrl' + id} className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' />,
+      <div className='form-input-error-message'>{errors.id === id
+        ? errors.thumbnailUrl : ''}</div>,
+    </>
+  )
+  if (field === 'contact' || field === 'reference') return (
+    <>
+      <div className='form-label'>Firstname</div>
+      <Field id={field + 'Firstname' + id} className='form-input' placeholder='Firstname' type='text' name='firstname' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.firstname : ''}</div>
+      <div className='form-label'>Lastname</div>
+      <Field id={field + 'Lastname' + id} className='form-input' placeholder='LastName' type='text' name='lastname' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.lastname : ''}</div>
+      <div className='form-label'>E-mail</div>
+      <Field id={field + 'Email' + id} className='form-input' placeholder='mailto@mail.com' type='text' name='email' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.email : ''}</div>
+      <div className='form-label'>Linkedin</div>
+      <Field id={field + 'Linkedin' + id} className='form-input' placeholder='www.linkedin.com/in/xxxxx-xxxxxx-XXXXXXXXX' type='text' name='linkedin' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.linkedin : ''}</div>
+      <div className='form-label'>Phone</div>
+      <Field id={field + 'Phone' + id} className='form-input' placeholder='+358000000000' type='text' name='phone' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.phone : ''}</div>
+      <div className='form-label'>Available</div>
+      <Field id={field + 'PhoneAvailable' + id} className='form-input' placeholder='Available during 9 am -  4 pm' type='text' name='phoneAvailable' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.phoneAvailable : ''}</div>
+      <div className='form-label'>Address</div>
+      <Field id={field + 'Address' + id} className='form-input' placeholder='Streetname 1 A 1, 00100 Cityname' type='text' name='address' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.address : ''}</div>
+      <div className='form-label'>Company</div>
+      <Field id={field + 'Company' + id} className='form-input' placeholder='Company name' type='text' name='company' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.company : ''}</div>
+      <div className='form-label'>Picture</div>
+      <Field id={field + 'PictureUrl' + id} className='form-input' placeholder='Picture Url' type='text' name='pictureUrl' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.pictureUrl : ''}</div>
+    </>
+  )
+  if (field === 'profile') return (
+    <>
+      <div className='form-label'>Name</div>
+        <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' />
+        <div className='form-input-error-message'>{errors.id === id
+        ? errors.name : ''}</div>
+        <div className='form-label'>Content</div>
+        <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' />
+        <div className='form-input-error-message'>{errors.id === id
+        ? errors.content : ''}
+      </div>
+    </>
+  )
+  if (field === 'communication') return (
+    <>
+      <div className='form-label'>Name</div>
+      <Field id={field + 'Name' + id} className='form-input' placeholder='Name' type='text' name='name' disabled={isSubmitting} />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.name : ''}</div>
+      <div className='form-label language-label'>Languages</div>
+      <FieldArray name="languages" render={() => (
+        <div className='language-panel'>
+          {values.languages && values.languages.map((language: any, index: number) => {
+            return (<div className='language-pair' key={index + 'language-pair'}>
+              <Field id={'LanguageNameField' + id + index} className='form-input' name={`languages.${index}.language`} placeholder='Language name' />
+              <MyCVFormLanguageLevelSelector
+                id={'LanguageLevelSelector' + id + index}
+                initLevel={language.level}
+                handleChange={(newLevel) => {
                 const newValues = {
                   ...values,
                   languages: values.languages.map((entry: { language: string, level: string }) =>
                     entry.language === language.language ? { language: entry.language, level: newLevel } : entry)
+                  }
+                  setValues(newValues)
+                }
+              }/>
+              <button className='form-button' onClick={(event) => {
+                event.preventDefault()
+                const newValues = {
+                  ...values,
+                  languages: values.languages.filter((entry: { language: string, level: string }) =>
+                  entry.language !== language.language)
                 }
                 setValues(newValues)
-              }
-            }/>
-            <button className='form-button' onClick={(event) => {
+              }}>delete</button>
+            </div>)
+          })}
+          <button
+            id={'AddLanguage' + id}
+            className='add-language-button form-button'
+            disabled={isSubmitting}
+            onClick={(event) => {
               event.preventDefault()
               const newValues = {
                 ...values,
-                languages: values.languages.filter((entry: { language: string, level: string }) =>
-                  entry.language !== language.language)
+                languages: values.languages.concat({ language: '', level: ILevel.Elementary })
               }
               setValues(newValues)
-            }}>delete</button>
-          </div>)
-        })}
-        <button
-          id={'AddLanguage' + id}
-          className='add-language-button form-button'
-          disabled={isSubmitting}
-          onClick={(event) => {
-            event.preventDefault()
-            const newValues = {
-              ...values,
-              languages: values.languages.concat({ language: '', level: ILevel.Elementary })
-            }
-            setValues(newValues)
-          }}
-        >
-        add language
-        </button>
-      </div>
-    )} />,
-    <div key={id + 'languageerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.languages : ''}</div>,
-    <div key={id + 'contentlabel'} className='form-label'>Content</div>,
-    <Field id={field + 'Content' + id} key={id + 'contentfield'} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />,
-    <div key={id + 'contenterrormessage'} className='form-input-error-message'>{errors.id === id 
+            }}
+          > add language </button>
+        </div>
+      )}/>
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.languages : ''}</div>
+      <div className='form-label'>Content</div>
+      <Field id={field + 'Content' + id} className='form-textarea' placeholder='Content' as='textarea' type='text' name='content' disabled={isSubmitting} />
+      <div className='form-input-error-message'>{errors.id === id 
       ? errors.content : ''}</div>
-  ])
-  return([
-    <div key={id + 'namelabel'} className='form-label'>Name</div>,
-    <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='CV name' type='text' name='name' />,
-    <div key={id + 'nameerrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.name : ''}</div>,
-    <div key={id + 'githublabel'} className='form-label'>Github</div>,
-    <Field id={field + 'Github' + id} key={id + 'githubfield'} className='form-input' placeholder='Github url' type='text' name='github' />,
-    <div key={id + 'githuberrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.github : ''}</div>,
-    <div key={id + 'techlistlabel'} className='form-label'>Techlist</div>,
-    <Field id={field + 'Techlist' + id} key={id + 'techlistfield'} className='form-input' placeholder='Java, CSS, Python, ...' type='text' name='techlist' />,
-    <div key={id + 'techlisterrormessage'} className='form-input-error-message'>{errors.id === id
-      ? errors.techlist : ''}</div>,
-  ])
-  
+    </>
+  )
+  return(
+    <>
+      <div className='form-label'>Name</div>
+      <Field id={field + 'Name' + id} className='form-input' placeholder='CV name' type='text' name='name' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.name : ''}</div>
+      <div className='form-label'>Github</div>
+      <Field id={field + 'Github' + id} className='form-input' placeholder='Github url' type='text' name='github' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.github : ''}</div>
+      <div className='form-label'>Techlist</div>
+      <Field id={field + 'Techlist' + id} className='form-input' placeholder='Java, CSS, Python, ...' type='text' name='techlist' />
+      <div className='form-input-error-message'>{errors.id === id
+      ? errors.techlist : ''}</div>
+    </>
+  )
 }
 
 const mapDispatchToProps: DispatchProps = {

@@ -137,12 +137,16 @@ const MyCVForm: React.FC<OwnProps> = (props) => {
       </div>
       <h3>Work experience</h3>
       <div className='form-component-container'>
-        {cv.experience && cv.experience.map((exp) => renderExperienceForm(exp, 'experience'))}
+        {cv.experience && cv.experience.sort((a, b) => {
+          return a.timeFrame.endDate.valueOf() - b.timeFrame.endDate.valueOf()
+        }).map((exp) => renderExperienceForm(exp, 'experience'))}
         <FormPanel serviceType={ServiceType.EXPERIENCE} field='experience'/>
       </div>
       <h3>Education</h3>
       <div className='form-component-container'>
-        {cv.education && cv.education.map((edu) => renderExperienceForm(edu, 'education'))}
+        {cv.education && cv.education.sort((a, b)=>{
+          return a.timeFrame.endDate.valueOf() - b.timeFrame.endDate.valueOf()
+        }).map((edu) => renderExperienceForm(edu, 'education'))}
         <FormPanel serviceType={ServiceType.EXPERIENCE} field='education'/>
       </div>
       <h3>Language skills</h3>

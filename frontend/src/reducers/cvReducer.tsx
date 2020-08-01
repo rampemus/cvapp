@@ -533,7 +533,6 @@ export const updateCVs = (user: UserState) => {
       type: SET_LOADING,
       data: false
     }
-    console.log('Setting loader false! from cvReducer')
     dispatch(loaderAction)
   }
 }

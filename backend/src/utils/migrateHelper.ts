@@ -1,7 +1,5 @@
-import mongodb from 'mongodb'
-import Experience, { IExperience } from '../models/cv/experience'
-import Project, { IProject } from '../models/cv/project'
-import { MONGODB_URI, ROOT_USERNAME } from './config'
+import Experience from '../models/cv/experience'
+import Project from '../models/cv/project'
 
 // TODO: make these work with multiple instances in collections
 export const migrateExperienceDescriptionsToContent = async () => {

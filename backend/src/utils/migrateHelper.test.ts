@@ -1,18 +1,10 @@
 import mongodb from 'mongodb'
 import mongoose from 'mongoose'
-import { Document, model, Schema } from 'mongoose'
-import Experience from '../models/cv/experience'
-import Project from '../models/cv/project'
 import User from '../models/user'
-import { IUser } from '../models/user'
-import { MONGODB_URI, ROOT_USERNAME } from './config'
+import { MONGODB_URI } from './config'
 import {
-  connectObjectToCVField,
   deleteAllCVObjects,
   deleteAllCVs,
-  disconnectObjectFromCVField,
-  generateTestCV,
-  userIsCVOwner
 } from './cvHelper'
 import {
   migrateExperienceDescriptionsToContent,

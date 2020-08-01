@@ -5,6 +5,4 @@ const Toolbar: React.FC = (props) => <div className='toolbar'>
   {props.children}
 </div>
 
-
-
 export default Toolbar

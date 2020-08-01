@@ -75,17 +75,17 @@ const Login: React.FC<Props> = (props) => {
     <form onSubmit={handleLogin} className='loginBox'>
       <div>
         Username:
-    <input disabled={submitLock} className='login-input' id='username' name='username' {...username}>
+        <input disabled={submitLock} className='login-input' id='username' name='username' {...username}>
         </input>
       </div>
       <div>
         Password:
-    <input disabled={submitLock} className='login-input' id='password' name='password' {...password}>
+        <input disabled={submitLock} className='login-input' id='password' name='password' {...password}>
         </input>
       </div>
       <div className='rememberme'>
         Remember me
-    <input
+        <input
           id='RememberMeCheckbox'
           type='checkbox'
           defaultChecked={remember}

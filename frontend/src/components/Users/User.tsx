@@ -13,12 +13,12 @@ interface OwnProps {
 export interface StateProps {
   userForHeaders: UserState
 }
-export interface DispatchProps {}
+export interface DispatchProps { }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
-    return {
-        userForHeaders: state.user
-    }
+  return {
+    userForHeaders: state.user
+  }
 }
 
 type Props = OwnProps & StateProps & DispatchProps
@@ -42,20 +42,20 @@ const User: React.FC<Props> = (props) => {
   if (!user) {
     return <div>User not found</div>
   } else {
-    const timeleftMillisecs:number = user.expires ? (new Date(user.expires).valueOf() - Date.now().valueOf()) : 0
+    const timeleftMillisecs: number = user.expires ? (new Date(user.expires).valueOf() - Date.now().valueOf()) : 0
     const expires = user.expires
-    ? (timeleftMillisecs > 0
-      ? 'User expires after '
-      + Math.floor(timeleftMillisecs / (1000 * 60 * 60 * 24))
-      + ' days '
-      + Math.floor(timeleftMillisecs % (1000 * 60 * 60 * 24) / (1000 * 60 * 60))
-      + ' hours'
-      : 'User is expired')
-    : 'User never expires'
+      ? (timeleftMillisecs > 0
+        ? 'User expires after '
+        + Math.floor(timeleftMillisecs / (1000 * 60 * 60 * 24))
+        + ' days '
+        + Math.floor(timeleftMillisecs % (1000 * 60 * 60 * 24) / (1000 * 60 * 60))
+        + ' hours'
+        : 'User is expired')
+      : 'User never expires'
 
     const created = owner ? new Date(owner.created) : new Date()
 
-    return(
+    return (
       <div>
         <Toolbar>
           <div>
@@ -76,7 +76,7 @@ const User: React.FC<Props> = (props) => {
                   expires: props.user && props.user.expires ? new Date(props.user.expires) : undefined
                 }}
                 closeForm={() => setShowEditUser(false)}
-                reloadUsers={() => {props.updateUser()}}
+                reloadUsers={() => { props.updateUser() }}
               />
             </div>
           </div>
@@ -86,10 +86,10 @@ const User: React.FC<Props> = (props) => {
         <p>{user.name}</p>
         <p>{owner
           ? 'User created by '
-            + owner.username + ' '
-            + created.getFullYear() + '-'
-            + created.getMonth() + '-'
-            + created.getDay() 
+          + owner.username + ' '
+          + created.getFullYear() + '-'
+          + created.getMonth() + '-'
+          + created.getDay()
           : 'User has no owner'}</p>
         <p>{expires}</p>
       </div>

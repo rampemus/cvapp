@@ -16,24 +16,24 @@ const renderTimeFrame = (timeFrame: { startDate: Date, endDate: Date }) => {
     return ongoing
       ? <p>
         {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
-          &nbsp;–&nbsp;
+        &nbsp;–&nbsp;
         </p>
       : <p>
         {startDate.getFullYear()}/{startDate.getMonth() + 1}/{startDate.getDate() + 1}
-          &nbsp;–&nbsp;
-          {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate() + 1}
+        &nbsp;–&nbsp;
+        {endDate.getFullYear()}/{endDate.getMonth() + 1}/{endDate.getDate() + 1}
       </p>
   }
   if (duration < year)
     return ongoing
       ? <p>
         {startDate.getFullYear()}/{startDate.getMonth() + 1}
-          &nbsp;–&nbsp;
+        &nbsp;–&nbsp;
         </p>
       : <p>
         {startDate.getFullYear()}/{startDate.getMonth() + 1}
-          &nbsp;–&nbsp;
-          {endDate.getFullYear()}/{endDate.getMonth() + 1}
+        &nbsp;–&nbsp;
+        {endDate.getFullYear()}/{endDate.getMonth() + 1}
       </p>
   return ongoing
     ? <p>{startDate.getFullYear()} – </p>

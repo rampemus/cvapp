@@ -3,27 +3,27 @@ import { IUser } from '../../services/usersService'
 import { Link } from 'react-router-dom'
 
 interface Props {
-    user: IUser,
-    handleUserDelete: () => void
+  user: IUser,
+  handleUserDelete: () => void
 }
 
 const UsersRow: React.FC<Props> = (props) => {
-    const { name, username, id, created, expires } = props.user
+  const { name, username, id, created, expires } = props.user
 
-    return (
-        <tr key={'usertr' + id}>
-            <td><Link id={`LinkTo${username}`} to={`/users/${username}`}>{username}</Link></td>
-            <td>{name}</td>
-            <td>{created.toString().substring(0, 10)} / {expires ? expires.toString().substring(0, 10) : '-never-'}</td>
-            <td>{username === 'rampemus' ? 'Admin' : 'User'}</td>
-            <td>
-                <button id={`Delete${username}`} onClick={() => props.handleUserDelete()}>
-                    <img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />
-                    Delete
-                </button>
-            </td>
-        </tr>
-    )
+  return (
+    <tr key={'usertr' + id}>
+      <td><Link id={`LinkTo${username}`} to={`/users/${username}`}>{username}</Link></td>
+      <td>{name}</td>
+      <td>{created.toString().substring(0, 10)} / {expires ? expires.toString().substring(0, 10) : '-never-'}</td>
+      <td>{username === 'rampemus' ? 'Admin' : 'User'}</td>
+      <td>
+        <button id={`Delete${username}`} onClick={() => props.handleUserDelete()}>
+          <img className='icon' src='delete.svg' width='17px' height='15px' alt='delete' />
+            Delete
+          </button>
+      </td>
+    </tr>
+  )
 }
 
 export default UsersRow

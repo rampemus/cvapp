@@ -1,9 +1,9 @@
-import React from "react"
-import "./About.scss"
+import React from 'react'
+import './About.scss'
 
 const About: React.FC = (props) => {
   return (
-    <div className="about-container">
+    <div className='about-container'>
       <h1>About this site</h1>
       <p>
         This single-page-app will show my CV information and also deliver a
@@ -17,8 +17,8 @@ const About: React.FC = (props) => {
         less painful.
       </p>
       <p>
-        Please take a look of my source code in my{" "}
-        <a href="https://github.com/rampemus/cvapp">github</a>
+        Please take a look of my source code in my{' '}
+        <a href='https://github.com/rampemus/cvapp'>github</a>
       </p>
       <h3>Version 2.0 - 2020/7/29</h3>
       <p>
@@ -35,8 +35,8 @@ const About: React.FC = (props) => {
       <p>Notifications and animations added and login logic changed.</p>
       <h3>Version 0.2 - 2020/2/26</h3>
       <p>
-        Fixed most of bugs away and bunch tests created for{" "}
-        <a href="https://github.com/rampemus/cvapp/tree/master/backend">
+        Fixed most of bugs away and bunch tests created for{' '}
+        <a href='https://github.com/rampemus/cvapp/tree/master/backend'>
           backend
         </a>
         .

@@ -55,45 +55,44 @@ const User: React.FC<Props> = (props) => {
 
     const created = owner ? new Date(owner.created) : new Date()
 
-    return (
-      <div>
-        <Toolbar>
-          <div>
-            <button disabled className='toolbar-button'>add random user</button>
-            <button disabled className='toolbar-button'>add user...</button>
-            <button id='EditUser' className='toolbar-button' onClick={() => {
-              setShowEditUser(!showEditUser)
-            }}>
-              edit user...
-            </button>
-            <div className='formContainer' style={{ display: showEditUser ? 'block' : 'none' }}>
-              <UsersForm
-                newUser={false}
-                formValues={{
-                  id: props.user ? props.user.id : '',
-                  name: props.user ? props.user.name : '',
-                  username: props.user ? props.user.username : '',
-                  expires: props.user && props.user.expires ? new Date(props.user.expires) : undefined
-                }}
-                closeForm={() => setShowEditUser(false)}
-                reloadUsers={() => { props.updateUser() }}
-              />
-            </div>
+    return <div>
+      <Toolbar>
+        <div>
+          <button disabled className='toolbar-button'>add random user</button>
+          <button disabled className='toolbar-button'>add user...</button>
+          <button id='EditUser' className='toolbar-button' onClick={() => {
+            setShowEditUser(!showEditUser)
+          }}>
+            edit user...
+      </button>
+          <div className='formContainer' style={{ display: showEditUser ? 'block' : 'none' }}>
+            <UsersForm
+              newUser={false}
+              formValues={{
+                id: props.user ? props.user.id : '',
+                name: props.user ? props.user.name : '',
+                username: props.user ? props.user.username : '',
+                expires: props.user && props.user.expires ? new Date(props.user.expires) : undefined
+              }}
+              closeForm={() => setShowEditUser(false)}
+              reloadUsers={() => { props.updateUser() }}
+            />
           </div>
-        </Toolbar>
-        <h1>{user.username}</h1>
-        <h3>Information</h3>
-        <p>{user.name}</p>
-        <p>{owner
-          ? 'User created by '
-          + owner.username + ' '
-          + created.getFullYear() + '-'
-          + created.getMonth() + '-'
-          + created.getDay()
-          : 'User has no owner'}</p>
-        <p>{expires}</p>
-      </div>
-    )
+        </div>
+      </Toolbar>
+      <h1>{user.username}</h1>
+      <h3>Information</h3>
+      <p>{user.name}</p>
+      <p>{owner
+        ? 'User created by '
+        + owner.username + ' '
+        + created.getFullYear() + '-'
+        + created.getMonth() + '-'
+        + created.getDay()
+        : 'User has no owner'}</p>
+      <p>{expires}</p>
+    </div>
+
   }
 }
 

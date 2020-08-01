@@ -41,63 +41,59 @@ const Menu: React.FC<Props> = (props) => {
   const showLogout = props.user && props.user.token.length > 2
   const renderLogout = () => {
     if (showLogout) {
-      return (<Link to='/'><button id='Logout' className='setting-item logout-button' onClick={() => {
+      return <Link to='/'><button id='Logout' className='setting-item logout-button' onClick={() => {
         props.logoutUser()
         props.clearCVS()
       }}>
         <img src='logout.svg' width='17px' height='15px' alt='out' />
         logout
-      </button></Link>)
+        </button>
+      </Link>
     }
-    return (<button disabled className='setting-item logout-button'>
+    return <button disabled className='setting-item logout-button'>
       <img className='icon' src='logout.svg' width='17px' height='15px' alt='out' />
       <div>logout</div>
-    </button>)
+    </button>
   }
   if (!props.showRoutes) {
-    return (
-      <div className='Menu'>
-        <div className='cv-app-logo'>
-          <img src='./logo.svg' width='38px' height='38px' alt='logo' />
-        </div>
-        <div className='menu-items'>
-          <Link id='CurriculumVitae' to='/'>
-            <div className={location.pathname === '/'
-              ? 'menu-item selected'
-              : 'menu-item'}>Curriculum Vitae</div>
-          </Link>
-          <Link id='Users' to='/users'>
-            <div className={location.pathname.includes('/users')
-              ? 'menu-item selected'
-              : 'menu-item'}>Users</div>
-          </Link>
-          <Link id='MyCV' to={`/mycv${props.lastOpenedCV.length > 1 ? '/' + props.lastOpenedCV : ''}`}>
-            <div className={location.pathname.includes('/mycv')
-              ? 'menu-item selected'
-              : 'menu-item'}>MyCV</div>
-          </Link>
-          <Link id='About' to='/about'>
-            <div className={location.pathname === '/about'
-              ? 'menu-item selected'
-              : 'menu-item'}>About</div>
-          </Link>
-        </div>
-        {/* <div className='loader'>
-          {props.loading ? 'loading' : ''}
-        </div> */}
-        <div className='settings'>
-          {renderLogout()}
-        </div>
-      </div>
-    )
-  }
-  return (
-    <div className='Menu'>
+    return <div className='Menu'>
       <div className='cv-app-logo'>
-        <img src='logo.svg' width='38px' height='38px' alt='logo' />
+        <img src='./logo.svg' width='38px' height='38px' alt='logo' />
+      </div>
+      <div className='menu-items'>
+        <Link id='CurriculumVitae' to='/'>
+          <div className={location.pathname === '/'
+            ? 'menu-item selected'
+            : 'menu-item'}>Curriculum Vitae</div>
+        </Link>
+        <Link id='Users' to='/users'>
+          <div className={location.pathname.includes('/users')
+            ? 'menu-item selected'
+            : 'menu-item'}>Users</div>
+        </Link>
+        <Link id='MyCV' to={`/mycv${props.lastOpenedCV.length > 1 ? '/' + props.lastOpenedCV : ''}`}>
+          <div className={location.pathname.includes('/mycv')
+            ? 'menu-item selected'
+            : 'menu-item'}>MyCV</div>
+        </Link>
+        <Link id='About' to='/about'>
+          <div className={location.pathname === '/about'
+            ? 'menu-item selected'
+            : 'menu-item'}>About</div>
+        </Link>
+      </div>
+      <div className='settings'>
+        {renderLogout()}
       </div>
     </div>
-  )
+
+  }
+  return <div className='Menu'>
+    <div className='cv-app-logo'>
+      <img src='logo.svg' width='38px' height='38px' alt='logo' />
+    </div>
+  </div>
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)

@@ -92,41 +92,39 @@ const Users: React.FC<Props> = (props) => {
       />
     } />
   }
-  return (
-    <div>
-      <Toolbar>
-        <div>
-          <button id='AddRandomUser' className='toolbar-button' onClick={() => handleAddRandomUser()}>add random user</button>
-          <button id='AddUser' className='toolbar-button' onClick={() => {
-            setShowAddUser(!showAddUser)
-          }}>add user...</button>
-          <button disabled className='toolbar-button'>edit user...</button>
-        </div>
-        <div className='formContainer' style={{ display: showAddUser ? 'block' : 'none' }}>
-          <UsersForm newUser closeForm={() => setShowAddUser(false)} reloadUsers={() => updateUsers()} />
-        </div>
-      </Toolbar>
-      <h1>Users</h1>
-      <table>
-        <tbody>
-          <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Created/Expires</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-          {users.map(user => (
-            <UsersRow
-              key={'usersrow' + user.id}
-              user={user}
-              handleUserDelete={() => handleUserDelete(user.id)}
-            />
-          ))}
-        </tbody>
-      </table>
-    </div>
-  )
+  return <div>
+    <Toolbar>
+      <div>
+        <button id='AddRandomUser' className='toolbar-button' onClick={() => handleAddRandomUser()}>add random user</button>
+        <button id='AddUser' className='toolbar-button' onClick={() => {
+          setShowAddUser(!showAddUser)
+        }}>add user...</button>
+        <button disabled className='toolbar-button'>edit user...</button>
+      </div>
+      <div className='formContainer' style={{ display: showAddUser ? 'block' : 'none' }}>
+        <UsersForm newUser closeForm={() => setShowAddUser(false)} reloadUsers={() => updateUsers()} />
+      </div>
+    </Toolbar>
+    <h1>Users</h1>
+    <table>
+      <tbody>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Created/Expires</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+        {users.map(user => (
+          <UsersRow
+            key={'usersrow' + user.id}
+            user={user}
+            handleUserDelete={() => handleUserDelete(user.id)}
+          />
+        ))}
+      </tbody>
+    </table>
+  </div>
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users)

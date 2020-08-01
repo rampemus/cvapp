@@ -50,23 +50,18 @@ const NotificationArea: React.FC<Props> = (props) => {
   }, [props.messages])
 
   if (messages) {
-    return (
-      <div className='notificationContainer' style={{ opacity: messages.length > 0 ? 1 : 0 }}>
-        {messages.map(message => {
-          return (<NotificationMessage
-            key={message.id.substr(0, 8)}
-            message={message}
-            deleteNotification={() =>
-              props.deleteNotification(message.id)}
-            duration={message.duration}>
-          </NotificationMessage>)
-        })}
-      </div>
-    )
+    return <div className='notificationContainer' style={{ opacity: messages.length > 0 ? 1 : 0 }}>
+      {messages.map(message => <NotificationMessage
+        key={message.id.substr(0, 8)}
+        message={message}
+        deleteNotification={() =>
+          props.deleteNotification(message.id)}
+        duration={message.duration}>
+      </NotificationMessage>
+      )}
+    </div>
   }
-  return (
-    <div className='notificationContainer'></div>
-  )
+  return <div className='notificationContainer'></div>
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationArea)

@@ -52,77 +52,76 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
       ? Object.fromEntries(Object.entries(props.formValues).map(([key, value]) => key === 'id' ? [key, value] : [key, '']))
       : null
 
-    return (
-      <Formik
-        initialValues={Object.fromEntries(
-          Object.entries(formValues)
-            .map(([key, value]) => key === 'content' ? [key, arrayToString(value)] : [key, value])
-        )}
-        enableReinitialize
-        validate={(values) => {
-          const errorArray: [IDetails] = getValidatorResult(values, field)
-          console.log('errorArray before if', errorArray)
-          if (errorArray && errorArray.length > 0) {
-            const key = errorArray[0]?.context?.key
-            return {
-              [key]: errorArray[0].message.includes('fails to match the required pattern')
-                ? '"' + errorArray[0].context.key + '" has forbidden characters'
-                : errorArray[0].message,
-              id: formValues.id
-            }
+    return <Formik
+      initialValues={Object.fromEntries(
+        Object.entries(formValues)
+          .map(([key, value]) => key === 'content' ? [key, arrayToString(value)] : [key, value])
+      )}
+      enableReinitialize
+      validate={(values) => {
+        const errorArray: [IDetails] = getValidatorResult(values, field)
+        console.log('errorArray before if', errorArray)
+        if (errorArray && errorArray.length > 0) {
+          const key = errorArray[0]?.context?.key
+          return {
+            [key]: errorArray[0].message.includes('fails to match the required pattern')
+              ? '"' + errorArray[0].context.key + '" has forbidden characters'
+              : errorArray[0].message,
+            id: formValues.id
           }
-          return {}
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          if (values.id.includes('temp')) {
-            const path = location.pathname
-            const id = path.substring('/myCV/'.length)
-            const newValues = Object.fromEntries(
-              Object.entries(values)
-                .filter(([key, value]) => formValues[key] !== value)
-                .map(([key, value]) => key === 'content' ? [key, stringToArray(value)] : [key, value])
-            )
-            cvService.createObject(serviceType, newValues, id, props.user, field).then(response => {
-              props.updateCVs(props.user)
-            })
-          } else {
-            const changes = Object.fromEntries(
-              Object.entries(values)
-                .filter(([key, value]) => formValues[key] !== value)
-                .map(([key, value]) => key === 'content' ? [key, stringToArray(value)] : [key, value])
-            )
-            cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
-              props.updateCVs(props.user)
-              setSubmitting(false)
-            })
-          }
-        }}
-        key={formValues.id + field}
-      >
-        {({ isSubmitting, isValid, errors, values, setValues }) =>
-          <Form className='form-component'>
-            {showPanelId && values.id}
-
-            {renderFields(formValues.id, isSubmitting, errors, values, setValues, props.field)}
-
-            <DeleteButton id={field + 'Delete' + formValues.id} isSubmitting={isSubmitting || field === 'contact' || field === ''} handleDelete={(event: any) => {
-              event.preventDefault()
-              if (values.id.includes('temp')) {
-                const path = location.pathname
-                const CVid = path.substring('/myCV/'.length)
-                props.removeTempCVObject(CVid, field, values.id)
-              } else {
-                cvService.deleteObject(serviceType, values.id, props.user)
-                props.updateCVs(props.user)
-              }
-            }} />
-            <ClearButton id={field + 'Clear' + formValues.id} isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
-            <CancelButton id={field + 'Cancel' + formValues.id} isSubmitting={isSubmitting} setValues={setValues} formValues={formValues} />
-            <SaveButton id={field + 'Save' + formValues.id} isSubmitting={isSubmitting || !isValid} />
-          </Form>
         }
-      </Formik>
-    )
+        return {}
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        if (values.id.includes('temp')) {
+          const path = location.pathname
+          const id = path.substring('/myCV/'.length)
+          const newValues = Object.fromEntries(
+            Object.entries(values)
+              .filter(([key, value]) => formValues[key] !== value)
+              .map(([key, value]) => key === 'content' ? [key, stringToArray(value)] : [key, value])
+          )
+          cvService.createObject(serviceType, newValues, id, props.user, field).then(response => {
+            props.updateCVs(props.user)
+          })
+        } else {
+          const changes = Object.fromEntries(
+            Object.entries(values)
+              .filter(([key, value]) => formValues[key] !== value)
+              .map(([key, value]) => key === 'content' ? [key, stringToArray(value)] : [key, value])
+          )
+          cvService.modifyObject(serviceType, values.id, changes, props.user).then(response => {
+            props.updateCVs(props.user)
+            setSubmitting(false)
+          })
+        }
+      }}
+      key={formValues.id + field}
+    >
+      {({ isSubmitting, isValid, errors, values, setValues }) =>
+        <Form className='form-component'>
+          {showPanelId && values.id}
+
+          {renderFields(formValues.id, isSubmitting, errors, values, setValues, props.field)}
+
+          <DeleteButton id={field + 'Delete' + formValues.id} isSubmitting={isSubmitting || field === 'contact' || field === ''} handleDelete={(event: any) => {
+            event.preventDefault()
+            if (values.id.includes('temp')) {
+              const path = location.pathname
+              const CVid = path.substring('/myCV/'.length)
+              props.removeTempCVObject(CVid, field, values.id)
+            } else {
+              cvService.deleteObject(serviceType, values.id, props.user)
+              props.updateCVs(props.user)
+            }
+          }} />
+          <ClearButton id={field + 'Clear' + formValues.id} isSubmitting={isSubmitting} values={values} clearActionValues={clearActionValues} setValues={setValues} />
+          <CancelButton id={field + 'Cancel' + formValues.id} isSubmitting={isSubmitting} setValues={setValues} formValues={formValues} />
+          <SaveButton id={field + 'Save' + formValues.id} isSubmitting={isSubmitting || !isValid} />
+        </Form>
+      }
+    </Formik>
+
   } else {
     return <div
       className='form-component-empty'

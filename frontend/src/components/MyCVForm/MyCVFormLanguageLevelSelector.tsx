@@ -32,13 +32,12 @@ const MyCVFormLanguageLevelSelector: React.FC<OwnProps> = (props) => {
     props.handleChange(event.target.value.toString())
   }
 
-  return (
-    <div>
-      <select id={props.id} onChange={handleLevelChange} value={level} className='language-level-selector'>
-        {levels.map(level => <option key={level} value={level}>{level}</option>)}
-      </select>
-    </div>
-  )
+  return <div>
+    <select id={props.id} onChange={handleLevelChange} value={level} className='language-level-selector'>
+      {levels.map(level => <option key={level} value={level}>{level}</option>)}
+    </select>
+  </div>
+
 }
 
 export default MyCVFormLanguageLevelSelector

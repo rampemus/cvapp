@@ -57,37 +57,31 @@ const App: React.FC<Props> = (props) => {
   const content = () => {
     props.updateStatus && props.updateStatus()
     if (!hideLogin) {
-      return (
-        <div className='content'>
-          <Login />
-        </div>
-      )
-    }
-    return (
-      <div className='content'>
-        <Route exact path='/'><Home /></Route>
-        <Route path='/users'><Users /></Route>
-        <Route path='/mycv'><MyCV /></Route>
-        <Route path='/preview'><MyCV /></Route>
-        <Route exact path='/about'><About /></Route>
+      return <div className='content'>
+        <Login />
       </div>
-    )
+    }
+    return <div className='content'>
+      <Route exact path='/'><Home /></Route>
+      <Route path='/users'><Users /></Route>
+      <Route path='/mycv'><MyCV /></Route>
+      <Route path='/preview'><MyCV /></Route>
+      <Route exact path='/about'><About /></Route>
+    </div>
   }
 
-  return (
-    <div className="App" id="App">
-      <Router>
-        <Menu showRoutes={!hideLogin} />
-        <Background height={height} />
-        {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}
-        {content()}
-        {/* </ReactHeight> */}
-        <NotificationArea />
-        <Footer />
-        <Background height={height} bottom />
-      </Router>
-    </div>
-  )
+  return <div className="App" id="App">
+    <Router>
+      <Menu showRoutes={!hideLogin} />
+      <Background height={height} />
+      {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}
+      {content()}
+      {/* </ReactHeight> */}
+      <NotificationArea />
+      <Footer />
+      <Background height={height} bottom />
+    </Router>
+  </div>
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

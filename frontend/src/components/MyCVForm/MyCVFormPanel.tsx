@@ -102,26 +102,26 @@ const renderChildren = (id: string, isSubmitting: boolean, errors: IFormattedJoi
   )
   if (field === 'projects') return (
     <>
-      <div className='form-label'>Name</div>,
-      <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' />,
+      <div className='form-label'>Name</div>
+      <Field id={field + 'Name' + id} key={id + 'namefield'} className='form-input' placeholder='Name' type='text' name='name' />
       <div className='form-input-error-message'>{errors.id === id
-        ? errors.name : ''}</div>,
-      <div className='form-label'>Description</div>,
-      <Field id={field + 'Description' + id} className='form-textarea' placeholder='Description' as='textarea' type='text' name='content' />,
+        ? errors.name : ''}</div>
+      <div className='form-label'>Description</div>
+      <Field id={field + 'Description' + id} className='form-textarea' placeholder='Description' as='textarea' type='text' name='content' />
       <div className='form-input-error-message'>{errors.id === id
-        ? errors.content : ''}</div>,
-      <div className='form-label'>Github</div>,
-      <Field id={field + 'GithubUrl' + id} className='form-input' placeholder='Github url' type='text' name='githubUrl' />,
+        ? errors.content : ''}</div>
+      <div className='form-label'>Github</div>
+      <Field id={field + 'GithubUrl' + id} className='form-input' placeholder='Github url' type='text' name='githubUrl' />
       <div className='form-input-error-message'>{errors.id === id
-        ? errors.githubUrl : ''}</div>,
-      <div className='form-label'>Showcase</div>,
-      <Field id={field + 'ShowcaseUrl' + id} className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl' />,
+        ? errors.githubUrl : ''}</div>
+      <div className='form-label'>Showcase</div>
+      <Field id={field + 'ShowcaseUrl' + id} className='form-input' placeholder='Showcase url' type='text' name='showcaseUrl' />
       <div className='form-input-error-message'>{errors.id === id
-        ? errors.showcaseUrl : ''}</div>,
-      <div className='form-label'>Thumbnail</div>,
-      <Field id={field + 'ThumbnailUrl' + id} className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' />,
+        ? errors.showcaseUrl : ''}</div>
+      <div className='form-label'>Thumbnail</div>
+      <Field id={field + 'ThumbnailUrl' + id} className='form-input' placeholder='Thumbnail url' type='text' name='thumbnailUrl' />
       <div className='form-input-error-message'>{errors.id === id
-        ? errors.thumbnailUrl : ''}</div>,
+        ? errors.thumbnailUrl : ''}</div>
     </>
   )
   if (field === 'contact' || field === 'reference') return (

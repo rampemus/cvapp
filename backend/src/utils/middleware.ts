@@ -46,9 +46,7 @@ const AuthenticateUser = async (request: IRequestWithIdentity, response: Respons
       return response.status(401).json({ error: 'token missing or invalid' }).end()
     }
     next()
-  }).catch((error) => {
-    return response.status(401).json({ error: 'token missing or invalid' }).end()
-  })
+  }).catch((error) => response.status(401).json({ error: 'token missing or invalid' }).end())
 }
 
 const RequestLogger = (request: IRequestWithIdentity, response: Response, next: any) => {

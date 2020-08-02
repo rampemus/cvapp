@@ -12,7 +12,7 @@ import {
 } from '../controllers/cv'
 import Communication from '../models/cv/communication'
 import Contact from '../models/cv/contact'
-import CurriculumVitae from '../models/cv/cv'
+import CurriculumVitae, { ICurriculumVitae } from '../models/cv/cv'
 import Experience from '../models/cv/experience'
 import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
@@ -855,116 +855,37 @@ describe('/api/cv/:id DELETE', () => {
 })
 
 describe('/api/cv/:type/:id DELETE', () => {
-  test('Deletes contact and ref fields', async () => {
-    const token = 'bearer ' + rootLogin.body.token
+  const testCases = [
+    { name: 'contact', schema: Contact, fields: ['reference'] },
+    { name: 'profile', schema: Profile, fields: ['profile'] },
+    { name: 'project', schema: Project, fields: ['projects'] },
+    { name: 'experience', schema: Experience, fields: ['experience', 'education'] },
+    { name: 'info', schema: Info, fields: ['info', 'skills', 'attachments'] },
+    { name: 'communication', schema: Communication, fields: ['communication'] }
+  ]
+  for (const testCase of testCases) {
+    for (const field of testCase.fields) {
+      test('Deletes ' + testCase.name + ' and ref field ' + field, async () => {
+        const token = 'bearer ' + rootLogin.body.token
+        const id = testCV[field]._id || testCV[field][0]._id || testCV[field][0] 
 
-    await api
-      .delete('/api/cv/contact/' + testCV.reference[0]._id)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
+        await api
+          .delete(`/api/cv/${testCase.name}/` + id)
+          .set('Content-Type', 'application/json')
+          .set('Authorization', token)
+          .expect(204)
 
-    expect(await Contact.find({ _id: testCV.reference[0].id })).toHaveLength(0)
-    const after: any = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.reference).toHaveLength(0)
-  })
-  test('Deletes profile and ref fields', async () => {
-    const token = 'bearer ' + rootLogin.body.token
+        expect(await testCase.schema.find({ _id: id })).toHaveLength(0)
+        const after: any = await CurriculumVitae.findOne({ _id: testCV.id })
 
-    await api
-      .delete('/api/cv/profile/' + testCV.profile._id)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Contact.find({ _id: testCV.profile._id })).toHaveLength(0)
-    const after: any = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.profile).toBeNull()
-  })
-  test('Deletes projects and ref fields', async () => {
-    const token = 'bearer ' + rootLogin.body.token
-
-    await api
-      .delete('/api/cv/project/' + testCV.projects[0]._id)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Project.find({ _id: testCV.projects[0].id })).toHaveLength(0)
-    const after: any = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.projects).toHaveLength(0)
-
-  })
-  test('Deletes experience and ref fields education and experience', async () => {
-    const token = 'bearer ' + rootLogin.body.token
-
-    await api
-      .delete('/api/cv/experience/' + testCV.experience[0]._id)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Experience.find({ _id: testCV.experience[0].id })).toHaveLength(0)
-    let after: any = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.experience).toHaveLength(0)
-
-    await api
-      .delete('/api/cv/experience/' + testCV.education[0]._id)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Experience.find({ _id: testCV.education[0].id })).toHaveLength(0)
-    after = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.education).toHaveLength(0)
-  })
-  test('Deletes communication and ref fields', async () => {
-    const token = 'bearer ' + rootLogin.body.token
-
-    await api
-      .delete('/api/cv/communication/' + testCV.communication[0])
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Info.find({ _id: testCV.communication[0] })).toHaveLength(0)
-    const after = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.communication).toBeNull()
-
-  })
-  test('Deletes info and ref fields info, skills and attachments', async () => {
-    const token = 'bearer ' + rootLogin.body.token
-
-    await api
-      .delete('/api/cv/info/' + testCV.info[0])
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Info.find({ _id: testCV.info[0] })).toHaveLength(0)
-    let after = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.info).toBeNull()
-
-    await api
-      .delete('/api/cv/info/' + testCV.skills[0])
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Info.find({ _id: testCV.skills[0] })).toHaveLength(0)
-    after = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.skills).toBeNull()
-
-    await api
-      .delete('/api/cv/info/' + testCV.attachments[0])
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token)
-      .expect(204)
-
-    expect(await Info.find({ _id: testCV.attachments[0] })).toHaveLength(0)
-    after = await CurriculumVitae.findOne({ _id: testCV.id })
-    expect(after.attachments).toBeNull()
-  })
+        if (Array.isArray(after[field])) {
+          expect(after[field]).toHaveLength(0)
+        } else {
+          expect(after[field]).toBeNull()
+        }
+      })
+    }
+  }
   test('invalid type: Delete contact field', async () => {
     const token = 'bearer ' + rootLogin.body.token
 
@@ -975,6 +896,12 @@ describe('/api/cv/:type/:id DELETE', () => {
       .expect(403)
   })
 })
+
+// describe('/api/cv PUT array refs in new order', () => {
+//   const token = 'bearer ' + rootLogin.body.token
+
+//   expect(true).toBe(true)
+// })
 
 afterAll(async () => {
   await deleteAllCVs()

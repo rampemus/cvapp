@@ -103,20 +103,13 @@ describe('/api/cv GET', () => {
 
     const cv = cvs.body[0]
     expect(cv.id).toEqual(testCV.id)
-    expect(cv).toHaveProperty('owner')
-    expect(cv).toHaveProperty('name')
-    expect(cv).toHaveProperty('github')
-    expect(cv).toHaveProperty('techlist')
-    expect(cv).toHaveProperty('contact')
-    expect(cv).toHaveProperty('profile')
-    expect(cv).toHaveProperty('projects')
-    expect(cv).toHaveProperty('reference')
-    expect(cv).toHaveProperty('experience')
-    expect(cv).toHaveProperty('education')
-    expect(cv).toHaveProperty('communication')
-    expect(cv).toHaveProperty('skills')
-    expect(cv).toHaveProperty('info')
-    expect(cv).toHaveProperty('attachments')
+
+    const fields = ['owner', 'name', 'github', 'techlist', 'contact',
+      'profile', 'projects', 'reference', 'experience', 'education',
+      'communication', 'skills', 'info', 'attachments']
+    for ( const field of fields ) {
+      expect(cv).toHaveProperty(field)
+    }
   })
 })
 
@@ -133,15 +126,11 @@ describe('/api/cv/:type GET', () => {
 
     const myContact = contacts.body[0]
 
-    expect(myContact).toHaveProperty('address')
-    expect(myContact).toHaveProperty('company')
-    expect(myContact).toHaveProperty('email')
-    expect(myContact).toHaveProperty('firstname')
-    expect(myContact).toHaveProperty('lastname')
-    expect(myContact).toHaveProperty('linkedin')
-    expect(myContact).toHaveProperty('owner')
-    expect(myContact).toHaveProperty('phone')
-    expect(myContact).toHaveProperty('phoneAvailable')
+    const fields = ['address', 'company', 'email', 'firstname',
+      'lastname', 'linkedin', 'owner', 'phone', 'phoneAvailable']
+    for (const field of fields) {
+      expect(myContact).toHaveProperty(field)
+    }
   })
   test('profile', async () => {
     const token = 'bearer ' + rootLogin.body.token
@@ -171,12 +160,11 @@ describe('/api/cv/:type GET', () => {
 
     const myProject = projects.body[0]
 
-    expect(myProject).toHaveProperty('content')
-    expect(myProject).toHaveProperty('githubUrl')
-    expect(myProject).toHaveProperty('name')
-    expect(myProject).toHaveProperty('owner')
-    expect(myProject).toHaveProperty('showcaseUrl')
-    expect(myProject).toHaveProperty('thumbnailUrl')
+    const fields = ['content', 'githubUrl', 'name',
+      'owner', 'showcaseUrl', 'thumbnailUrl']
+    for ( const field of fields ) {
+      expect(myProject).toHaveProperty(field)
+    }
   })
   test('experience', async () => {
     const token = 'bearer ' + rootLogin.body.token
@@ -321,23 +309,11 @@ describe('/api/cv/:type POST', () => {
 
     const cvAfter = await CurriculumVitae.findOne({ _id: emptyTestCV.body.id }).populate(['contact', 'reference'])
 
-    expect(savedContact.body.company).toEqual(cvAfter.contact.company)
-    expect(savedContact.body.email).toEqual(cvAfter.contact.email)
-    expect(savedContact.body.firstname).toEqual(cvAfter.contact.firstname)
-    expect(savedContact.body.address).toEqual(cvAfter.contact.address)
-    expect(savedContact.body.lastname).toEqual(cvAfter.contact.lastname)
-    expect(savedContact.body.phone).toEqual(cvAfter.contact.phone)
-    expect(savedContact.body.phoneAvailable).toEqual(cvAfter.contact.phoneAvailable)
-    expect(savedContact.body.pictureUrl).toEqual(cvAfter.contact.pictureUrl)
-
-    expect(savedReference.body.company).toEqual(cvAfter.reference[0].company)
-    expect(savedReference.body.email).toEqual(cvAfter.reference[0].email)
-    expect(savedReference.body.firstname).toEqual(cvAfter.reference[0].firstname)
-    expect(savedReference.body.address).toEqual(cvAfter.reference[0].address)
-    expect(savedReference.body.lastname).toEqual(cvAfter.reference[0].lastname)
-    expect(savedReference.body.phone).toEqual(cvAfter.reference[0].phone)
-    expect(savedReference.body.phoneAvailable).toEqual(cvAfter.reference[0].phoneAvailable)
-    expect(savedReference.body.pictureUrl).toEqual(cvAfter.reference[0].pictureUrl)
+    const contactField = ['company', 'email', 'firstname', 'address', 'lastname', 'phone', 'phoneAvailable', 'pictureUrl']
+    for (const field of contactField) {
+      expect(savedContact.body[field]).toEqual(cvAfter.contact.get(field))
+      expect(savedReference.body[field]).toEqual(cvAfter.reference[0].get(field))
+    }
   })
   test('profile', async () => {
     const token = 'bearer ' + rootLogin.body.token
@@ -867,7 +843,7 @@ describe('/api/cv/:type/:id DELETE', () => {
     for (const field of testCase.fields) {
       test('Deletes ' + testCase.name + ' and ref field ' + field, async () => {
         const token = 'bearer ' + rootLogin.body.token
-        const id = testCV[field]._id || testCV[field][0]._id || testCV[field][0] 
+        const id = testCV[field]._id || testCV[field][0]._id || testCV[field][0]
 
         await api
           .delete(`/api/cv/${testCase.name}/` + id)

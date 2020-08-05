@@ -4,7 +4,7 @@ import { IUserToken } from '../controllers/login'
 import { JWT_SALT, ROOT_USERNAME } from './config'
 import { getUserByUsername } from './userHelper'
 
-interface IRequestWithToken extends Request {
+export interface IRequestWithToken extends Request {
   token: string,
 }
 
@@ -14,7 +14,7 @@ export interface IRequestWithIdentity extends IRequestWithToken {
   userid: string
 }
 
-const getTokenFrom = (request: IRequestWithToken) => {
+export const getTokenFrom = (request: IRequestWithToken) => {
   const authorization = request.get('authorization')
   const schema = 'bearer'
   if (authorization && authorization.toLowerCase().startsWith(schema + ' ')) {
@@ -50,13 +50,14 @@ const AuthenticateUser = async (request: IRequestWithIdentity, response: Respons
 }
 
 const RequestLogger = (request: IRequestWithIdentity, response: Response, next: any) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
+  // console.log('Method:', request.method)
+  // console.log('Path:  ', request.path)
   // console.log('Header: ', request.headers)
-  console.log('Body:  ', request.body)
-  console.log('Token: ', request.token)
-  console.log('User: ', request.userGroup)
-  console.log('---')
+  console.log('Request::', request)
+  // console.log('Body:  ', request.body)
+  // console.log('Token: ', request.token)
+  // console.log('User: ', request.userGroup)
+  // console.log('---')
   next()
 }
 

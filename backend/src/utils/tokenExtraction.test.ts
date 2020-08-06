@@ -27,16 +27,19 @@ const mockedTokenExtractor = TokenExtractor as jest.Mock<any>
 const mockedAuthenticateUser = AuthenticateUser as jest.Mock<any>
 
 describe('/api/users GET', () => {
-  test('Token will be extracted', async () => {
+  test('Token will be extracted from root user', async () => {
     const token = 'bearer ' + rootLogin.body.token
 
     const jsonResult = { end: jest.fn() }
-    const statusResult = {
-      json: (body: object) => jsonResult
-    }
+    const statusResult = { json: (body: object) => jsonResult }
     const response = { status: (statusCode: number) => statusResult }
 
-    const request = { get: (par: string) => token }
+    const request = {
+      get: (par: string) => token,
+      userGroup: '',
+      userid: '',
+      username: ''
+    }
 
     expect(await mockedExtractToken(request)).toBe(token.substring(7))
 
@@ -46,8 +49,12 @@ describe('/api/users GET', () => {
     expect(next).toBeCalled()
 
     mockedAuthenticateUser(request, response, next)
-
     await new Promise((r) => setTimeout(r, 200))
+
+    console.log(request.username)
+    expect(request.userGroup).toBe('admin')
+    expect(request.username).toBe(ROOT_USERNAME)
+    expect(request.userid).toHaveLength(24)
     expect(next).toBeCalledTimes(2)
   })
 })

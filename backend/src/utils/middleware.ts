@@ -50,14 +50,14 @@ const AuthenticateUser = async (request: IRequestWithIdentity, response: Respons
 }
 
 const RequestLogger = (request: IRequestWithIdentity, response: Response, next: any) => {
-  // console.log('Method:', request.method)
-  // console.log('Path:  ', request.path)
-  // console.log('Header: ', request.headers)
-  console.log('Request::', request)
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Header: ', request.headers)
+  // console.log('Request::', request)
   // console.log('Body:  ', request.body)
-  // console.log('Token: ', request.token)
-  // console.log('User: ', request.userGroup)
-  // console.log('---')
+  console.log('Token: ', request.token)
+  console.log('User: ', request.userGroup)
+  console.log('---')
   next()
 }
 

@@ -220,8 +220,8 @@ const randomPassword = (length: number) => {
   const passwordLength = length
   let randomString = ''
   for (let i = 0; i < passwordLength; i++) {
-    const rnumber = Math.floor(Math.random() * chars.length)
-    randomString += chars.substring(rnumber, rnumber + 1)
+    const randomIndex = Math.floor(Math.random() * chars.length)
+    randomString += chars.substring(randomIndex, randomIndex + 1)
   }
   return randomString.toString()
 }

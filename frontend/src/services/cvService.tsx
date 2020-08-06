@@ -273,7 +273,6 @@ const createObject = (type: ServiceType, object: any, id: string, user: UserStat
 
 const modifyObject = (type: ServiceType, id: string, object: any, user: UserState) => {
   const changes = Object.fromEntries(Object.entries(object).filter(([key, value]) => key !== 'id'))
-  console.log(changes)
   const request = axios.put(baseUrl + type, { changes, id }, getConfigHeader(user))
   return request.then((response: any) => {
     return response.data

@@ -10,8 +10,6 @@ interface Props {
 const NotificationMessage: React.FC<Props> = (props) => {
   const message = { ...props.message, text: props.message.text.split('https://rampemus-cvapp.herokuapp.com')[0] }
   const messageTextAfterLink = props.message.text.split('https://rampemus-cvapp.herokuapp.com')[1] || null
-  console.log('message', message)
-  console.log('messageTextAfterLink', messageTextAfterLink)
   const duration = props.duration
   const [alive, setAlive] = useState(1)
   const [animation, setAnimation] = useState(true)

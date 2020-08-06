@@ -51,7 +51,6 @@ describe('/api/users GET', () => {
     mockedAuthenticateUser(request, response, next)
     await new Promise((r) => setTimeout(r, 200))
 
-    console.log(request.username)
     expect(request.userGroup).toBe('admin')
     expect(request.username).toBe(ROOT_USERNAME)
     expect(request.userid).toHaveLength(24)

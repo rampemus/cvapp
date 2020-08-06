@@ -60,7 +60,6 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
       enableReinitialize
       validate={(values) => {
         const errorArray: [IDetails] = getValidatorResult(values, field)
-        console.log('errorArray before if', errorArray)
         if (errorArray && errorArray.length > 0) {
           const key = errorArray[0]?.context?.key
           return {

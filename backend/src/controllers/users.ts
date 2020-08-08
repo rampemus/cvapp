@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { Request, Response, Router } from 'express'
+import { Response, Router } from 'express'
 import CurriculumVitae from '../models/cv/cv'
 import User from '../models/user'
 import { ROOT_USERNAME } from '../utils/config'

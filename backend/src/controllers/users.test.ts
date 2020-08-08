@@ -242,16 +242,15 @@ describe('/api/users GET', () => {
   test('user does not see his siblings', async () => {
 
     const saltRounds = 10
-    const passwordHash = await bcrypt.hash('password122', saltRounds)
-    const siblingPasswordHash = await bcrypt.hash('password121', saltRounds)
 
     const owner = await User.findOne({ username: ROOT_USERNAME })
 
+    const userPassword = randomPassword(12)
     const user = new User({
       created: new Date(),
       name: 'Luke Skywalker',
       owner,
-      passwordHash,
+      passwordHash: await bcrypt.hash(userPassword, saltRounds),
       username: 'curious',
     })
     await user.save()
@@ -260,7 +259,7 @@ describe('/api/users GET', () => {
       created: new Date(),
       name: 'Princess Leia',
       owner,
-      siblingPasswordHash,
+      passwordHash: await bcrypt.hash(randomPassword(12), saltRounds),
       username: 'secretsibling',
     })
     await sibling.save()
@@ -268,7 +267,7 @@ describe('/api/users GET', () => {
     const userLogin = await api
       .post('/api/login')
       .set('Content-Type', 'application/json')
-      .send({ username: ROOT_USERNAME, password: ROOT_PASSWORD })
+      .send({ username: user.username, password: userPassword })
 
     const userToken = 'bearer ' + userLogin.body.token
 

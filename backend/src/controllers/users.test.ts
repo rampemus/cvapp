@@ -236,6 +236,46 @@ describe('/api/users DELETE', () => {
 
     expect(await User.find({ username: 'deletemeee' })).toHaveLength(0)
   })
+  test('user can remove children', async () => {
+    const token = 'bearer' + rootLogin.body.token
+
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash('password544', saltRounds)
+    const childPasswordHash = await bcrypt.hash('password545', saltRounds)
+
+    const owner = await User.findOne({ username: ROOT_USERNAME })
+
+    const parent = new User({
+      created: new Date(),
+      name: 'User with children',
+      owner,
+      passwordHash,
+      username: 'ihavechildren'
+    })
+    const savedParent = await parent.save()
+
+    const child = new User({
+      created: new Date(),
+      name: 'User with children',
+      owner: savedParent,
+      passwordHash: childPasswordHash,
+      username: 'ihaveparent',
+    })
+    const savedChild = await child.save()
+
+    const parentLogin = await api
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({ username: 'ihavechildren', password: 'password544' })
+      .expect(200)
+    const parentToken = 'bearer ' + parentLogin.body.token
+
+    await api
+      .delete('/api/users/' + savedChild.id)
+      .set('Content-Type', 'application/json')
+      .set('Authorization', parentToken)
+      .expect(204)
+  })
 })
 
 describe('/api/users GET', () => {

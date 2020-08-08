@@ -186,7 +186,7 @@ usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Respo
   validationErrorSend(response, objectId.validate(request.params.id))
 
   const userHasPermission = request.userGroup === 'admin'   // allowed to admin
-    || request.userid === request.params.id         // allowed to delete themselves
+    || request.userid === request.params.id                 // allowed to delete themselves
     || await ownerId(request.params.id) === request.userid  // allowed to delete children
   if (!userHasPermission) {
     return response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
@@ -197,7 +197,6 @@ usersRouter.delete('/:id', async (request: IRequestWithIdentity, response: Respo
   }
 
   try {
-
     if (!await User.exists({ _id: request.params.id })) {
       response.status(404).json({ error: 'User does not exist' }).end()
     }

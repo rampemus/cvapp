@@ -154,8 +154,12 @@ const getUserById = async (id: string) => {
 }
 
 const ownerId = async (userId: string) => {
-  const result = ( await User.findOne({ _id: userId })).owner._id
-  return result.toString()
+  try {
+    const result = ( await User.findOne({ _id: userId })).owner._id
+    return result.toString()
+  } catch (error) {
+    return (await User.findOne({ username: ROOT_USERNAME })).id
+  }
 }
 
 const userIsRootUser = async (id: string) => {

@@ -22,7 +22,7 @@ const objectId = Joi.string().regex(/^[a-f\d]{24}$/i)
 const fieldString = Joi.string().valid('communication', 'projects', 'attachments', 'education', 'experience',
   'info', 'reference', 'skills', 'contact', 'profile')
 const username = Joi.string().alphanum().min(4).max(30)
-const password = Joi.string().regex(/^[a-zA-Z0-9!#%&]*$/).min(8).max(64)
+const password = Joi.string().regex(/^[a-zA-Z0-9!#%]*$/).min(8).max(64)
 const name = Joi.string().regex(/^[a-zA-Z0-9àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-’`´]*$/).min(2).max(100)
 const CVConnectSchema = Joi.object().keys({
   field: fieldString,
@@ -66,7 +66,7 @@ const NewProfileSchema = Joi.object().keys({
 })
 
 const LoginRequestSchema = Joi.object().keys({
-  password: Joi.string().regex(/^[a-zA-Z0-9!#%&]{8,64}$/),
+  password,
   username: Joi.string().alphanum().min(4).max(30).required()
 })
 

@@ -283,6 +283,20 @@ describe('/api/users GET', () => {
   })
 })
 
+describe('/api/users GET', () => {
+  test('admin sees everybody', async () => {
+    const token = 'bearer ' + rootLogin.body.token
+
+    const allUsers = await User.find({})
+    const users = await api
+      .get('/api/users/')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token)
+
+    expect(users.body).toHaveLength(allUsers.length)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

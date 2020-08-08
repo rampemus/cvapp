@@ -16,13 +16,18 @@ import { NewUserRequestSchema, objectId, UserChangesSchema, validationErrorSend 
 const usersRouter = Router()
 
 usersRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
+  if (request.userGroup === 'admin') {
+    return response.json(await User.find({}))
+  }
   const username: string = request.username
   const user = await getUserByUsername(username)
-  const users = await User.find({ $or: [
-    { owner: user._id },
-    { _id: user._id },
-    { username: ROOT_USERNAME }
-  ] })
+  const users = await User.find({
+    $or: [
+      { owner: user._id },
+      { _id: user._id },
+      { username: ROOT_USERNAME }
+    ]
+  })
   response.json(users)
 })
 

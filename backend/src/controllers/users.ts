@@ -5,6 +5,7 @@ import User from '../models/user'
 import { ROOT_USERNAME } from '../utils/config'
 import { IRequestWithIdentity } from '../utils/middleware'
 import {
+  getUserByUsername,
   ownerId,
   randomPassword,
   randomUserName,
@@ -14,8 +15,14 @@ import { NewUserRequestSchema, objectId, UserChangesSchema, validationErrorSend 
 
 const usersRouter = Router()
 
-usersRouter.get('/', async (request: Request, response: Response) => {
-  const users = await User.find({})
+usersRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
+  const username: string = request.username
+  const user = await getUserByUsername(username)
+  const users = await User.find({ $or: [
+    { owner: user._id },
+    { _id: user._id },
+    { username: ROOT_USERNAME }
+  ] })
   response.json(users)
 })
 

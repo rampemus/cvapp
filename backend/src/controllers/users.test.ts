@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 import app from '../app'
-import User from '../models/user'
+import User, { IUser } from '../models/user'
 import { MONGODB_URI, ROOT_PASSWORD, ROOT_USERNAME, TESTUSER_NAME, TESTUSER_PASSWORD, TESTUSER_USERNAME } from '../utils/config'
 import { createRootUser, deleteAllUsers, randomPassword, randomUserName } from '../utils/userHelper'
 import { IUserChanges } from './users'
@@ -235,6 +235,52 @@ describe('/api/users DELETE', () => {
       .expect(204)
 
     expect(await User.find({ username: 'deletemeee' })).toHaveLength(0)
+  })
+})
+
+describe('/api/users GET', () => {
+  test('user does not see his siblings', async () => {
+
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash('password122', saltRounds)
+    const siblingPasswordHash = await bcrypt.hash('password121', saltRounds)
+
+    const owner = await User.findOne({ username: ROOT_USERNAME })
+
+    const user = new User({
+      created: new Date(),
+      name: 'Luke Skywalker',
+      owner,
+      passwordHash,
+      username: 'curious',
+    })
+    await user.save()
+
+    const sibling = new User({
+      created: new Date(),
+      name: 'Princess Leia',
+      owner,
+      siblingPasswordHash,
+      username: 'secretsibling',
+    })
+    await sibling.save()
+
+    const userLogin = await api
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({ username: ROOT_USERNAME, password: ROOT_PASSWORD })
+
+    const userToken = 'bearer ' + userLogin.body.token
+
+    const users = await api
+      .get('/api/users/')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', userToken)
+      .expect(200)
+
+    const visibleUsers: IUser[] = users.body
+    const siblingInfo = visibleUsers.find((u: IUser) => u.username === sibling.username)
+    expect(siblingInfo).toBeUndefined()
   })
 })
 

@@ -318,7 +318,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
       response.status(201).json(savedProject)
       break
     default:
-      response.status(400).json({ error: '/cv/:type invalid' })
+      response.status(400).json({ error: '/cv/:type invalid' }).end()
       break
   }
 })

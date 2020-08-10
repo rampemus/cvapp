@@ -122,7 +122,9 @@ const Home: React.FC<Props> = (props) => {
                 <p key={index + 'project' + project.id}>{projectRow}</p>
               )}
               <p className='project-card-links'>
-                <a id={'githubLink' + project.id} href={project.githubUrl}>github</a> - <a id={'showcaseLink' + project.id} href={project.showcaseUrl}>showcase</a>
+                {project.githubUrl && <a id={'githubLink' + project.id} href={project.githubUrl}>github</a>}
+                {project.githubUrl && project.showcaseUrl && ' - '}
+                {project.showcaseUrl && <a id={'showcaseLink' + project.id} href={project.showcaseUrl}>showcase</a>}
               </p>
             </div>
           </div>

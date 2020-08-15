@@ -99,7 +99,7 @@ const ChangesSchema = Joi.object().keys({
 
 const UserChangesSchema = Joi.object().keys({
   changes: {
-    expires: Joi.date(),
+    expires: Joi.date().allow(null),
     name,
     newPassword: password,
     password,
@@ -109,7 +109,7 @@ const UserChangesSchema = Joi.object().keys({
 })
 
 const NewUserRequestSchema = Joi.object().keys({
-  expires: Joi.date(),
+  expires: Joi.date().allow(null),
   name: name.required(),
   password: password.required(),
   username: username.required()

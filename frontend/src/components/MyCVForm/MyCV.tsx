@@ -50,9 +50,7 @@ const MyCV: React.FC<Props> = (props) => {
       <MyCVForm
         cv={cvs.find((cv) => cv.id === match.params.id)}
       />
-    )} />
-
-
+    )}/>
 
   return <div>
     <Route
@@ -127,6 +125,7 @@ const MyCV: React.FC<Props> = (props) => {
                           })
                       }}
                     > Set As Default </button>
+                    <button className='toolbar-button'> Show to User... </button>
                     <Link
                       key={'toolbarlink' + match.params.id}
                       to={`/preview/${match.params.id}`}
@@ -142,6 +141,7 @@ const MyCV: React.FC<Props> = (props) => {
                     {' '}
                     Set As Default
                   </button>
+                  <button className='toolbar-button' disabled> Show to User... </button>
                   <button
                     key='toolbar-button-2'
                     className='toolbar-button'

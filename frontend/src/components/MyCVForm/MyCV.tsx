@@ -1,28 +1,17 @@
 import React from 'react'
 import Toolbar from '../Toolbar'
 import { AppState } from '../..'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import './MyCV.scss'
 import cvService, { ICV, ServiceType } from '../../services/cvService'
 import { Link, Route, useLocation } from 'react-router-dom'
 import MyCVForm from './MyCVForm'
-import { UserState } from '../../reducers/userReducer'
 import { updateCVs, setPreviousCV } from '../../reducers/cvReducer'
 import Home from '../Home'
 import { showNotification, Type } from '../../reducers/notificationReducer'
 import { setLoading } from '../../reducers/loadingReducer'
 
 interface OwnProps { }
-export interface StateProps {
-  user: UserState
-  cvs?: ICV[]
-}
-export interface DispatchProps {
-  updateCVs: (user: UserState) => void
-  setPreviousCV: (id: string) => void
-  showNotification: (message: string, type: Type, lifeTime?: number) => void
-  setLoading: (loading: boolean) => void
-}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -31,14 +20,16 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   updateCVs,
   setPreviousCV,
   showNotification,
   setLoading,
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const MyCV: React.FC<Props> = (props) => {
   const location = useLocation()
@@ -68,7 +59,7 @@ const MyCV: React.FC<Props> = (props) => {
             </div>
           </Toolbar>
           <Home
-            preview={props.cvs?.find((cv) => cv.id + '' === match.params.id)}
+            preview={props.cvs?.find((cv: ICV) => cv.id + '' === match.params.id)}
           />
         </div>
       )}
@@ -228,4 +219,4 @@ const MyCV: React.FC<Props> = (props) => {
   </div>
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyCV)
+export default connector(MyCV)

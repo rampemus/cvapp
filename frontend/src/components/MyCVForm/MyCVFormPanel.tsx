@@ -3,9 +3,8 @@ import { Formik, Form, } from 'formik'
 import { DeleteButton, ClearButton, CancelButton, SaveButton } from './MyCVFormPanelButtons'
 import cvService, { ServiceType } from '../../services/cvService'
 import { useLocation } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { updateCVs, addEmptyCVObject, removeTempCVObject, CVAction } from '../../reducers/cvReducer'
-import { UserState } from '../../reducers/userReducer'
+import { connect, ConnectedProps } from 'react-redux'
+import { updateCVs, addEmptyCVObject, removeTempCVObject } from '../../reducers/cvReducer'
 import { AppState } from '../..'
 import { IDetails } from '../../utils/validators'
 import { getValidatorResult, arrayToString, stringToArray, renderFields } from '../../utils/CVFormHelper'
@@ -16,14 +15,6 @@ interface OwnProps {
   serviceType: ServiceType,
   children?: any,
 }
-export interface StateProps {
-  user: UserState
-}
-export interface DispatchProps {
-  updateCVs: (user: UserState) => any,
-  addEmptyCVObject: (id: string, field: string) => CVAction,
-  removeTempCVObject: (id: string, field: string, objectId: string) => CVAction
-}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -31,11 +22,13 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   updateCVs, addEmptyCVObject, removeTempCVObject
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const MyCVFormPanel: React.FC<Props> = (props) => {
 
@@ -137,4 +130,4 @@ const MyCVFormPanel: React.FC<Props> = (props) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyCVFormPanel)
+export default connector(MyCVFormPanel)

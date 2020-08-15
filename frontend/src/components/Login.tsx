@@ -2,30 +2,25 @@ import React, { useState } from 'react'
 import './Login.scss'
 import useField, { FieldType } from '../hooks/useField'
 import loginService, { loginError } from '../services/loginService'
-import { setUser, UserState } from '../reducers/userReducer'
+import { setUser } from '../reducers/userReducer'
 import { showNotification, Type } from '../reducers/notificationReducer'
 import { updateCVs } from '../reducers/cvReducer'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { setLoading } from '../reducers/loadingReducer'
 
 interface OwnProps { }
-interface StateProps { }
-interface DispatchProps {
-  showNotification: (message: string, type: Type, lifeTime?: number | undefined) => void,
-  setUser: (user: UserState) => void,
-  updateCVs: (user: UserState) => void,
-  setLoading: (loading: boolean) => void
-}
 
 // const mapStateToProps = {}
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   showNotification,
   setUser,
   updateCVs,
   setLoading
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(null, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const Login: React.FC<Props> = (props) => {
 
@@ -100,4 +95,4 @@ const Login: React.FC<Props> = (props) => {
     </form>
   </div>
 }
-export default connect(null, mapDispatchToProps)(Login)
+export default connector(Login)

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './Notification.scss'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Message, deleteNotification } from '../reducers/notificationReducer'
 import NotificationMessage from './NotificationMessage'
 import { AppState } from '../index'
 
 interface OwnProps { }
-export interface StateProps { messages: Message[] }
-export interface DispatchProps { deleteNotification: Function }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -15,14 +13,15 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   deleteNotification
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const NotificationArea: React.FC<Props> = (props) => {
-
   const [messages, setMessages] = useState(props.messages)
 
   useEffect(() => {

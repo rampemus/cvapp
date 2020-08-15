@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { showNotification, Type } from '../../reducers/notificationReducer'
-import { connect } from 'react-redux'
-import { UserState } from '../../reducers/userReducer'
+import { connect, ConnectedProps } from 'react-redux'
 import { AppState } from '../..'
 import { Formik, Form, Field } from 'formik'
 import usersService from '../../services/usersService'
@@ -20,15 +19,7 @@ interface OwnProps {
   }
 }
 
-export interface StateProps {
-  user: UserState
-}
-export interface DispatchProps {
-  showNotification: (message: string, type: Type, lifeTime?: number | undefined) => void,
-  setLoading: (loading: boolean) => void
-}
-
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   showNotification,
   setLoading
 }
@@ -44,7 +35,9 @@ enum CalcDateAfter {
   ONE_MONTH = Date.now() + 1000 * 60 * 60 * 24 * 30
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const UsersForm: React.FC<Props> = (props) => {
   const [expires, setExpires] = useState<Date | undefined | null>(undefined)
@@ -161,4 +154,4 @@ const UsersForm: React.FC<Props> = (props) => {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersForm)
+export default connector(UsersForm)

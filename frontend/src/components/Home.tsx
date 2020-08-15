@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import './Preview.scss'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { AppState } from '..'
 import { ICV, IContact, IExperience, ICommunication } from '../services/cvService'
 import { setLoading } from '../reducers/loadingReducer'
@@ -43,12 +43,6 @@ const renderTimeFrame = (timeFrame: { startDate: Date, endDate: Date }) => {
 interface OwnProps {
   preview?: ICV
 }
-export interface StateProps {
-  cv?: ICV,
-}
-export interface DispatchProps {
-  setLoading: (loading: boolean) => void
-}
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -56,14 +50,16 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   setLoading
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const Home: React.FC<Props> = (props) => {
-  const cv = props.preview || props.cv
+  const cv: ICV = props.preview || props.cv
   if (!cv) {
     return <div>No default cv</div>
   }
@@ -219,5 +215,5 @@ const Home: React.FC<Props> = (props) => {
   </div>
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connector(Home)
 

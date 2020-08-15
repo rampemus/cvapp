@@ -4,25 +4,17 @@ import './Users.css'
 import UsersRow from './UsersRow'
 import usersService, { IUser, usersError } from '../../services/usersService'
 import { showNotification, Type } from '../../reducers/notificationReducer'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import Toolbar from '../Toolbar'
 import UsersForm from './UsersForm'
-import { UserState } from '../../reducers/userReducer'
 import { AppState } from '../..'
 import { useLocation, Route } from 'react-router-dom'
 import User from './User'
 import { setLoading } from '../../reducers/loadingReducer'
 
 interface OwnProps { }
-export interface StateProps {
-  user: UserState
-}
-export interface DispatchProps {
-  showNotification: (message: string, type: Type, lifeTime?: number | undefined) => void,
-  setLoading: (loading: boolean) => void
-}
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   showNotification,
   setLoading
 }
@@ -33,7 +25,9 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const Users: React.FC<Props> = (props) => {
   const [users, setUsers] = useState<IUser[]>([])
@@ -87,7 +81,6 @@ const Users: React.FC<Props> = (props) => {
     return <Route exact path="/users/:username" render={({ match }) =>
       <User
         user={users.find(user => user.username === match.params.username)}
-        userForHeaders={props.user}
         updateUser={() => updateUsers()}
       />
     } />

@@ -1,12 +1,9 @@
 import React from 'react'
 import './Footer.scss'
-import { connect } from 'react-redux'
-import { UserState } from '../reducers/userReducer'
+import { connect, ConnectedProps } from 'react-redux'
 import { AppState } from '..'
 
 interface OwnProps { }
-export interface StateProps { user?: UserState }
-export interface DispatchProps { }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -14,7 +11,9 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const Footer: React.FC<Props> = (props) => {
   const showUserInfo = props.user && props.user.name.length > 2
@@ -26,4 +25,4 @@ const Footer: React.FC<Props> = (props) => {
   return <div className='Footer'>You are not logged in</div>
 }
 
-export default connect(mapStateToProps, null)(Footer)
+export default connector(Footer)

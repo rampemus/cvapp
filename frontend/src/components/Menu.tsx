@@ -2,21 +2,12 @@ import React from 'react'
 import './Menu.scss'
 import { clearCVS } from '../reducers/cvReducer'
 import { Link, useLocation } from 'react-router-dom'
-import { UserState, logoutUser } from '../reducers/userReducer'
+import { logoutUser } from '../reducers/userReducer'
 import { AppState } from '..'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 
 interface OwnProps {
   showRoutes: boolean
-}
-export interface StateProps {
-  user: UserState,
-  lastOpenedCV: string,
-  loading: boolean
-}
-export interface DispatchProps {
-  logoutUser: () => void,
-  clearCVS: () => void
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
@@ -27,12 +18,14 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-const mapDispatchToProps: DispatchProps = {
+const mapDispatchToProps = {
   logoutUser,
   clearCVS
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const Menu: React.FC<Props> = (props) => {
 
@@ -96,4 +89,4 @@ const Menu: React.FC<Props> = (props) => {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+export default connector(Menu)

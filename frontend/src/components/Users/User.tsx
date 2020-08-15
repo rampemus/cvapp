@@ -2,18 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Toolbar from '../Toolbar'
 import usersService, { IUser } from '../../services/usersService'
 import { AppState } from '../..'
-import { connect } from 'react-redux'
-import { UserState } from '../../reducers/userReducer'
+import { connect, ConnectedProps } from 'react-redux'
 import UsersForm from './UsersForm'
 
 interface OwnProps {
   user?: IUser,
   updateUser: Function
 }
-export interface StateProps {
-  userForHeaders: UserState
-}
-export interface DispatchProps { }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {
   return {
@@ -21,8 +16,9 @@ const mapStateToProps = (state: AppState, props: OwnProps) => {
   }
 }
 
-type Props = OwnProps & StateProps & DispatchProps
+const connector = connect(mapStateToProps)
 
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 const User: React.FC<Props> = (props) => {
   const user = props.user
@@ -96,4 +92,4 @@ const User: React.FC<Props> = (props) => {
   }
 }
 
-export default connect(mapStateToProps, null)(User)
+export default connector(User)

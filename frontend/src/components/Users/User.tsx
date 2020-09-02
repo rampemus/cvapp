@@ -60,7 +60,7 @@ const User: React.FC<Props> = (props) => {
             setShowEditUser(!showEditUser)
           }}>
             edit user...
-      </button>
+          </button>
           <div className='formContainer' style={{ display: showEditUser ? 'block' : 'none' }}>
             <UsersForm
               newUser={false}

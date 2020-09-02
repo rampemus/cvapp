@@ -11,7 +11,6 @@ const DeleteButton: React.FC<DeleteProps> = (props) => {
   return <button id={id} className='form-delete-button form-button' type='submit' onClick={props.handleDelete} disabled={isSubmitting}>
     Delete
     </button>
-
 }
 
 interface ClearProps {

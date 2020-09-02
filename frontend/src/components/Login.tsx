@@ -10,7 +10,6 @@ import { setLoading } from '../reducers/loadingReducer'
 
 interface OwnProps { }
 
-// const mapStateToProps = {}
 const mapDispatchToProps = {
   showNotification,
   setUser,
@@ -84,7 +83,7 @@ const Login: React.FC<Props> = (props) => {
           id='RememberMeCheckbox'
           type='checkbox'
           defaultChecked={remember}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={() => {
             setRemember(!remember)
           }}
         />

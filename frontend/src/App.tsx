@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react'
 import './App.scss'
-import Background from './background/HexaBackground'
-import Menu from './components/Menu'
-import Login from './components/Login'
-import Footer from './components/Footer'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-// import { ReactHeight } from './utils/react-height'
-import Users from './components/Users/Users'
 import About from './components/About'
+import Background from './background/HexaBackground'
+import Footer from './components/Footer'
+import Home from './components/Home'
+import Login from './components/Login'
+import Menu from './components/Menu'
 import MyCV from './components/MyCVForm/MyCV'
 import NotificationArea from './components/Notification'
-import { connect } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import Users from './components/Users/Users'
 import { AppState } from '.'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { UserState } from './reducers/userReducer'
+import { connect } from 'react-redux'
 import { updateCVs } from './reducers/cvReducer'
-import Home from './components/Home'
 
 interface OwnProps {
   updateStatus?: () => void
@@ -73,13 +72,11 @@ const App: React.FC<Props> = (props) => {
   return <div className="App" id="App">
     <Router>
       <Menu showRoutes={!hideLogin} />
-      <Background height={height} />
-      {/* <ReactHeight onHeightReady={(h:any) => setHeight(h)}> */}
+      <Background/>
       {content()}
-      {/* </ReactHeight> */}
       <NotificationArea />
       <Footer />
-      <Background height={height} bottom />
+      <Background bottom />
     </Router>
   </div>
 }

@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
 import './Login.scss'
-import useField, { FieldType } from '../hooks/useField'
+import React, { useState } from 'react'
 import loginService, { loginError } from '../services/loginService'
+import useField, { FieldType } from '../hooks/useField'
+import { connect, ConnectedProps } from 'react-redux'
+import { setLoading } from '../reducers/loadingReducer'
 import { setUser } from '../reducers/userReducer'
 import { showNotification, Type } from '../reducers/notificationReducer'
 import { updateCVs } from '../reducers/cvReducer'
-import { connect, ConnectedProps } from 'react-redux'
-import { setLoading } from '../reducers/loadingReducer'
 
 interface OwnProps { }
 

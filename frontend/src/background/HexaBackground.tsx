@@ -2,7 +2,6 @@ import React from 'react'
 import './HexaBackground.css'
 
 interface Props {
-  height: number,
   bottom?: boolean
 }
 
@@ -41,7 +40,7 @@ const Background: React.FC<Props> = (props: Props) => {
     const dx = hexaSize * 3 + spacing * 2 * cos30
     const transform = `rotate(-15) translate(${props.bottom ? '-100,220' : '-100,0'})`
     return <g
-      key={`hexaRow${rowIndex}`}
+      key={'hexaRow' + rowIndex}
       transform={transform}
     >
       {colors.map((color, index) => hexagon(x + dx * index, y, hexaSize, color, `r${rowIndex}h${index}`))}

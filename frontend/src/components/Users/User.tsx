@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Toolbar from '../Toolbar'
+import UsersForm from './UsersForm'
 import usersService, { IUser } from '../../services/usersService'
 import { AppState } from '../..'
 import { connect, ConnectedProps } from 'react-redux'
-import UsersForm from './UsersForm'
 
 interface OwnProps {
   user?: IUser,

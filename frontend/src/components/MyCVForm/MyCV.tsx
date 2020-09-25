@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Toolbar from '../Toolbar'
 import { AppState } from '../..'
 import { connect, ConnectedProps } from 'react-redux'
@@ -10,6 +10,7 @@ import { updateCVs, setPreviousCV } from '../../reducers/cvReducer'
 import Home from '../Home'
 import { showNotification, Type } from '../../reducers/notificationReducer'
 import { setLoading } from '../../reducers/loadingReducer'
+import usersService, { usersError, IUser } from '../../services/usersService'
 
 interface OwnProps { }
 
@@ -35,19 +36,42 @@ const MyCV: React.FC<Props> = (props) => {
   const location = useLocation()
   const formActive = location.pathname.includes('/mycv/') ? false : true
   const myCVs = props.cvs ? props.cvs : []
+  const [showDefaultUserMenu, setShowDefaultUserMenu] = useState(false)
+  const [users, setUsers] = useState<IUser[]>([])
+  // TODO: here are marked the default users and make them align left
+  //       and colored with green?
+  const [defaults, setDefaults] = useState<String[]>(['rampemus'])
+  // TODO: other users will be aligned right
+  //       and colored with yellow?
+
+  useEffect(() => {
+    updateUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const updateUsers = () => {
+    usersService.getAll(props.user).then(response => {
+      setUsers(response)
+      props.setLoading(false)
+    }).catch((error: usersError) => {
+      props.showNotification(
+        'Request for retrieving users was denied. '
+        + error.response.data.error,
+        Type.ERROR, 4)
+    })
+  }
 
   const renderForm = (cvs: ICV[]) =>
-    <Route exact path='/mycv/:id' render={({ match }) => (
-      <MyCVForm
-        cv={cvs.find((cv) => cv.id === match.params.id)}
-      />
-    )}/>
+    <Route exact path='/mycv/:id' render={({ match }) => <MyCVForm
+      cv={cvs.find((cv) => cv.id === match.params.id)}
+    />
+    } />
 
   return <div>
     <Route
       exact
       path='/preview/:id'
-      render={({ match }) => (
+      render={({ match }) =>
         <div>
           <Toolbar>
             <div>
@@ -61,12 +85,11 @@ const MyCV: React.FC<Props> = (props) => {
           <Home
             preview={props.cvs?.find((cv: ICV) => cv.id + '' === match.params.id)}
           />
-        </div>
-      )}
+        </div>}
     />
     <Route
       path='/mycv'
-      render={({ match }) => (
+      render={({ match }) =>
         <div>
           <Toolbar>
             <div>
@@ -97,7 +120,6 @@ const MyCV: React.FC<Props> = (props) => {
                   <>
                     <button
                       id='SetAsDefaultCV'
-                      key={'toolbarbutton' + match.params.id}
                       className='toolbar-button'
                       disabled={formActive}
                       onClick={(event) => {
@@ -116,13 +138,55 @@ const MyCV: React.FC<Props> = (props) => {
                           })
                       }}
                     > Set As Default </button>
-                    <button className='toolbar-button'> Show to User... </button>
+                    <button
+                      id='ShowToUserMenu'
+                      className='toolbar-button'
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setShowDefaultUserMenu(!showDefaultUserMenu)
+                        console.log('toggle showDefaultUserMenu: ', showDefaultUserMenu)
+                      }}
+                    > Show to User... </button>
                     <Link
                       key={'toolbarlink' + match.params.id}
                       to={`/preview/${match.params.id}`}
                     >
                       <button id='Preview' className='toolbar-button'> Preview </button>
                     </Link>
+                    <div
+                      className='userSelectionContainer'
+                      style={{
+                        display: showDefaultUserMenu ? 'block' : 'none',
+                      }}
+                    >
+                      <p>Visible to users:</p>
+                      {users.map((user, index) => <p
+                        key={`user${index}`}
+                        style={{
+                          marginTop: '-8px',
+                          borderRadius: '10px',
+                          cursor: 'pointer',
+                          textAlign: defaults.includes(user.username) ? 'right' : 'left',
+                          backgroundColor: defaults.includes(user.username) ? 'rgba(177, 255, 161, 0.637)' : 'rgba(255, 161, 161, 0.637)',
+                        }}
+                        onClick={() => {
+                          if (defaults.includes(user.username)) {
+                            setDefaults(defaults.filter(username => username != user.username))
+                          } else {
+                            setDefaults([...defaults, user.username])
+                          }
+                        }}
+                      >
+                      <button 
+                        className='toolbar-button'
+                        style={{
+                          transform: 'scale(1.1)',
+                          padding: '5px'
+                        }}
+                      >{user.username}</button>
+                      </p>)}
+
+                    </div>
                   </>
                 )}
               />
@@ -213,8 +277,7 @@ const MyCV: React.FC<Props> = (props) => {
             />
           </div>
           {renderForm(myCVs)}
-        </div>
-      )}
+        </div>}
     />
   </div>
 }

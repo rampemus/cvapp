@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { loadingReducerAction } from '../../reducers/loadingReducer'
-import { UserState } from '../../reducers/userReducer'
-import { ICV } from '../../services/cvService'
-import { showNotification, Type } from '../../reducers/notificationReducer'
 import usersService, { IUser, usersError } from '../../services/usersService'
+import { ICV } from '../../services/cvService'
+import { UserState } from '../../reducers/userReducer'
+import { loadingReducerAction } from '../../reducers/loadingReducer'
+import { showNotification, Type } from '../../reducers/notificationReducer'
 
 interface Props {
   showDefaultUserMenu: boolean,
@@ -55,7 +55,9 @@ const MyCVUserSelector: React.FC<Props> = (props: Props) => {
           margin: '10px',
           cursor: 'pointer',
           textAlign: 'center',
-          backgroundColor: defaults.includes(user.username) ? 'rgba(177, 255, 161, 0.637)' : 'rgba(255, 161, 161, 0.5)',
+          backgroundColor: defaults.includes(user.username)
+            ? 'rgba(177, 255, 161, 0.637)'
+            : 'rgba(255, 161, 161, 0.5)'
         }}
         onClick={(event) => {
           event.preventDefault()
@@ -72,7 +74,9 @@ const MyCVUserSelector: React.FC<Props> = (props: Props) => {
             transform: 'scale(1.1)',
             transition: 'margin-left 0.2s ease',
             width: handleWidth + '%',
-            marginLeft: defaults.includes(user.username) ? 'calc(' + (100 - handleWidth)  + '% - 15px)' : 'calc(-' + ( 100 - handleWidth )  + '% + 15px)',
+            marginLeft: defaults.includes(user.username)
+              ? 'calc(' + (100 - handleWidth)  + '% - 15px)'
+              : 'calc(-' + ( 100 - handleWidth )  + '% + 15px)',
             padding: '5px',
             borderRadius: '20px'
           }}

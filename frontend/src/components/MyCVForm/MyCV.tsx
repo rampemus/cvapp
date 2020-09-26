@@ -38,11 +38,7 @@ const MyCV: React.FC<Props> = (props) => {
   const myCVs = props.cvs ? props.cvs : []
   const [showDefaultUserMenu, setShowDefaultUserMenu] = useState(false)
   const [users, setUsers] = useState<IUser[]>([])
-  // TODO: here are marked the default users and make them align left
-  //       and colored with green?
   const [defaults, setDefaults] = useState<String[]>(['rampemus'])
-  // TODO: other users will be aligned right
-  //       and colored with yellow?
 
   useEffect(() => {
     updateUsers()
@@ -116,8 +112,9 @@ const MyCV: React.FC<Props> = (props) => {
               <Route
                 exact
                 path='/mycv/:id'
-                render={({ match }) => (
-                  <>
+                render={({ match }) => {
+                  const selectedCV: ICV | null = props.cvs?.find((cv: ICV) => cv.id + '' === match.params.id) ?? null
+                  return <>
                     <button
                       id='SetAsDefaultCV'
                       className='toolbar-button'
@@ -144,7 +141,6 @@ const MyCV: React.FC<Props> = (props) => {
                       onClick={(event) => {
                         event.preventDefault()
                         setShowDefaultUserMenu(!showDefaultUserMenu)
-                        console.log('toggle showDefaultUserMenu: ', showDefaultUserMenu)
                       }}
                     > Show to User... </button>
                     <Link
@@ -159,19 +155,20 @@ const MyCV: React.FC<Props> = (props) => {
                         display: showDefaultUserMenu ? 'block' : 'none',
                       }}
                     >
-                      <p>Visible to users:</p>
+                      Users that have {selectedCV?.name} as default
                       {users.map((user, index) => <p
                         key={`user${index}`}
                         style={{
                           marginTop: '-8px',
                           borderRadius: '10px',
+                          margin: '10px',
                           cursor: 'pointer',
                           textAlign: defaults.includes(user.username) ? 'right' : 'left',
-                          backgroundColor: defaults.includes(user.username) ? 'rgba(177, 255, 161, 0.637)' : 'rgba(255, 161, 161, 0.637)',
+                          backgroundColor: defaults.includes(user.username) ? 'rgba(177, 255, 161, 0.637)' : 'rgba(255, 161, 161, 0.5)',
                         }}
                         onClick={() => {
                           if (defaults.includes(user.username)) {
-                            setDefaults(defaults.filter(username => username != user.username))
+                            setDefaults(defaults.filter(username => username !== user.username))
                           } else {
                             setDefaults([...defaults, user.username])
                           }
@@ -188,7 +185,7 @@ const MyCV: React.FC<Props> = (props) => {
 
                     </div>
                   </>
-                )}
+                }}
               />
               <Route exact path='/mycv' render={({ match }) => (
                 <>

@@ -7,7 +7,7 @@ import Login from './components/Login'
 import Menu from './components/Menu'
 import MyCV from './components/MyCVForm/MyCV'
 import NotificationArea from './components/Notification'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Users from './components/Users/Users'
 import { AppState } from '.'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -38,15 +38,10 @@ type Props = OwnProps & StateProps & DispatchProps
 const App: React.FC<Props> = (props) => {
   const { user } = props
   const hideLogin = user && user.token.length > 2
-  const [height, setHeight] = useState(800)
 
   console.log('running in', process.env.NODE_ENV)
 
   useEffect(() => {
-    const content = document.getElementById('content')
-    if (content) {
-      setHeight(content.clientHeight)
-    }
     if (props.user && props.user.token.length > 0) {
       props.updateCVs(props.user)
     }

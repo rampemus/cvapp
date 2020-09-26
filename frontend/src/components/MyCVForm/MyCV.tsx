@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Toolbar from '../Toolbar'
 import { AppState } from '../..'
 import { connect, ConnectedProps } from 'react-redux'
@@ -10,7 +10,7 @@ import { updateCVs, setPreviousCV } from '../../reducers/cvReducer'
 import Home from '../Home'
 import { showNotification, Type } from '../../reducers/notificationReducer'
 import { setLoading } from '../../reducers/loadingReducer'
-import usersService, { usersError, IUser } from '../../services/usersService'
+import MyCVUserSelector from './MyCVUserSelector'
 
 interface OwnProps { }
 
@@ -37,25 +37,6 @@ const MyCV: React.FC<Props> = (props) => {
   const formActive = location.pathname.includes('/mycv/') ? false : true
   const myCVs = props.cvs ? props.cvs : []
   const [showDefaultUserMenu, setShowDefaultUserMenu] = useState(false)
-  const [users, setUsers] = useState<IUser[]>([])
-  const [defaults, setDefaults] = useState<String[]>(['rampemus'])
-
-  useEffect(() => {
-    updateUsers()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const updateUsers = () => {
-    usersService.getAll(props.user).then(response => {
-      setUsers(response)
-      props.setLoading(false)
-    }).catch((error: usersError) => {
-      props.showNotification(
-        'Request for retrieving users was denied. '
-        + error.response.data.error,
-        Type.ERROR, 4)
-    })
-  }
 
   const renderForm = (cvs: ICV[]) =>
     <Route exact path='/mycv/:id' render={({ match }) => <MyCVForm
@@ -135,6 +116,7 @@ const MyCV: React.FC<Props> = (props) => {
                           })
                       }}
                     > Set As Default </button>
+
                     <button
                       id='ShowToUserMenu'
                       className='toolbar-button'
@@ -143,47 +125,21 @@ const MyCV: React.FC<Props> = (props) => {
                         setShowDefaultUserMenu(!showDefaultUserMenu)
                       }}
                     > Show to User... </button>
+
                     <Link
                       key={'toolbarlink' + match.params.id}
                       to={`/preview/${match.params.id}`}
                     >
                       <button id='Preview' className='toolbar-button'> Preview </button>
                     </Link>
-                    <div
-                      className='userSelectionContainer'
-                      style={{
-                        display: showDefaultUserMenu ? 'block' : 'none',
-                      }}
-                    >
-                      Users that have {selectedCV?.name} as default
-                      {users.map((user, index) => <p
-                        key={`user${index}`}
-                        style={{
-                          marginTop: '-8px',
-                          borderRadius: '10px',
-                          margin: '10px',
-                          cursor: 'pointer',
-                          textAlign: defaults.includes(user.username) ? 'right' : 'left',
-                          backgroundColor: defaults.includes(user.username) ? 'rgba(177, 255, 161, 0.637)' : 'rgba(255, 161, 161, 0.5)',
-                        }}
-                        onClick={() => {
-                          if (defaults.includes(user.username)) {
-                            setDefaults(defaults.filter(username => username !== user.username))
-                          } else {
-                            setDefaults([...defaults, user.username])
-                          }
-                        }}
-                      >
-                      <button 
-                        className='toolbar-button'
-                        style={{
-                          transform: 'scale(1.1)',
-                          padding: '5px'
-                        }}
-                      >{user.username}</button>
-                      </p>)}
 
-                    </div>
+                    <MyCVUserSelector
+                      showDefaultUserMenu={showDefaultUserMenu}  
+                      selectedCV={selectedCV}
+                      user={props.user}
+                      setLoading={setLoading}
+                      showNotification={showNotification}
+                    />
                   </>
                 }}
               />

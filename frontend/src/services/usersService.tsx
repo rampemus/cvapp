@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
-import { getConfigHeader } from '../utils/serviceHelper'
 import { UserState } from '../reducers/userReducer'
+import { getConfigHeader } from '../utils/serviceHelper'
 const baseUrl = '/api/users'
 
 export interface IUser {

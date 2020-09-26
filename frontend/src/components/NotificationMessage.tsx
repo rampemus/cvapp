@@ -90,7 +90,6 @@ const NotificationMessage: React.FC<Props> = (props) => {
     <div
       className='notification-close-button'
       style={{
-        // transition: 'all 0.4s ease',
         opacity: deleted ? '0' : '1',
         marginTop: '2px',
         minHeight: '20px',

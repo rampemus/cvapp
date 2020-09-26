@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
 import './Notification.scss'
+import NotificationMessage from './NotificationMessage'
+import React, { useState, useEffect } from 'react'
+import { AppState } from '../index'
 import { connect, ConnectedProps } from 'react-redux'
 import { deleteNotification } from '../reducers/notificationReducer'
-import NotificationMessage from './NotificationMessage'
-import { AppState } from '../index'
 
 interface OwnProps { }
 

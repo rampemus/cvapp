@@ -1,10 +1,10 @@
-import React from 'react'
 import './Menu.scss'
-import { clearCVS } from '../reducers/cvReducer'
-import { Link, useLocation } from 'react-router-dom'
-import { logoutUser } from '../reducers/userReducer'
+import React from 'react'
 import { AppState } from '..'
+import { Link, useLocation } from 'react-router-dom'
+import { clearCVS } from '../reducers/cvReducer'
 import { connect, ConnectedProps } from 'react-redux'
+import { logoutUser } from '../reducers/userReducer'
 
 interface OwnProps {
   showRoutes: boolean

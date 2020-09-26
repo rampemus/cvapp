@@ -69,13 +69,11 @@ const Login: React.FC<Props> = (props) => {
     <form onSubmit={handleLogin} className='loginBox'>
       <div>
         Username:
-        <input disabled={submitLock} className='login-input' id='username' name='username' {...username}>
-        </input>
+        <input disabled={submitLock} className='login-input' id='username' name='username' {...username}/>
       </div>
       <div>
         Password:
-        <input disabled={submitLock} className='login-input' id='password' name='password' {...password}>
-        </input>
+        <input disabled={submitLock} className='login-input' id='password' name='password' {...password}/>
       </div>
       <div className='rememberme'>
         Remember me
@@ -90,7 +88,7 @@ const Login: React.FC<Props> = (props) => {
       </div>
       <button id='login' type='submit' disabled={submitLock} className='login-button'>
         Login
-    </button>
+      </button>
     </form>
   </div>
 }

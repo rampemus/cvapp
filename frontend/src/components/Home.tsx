@@ -41,7 +41,7 @@ const renderTimeFrame = (timeFrame: { startDate: Date, endDate: Date }) => {
 }
 
 interface OwnProps {
-  preview?: ICV
+  preview?: ICV | null
 }
 
 const mapStateToProps = (state: AppState, props: OwnProps) => {

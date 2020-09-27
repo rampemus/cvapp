@@ -202,12 +202,16 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
     response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
   } else if (!validationErrorSend(response, SetDefaultCVSchema.validate(request.body))) {
     const requestBody: ISetDefaultCV = request.body
+    console.log('requestbody', requestBody)
     if (!requestBody.cvid) {
       response.status(400).json({ error: 'CV id is empty' })
     }
 
+    // const userId = request.body.user.userid
+    const userId: any = null
+
     // TODO: implement single user default switch
-    const users = await User.find({})
+    const users = userId ? await User.findById(userId) : await User.find({})
     await CurriculumVitae.updateMany({}, { default: [] })
     await CurriculumVitae.updateOne({ _id: requestBody.cvid },
       { default: users })

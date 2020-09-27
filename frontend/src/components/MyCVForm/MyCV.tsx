@@ -35,23 +35,24 @@ type Props = OwnProps & ConnectedProps<typeof connector>
 
 const MyCV: React.FC<Props> = (props) => {
   const location = useLocation()
-  const formActive = location.pathname.includes('/mycv/') ? false : true
   const myCVs = props.cvs ? props.cvs : []
   const [showDefaultUserMenu, setShowDefaultUserMenu] = useState(false)
 
   const renderForm = (cvs: ICV[]) =>
-    <Route exact path='/mycv/:id' render={({ match }) => <MyCVForm
-      cv={cvs.find((cv) => cv.id === match.params.id)}
-    />
-    } />
+    <Route exact path='/mycv/:id' render={({ match }) =>
+      <MyCVForm
+        cv={cvs.find((cv) => cv.id === match.params.id)}
+      />
+    }/>
 
   return <div>
     <Route
       path='/mycv'
       render={({ match }) => {
         const selectedCV: ICV | null = props.cvs?.find(
-          (cv: ICV) => cv.id + '' === match.params.id
+          (cv: ICV) => location.pathname.endsWith(cv.id + '')
         ) ?? null
+
         return <div>
           <Toolbar>
 
@@ -79,12 +80,13 @@ const MyCV: React.FC<Props> = (props) => {
             <button
               id='SetAsDefaultCV'
               className='toolbar-button'
-              disabled={formActive}
+              disabled={!selectedCV}
               onClick={(event) => {
                 event.preventDefault()
+                if (!selectedCV) return null
                 props.setLoading(true)
                 cvService
-                  .setCVDefault(match.params.id, props.user)
+                  .setCVDefault(selectedCV.id, props.user)
                   .then(() => {
                     props.updateCVs(props.user)
                     props.showNotification('Default CV updated', Type.SUCCESS, 4)
@@ -104,17 +106,17 @@ const MyCV: React.FC<Props> = (props) => {
                 event.preventDefault()
                 setShowDefaultUserMenu(!showDefaultUserMenu)
               }}
-              disabled={formActive}
+              disabled={!selectedCV}
             > Show to User... </button>
 
             <Link
               key={'toolbarlink' + match.params.id}
-              to={`/preview/${match.params.id}`}
+              to={`/preview/${selectedCV?.id}`}
             >
               <button
                 id='Preview'
                 className='toolbar-button'
-                disabled={formActive}
+                disabled={!selectedCV}
               > Preview </button>
             </Link>
 
@@ -143,19 +145,19 @@ const MyCV: React.FC<Props> = (props) => {
       exact
       path='/preview/:id'
       render={({ match }) => {
-        const cv = props.cvs.find((cv:ICV) => cv.id === match.params.id)
+        const selectedCV: ICV | null = props.cvs?.find(
+          (cv: ICV) => location.pathname.endsWith(cv.id + '')
+        ) ?? null
         return <div>
           <Toolbar>
-            <div>
-              <Link to={`/mycv/${match.params.id}`}>
-                <button id='ReturnToEditor' className='toolbar-button'>
-                  Return to editor
-                </button>
-              </Link>
-            </div>
+            <Link to={`/mycv/${selectedCV?.id}`}>
+              <button id='ReturnToEditor' className='toolbar-button'>
+                Return to editor
+              </button>
+            </Link>
           </Toolbar>
           <Home
-            preview={cv}
+            preview={selectedCV}
           />
         </div> }}
     />

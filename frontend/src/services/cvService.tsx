@@ -309,7 +309,7 @@ interface defaultResponse extends AxiosResponse {
   }
 }
 
-const setCVDefault = (cv: string, user: UserState) => {
+const setCVDefault = (cv: string, user: UserState, userid?: string) => {
   const defaultCommand: ISetDefaultCV = {
     cvid: cv
   }

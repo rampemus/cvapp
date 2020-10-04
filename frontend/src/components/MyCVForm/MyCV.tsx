@@ -123,7 +123,7 @@ const MyCV: React.FC<Props> = (props) => {
             <MyCVUserSelector
               showDefaultUserMenu={showDefaultUserMenu}  
               selectedCV={selectedCV}
-              user={props.user}
+              owner={props.user}
               setLoading={setLoading}
               showNotification={showNotification}
             />

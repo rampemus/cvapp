@@ -305,13 +305,24 @@ interface ISetDefaultCV {
 
 interface defaultResponse extends AxiosResponse {
   data: {
-    message: string
+    message: string,
+    default: string[]
   }
 }
 
+const getCVDefault = (cvid: string, user: UserState) => {
+  const request = axios.get(baseUrl + '/default/' + cvid, getConfigHeader(user))
+  
+  return request.then((response: defaultResponse) => {
+    return response.data
+  })
+}
+
 const setCVDefault = (cv: string, user: UserState, userid?: string) => {
+  console.log('userid', userid)
   const defaultCommand: ISetDefaultCV = {
-    cvid: cv
+    cvid: cv,
+    userid
   }
 
   const request = axios.post(baseUrl + '/default', defaultCommand, getConfigHeader(user))
@@ -350,4 +361,4 @@ const getAllCV = (user: UserState) => {
   })
 }
 
-export default { createObject, modifyObject, deleteObject, getAllCV, createEmptyCV, duplicateCV, setCVDefault }
+export default { createObject, modifyObject, deleteObject, getAllCV, createEmptyCV, duplicateCV, getCVDefault, setCVDefault }

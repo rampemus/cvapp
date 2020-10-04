@@ -11,6 +11,7 @@ import { connectObjectToCVField, disconnectObjectFromCVField } from '../utils/cv
 import { IRequestWithIdentity } from '../utils/middleware'
 import {
   ChangesSchema,
+  CVConnectSchema,
   NewCommunicationSchema,
   NewContactSchema,
   NewCVSchema,
@@ -197,6 +198,14 @@ export interface ISetDefaultCV {
   userid?: string,
 }
 
+cvRouter.get('/default/:id', async (request: IRequestWithIdentity, response: Response) => {
+  const cvid = request.params.id
+
+  const cv = await CurriculumVitae.findOne({ _id: cvid })
+
+  response.status(200).json({ message: 'CV defaults recieved successfully', default: cv.default })
+})
+
 cvRouter.post('/default', async (request: IRequestWithIdentity, response: Response) => {
   if (request.userGroup !== 'admin') {
     response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
@@ -207,15 +216,33 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
       response.status(400).json({ error: 'CV id is empty' })
     }
 
-    // const userId = request.body.user.userid
-    const userId: any = null
+    const userId: any = requestBody.userid
+    console.log('userId', userId)
 
-    // TODO: implement single user default switch
-    const users = userId ? await User.findById(userId) : await User.find({})
-    await CurriculumVitae.updateMany({}, { default: [] })
-    await CurriculumVitae.updateOne({ _id: requestBody.cvid },
-      { default: users })
-    response.status(200).json({ message: 'marked default for all users, cv id: ' + requestBody.cvid })
+    if (userId) {
+      const user = await User.findById(userId)
+
+      const cv = await CurriculumVitae.findOne({ default: user })
+      cv.default = cv.default.filter((id) => {
+        return id.toString() !== user._id.toString()
+      })
+      console.log('cv.default', cv.default, user._id)
+      await cv.save()
+      console.log('delete old default success')
+
+      const targetCV = await CurriculumVitae.findById(requestBody.cvid)
+      targetCV.default.push(user)
+      targetCV.save()
+      console.log('append new default success')
+
+      response.status(200).json({ message: `marked for ${user._id}, cv id: ` + requestBody.cvid, cv })
+    } else {
+      const users = await User.find({})
+      await CurriculumVitae.updateMany({}, { default: [] })
+      await CurriculumVitae.updateOne({ _id: requestBody.cvid },
+        { default: users })
+      response.status(200).json({ message: 'marked default for all users, cv id: ' + requestBody.cvid })
+    }
   }
 
 })

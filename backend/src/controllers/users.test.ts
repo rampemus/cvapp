@@ -73,7 +73,7 @@ describe('/api/users POST', () => {
     const token = 'bearer ' + rootLogin.body.token
 
     const tooShortUserame = 'sho'
-    const tooLongUsername = 'thisusernameiswaytoolongtobeuse'
+    const tooLongUsername = 'thisusernameiswaytoolongtobeusebecausethisisoversixtyfourcharacters'
     const usernameWithSpaces = 'User name'
     const usernameWithForbiddenChar = 'username!'
     const invalidUsernames = [

@@ -319,7 +319,6 @@ const getCVDefault = (cvid: string, user: UserState) => {
 }
 
 const setCVDefault = (cv: string, user: UserState, userid?: string) => {
-  console.log('userid', userid)
   const defaultCommand: ISetDefaultCV = {
     cvid: cv,
     userid

@@ -211,13 +211,11 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
     response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
   } else if (!validationErrorSend(response, SetDefaultCVSchema.validate(request.body))) {
     const requestBody: ISetDefaultCV = request.body
-    console.log('requestbody', requestBody)
     if (!requestBody.cvid) {
       response.status(400).json({ error: 'CV id is empty' })
     }
 
     const userId: any = requestBody.userid
-    console.log('userId', userId)
 
     if (userId) {
       const user = await User.findById(userId)
@@ -226,14 +224,11 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
       cv.default = cv.default.filter((id) => {
         return id.toString() !== user._id.toString()
       })
-      console.log('cv.default', cv.default, user._id)
       await cv.save()
-      console.log('delete old default success')
 
       const targetCV = await CurriculumVitae.findById(requestBody.cvid)
       targetCV.default.push(user)
       targetCV.save()
-      console.log('append new default success')
 
       response.status(200).json({ message: `marked for ${user._id}, cv id: ` + requestBody.cvid, cv })
     } else {

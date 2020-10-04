@@ -2,18 +2,26 @@ import React, { useEffect, useState } from 'react'
 import usersService, { IUser, usersError } from '../../services/usersService'
 import cvService, { ICV } from '../../services/cvService'
 import { UserState } from '../../reducers/userReducer'
-import { loadingReducerAction } from '../../reducers/loadingReducer'
 import { showNotification, Type } from '../../reducers/notificationReducer'
+import { loadingReducerAction } from '../../reducers/loadingReducer'
+import { connect, ConnectedProps } from 'react-redux'
 
-interface Props {
+interface OwnProps {
   showDefaultUserMenu: boolean,
   selectedCV: ICV | null,
   owner: UserState,
   setLoading: (loading: boolean) => loadingReducerAction,
-  showNotification: typeof showNotification
 }
 
-const MyCVUserSelector: React.FC<Props> = (props: Props) => {
+const mapDispatchToProps = {
+  showNotification
+}
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+const MyCVUserSelector: React.FC<Props> = (props) => {
   const [users, setUsers] = useState<IUser[]>([])
   const [defaults, setDefaults] = useState<String[]>([])
 
@@ -105,4 +113,4 @@ const MyCVUserSelector: React.FC<Props> = (props: Props) => {
   )
 }
 
-export default MyCVUserSelector
+export default connector(MyCVUserSelector)

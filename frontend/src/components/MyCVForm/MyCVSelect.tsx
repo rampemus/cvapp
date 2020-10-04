@@ -5,18 +5,26 @@ import { Link, useLocation } from 'react-router-dom'
 import { UserState } from '../../reducers/userReducer'
 import { loadingReducerAction } from '../../reducers/loadingReducer'
 import { showNotification, Type } from '../../reducers/notificationReducer'
+import { connect, ConnectedProps } from 'react-redux'
 
-interface Props {
+interface OwnProps {
   myCVs: ICV[],
   setPreviousCV: (id: string) => CVAction,
   setLoading: (loading: boolean) => loadingReducerAction,
   user: UserState,
   updateCVs: (user: UserState) => Promise<void>,
-  showNotification: typeof showNotification
 }
 
+const mapDispatchToProps = {
+  showNotification
+}
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
 const MyCVSelect: React.FC<Props> = (props) => {
-  const { myCVs, setPreviousCV, setLoading, user, updateCVs, showNotification } = props
+  const { myCVs, setPreviousCV, setLoading, user, updateCVs } = props
   const location = useLocation()
 
   return <div className='cv-selector'>
@@ -64,7 +72,7 @@ const MyCVSelect: React.FC<Props> = (props) => {
               .deleteObject(ServiceType.CV, cv.id, user)
               .then((response) => {
                 updateCVs(user)
-                showNotification(`CV ${cv.name} deleted`, Type.SUCCESS, 4)
+                props.showNotification(`CV ${cv.name} deleted`, Type.SUCCESS, 4)
               })
           }}
         >
@@ -84,11 +92,11 @@ const MyCVSelect: React.FC<Props> = (props) => {
         setLoading(true)
         cvService.createEmptyCV(user).then((response) => {
           updateCVs(user)
-          showNotification('Empty CV created', Type.SUCCESS, 4)
+          props.showNotification('Empty CV created', Type.SUCCESS, 4)
         })
       }}
     />
   </div>
 }
 
-export default MyCVSelect
+export default connector(MyCVSelect)

@@ -125,7 +125,6 @@ const MyCV: React.FC<Props> = (props) => {
               selectedCV={selectedCV}
               owner={props.user}
               setLoading={setLoading}
-              showNotification={showNotification}
             />
             
           </Toolbar>
@@ -136,7 +135,6 @@ const MyCV: React.FC<Props> = (props) => {
             setLoading={setLoading}
             user={props.user}
             updateCVs={props.updateCVs}
-            showNotification={showNotification}
           />
           {renderForm(myCVs)}
         </div>}}

@@ -71,13 +71,11 @@ const MyCVUserSelector: React.FC<Props> = (props: Props) => {
         onClick={(event) => {
           event.preventDefault()
           if (defaults.includes(user.id)) {
-            console.log('tadaa')
             props.showNotification('You can only add users', Type.ERROR, 4)
           } else {
             cvService
               .setCVDefault(selectedCV?.id ?? '', owner, user.id)
               .then((response) => {
-                console.log('response', response)
                 props.showNotification(`User ${user.username} will see ${selectedCV?.name} in their home page`, Type.SUCCESS, 4)
                 setDefaults([...defaults, user.id])
               })

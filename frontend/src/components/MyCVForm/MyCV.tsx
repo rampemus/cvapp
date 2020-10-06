@@ -43,7 +43,7 @@ const MyCV: React.FC<Props> = (props) => {
       <MyCVForm
         cv={cvs.find((cv) => cv.id === match.params.id)}
       />
-    }/>
+    } />
 
   return <div>
     <Route
@@ -58,28 +58,29 @@ const MyCV: React.FC<Props> = (props) => {
 
             <button
               id='DuplicateDefault'
-                className='toolbar-button'
-                onClick={(event) => {
-                  event.preventDefault()
-                  props.setLoading(true)
-                  myCVs[0] &&
-                    cvService
-                      .duplicateCV(myCVs[0], props.user, props.showNotification)
-                      .then((response) => {
-                        props.updateCVs(props.user)
-                        props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
-                      })
-                      .catch((error) => {
-                        if (error.response.data.error) {
-                          props.showNotification(error.response.data.error, Type.ERROR, 12)
-                        }
-                      })
+              className='toolbar-button'
+              onClick={(event) => {
+                event.preventDefault()
+                props.setLoading(true)
+                myCVs[0] &&
+                  cvService
+                    .duplicateCV(myCVs[0], props.user, props.showNotification)
+                    .then((response) => {
+                      props.updateCVs(props.user)
+                      props.showNotification('Default CV duplicated', Type.SUCCESS, 6)
+                    })
+                    .catch((error) => {
+                      if (error.response.data.error) {
+                        props.showNotification(error.response.data.error, Type.ERROR, 12)
+                      }
+                    })
               }}
             > Duplicate Default </button>
 
             <button
               id='SetAsDefaultCV'
               className='toolbar-button'
+
               disabled={!selectedCV}
               onClick={(event) => {
                 event.preventDefault()
@@ -121,12 +122,12 @@ const MyCV: React.FC<Props> = (props) => {
             </Link>
 
             <MyCVUserSelector
-              showDefaultUserMenu={showDefaultUserMenu}  
+              showDefaultUserMenu={showDefaultUserMenu}
               selectedCV={selectedCV}
               owner={props.user}
               setLoading={setLoading}
             />
-            
+
           </Toolbar>
           <h1>My CV's</h1>
           <MyCVSelect
@@ -137,7 +138,8 @@ const MyCV: React.FC<Props> = (props) => {
             updateCVs={props.updateCVs}
           />
           {renderForm(myCVs)}
-        </div>}}
+        </div>
+      }}
     />
     <Route
       exact
@@ -157,7 +159,8 @@ const MyCV: React.FC<Props> = (props) => {
           <Home
             preview={selectedCV}
           />
-        </div> }}
+        </div>
+      }}
     />
   </div>
 }

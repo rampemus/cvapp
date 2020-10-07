@@ -7,8 +7,10 @@ import Info from '../models/cv/info'
 import Profile from '../models/cv/profile'
 import Project from '../models/cv/project'
 import User from '../models/user'
+import { ROOT_USERNAME } from '../utils/config'
 import { connectObjectToCVField, disconnectObjectFromCVField } from '../utils/cvHelper'
 import { IRequestWithIdentity } from '../utils/middleware'
+import { getUserById, getUserByUsername } from '../utils/userHelper'
 import {
   ChangesSchema,
   CVConnectSchema,
@@ -31,6 +33,7 @@ cvRouter.get('/', async (request: IRequestWithIdentity, response: Response) => {
   const cvs = await CurriculumVitae.find({
     $or: [
       { default: request.userid },
+      { default: await getUserByUsername(ROOT_USERNAME)},
       { owner: request.userid }
     ]
   }).populate([
@@ -207,7 +210,7 @@ cvRouter.get('/default/:id', async (request: IRequestWithIdentity, response: Res
 })
 
 cvRouter.post('/default', async (request: IRequestWithIdentity, response: Response) => {
-  if (request.userGroup !== 'admin') {
+  if (request.userGroup !== 'admin' && request.userGroup !== 'user') {
     response.status(401).json({ error: 'Authorization error: Admin permissions needed' }).end()
   } else if (!validationErrorSend(response, SetDefaultCVSchema.validate(request.body))) {
     const requestBody: ISetDefaultCV = request.body
@@ -220,11 +223,29 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
     if (userId) {
       const user = await User.findById(userId)
 
+      if (user.username === ROOT_USERNAME && request.username !== ROOT_USERNAME) {
+        response.status(401).json({
+          error: 'Admin default cannot be changed'
+        }).end()
+      }
+
+      if (
+        user.owner?.toString() !== request.userid
+        && request.userGroup !== 'admin'
+        && request.userid !== user.id
+      ) {
+        response.status(401).json({
+          error: 'You may change the default for users that you created or yourselve'
+        }).end()
+      }
+
       const cv = await CurriculumVitae.findOne({ default: user })
-      cv.default = cv.default.filter((id) => {
-        return id.toString() !== user._id.toString()
-      })
-      await cv.save()
+      if (cv) {
+        cv.default = cv.default.filter((id) => {
+          return id.toString() !== user._id.toString()
+        })
+        await cv.save()
+      }
 
       const targetCV = await CurriculumVitae.findById(requestBody.cvid)
       targetCV.default.push(user)
@@ -232,10 +253,31 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
 
       response.status(200).json({ message: `marked for ${user._id}, cv id: ` + requestBody.cvid, cv })
     } else {
-      const users = await User.find({})
-      await CurriculumVitae.updateMany({}, { default: [] })
-      await CurriculumVitae.updateOne({ _id: requestBody.cvid },
-        { default: users })
+      const rootUser = await getUserByUsername(ROOT_USERNAME)
+      let rootUserDefaultCV = await CurriculumVitae.findOne({ default: rootUser })
+
+      const owner = await getUserById(request.userid)
+      const users = request.userGroup === 'admin'
+        ? await User.find({})
+        : await User.find({ $or: [{ owner }, { _id: owner.id }]})
+      for ( const user of users ) {
+        const usercv = await CurriculumVitae.findOne({ default: user })
+        if (!usercv) { continue }
+        usercv.default = usercv.default ? usercv.default.filter((id) => {
+          return id.toString() !== user._id.toString()
+        }) : []
+        await usercv.save()
+      }
+      const newDefaultCV = await CurriculumVitae.findOne({ _id: requestBody.cvid })
+      newDefaultCV.default = users
+      await newDefaultCV.save()
+
+      if (request.username !== ROOT_USERNAME
+        || (request.username === ROOT_USERNAME && requestBody.cvid !== rootUserDefaultCV._id.string() )) {
+        rootUserDefaultCV = await CurriculumVitae.findById(rootUserDefaultCV._id)
+        rootUserDefaultCV.default = rootUserDefaultCV.default.concat(rootUser)
+        rootUserDefaultCV.save()
+      }
       response.status(200).json({ message: 'marked default for all users, cv id: ' + requestBody.cvid })
     }
   }

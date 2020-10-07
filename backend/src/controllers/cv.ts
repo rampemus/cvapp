@@ -13,7 +13,6 @@ import { IRequestWithIdentity } from '../utils/middleware'
 import { getUserById, getUserByUsername } from '../utils/userHelper'
 import {
   ChangesSchema,
-  CVConnectSchema,
   NewCommunicationSchema,
   NewContactSchema,
   NewCVSchema,

@@ -67,7 +67,7 @@ const NewProfileSchema = Joi.object().keys({
 
 const LoginRequestSchema = Joi.object().keys({
   password,
-  username: Joi.string().alphanum().min(4).max(30).required()
+  username: Joi.string().alphanum().min(4).max(64).required()
 })
 
 const NewContactSchema = Joi.object().keys({

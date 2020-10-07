@@ -30,7 +30,7 @@ let emptyTestCV: any = null
 
 beforeAll(async () => {
   mongoose.set('useCreateIndex', true)
-  mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+  await mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 
   await deleteAllCVs()
   await deleteAllCVObjects()

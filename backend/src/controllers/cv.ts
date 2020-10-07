@@ -272,10 +272,12 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
       await newDefaultCV.save()
 
       if (request.username !== ROOT_USERNAME
-        || (request.username === ROOT_USERNAME && requestBody.cvid !== rootUserDefaultCV._id.string() )) {
+        || (request.username === ROOT_USERNAME && rootUserDefaultCV && rootUserDefaultCV._id
+          && requestBody.cvid.toString() === rootUserDefaultCV._id.toString() )) {
+            // this function still adds old defaultCV!!!
         rootUserDefaultCV = await CurriculumVitae.findById(rootUserDefaultCV._id)
         rootUserDefaultCV.default = rootUserDefaultCV.default.concat(rootUser)
-        rootUserDefaultCV.save()
+        await rootUserDefaultCV.save()
       }
       response.status(200).json({ message: 'marked default for all users, cv id: ' + requestBody.cvid })
     }

@@ -263,6 +263,9 @@ const initializeRootUserAndCV = async () => {
   }
   if (!await userIsCVOwner(ROOT_USERNAME)) {
     await generateTestCV(ROOT_USERNAME)
+    const testCV = await CurriculumVitae.findOne({})
+    testCV.default = [await getUserByUsername(ROOT_USERNAME)]
+    await testCV.save()
   }
 }
 

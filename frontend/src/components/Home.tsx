@@ -75,6 +75,7 @@ const Home: React.FC<Props> = (props) => {
   const experience: IExperience[] | undefined = cv.experience
   const education: IExperience[] | undefined = cv.education
   const communication: ICommunication | undefined = cv.communication
+  const projects = cv.projects && [...cv.projects]  
 
   return <div className='cv-container'>
     <div className='cv-container-item contact-container'>
@@ -104,7 +105,7 @@ const Home: React.FC<Props> = (props) => {
       <div className='cv-container-item cv-container-item-right'>
         <h3><img src='project.svg' width='45px' height='40px' alt='icon' />Projects</h3>
         <hr />
-        {cv.projects.map((project, index) =>
+        {projects && projects.sort((a, b) => { return -1 }).map((project, index) =>
           <div className='project-card' key={index + 'project'}>
             <div style={{
               width: '140px',

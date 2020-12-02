@@ -209,6 +209,8 @@ const Home: React.FC<Props> = (props) => {
           ])}
         </div>
       </div>}
+    <div className='pagebreak-stop'></div>
+    <div className='pagebreak-padding'></div>
     {cv.attachments &&
       <div className='cv-container-item'>
         <h3><img src='attachment.svg' width='55px' height='45px' alt='icon' />Attachments</h3>

@@ -225,6 +225,7 @@
   .cv-container-item-left p {
     font-size: smaller;
   }
+
 }
 
 @media print {
@@ -265,12 +266,18 @@
   }
 
   .pagebreak-stop {
-    height: 100px;
+    height: 150px;
     page-break-after: always;
   }
 
   .pagebreak-padding {
-    height: 50px
+    height: 150px
+  }
+
+  .cv-container-item-left {
+    .key-value-container-right {
+      margin-left: -80px;
+    }
   }
 }
 

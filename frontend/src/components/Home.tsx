@@ -75,7 +75,7 @@ const Home: React.FC<Props> = (props) => {
   const experience: IExperience[] | undefined = cv.experience
   const education: IExperience[] | undefined = cv.education
   const communication: ICommunication | undefined = cv.communication
-  const projects = cv.projects && [...cv.projects]  
+  const projects = cv.projects && [...cv.projects]
 
   return <div className='cv-container'>
     <div className='cv-container-item contact-container'>
@@ -95,12 +95,35 @@ const Home: React.FC<Props> = (props) => {
       {cv.github && <p>Github: <a href={cv.github}>{cv.github}</a></p>}
       {cv.techlist && <p>{cv.techlist}</p>}
     </div>
+    <div className='cv-container-item cv-container-item-left'>
     {cv.profile &&
-      <div className='cv-container-item cv-container-item-left'>
+      <>
         <h3><img src='profile.svg' width='45px' height='45px' alt='profileimage' />Profile</h3>
         <hr />
         {cv.profile.content.map((paragraph, index) => <p key={`profile-p-${index}`} >{paragraph}</p>)}
-      </div>}
+      </>}
+    <div className='cv-container-item'></div>
+    {education && education.length > 0 &&
+      <>
+        <h3><img src='education.svg' width='45px' height='45px' alt='icon' />Education</h3>
+        <hr />
+        <div className='key-value-container'>
+          {education.sort((a: IExperience, b: IExperience) =>
+            b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()
+          ).map((edu: IExperience, index) => [
+            <div className='key-value-container-left' key={index + '-education-left'}>
+              {renderTimeFrame(edu.timeFrame)}
+            </div>,
+            <div className='key-value-container-right' key={index + '-education-right'}>
+              {/* <p>{edu.description}</p> */}
+              {edu.content.map((eduRow, index) =>
+                <p key={index + 'edu' + edu.id}>{eduRow}</p>
+              )}
+            </div>
+          ])}
+        </div>
+      </>}
+    </div>
     {cv.projects && cv.projects.length > 0 &&
       <div className='cv-container-item cv-container-item-right'>
         <h3><img src='project.svg' width='45px' height='40px' alt='icon' />Projects</h3>
@@ -127,6 +150,8 @@ const Home: React.FC<Props> = (props) => {
           </div>
         )}
       </div>}
+    <div className='pagebreak-stop'></div>
+    <div className='pagebreak-padding'></div>
     {experience && experience.length > 0 &&
       <div className='cv-container-item'>
         <h3><img src='work.svg' width='55px' height='55px' alt='icon' />Work Experience</h3>
@@ -147,26 +172,6 @@ const Home: React.FC<Props> = (props) => {
           ])}
         </div>
       </div>}
-    {education && education.length > 0 &&
-      <div className='cv-container-item'>
-        <h3><img src='education.svg' width='45px' height='45px' alt='icon' />Education</h3>
-        <hr />
-        <div className='key-value-container'>
-          {education.sort((a: IExperience, b: IExperience) =>
-            b.timeFrame.endDate.getTime() - a.timeFrame.endDate.getTime()
-          ).map((edu: IExperience, index) => [
-            <div className='key-value-container-left' key={index + '-education-left'}>
-              {renderTimeFrame(edu.timeFrame)}
-            </div>,
-            <div className='key-value-container-right' key={index + '-education-right'}>
-              {/* <p>{edu.description}</p> */}
-              {edu.content.map((eduRow, index) =>
-                <p key={index + 'edu' + edu.id}>{eduRow}</p>
-              )}
-            </div>
-          ])}
-        </div>
-      </div>}
     {communication &&
       <div className='cv-container-item'>
         <h3><img src='communication.svg' width='45px' height='45px' alt='icon' />Language skills</h3>
@@ -180,10 +185,9 @@ const Home: React.FC<Props> = (props) => {
           <p key={index + 'skill'}>{skill}</p>
         )}
       </div>}
-    <div className='pagebreak'></div>
     {cv.skills &&
       <div className='cv-container-item'>
-        <h3><img className='image-after-pagebreak' src='skills.svg' width='45px' height='45px' alt='icon' />Other Skills</h3>
+        <h3><img src='skills.svg' width='45px' height='45px' alt='icon' />Other Skills</h3>
         <hr />
         {cv.skills.content.map((skill, index) =>
           <p key={index + 'skill'}>{skill}</p>
@@ -217,4 +221,3 @@ const Home: React.FC<Props> = (props) => {
 }
 
 export default connector(Home)
-

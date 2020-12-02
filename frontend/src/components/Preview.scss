@@ -22,6 +22,8 @@
 .cv-container-item {
   grid-column-start: 1;
   grid-column-end: -1;
+  page-break-inside: avoid;
+  padding-top: 10px;
 
   .cv-container-item-left {
     grid-column-start: 1;
@@ -227,9 +229,11 @@
 
 @media print {
   .cv-container-item {
+    page-break-inside: avoid;
+
     h3 {
       page-break-inside: avoid;
-      padding-top: 10px;
+      padding-top: 20px;
     }
 
     img {
@@ -260,12 +264,14 @@
     grid-column-end: -1;
   }
 
-  .pagebreak {
-    clear: both;
+  .pagebreak-stop {
+    height: 100px;
     page-break-after: always;
   }
 
-  .image-after-pagebreak {
-    padding-top: 150px;
+  .pagebreak-padding {
+    height: 50px
   }
 }
+
+

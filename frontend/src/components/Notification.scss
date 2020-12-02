@@ -99,13 +99,12 @@
 @media print {
   .notificationContainer {
     position: absolute;
-    top: 128vh;
+    top: -10px;
     width: 550px;
     margin-left: -300px;
 
     .success {
       background-color: white;
-      background: none;
       font-size: smaller;
       text-align: center;
 

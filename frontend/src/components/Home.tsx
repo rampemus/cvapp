@@ -84,10 +84,18 @@ const Home: React.FC<Props> = (props) => {
         {contact.address && <p>{contact.address}</p>}
         {contact.phone && <p>Phone num. {contact.phone}</p>}
         {contact.email && <p>{contact.email}</p>}
-        {contact.linkedin && <p><a id='LinkedinProfile' href={contact.linkedin}>linkedin profile</a></p>}
+        {contact.linkedin
+          && <p>
+            <a id='LinkedinProfile' href={contact.linkedin}>linkedin profile</a>
+          </p>}
       </div>
       <div>
-        <img id='ContactPicture' src={contact.pictureUrl} width='120px' alt='mypicture' />
+        <img
+          id='ContactPicture'
+          src={contact.pictureUrl}
+          width='120px'
+          alt='mypicture'
+        />
       </div>
     </div>
     <h1>Curriculum Vitae</h1>
@@ -98,9 +106,15 @@ const Home: React.FC<Props> = (props) => {
     <div className='cv-container-item cv-container-item-left'>
     {cv.profile &&
       <>
-        <h3><img src='profile.svg' width='45px' height='45px' alt='profileimage' />Profile</h3>
+        <h3>
+          <img src='profile.svg' width='45px' height='45px' alt='profileimage' />
+          Profile
+        </h3>
         <hr />
-        {cv.profile.content.map((paragraph, index) => <p key={`profile-p-${index}`} >{paragraph}</p>)}
+        {cv.profile.content.map((paragraph, index) =>
+        <p key={`profile-p-${index}`} >
+          {paragraph}
+        </p>)}
       </>}
     <div className='cv-container-item'></div>
     {education && education.length > 0 &&
@@ -134,7 +148,12 @@ const Home: React.FC<Props> = (props) => {
               width: '140px',
               marginRight: '10px'
             }}>
-              <img id={'thumbnailImage' + project.id} src={project.thumbnailUrl} width="100%" alt='mypicture' />
+              <img
+                id={'thumbnailImage' + project.id}
+                src={project.thumbnailUrl}
+                width="100%"
+                alt='mypicture'
+              />
             </div>
             <div>
               <h4>{project.name}</h4>
@@ -142,9 +161,18 @@ const Home: React.FC<Props> = (props) => {
                 <p key={index + 'project' + project.id}>{projectRow}</p>
               )}
               <p className='project-card-links'>
-                {project.githubUrl && <a id={'githubLink' + project.id} href={project.githubUrl}>github</a>}
-                {project.githubUrl && project.showcaseUrl && ' - '}
-                {project.showcaseUrl && <a id={'showcaseLink' + project.id} href={project.showcaseUrl}>showcase</a>}
+                {project.githubUrl
+                  && <a
+                    id={'githubLink' + project.id}
+                    href={project.githubUrl}
+                  >github</a>}
+                {project.githubUrl
+                  && project.showcaseUrl && ' - '}
+                {project.showcaseUrl
+                  && <a
+                    id={'showcaseLink' + project.id}
+                    href={project.showcaseUrl}
+                  >showcase</a>}
               </p>
             </div>
           </div>
@@ -174,11 +202,16 @@ const Home: React.FC<Props> = (props) => {
       </div>}
     {communication &&
       <div className='cv-container-item'>
-        <h3><img src='communication.svg' width='45px' height='45px' alt='icon' />Language skills</h3>
+        <h3>
+          <img src='communication.svg' width='45px' height='45px' alt='icon' />
+          Language skills
+        </h3>
         <hr />
         <div className='language-container'>
           {communication.languages.map((language, index) =>
-            <div key={index + 'language-container'}><p>{language.language}</p><p>:</p><p>{language.level}</p></div>
+            <div key={index + 'language-container'}>
+              <p>{language.language}</p><p>:</p><p>{language.level}</p>
+            </div>
           )}
         </div>
         {communication && communication.content.map((skill, index) =>
@@ -187,7 +220,10 @@ const Home: React.FC<Props> = (props) => {
       </div>}
     {cv.skills &&
       <div className='cv-container-item'>
-        <h3><img src='skills.svg' width='45px' height='45px' alt='icon' />Other Skills</h3>
+        <h3>
+          <img src='skills.svg' width='45px' height='45px' alt='icon' />
+          Other Skills
+        </h3>
         <hr />
         {cv.skills.content.map((skill, index) =>
           <p key={index + 'skill'}>{skill}</p>

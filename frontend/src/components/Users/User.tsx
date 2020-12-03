@@ -49,7 +49,7 @@ const User: React.FC<Props> = (props) => {
         : 'User is expired')
       : 'User never expires'
 
-    const created = owner ? new Date(owner.created) : new Date()
+    const created = owner ? new Date(user.created) : new Date()
 
     return <div>
       <Toolbar>
@@ -68,7 +68,9 @@ const User: React.FC<Props> = (props) => {
                 id: props.user ? props.user.id : '',
                 name: props.user ? props.user.name : '',
                 username: props.user ? props.user.username : '',
-                expires: props.user && props.user.expires ? new Date(props.user.expires) : undefined
+                expires: props.user && props.user.expires
+                  ? new Date(props.user.expires)
+                  : undefined
               }}
               closeForm={() => setShowEditUser(false)}
               reloadUsers={() => { props.updateUser() }}

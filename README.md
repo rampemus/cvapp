@@ -1,6 +1,6 @@
 # CV-app
 
-CV application to show CV data
+Application to show CV data
 
 ## Installation
 

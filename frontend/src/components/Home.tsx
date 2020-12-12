@@ -234,7 +234,7 @@ const Home: React.FC<Props> = (props) => {
         <h3><img src='reference.svg' width='40px' height='40px' alt='icon' />References</h3>
         <hr />
         <div className='key-value-container'>
-          {reference.map((ref: IContact, index) => [
+          {reference.sort((a, b) => { return -1 }).map((ref: IContact, index) => [
             <div className='key-value-container-left' key={index + '-reference-left'}>
               <p>{ref.firstname} {ref.lastname} {ref.company && '- ' + ref.company}</p>
             </div>,

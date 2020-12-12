@@ -169,14 +169,14 @@ cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => 
         ...cvBody, owner
       })
       const savedCV = await cv.save()
-        .catch((error) => {
+        .catch((error: any) => {
           response.status(400).json({ error: error.message }).end()
         })
       response.status(201).json(savedCV)
     } else {
       const emptyContact = new Contact({ ...cvBody.contact, owner })
       const savedContact = await emptyContact.save()
-        .catch((error) => {
+        .catch((error: any) => {
           response.status(400).json({ error: error.messages }).end()
         })
       if (savedContact) {
@@ -186,7 +186,7 @@ cvRouter.post('/', async (request: IRequestWithIdentity, response: Response) => 
           owner,
         })
         const savedCV = await cv.save()
-          .catch((error) => {
+          .catch((error: any) => {
             response.status(400).json({ error: error.message }).end()
           })
         response.status(201).json(savedCV).end()
@@ -240,7 +240,7 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
 
       const cv = await CurriculumVitae.findOne({ default: user })
       if (cv) {
-        cv.default = cv.default.filter((id) => {
+        cv.default = cv.default.filter((id: string) => {
           return id.toString() !== user._id.toString()
         })
         await cv.save()
@@ -262,7 +262,7 @@ cvRouter.post('/default', async (request: IRequestWithIdentity, response: Respon
       for ( const user of users ) {
         const usercv = await CurriculumVitae.findOne({ default: user })
         if (!usercv) { continue }
-        usercv.default = usercv.default ? usercv.default.filter((id) => {
+        usercv.default = usercv.default ? usercv.default.filter((id: string) => {
           return id.toString() !== user._id.toString()
         }) : []
         await usercv.save()
@@ -295,7 +295,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         ...contactBody, owner
       })
       const savedContact = await contact.save()
-        .catch((error) => {
+        .catch((error: any) => {
           response.status(400).json({ error: error.message }).end()
         })
       if (contactBody.cv
@@ -312,7 +312,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         ...profileBody, owner,
       })
       const savedProfile = await profile.save()
-        .catch((error) => {
+        .catch((error: any) => {
           response.status(400).json({ error: error.message }).end()
         })
       if (profileBody.cv && savedProfile && profileBody.cv.field === 'profile') {
@@ -327,7 +327,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         ...experienceBody, owner
       })
       const savedExperience = await experience.save()
-        .catch((error) => {
+        .catch((error: any) => {
           response.status(400).json({ error: error.message }).end()
         })
       if (experienceBody.cv && savedExperience
@@ -362,7 +362,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         ...infoBody, owner
       })
       const savedInfo = await info.save()
-        .catch((error) => {
+        .catch((error: any) => {
           response.status(400).json({ error: error.message }).end()
         })
       if (infoBody.cv && savedInfo
@@ -378,7 +378,7 @@ cvRouter.post('/:type', async (request: IRequestWithIdentity, response: Response
         ...projectBody, owner
       })
       const savedProject = await project.save()
-        .catch((error) => {
+        .catch((error: any) => {
           response.status(400).json({ error: error.message }).end()
         })
       if (projectBody.cv && savedProject && projectBody.cv.field === 'projects') {

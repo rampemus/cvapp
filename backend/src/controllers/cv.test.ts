@@ -78,7 +78,7 @@ describe('/api/cv/default POST', () => {
       .expect(201)
 
     const after = await CurriculumVitae.findOne({})
-    expect(after.default.map((id) => id + '')).toContain((await getUserByUsername(newUser.body.username))._id + '')
+    expect(after.default.map((id: string) => id + '')).toContain((await getUserByUsername(newUser.body.username))._id + '')
   })
   // test('Users get only boolean default values', async () => {
   // })

@@ -28,7 +28,7 @@ const experienceSchema: Schema = new Schema({
 })
 
 experienceSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
+  transform: (document: any, returnedObject: IExperience) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v

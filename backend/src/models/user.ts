@@ -11,6 +11,10 @@ export interface IUser extends Document {
   owner?: IUser,
 }
 
+interface IUserDB extends IUser {
+  admin: IUser
+}
+
 const userSchema: Schema = new Schema({
   created: { type: Date, required: true },
   expires: Date,
@@ -24,7 +28,7 @@ const userSchema: Schema = new Schema({
 })
 
 userSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
+  transform: (document: any, returnedObject: IUserDB): IUser => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject.admin
     delete returnedObject.owner

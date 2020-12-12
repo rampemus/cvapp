@@ -33,7 +33,7 @@ const contactSchema: Schema = new Schema({
 })
 
 contactSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
+  transform: (document: any, returnedObject: IContact) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v

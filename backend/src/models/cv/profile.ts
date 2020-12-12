@@ -19,7 +19,7 @@ const profileSchema: Schema = new Schema({
 })
 
 profileSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
+  transform: (document: any, returnedObject: IProfile) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v

@@ -8,6 +8,7 @@ import { IProfile } from './profile'
 import { IProject } from './project'
 
 export interface ICurriculumVitae extends Document {
+  id: string,
   owner: IUser,
   default?: IUser[],
   name: string,
@@ -84,7 +85,7 @@ const cvSchema: Schema = new Schema({
 })
 
 cvSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
+  transform: (document: any, returnedObject: ICurriculumVitae) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject.default
     delete returnedObject._id
@@ -93,6 +94,6 @@ cvSchema.set('toJSON', {
   }
 })
 
-const CurriculumVitae = model<ICurriculumVitae>('CurriculumVitae', cvSchema)
+const CurriculumVitae = model<any>('CurriculumVitae', cvSchema)
 
 export default CurriculumVitae

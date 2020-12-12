@@ -26,7 +26,7 @@ const projectSchema: Schema = new Schema({
 })
 
 projectSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
+  transform: (document: any, returnedObject: IProject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v

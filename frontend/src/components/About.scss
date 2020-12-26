@@ -1,5 +1,26 @@
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  h1 {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+
+  h3 {
+    margin-top: 16px;
+  }
+
+  div:nth-child(2n) {
+    margin-right: 30px;
+  }
+}
+
+
 @media only screen and (max-width: 600px) {
   .about-container {
+    display: inline;
+
     margin-left: 15px;
     margin-right: 15px;
   }

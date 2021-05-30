@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ -z "$1" ]; then
+    echo 'Commit message as an argument required'
+    exit 0
+fi
+
 cd ../heroku-cvapp
 heroku login
 rm -rf build
@@ -20,7 +26,7 @@ npm run test || exit 0
 npm run build
 cp -r build ../../heroku-cvapp/build
 cp -r dist ../../heroku-cvapp/dist
-sed '7,10d' package.json > ../../heroku-cvapp/package.json 
+sed '7,10d' package.json > ../../heroku-cvapp/package.json
 cd ..
 
 cd ../heroku-cvapp

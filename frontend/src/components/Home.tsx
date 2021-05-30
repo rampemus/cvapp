@@ -229,6 +229,8 @@ const Home: React.FC<Props> = (props) => {
           <p key={index + 'skill'}>{skill}</p>
         )}
       </div>}
+    <div className='pagebreak-stop'></div>
+    <div className='pagebreak-padding'></div>
     {reference && reference.length > 0 &&
       <div className='cv-container-item'>
         <h3><img src='reference.svg' width='40px' height='40px' alt='icon' />References</h3>
@@ -245,8 +247,6 @@ const Home: React.FC<Props> = (props) => {
           ])}
         </div>
       </div>}
-    <div className='pagebreak-stop'></div>
-    <div className='pagebreak-padding'></div>
     {cv.attachments &&
       <div className='cv-container-item'>
         <h3><img src='attachment.svg' width='55px' height='45px' alt='icon' />Attachments</h3>

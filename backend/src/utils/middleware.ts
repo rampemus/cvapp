@@ -5,7 +5,7 @@ import { JWT_SALT, ROOT_USERNAME } from './config'
 import { getUserByUsername } from './userHelper'
 
 export interface IRequestWithToken extends Request {
-  token: string,
+  token?: string,
 }
 
 export interface IRequestWithIdentity extends IRequestWithToken {
@@ -31,7 +31,7 @@ const TokenExtractor = (request: IRequestWithToken, response: Response, next: an
 const AuthenticateUser = async (request: IRequestWithIdentity, response: Response, next: any) => {
   const token = request.token
 
-  const decodedToken: any = jwt.verify(token, JWT_SALT)
+  const decodedToken: any = request.token ? jwt.verify(token, JWT_SALT) : null
 
   if (!token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' }).end()
